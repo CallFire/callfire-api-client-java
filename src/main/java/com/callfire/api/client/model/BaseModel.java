@@ -1,7 +1,9 @@
 package com.callfire.api.client.model;
 
+import java.io.Serializable;
+
 /**
- * Created by vmikhailov on 9/7/15.
+ * Abstract model object
  */
-public class BaseModel {
+public abstract class BaseModel implements Serializable {
 }

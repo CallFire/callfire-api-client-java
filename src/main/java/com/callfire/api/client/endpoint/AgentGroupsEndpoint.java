@@ -1,382 +1,129 @@
 package com.callfire.api.client.endpoint;
 
-import io.swagger.client.*;
-import io.swagger.client.model.*;
-import io.swagger.client.model.AgentGroupDto;
-import io.swagger.client.model.PageDto;
-import io.swagger.client.model.ResourceIdDto;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.model.AgentGroup;
+import com.callfire.api.client.model.Page;
+import com.callfire.api.client.model.ResourceId;
+import com.callfire.api.client.model.request.FindAgentGroupsRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-31T14:43:00.245Z")
-public class AgentgroupsApi {
-  private ApiClient apiClient;
+import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_GROUP_PATH;
+import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_PATH;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ClientUtils.buildQueryParams;
 
-  public AgentgroupsApi() {
-    this(Configuration.getDefaultApiClient());
-  }
+/**
+ * Represents rest endpoint /agent-groups
+ */
+public class AgentGroupsEndpoint {
 
-  public AgentgroupsApi(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
+    private RestApiClient client;
 
-  public ApiClient getApiClient() {
-    return apiClient;
-  }
+    public AgentGroupsEndpoint(RestApiClient client) {
+        this.client = client;
+    }
 
-  public void setApiClient(ApiClient apiClient) {
-    this.apiClient = apiClient;
-  }
+    /**
+     * Query for agent groups using optional filters
+     * (Note: agentId and agentEmail are mutually exclusive, please only provide one)
+     * <p>
+     * GET /agent-groups
+     *
+     * @return Page object with matched entities
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public Page<AgentGroup> findAgentGroups(FindAgentGroupsRequest request)
+        throws CallfireApiException, CallfireClientException {
+        List<NameValuePair> queryParams = buildQueryParams(request);
+        return client.get(AGENT_GROUPS_PATH, new TypeReference<Page<AgentGroup>>() {
+        }, queryParams);
+    }
 
-  
-  /**
-   * Query agent groups
-   * Query for agent groups using optional filters \n (Note: agentId and agentEmail are mutually exclusive, please only provide one)
-   * @param fields Limit fields returned. Example fields=id,items(name,agents(id))
-   * @param limit Max number of records per page to return
-   * @param offset Offset to start of page
-   * @param campaignId Id of campaign
-   * @param name Agent group name
-   * @param agentId Id of agent (agentId and agentEmail are mutually exclusive, please only provide one)
-   * @param agentEmail Email of agent (agentId and agentEmail are mutually exclusive, please only provide one)
-   * @return PageDto
-   */
-  public PageDto findAgentGroups (String fields, Long limit, Long offset, Long campaignId, String name, Long agentId, String agentEmail) throws ApiException {
-    Object postBody = null;
-    byte[] postBinaryBody = null;
-    
-    // create path and map variables
-    String path = "/agent-groups".replaceAll("\\{format\\}","json");
+    /**
+     * Create agent group using either list of agent ids or list of agent emails but not both
+     * <p>
+     * POST /agent-groups
+     *
+     * @param agentGroup AgentGroup object to create
+     * @return ResourceId holder object with agent group id
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public ResourceId createAgentGroup(AgentGroup agentGroup) throws CallfireApiException, CallfireClientException {
+        return client.post(AGENT_GROUPS_PATH, new TypeReference<ResourceId>() {
+        }, agentGroup);
+    }
 
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    /**
+     * Get agent group by id. Returns AgentGroup
+     * <p>
+     * GET /agent-groups/{id}
+     *
+     * @param id Id of agent group
+     * @return AgentGroup pojo
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public AgentGroup getAgentGroup(Long id) throws CallfireApiException, CallfireClientException {
+        return getAgentGroup(id, null);
+    }
 
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "fields", fields));
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "limit", limit));
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "offset", offset));
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "campaignId", campaignId));
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "name", name));
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "agentId", agentId));
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "agentEmail", agentEmail));
-    
+    /**
+     * Get agent group by id. Returns AgentGroup
+     * <p>
+     * GET /agent-groups/{id}
+     *
+     * @param id     Id of agent group
+     * @param fields Limit fields returned. Example fields=id,name,agents(id)
+     * @return AgentGroup pojo
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public AgentGroup getAgentGroup(Long id, String fields) throws CallfireApiException, CallfireClientException {
+        List<NameValuePair> queryParams = new ArrayList<>();
+        addQueryParamIfSet("fields", fields, queryParams);
 
-    
+        String path = AGENT_GROUPS_GROUP_PATH.replaceFirst(PLACEHOLDER, id.toString());
+        return client.get(path, new TypeReference<AgentGroup>() {
+        }, queryParams);
+    }
 
-    
+    /**
+     * Update existing agent group by id
+     * <p>
+     * PUT /agent-groups/{id}
+     *
+     * @param agentGroup AgentGroup to update
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void updateAgentGroup(AgentGroup agentGroup) throws CallfireApiException, CallfireClientException {
+        client.put(AGENT_GROUPS_GROUP_PATH.replaceFirst(PLACEHOLDER, Objects.toString(agentGroup.getId())),
+            new TypeReference<AgentGroup>() {
+            }, agentGroup);
+    }
 
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
+    /**
+     * Delete agent group by id
+     * <p>
+     * DELETE /agent-groups/{id}
+     *
+     * @param id Id of agent group to delete
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void deleteAgentGroup(Long id) throws CallfireApiException, CallfireClientException {
+        // TODO vmikhailov validate input
+        client.delete(AGENT_GROUPS_GROUP_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
+    }
 
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<PageDto>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * Create agent group
-   * Create agent group using either list of agent ids or list of agent emails but not both
-   * @param agentGroupDto 
-   * @return ResourceIdDto
-   */
-  public ResourceIdDto createAgentGroup (AgentGroupDto agentGroupDto) throws ApiException {
-    Object postBody = agentGroupDto;
-    byte[] postBinaryBody = null;
-    
-     // verify the required parameter 'agentGroupDto' is set
-     if (agentGroupDto == null) {
-        throw new ApiException(400, "Missing the required parameter 'agentGroupDto' when calling createAgentGroup");
-     }
-     
-    // create path and map variables
-    String path = "/agent-groups".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<ResourceIdDto>() {};
-    return apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * Get agent group by id
-   * Get agent group by id. Returns AgentGroupDto
-   * @param id Id of agent group
-   * @param fields Limit fields returned. Example fields=id,name,agents(id)
-   * @return AgentGroupDto
-   */
-  public AgentGroupDto getAgentGroup (Long id, String fields) throws ApiException {
-    Object postBody = null;
-    byte[] postBinaryBody = null;
-    
-     // verify the required parameter 'id' is set
-     if (id == null) {
-        throw new ApiException(400, "Missing the required parameter 'id' when calling getAgentGroup");
-     }
-     
-    // create path and map variables
-    String path = "/agent-groups/{id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-    queryParams.addAll(apiClient.parameterToPairs("", "fields", fields));
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<AgentGroupDto>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * Update agent group
-   * Update existing agent group by id
-   * @param id Id of agent group
-   * @param agentGroup AgentGroup
-   * @return String
-   */
-  public String updateAgentGroup (Long id, AgentGroupDto agentGroup) throws ApiException {
-    Object postBody = agentGroup;
-    byte[] postBinaryBody = null;
-    
-     // verify the required parameter 'id' is set
-     if (id == null) {
-        throw new ApiException(400, "Missing the required parameter 'id' when calling updateAgentGroup");
-     }
-     
-     // verify the required parameter 'agentGroup' is set
-     if (agentGroup == null) {
-        throw new ApiException(400, "Missing the required parameter 'agentGroup' when calling updateAgentGroup");
-     }
-     
-    // create path and map variables
-    String path = "/agent-groups/{id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<String>() {};
-    return apiClient.invokeAPI(path, "PUT", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * Delete agent group
-   * Delete agent group by id
-   * @param id Id of agent group
-   * @return String
-   */
-  public String deleteAgentGroup (Long id) throws ApiException {
-    Object postBody = null;
-    byte[] postBinaryBody = null;
-    
-     // verify the required parameter 'id' is set
-     if (id == null) {
-        throw new ApiException(400, "Missing the required parameter 'id' when calling deleteAgentGroup");
-     }
-     
-    // create path and map variables
-    String path = "/agent-groups/{id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(id.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<String>() {};
-    return apiClient.invokeAPI(path, "DELETE", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
 }

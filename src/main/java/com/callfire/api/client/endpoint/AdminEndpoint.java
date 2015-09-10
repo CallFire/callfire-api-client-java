@@ -1,260 +1,88 @@
 package com.callfire.api.client.endpoint;
 
-import io.swagger.client.*;
-import io.swagger.client.model.*;
-import io.swagger.client.model.CallerIdVerificationRequest;
-import io.swagger.client.model.StatsDto;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.model.Stats;
+import com.callfire.api.client.model.request.CallerIdVerificationRequest;
+import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import static com.callfire.api.client.ApiEndpoints.*;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+
+/**
+ * Represents rest endpoint /admin
+ */
 public class AdminEndpoint {
+    private RestApiClient client;
 
-  
-  /**
-   * Get callerIds.
-   * Get callerIds associated with account.
-   * @return List<String>
-   */
-  public List<String> getCallerIds () throws ApiException {
-    Object postBody = null;
-    byte[] postBinaryBody = null;
-    
-    // create path and map variables
-    String path = "/admin/callerids".replaceAll("\\{format\\}","json");
+    public AdminEndpoint(RestApiClient client) {
+        this.client = client;
+    }
 
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
+    /**
+     * Get callerIds associated with account.
+     * <p>
+     * GET /admin/callerids
+     *
+     * @return List<String> list with callerIds
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public List<String> getCallerIds() throws CallfireApiException, CallfireClientException {
+        return client.get(ADMIN_CALLERIDS_PATH, new TypeReference<List<String>>() {
+        });
+    }
 
-    
+    /**
+     * Send generated verification code to callerid number.
+     * After receiving verification code on phone call POST /callerids/{callerid}/verification-code
+     * to verify number.
+     * <p>
+     * POST /admin/callerids/{callerid}
+     *
+     * @param callerid callerid number
+     * @return String
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public String sendVerificationCodeToCallerId(String callerid) throws CallfireApiException, CallfireClientException {
+        String path = ADMIN_CALLERIDS_CODE_PATH.replaceFirst(PLACEHOLDER, callerid);
+        return client.post(path, new TypeReference<String>() {
+        });
+    }
 
-    
+    /**
+     * Verify callerId by providing calling number and verificationCode received on phone.
+     * <p>
+     * POST /admin/callerids/{callerid}/verification-code
+     *
+     * @param callerid callerid number
+     * @param request  request object
+     * @return true or false depending on whether verification was successful or not.
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public Boolean verifyCallerId(String callerid, CallerIdVerificationRequest request)
+        throws CallfireApiException, CallfireClientException {
+        String path = ADMIN_CALLERIDS_VERIFY_PATH.replaceFirst(PLACEHOLDER, callerid);
+        return client.post(path, new TypeReference<Boolean>() {
+        }, request);
+    }
 
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<List<String>>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * Send generated verification code to callerid number.
-   * Send generated verification code to callerid number. After receiving\n\n verification code on phone call POST\n&#39;/callerids/{callerid}/verification-code&#39; to\n\n verify number.
-   * @param callerid 
-   * @return String
-   */
-  public String sendVerificationCodeToCallerId (String callerid) throws ApiException {
-    Object postBody = null;
-    byte[] postBinaryBody = null;
-    
-     // verify the required parameter 'callerid' is set
-     if (callerid == null) {
-        throw new ApiException(400, "Missing the required parameter 'callerid' when calling sendVerificationCodeToCallerId");
-     }
-     
-    // create path and map variables
-    String path = "/admin/callerids/{callerid}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "callerid" + "\\}", apiClient.escapeString(callerid.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<String>() {};
-    return apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * Verify callerId by providing calling number and verificationCode received on phone.
-   * Verify callerId by providing calling number and verificationCode received on phone.
-   * @param callerid 
-   * @param verify 
-   * @return Boolean
-   */
-  public Boolean verifyCallerId (String callerid, CallerIdVerificationRequest verify) throws ApiException {
-    Object postBody = verify;
-    byte[] postBinaryBody = null;
-    
-     // verify the required parameter 'callerid' is set
-     if (callerid == null) {
-        throw new ApiException(400, "Missing the required parameter 'callerid' when calling verifyCallerId");
-     }
-     
-     // verify the required parameter 'verify' is set
-     if (verify == null) {
-        throw new ApiException(400, "Missing the required parameter 'verify' when calling verifyCallerId");
-     }
-     
-    // create path and map variables
-    String path = "/admin/callerids/{callerid}/verification-code".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "callerid" + "\\}", apiClient.escapeString(callerid.toString()));
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<Boolean>() {};
-    return apiClient.invokeAPI(path, "POST", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  }
-  
-  /**
-   * 
-   * 
-   * @return StatsDto
-   */
-  public StatsDto getStats () throws ApiException {
-    Object postBody = null;
-    byte[] postBinaryBody = null;
-    
-    // create path and map variables
-    String path = "/admin/stats".replaceAll("\\{format\\}","json");
-
-    // query params
-    List<Pair> queryParams = new ArrayList<Pair>();
-    Map<String, String> headerParams = new HashMap<String, String>();
-    Map<String, Object> formParams = new HashMap<String, Object>();
-
-    
-
-    
-
-    
-
-    final String[] accepts = {
-      "application/json"
-    };
-    final String accept = apiClient.selectHeaderAccept(accepts);
-
-    final String[] contentTypes = {
-      "application/json"
-    };
-    final String contentType = apiClient.selectHeaderContentType(contentTypes);
-
-    String[] authNames = new String[] { "basicAuth" };
-    
-    
-
-    
-
-    
-    
-    TypeRef returnType = new TypeRef<StatsDto>() {};
-    return apiClient.invokeAPI(path, "GET", queryParams, postBody, postBinaryBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    
-    
-
-    
-    
-  }
-  
+    /**
+     * Get stats
+     * <p>
+     * GET /admin/stats
+     *
+     * @return Stats object
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public Stats getStats() throws CallfireApiException, CallfireClientException {
+        return client.get(ADMIN_STATS_PATH, new TypeReference<Stats>() {
+        });
+    }
 }
