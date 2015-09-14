@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * integration tests for /me api endpoint
  */
-public class AdminEndpointIntegrationTest extends AbstractIntegrationTest {
+public class AdminEndpointTest extends AbstractIntegrationTest {
     @Rule
     public ExpectedException ex = ExpectedException.none();
 

@@ -40,17 +40,29 @@ public final class ClientUtils {
     public static <T extends BaseModel> List<NameValuePair> buildQueryParams(T request)
         throws CallfireClientException {
         List<NameValuePair> params = new ArrayList<>();
-        for (Field field : request.getClass().getDeclaredFields()) {
-            try {
-                field.setAccessible(true);
-                Object value = field.get(request);
-                if (value != null) {
-                    params.add(new BasicNameValuePair(field.getName(), value.toString()));
-                }
-            } catch (IllegalAccessException e) {
-                throw new CallfireClientException(e);
-            }
+        Class<?> superclass = request.getClass().getSuperclass();
+        if (superclass != null) {
+            readFields(request, params, superclass);
         }
+        readFields(request, params, request.getClass());
         return params;
+    }
+
+    private static void readFields(Object request, List<NameValuePair> params, Class<?> clazz) {
+        for (Field field : clazz.getDeclaredFields()) {
+            readField(request, params, field);
+        }
+    }
+
+    private static void readField(Object request, List<NameValuePair> params, Field field) {
+        try {
+            field.setAccessible(true);
+            Object value = field.get(request);
+            if (value != null) {
+                params.add(new BasicNameValuePair(field.getName(), value.toString()));
+            }
+        } catch (IllegalAccessException e) {
+            throw new CallfireClientException(e);
+        }
     }
 }

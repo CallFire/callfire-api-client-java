@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.BASE_PATH;
 import static com.callfire.api.client.ClientConstants.USER_AGENT;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
@@ -183,8 +184,7 @@ public class RestApiClient {
         try {
             String uri = BASE_PATH + path;
             LOGGER.debug("DELETE request to {}", uri);
-            doRequest(RequestBuilder.delete(uri).build(), new TypeReference<Void>() {
-            });
+            doRequest(RequestBuilder.delete(uri).build(), STRING_TYPE);
             LOGGER.debug("delete executed");
         } catch (IOException e) {
             throw new CallfireClientException(e);

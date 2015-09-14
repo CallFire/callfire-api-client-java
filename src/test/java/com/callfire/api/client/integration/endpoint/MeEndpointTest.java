@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 /**
  * integration tests for /me api endpoint
  */
-public class MeEndpointIntegrationTest extends AbstractIntegrationTest {
+public class MeEndpointTest extends AbstractIntegrationTest {
     @Test
     public void testGetAccount() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());

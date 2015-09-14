@@ -3,6 +3,7 @@ package com.callfire.api.client;
 import com.callfire.api.client.endpoint.AdminEndpoint;
 import com.callfire.api.client.endpoint.AgentGroupsEndpoint;
 import com.callfire.api.client.endpoint.MeEndpoint;
+import com.callfire.api.client.endpoint.SubscriptionsEndpoint;
 
 /**
  * Callfire API v2 client
@@ -10,12 +11,12 @@ import com.callfire.api.client.endpoint.MeEndpoint;
  * @author Vladimir Mikhailov
  */
 public class CallfireClient {
-
     private RestApiClient restApiClient;
 
     private AdminEndpoint adminEndpoint;
     private AgentGroupsEndpoint agentGroupsEndpoint;
     private MeEndpoint meEndpoint;
+    private SubscriptionsEndpoint subscriptionsEndpoint;
 
     /**
      * Constructs callfire client
@@ -25,9 +26,6 @@ public class CallfireClient {
      */
     public CallfireClient(String username, String password) {
         restApiClient = new RestApiClient(username, password);
-        adminEndpoint = new AdminEndpoint(restApiClient);
-        agentGroupsEndpoint = new AgentGroupsEndpoint(restApiClient);
-        meEndpoint = new MeEndpoint(restApiClient);
     }
 
     /**
@@ -36,6 +34,9 @@ public class CallfireClient {
      * @return endpoint object
      */
     public AdminEndpoint getAdminEndpoint() {
+        if (adminEndpoint == null) {
+            adminEndpoint = new AdminEndpoint(restApiClient);
+        }
         return adminEndpoint;
     }
 
@@ -45,6 +46,9 @@ public class CallfireClient {
      * @return endpoint object
      */
     public AgentGroupsEndpoint getAgentGroupsEndpoint() {
+        if (agentGroupsEndpoint == null) {
+            agentGroupsEndpoint = new AgentGroupsEndpoint(restApiClient);
+        }
         return agentGroupsEndpoint;
     }
 
@@ -54,7 +58,22 @@ public class CallfireClient {
      * @return endpoint object
      */
     public MeEndpoint getMeEndpoint() {
+        if (meEndpoint == null) {
+            meEndpoint = new MeEndpoint(restApiClient);
+        }
         return meEndpoint;
+    }
+
+    /**
+     * Get /subscriptions api endpoint
+     *
+     * @return endpoint object
+     */
+    public SubscriptionsEndpoint getSubscriptionsEndpoint() {
+        if (subscriptionsEndpoint == null) {
+            subscriptionsEndpoint = new SubscriptionsEndpoint(restApiClient);
+        }
+        return subscriptionsEndpoint;
     }
 
     /**

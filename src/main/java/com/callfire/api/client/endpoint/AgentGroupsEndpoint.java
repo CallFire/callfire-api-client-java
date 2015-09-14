@@ -14,8 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_GROUP_PATH;
+import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_ITEM_PATH;
 import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_PATH;
+import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
+import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
@@ -41,7 +43,7 @@ public class AgentGroupsEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<AgentGroup> findAgentGroups(FindAgentGroupsRequest request)
+    public Page<AgentGroup> find(FindAgentGroupsRequest request)
         throws CallfireApiException, CallfireClientException {
         List<NameValuePair> queryParams = buildQueryParams(request);
         return client.get(AGENT_GROUPS_PATH, new TypeReference<Page<AgentGroup>>() {
@@ -58,9 +60,8 @@ public class AgentGroupsEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createAgentGroup(AgentGroup agentGroup) throws CallfireApiException, CallfireClientException {
-        return client.post(AGENT_GROUPS_PATH, new TypeReference<ResourceId>() {
-        }, agentGroup);
+    public ResourceId create(AgentGroup agentGroup) throws CallfireApiException, CallfireClientException {
+        return client.post(AGENT_GROUPS_PATH, RESOURCE_ID_TYPE, agentGroup);
     }
 
     /**
@@ -73,8 +74,8 @@ public class AgentGroupsEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public AgentGroup getAgentGroup(Long id) throws CallfireApiException, CallfireClientException {
-        return getAgentGroup(id, null);
+    public AgentGroup get(Long id) throws CallfireApiException, CallfireClientException {
+        return get(id, null);
     }
 
     /**
@@ -88,11 +89,11 @@ public class AgentGroupsEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public AgentGroup getAgentGroup(Long id, String fields) throws CallfireApiException, CallfireClientException {
+    public AgentGroup get(Long id, String fields) throws CallfireApiException, CallfireClientException {
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
 
-        String path = AGENT_GROUPS_GROUP_PATH.replaceFirst(PLACEHOLDER, id.toString());
+        String path = AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, new TypeReference<AgentGroup>() {
         }, queryParams);
     }
@@ -106,10 +107,9 @@ public class AgentGroupsEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateAgentGroup(AgentGroup agentGroup) throws CallfireApiException, CallfireClientException {
-        client.put(AGENT_GROUPS_GROUP_PATH.replaceFirst(PLACEHOLDER, Objects.toString(agentGroup.getId())),
-            new TypeReference<AgentGroup>() {
-            }, agentGroup);
+    public void update(AgentGroup agentGroup) throws CallfireApiException, CallfireClientException {
+        client.put(AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(agentGroup.getId())),
+            STRING_TYPE, agentGroup);
     }
 
     /**
@@ -121,9 +121,9 @@ public class AgentGroupsEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteAgentGroup(Long id) throws CallfireApiException, CallfireClientException {
+    public void delete(Long id) throws CallfireApiException, CallfireClientException {
         // TODO vmikhailov validate input
-        client.delete(AGENT_GROUPS_GROUP_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
+        client.delete(AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
     }
 
 }
