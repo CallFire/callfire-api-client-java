@@ -1,6 +1,7 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.endpoint.*;
+import com.callfire.api.client.endpoint.campaigns.CampaignsEndpoint;
 
 /**
  * Callfire API v2 client
@@ -15,6 +16,8 @@ public class CallfireClient {
     private MeEndpoint meEndpoint;
     private SubscriptionsEndpoint subscriptionsEndpoint;
     private CallSoundsEndpoint callSoundsEndpoint;
+
+    private CampaignsEndpoint campaignsEndpoint;
 
     /**
      * Constructs callfire client
@@ -85,6 +88,19 @@ public class CallfireClient {
             callSoundsEndpoint = new CallSoundsEndpoint(restApiClient);
         }
         return callSoundsEndpoint;
+    }
+
+    /**
+     * Get /campaigns endpoint
+     *
+     * @return endpoint object
+     * @see CampaignsEndpoint
+     */
+    public CampaignsEndpoint getCampaignsEndpoint() {
+        if (campaignsEndpoint == null) {
+            campaignsEndpoint = new CampaignsEndpoint(restApiClient);
+        }
+        return campaignsEndpoint;
     }
 
     /**

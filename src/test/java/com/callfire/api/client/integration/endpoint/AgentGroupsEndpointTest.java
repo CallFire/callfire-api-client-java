@@ -1,12 +1,10 @@
 package com.callfire.api.client.integration.endpoint;
 
-import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.model.AgentGroup;
 import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.ResourceId;
 import com.callfire.api.client.model.request.FindAgentGroupsRequest;
-import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -16,7 +14,6 @@ import java.util.List;
 import static com.callfire.api.client.model.request.FindAgentGroupsRequest.FindAgentGroupsRequestBuilder;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -76,8 +73,7 @@ public class AgentGroupsEndpointTest extends AbstractIntegrationTest {
         callfireClient.getAgentGroupsEndpoint().delete(groupId1.getId());
         callfireClient.getAgentGroupsEndpoint().delete(groupId2.getId());
 
-        ex.expect(CallfireApiException.class);
-        ex.expect(hasProperty("apiErrorMessage", hasProperty("httpStatusCode", Matchers.is(404))));
+        expect404NotFoundCallfireApiException(ex);
         callfireClient.getAgentGroupsEndpoint().get(groupId1.getId());
     }
 }
