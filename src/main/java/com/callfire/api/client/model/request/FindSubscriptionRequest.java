@@ -57,7 +57,7 @@ public class FindSubscriptionRequest extends FindRequest {
     public static class FindSubscriptionRequestBuilder extends FindRequestBuilder<FindSubscriptionRequestBuilder> {
         private FindSubscriptionRequest request;
 
-        public FindSubscriptionRequestBuilder() {
+        private FindSubscriptionRequestBuilder() {
             request = new FindSubscriptionRequest();
         }
 

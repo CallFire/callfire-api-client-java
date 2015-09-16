@@ -57,12 +57,4 @@ public class SubscriptionsEndpointTest extends AbstractIntegrationTest {
         assertEquals(Long.valueOf(0), page.getTotalCount());
         assertTrue(page.getItems().isEmpty());
     }
-
-    @Test
-    public void testName() throws Exception {
-        CallfireClient callfireClient = getCallfireClient();
-        Page<Subscription> page = callfireClient.getSubscriptionsEndpoint()
-            .find(FindSubscriptionRequestBuilder.create().build());
-        page.getItems().forEach(i -> callfireClient.getSubscriptionsEndpoint().delete(i.getId()));
-    }
 }

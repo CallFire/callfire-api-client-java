@@ -2,6 +2,7 @@ package com.callfire.api.client;
 
 import com.callfire.api.client.model.BaseModel;
 import com.callfire.api.client.model.ErrorMessage;
+import com.callfire.api.client.model.request.FindRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpEntity;
@@ -13,25 +14,35 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.BASE_PATH;
 import static com.callfire.api.client.ClientConstants.USER_AGENT;
+import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import static org.apache.http.entity.ContentType.*;
 
 /**
  * REST client which makes HTTP calls to Callfire service
  */
 public class RestApiClient {
     private static final Logger LOGGER = new Logger(RestApiClient.class);
+
+    private static final ContentType AUDIO_MPEG = create("audio/mpeg");
+    private static final ContentType AUDIO_WAV = create("audio/wav");
 
     private HttpClient httpClient;
     private JsonConverter jsonConverter;
@@ -78,6 +89,23 @@ public class RestApiClient {
     /**
      * Performs GET request to specified path
      *
+     * @param path    request path
+     * @param type    entity type
+     * @param request find request with query parameters
+     * @param <T>     entity type
+     * @return pojo mapped from json
+     * @throws CallfireApiException    in case API cannot be queried for some reason
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public <T> T get(String path, TypeReference<T> type, FindRequest request)
+        throws CallfireClientException, CallfireApiException {
+        List<NameValuePair> queryParams = buildQueryParams(request);
+        return get(path, type, queryParams);
+    }
+
+    /**
+     * Performs GET request to specified path
+     *
      * @param path        request path
      * @param type        entity type
      * @param queryParams query parameters
@@ -112,6 +140,36 @@ public class RestApiClient {
      */
     public <T> T post(String path, TypeReference<T> type) {
         return post(path, type, null);
+    }
+
+    /**
+     * Performs POST request with binary body to specified path
+     *
+     * @param path   request path
+     * @param type   response entity type
+     * @param params request parameters
+     * @param <T>    response entity type
+     * @return pojo mapped from json
+     * @throws CallfireApiException    in case API cannot be queried for some reason
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public <T> T postFile(String path, TypeReference<T> type, Map<String, ?> params) {
+        try {
+            String uri = BASE_PATH + path;
+            MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+            entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            entityBuilder.addBinaryBody("file", (File) params.get("file"));
+            if (params.get("name") != null) {
+                entityBuilder.addTextBody("name", (String) params.get("name"));
+            }
+            RequestBuilder requestBuilder = RequestBuilder.post(uri)
+                .setEntity(entityBuilder.build());
+            LOGGER.debug("POST file upload request to {} with params {}", uri, params);
+
+            return doRequest(requestBuilder.build(), type);
+        } catch (IOException e) {
+            throw new CallfireClientException(e);
+        }
     }
 
     /**
@@ -191,24 +249,27 @@ public class RestApiClient {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T doRequest(HttpUriRequest request, TypeReference<T> type) throws IOException {
         HttpUriRequest httpRequest = addAuthorizationHeader(request);
         HttpResponse response = httpClient.execute(httpRequest);
 
         int statusCode = response.getStatusLine().getStatusCode();
-        if (response.getEntity() != null) {
-            String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-            if (statusCode >= 400) {
-                createAndThrowCallfireApiException(result);
-            }
-            T entity = jsonConverter.deserialize(result, type);
-            logDebugPrettyJson("received entity \n{}", entity);
-
-            return entity;
-        } else {
+        if (response.getEntity() == null) {
             LOGGER.debug("received http code {} with null entity, returning null", statusCode);
             return null;
         }
+        if (statusCode >= 400) {
+            createAndThrowCallfireApiException(EntityUtils.toString(response.getEntity(), "UTF-8"));
+        }
+        if (type.getType() == InputStream.class) {
+            return (T) response.getEntity().getContent();
+        }
+
+        String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+        T entity = jsonConverter.deserialize(result, type);
+        logDebugPrettyJson("received entity \n{}", entity);
+        return entity;
     }
 
     private void createAndThrowCallfireApiException(String result) throws CallfireApiException {

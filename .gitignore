@@ -6,3 +6,4 @@ build
 # IntelliJ
 *.ipr
 *.iws
+*.iml

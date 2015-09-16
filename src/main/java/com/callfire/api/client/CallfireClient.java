@@ -1,9 +1,6 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.endpoint.AdminEndpoint;
-import com.callfire.api.client.endpoint.AgentGroupsEndpoint;
-import com.callfire.api.client.endpoint.MeEndpoint;
-import com.callfire.api.client.endpoint.SubscriptionsEndpoint;
+import com.callfire.api.client.endpoint.*;
 
 /**
  * Callfire API v2 client
@@ -17,6 +14,7 @@ public class CallfireClient {
     private AgentGroupsEndpoint agentGroupsEndpoint;
     private MeEndpoint meEndpoint;
     private SubscriptionsEndpoint subscriptionsEndpoint;
+    private CallSoundsEndpoint callSoundsEndpoint;
 
     /**
      * Constructs callfire client
@@ -77,6 +75,19 @@ public class CallfireClient {
     }
 
     /**
+     * Get /call-sounds api endpoint
+     *
+     * @return endpoint object
+     * @see CallSoundsEndpoint
+     */
+    public CallSoundsEndpoint getCallSoundsEndpoint() {
+        if (callSoundsEndpoint == null) {
+            callSoundsEndpoint = new CallSoundsEndpoint(restApiClient);
+        }
+        return callSoundsEndpoint;
+    }
+
+    /**
      * Get REST api client which uses Apache httpclient inside
      *
      * @return rest client
@@ -84,4 +95,5 @@ public class CallfireClient {
     public RestApiClient getRestApiClient() {
         return restApiClient;
     }
+
 }

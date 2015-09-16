@@ -50,8 +50,7 @@ public class Subscription extends BaseModel {
         return notificationFormat;
     }
 
-    public void setNotificationFormat(
-        NotificationFormat notificationFormat) {
+    public void setNotificationFormat(NotificationFormat notificationFormat) {
         this.notificationFormat = notificationFormat;
     }
 

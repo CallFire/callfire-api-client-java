@@ -20,7 +20,6 @@ import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ClientUtils.buildQueryParams;
 
 /**
  * Represents rest endpoint /subscriptions
@@ -44,9 +43,8 @@ public class SubscriptionsEndpoint {
      */
     public Page<Subscription> find(FindSubscriptionRequest request)
         throws CallfireApiException, CallfireClientException {
-        List<NameValuePair> queryParams = buildQueryParams(request);
         return client.get(SUBSCRIPTIONS_PATH, new TypeReference<Page<Subscription>>() {
-        }, queryParams);
+        }, request);
     }
 
     /**
@@ -59,7 +57,6 @@ public class SubscriptionsEndpoint {
      */
     public ResourceId create(Subscription subscription)
         throws CallfireApiException, CallfireClientException {
-
         return client.post(SUBSCRIPTIONS_PATH, RESOURCE_ID_TYPE, subscription);
     }
 

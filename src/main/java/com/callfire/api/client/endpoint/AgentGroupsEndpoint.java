@@ -20,7 +20,6 @@ import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ClientUtils.buildQueryParams;
 
 /**
  * Represents rest endpoint /agent-groups
@@ -45,9 +44,8 @@ public class AgentGroupsEndpoint {
      */
     public Page<AgentGroup> find(FindAgentGroupsRequest request)
         throws CallfireApiException, CallfireClientException {
-        List<NameValuePair> queryParams = buildQueryParams(request);
         return client.get(AGENT_GROUPS_PATH, new TypeReference<Page<AgentGroup>>() {
-        }, queryParams);
+        }, request);
     }
 
     /**
