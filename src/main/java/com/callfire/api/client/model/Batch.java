@@ -3,10 +3,6 @@ package com.callfire.api.client.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Batch extends BaseModel {
-    public enum Status {
-        NEW, VALIDATING, ERRORS, SOURCE_ERROR, ACTIVE,
-    }
-
     private Long id;
     private String name;
     private Status status;
@@ -15,6 +11,10 @@ public class Batch extends BaseModel {
     private Integer size;
     private Integer remaining;
     private Boolean enabled;
+
+    public enum Status {
+        NEW, VALIDATING, ERRORS, SOURCE_ERROR, ACTIVE,
+    }
 
     public Long getId() {
         return id;

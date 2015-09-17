@@ -2,7 +2,7 @@ package com.callfire.api.client.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Keyword {
+public class Keyword extends BaseModel {
     private String shortCode;
     private String keyword;
 

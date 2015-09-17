@@ -42,8 +42,9 @@ public final class ClientUtils {
         throws CallfireClientException {
         List<NameValuePair> params = new ArrayList<>();
         Class<?> superclass = request.getClass().getSuperclass();
-        if (superclass != null) {
+        while (superclass != null) {
             readFields(request, params, superclass);
+            superclass = superclass.getSuperclass();
         }
         readFields(request, params, request.getClass());
         return params;
@@ -61,7 +62,10 @@ public final class ClientUtils {
             Object value = field.get(request);
             if (value != null) {
                 if (field.isAnnotationPresent(ConvertToString.class) && value instanceof Iterable) {
-                    value = StringUtils.join((Iterable)value, field.getAnnotation(ConvertToString.class).separator());
+                    value = StringUtils.join((Iterable) value, field.getAnnotation(ConvertToString.class).separator());
+                    if (StringUtils.isEmpty((String) value)) {
+                        return;
+                    }
                 }
                 params.add(new BasicNameValuePair(field.getName(), value.toString()));
             }

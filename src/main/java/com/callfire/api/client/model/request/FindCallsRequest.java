@@ -1,24 +1,23 @@
 package com.callfire.api.client.model.request;
 
 import com.callfire.api.client.ConvertToString;
-import com.callfire.api.client.model.Text.State;
-import com.callfire.api.client.model.TextRecord.TextResult;
+import com.callfire.api.client.model.Call;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Request object for GET /texts which incapsulates
+ * Request object for GET /calls which incapsulates
  * different query pairs
  */
-public class FindTextsRequest extends FindCallsTextsRequest {
+public class FindCallsRequest extends FindCallsTextsRequest {
     @ConvertToString
-    private List<State> states = new ArrayList<>();
+    private List<Call.State> states = new ArrayList<>();
     @ConvertToString
-    private List<TextResult> results = new ArrayList<>();
+    private List<Call.FinalCallResult> results = new ArrayList<>();
 
-    private FindTextsRequest() {
+    private FindCallsRequest() {
     }
 
     /**
@@ -26,7 +25,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
      *
      * @return text statuses
      */
-    public List<State> getStates() {
+    public List<Call.State> getStates() {
         return states;
     }
 
@@ -35,7 +34,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
      *
      * @return list of text results
      */
-    public List<TextResult> getResults() {
+    public List<Call.FinalCallResult> getResults() {
         return results;
     }
 
@@ -51,15 +50,15 @@ public class FindTextsRequest extends FindCallsTextsRequest {
     /**
      * Builder class
      */
-    public static class FindTextsRequestBuilder extends FindCallsTextsRequestBuilder<FindTextsRequestBuilder> {
-        private FindTextsRequest request;
+    public static class FindCallsRequestBuilder extends FindCallsTextsRequestBuilder<FindCallsRequestBuilder> {
+        private FindCallsRequest request;
 
-        private FindTextsRequestBuilder() {
-            request = new FindTextsRequest();
+        private FindCallsRequestBuilder() {
+            request = new FindCallsRequest();
         }
 
-        public static FindTextsRequestBuilder create() {
-            return new FindTextsRequestBuilder();
+        public static FindCallsRequestBuilder create() {
+            return new FindCallsRequestBuilder();
         }
 
         /**
@@ -67,7 +66,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          *
          * @param states list of states to filter
          */
-        public FindTextsRequestBuilder setStates(List<State> states) {
+        public FindCallsRequestBuilder setStates(List<Call.State> states) {
             request.states = states;
             return this;
         }
@@ -77,23 +76,23 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          *
          * @param results text results to set
          */
-        public FindTextsRequestBuilder setResults(List<TextResult> results) {
+        public FindCallsRequestBuilder setResults(List<Call.FinalCallResult> results) {
             request.results = results;
             return this;
         }
 
         @Override
-        public FindTextsRequest build() {
+        public FindCallsRequest build() {
             return request;
         }
 
         @Override
-        protected FindTextsRequestBuilder getChild() {
+        protected FindCallsRequestBuilder getChild() {
             return this;
         }
 
         @Override
-        protected FindTextsRequest getRequest() {
+        protected FindCallsRequest getRequest() {
             return request;
         }
     }

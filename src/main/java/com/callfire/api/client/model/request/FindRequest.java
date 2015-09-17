@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Contains common fields for finder endpoints
  */
-public class FindRequest extends BaseModel {
+public abstract class FindRequest extends BaseModel {
     private Long limit;
     private Long offset;
     private String fields;
@@ -52,7 +52,7 @@ public class FindRequest extends BaseModel {
      *
      * @param <T> type of builder
      */
-    public static abstract class FindRequestBuilder<T extends FindRequestBuilder<T>> {
+    public static abstract class FindRequestBuilder<T extends FindRequestBuilder> {
 
         /**
          * Set max number of items returned.

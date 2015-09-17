@@ -20,6 +20,7 @@ public class CallfireClient {
     private CampaignsEndpoint campaignsEndpoint;
     private TextsEndpoint textsEndpoint;
     private KeywordsEndpoint keywordsEndpoint;
+    private CallsEndpoint callsEndpoint;
 
     /**
      * Constructs callfire client
@@ -128,6 +129,18 @@ public class CallfireClient {
             keywordsEndpoint = new KeywordsEndpoint(restApiClient);
         }
         return keywordsEndpoint;
+    }
+
+    /**
+     * Get /calls endpoint
+     *
+     * @return endpoint object
+     */
+    public CallsEndpoint getCallsEndpoint() {
+        if (callsEndpoint == null) {
+            callsEndpoint = new CallsEndpoint(restApiClient);
+        }
+        return callsEndpoint;
     }
 
     /**
