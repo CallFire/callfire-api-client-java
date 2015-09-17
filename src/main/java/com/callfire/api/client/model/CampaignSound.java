@@ -7,9 +7,9 @@ public class CampaignSound extends BaseModel {
     private String name;
     private Long created;
     private Integer lengthInSeconds;
-    private StatusEnum status;
+    private Status status;
 
-    public enum StatusEnum {
+    public enum Status {
         UPLOAD, RECORDING, ACTIVE, FAILED, ARCHIVED,
     }
 
@@ -45,11 +45,11 @@ public class CampaignSound extends BaseModel {
         this.lengthInSeconds = lengthInSeconds;
     }
 
-    public StatusEnum getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

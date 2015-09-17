@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
 
-import static com.callfire.api.client.model.CampaignSound.StatusEnum.ACTIVE;
+import static com.callfire.api.client.model.CampaignSound.Status.ACTIVE;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.*;

@@ -30,6 +30,8 @@ public interface ApiEndpoints {
     interface Type {
         TypeReference<String> STRING_TYPE = new TypeReference<String>() {
         };
+        TypeReference<Boolean> BOOLEAN_TYPE = new TypeReference<Boolean>() {
+        };
         TypeReference<InputStream> INPUT_STREAM_TYPE = new TypeReference<InputStream>() {
         };
         TypeReference<ResourceId> RESOURCE_ID_TYPE = new TypeReference<ResourceId>() {

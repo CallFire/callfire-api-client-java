@@ -177,22 +177,22 @@ public class RestApiClient {
      *
      * @param path    request path
      * @param type    response entity type
-     * @param request request body
+     * @param payload request payload
      * @param <T>     response entity type
-     * @param <E>     request entity type
+     * @param <E>     request payload type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T, E> T post(String path, TypeReference<T> type, E request) {
+    public <T, E> T post(String path, TypeReference<T> type, E payload) {
         try {
             String uri = BASE_PATH + path;
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType());
-            if (request != null) {
-                HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(request)).build();
+            if (payload != null) {
+                HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
                 requestBuilder.setEntity(httpEntity);
-                logDebugPrettyJson("POST request to {} entity \n{}", uri, request);
+                logDebugPrettyJson("POST request to {} entity \n{}", uri, payload);
             } else {
                 LOGGER.debug("POST request to {}", uri);
             }
@@ -208,22 +208,22 @@ public class RestApiClient {
      *
      * @param path    request path
      * @param type    response entity type
-     * @param request request body
+     * @param payload request payload
      * @param <T>     response entity type
-     * @param <E>     request entity type
+     * @param <E>     request payload type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T, E> T put(String path, TypeReference<T> type, E request) {
+    public <T, E> T put(String path, TypeReference<T> type, E payload) {
         try {
             String uri = BASE_PATH + path;
-            HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(request)).build();
+            HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             HttpUriRequest httpRequest = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .setEntity(httpEntity)
                 .build();
-            logDebugPrettyJson("PUT request to {} entity \n{}", uri, request);
+            logDebugPrettyJson("PUT request to {} entity \n{}", uri, payload);
 
             return doRequest(httpRequest, type);
         } catch (IOException e) {

@@ -3,13 +3,13 @@ package com.callfire.api.client.model;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Batch extends BaseModel {
-    public enum StatusEnum {
+    public enum Status {
         NEW, VALIDATING, ERRORS, SOURCE_ERROR, ACTIVE,
     }
 
     private Long id;
     private String name;
-    private StatusEnum status;
+    private Status status;
     private Long broadcastId;
     private Long created;
     private Integer size;
@@ -32,11 +32,11 @@ public class Batch extends BaseModel {
         this.name = name;
     }
 
-    public StatusEnum getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
