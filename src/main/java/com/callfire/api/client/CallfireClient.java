@@ -18,6 +18,7 @@ public class CallfireClient {
     private CallSoundsEndpoint callSoundsEndpoint;
 
     private CampaignsEndpoint campaignsEndpoint;
+    private TextsEndpoint textsEndpoint;
 
     /**
      * Constructs callfire client
@@ -101,6 +102,19 @@ public class CallfireClient {
             campaignsEndpoint = new CampaignsEndpoint(restApiClient);
         }
         return campaignsEndpoint;
+    }
+
+    /**
+     * Get /texts endpoint
+     *
+     * @return endpoint object
+     * @see TextsEndpoint
+     */
+    public TextsEndpoint getTextsEndpoint() {
+        if (textsEndpoint == null) {
+            textsEndpoint = new TextsEndpoint(restApiClient);
+        }
+        return textsEndpoint;
     }
 
     /**

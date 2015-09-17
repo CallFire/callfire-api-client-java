@@ -1,6 +1,7 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.model.BaseModel;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -59,6 +60,9 @@ public final class ClientUtils {
             field.setAccessible(true);
             Object value = field.get(request);
             if (value != null) {
+                if (field.isAnnotationPresent(ConvertToString.class) && value instanceof Iterable) {
+                    value = StringUtils.join((Iterable)value, field.getAnnotation(ConvertToString.class).separator());
+                }
                 params.add(new BasicNameValuePair(field.getName(), value.toString()));
             }
         } catch (IllegalAccessException e) {

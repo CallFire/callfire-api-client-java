@@ -6,13 +6,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * TTS representation
  */
 public class TextToSpeech extends BaseModel {
-    private VoiceEnum voice;
+    private Voice voice;
     private String message;
 
     /**
      * TTS voice types
      */
-    public enum VoiceEnum {
+    public enum Voice {
         MALE1, FEMALE1, FEMALE2, SPANISH1, FRENCHCANADIAN1,
     }
 
@@ -21,7 +21,7 @@ public class TextToSpeech extends BaseModel {
      *
      * @return voice type
      */
-    public VoiceEnum getVoice() {
+    public Voice getVoice() {
         return voice;
     }
 
@@ -30,7 +30,7 @@ public class TextToSpeech extends BaseModel {
      *
      * @param voice voice type
      */
-    public void setVoice(VoiceEnum voice) {
+    public void setVoice(Voice voice) {
         this.voice = voice;
     }
 
