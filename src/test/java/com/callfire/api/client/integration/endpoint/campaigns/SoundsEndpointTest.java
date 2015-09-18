@@ -1,6 +1,8 @@
-package com.callfire.api.client.integration.endpoint;
+package com.callfire.api.client.integration.endpoint.campaigns;
 
 import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.endpoint.campaigns.SoundsEndpoint;
+import com.callfire.api.client.integration.endpoint.AbstractIntegrationTest;
 import com.callfire.api.client.model.*;
 import com.callfire.api.client.model.request.FindSoundsRequest;
 import com.callfire.api.client.model.request.FindSoundsRequest.FindSoundsRequestBuilder;
@@ -21,7 +23,7 @@ import static org.junit.Assert.*;
 /**
  * integration tests for /subscriptions api endpoint
  */
-public class CallSoundsEndpointTest extends AbstractIntegrationTest {
+public class SoundsEndpointTest extends AbstractIntegrationTest {
 
     @Test
     public void testFindCampaignSounds() throws Exception {
@@ -31,7 +33,8 @@ public class CallSoundsEndpointTest extends AbstractIntegrationTest {
             .setLimit(3L)
             .setFilter("sample")
             .build();
-        Page<CampaignSound> campaignSounds = callfireClient.getCallSoundsEndpoint().findCampaignSounds(request);
+        Page<CampaignSound> campaignSounds = callfireClient.getCampaignsEndpoint().getSoundsEndpoint()
+            .findCampaignSounds(request);
         assertEquals(Long.valueOf(4), campaignSounds.getTotalCount());
         assertEquals(3, campaignSounds.getItems().size());
         campaignSounds.getItems().forEach(i -> assertThat(i.getName(), containsString("Sample")));
@@ -44,7 +47,8 @@ public class CallSoundsEndpointTest extends AbstractIntegrationTest {
         CallCreateSound callCreateSound = new CallCreateSound();
         callCreateSound.setName("call_in_sound_" + new Date().getTime());
         callCreateSound.setToNumber(getCallerId());
-        ResourceId resourceId = callfireClient.getCallSoundsEndpoint().postCallCampaignSound(callCreateSound);
+        ResourceId resourceId = callfireClient.getCampaignsEndpoint().getSoundsEndpoint()
+            .postCallCampaignSound(callCreateSound);
         assertNotNull(resourceId.getId());
         System.out.println(resourceId.getId());
     }
@@ -52,32 +56,33 @@ public class CallSoundsEndpointTest extends AbstractIntegrationTest {
     @Test
     public void testUploadMp3WavFilesAndGetThem() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
+        SoundsEndpoint soundsEndpoint = callfireClient.getCampaignsEndpoint().getSoundsEndpoint();
         long timstamp = new Date().getTime();
         String soundName = "mp3_test_" + timstamp;
         File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
         File wavFile = new File(getClass().getClassLoader().getResource("file-examples/train.wav").toURI());
-        ResourceId mp3ResourceId = callfireClient.getCallSoundsEndpoint().postFileCampaignSound(mp3File, soundName);
-        ResourceId wavResourceId = callfireClient.getCallSoundsEndpoint().postFileCampaignSound(wavFile);
+        ResourceId mp3ResourceId = soundsEndpoint.postFileCampaignSound(mp3File, soundName);
+        ResourceId wavResourceId = soundsEndpoint.postFileCampaignSound(wavFile);
         assertNotNull(mp3ResourceId.getId());
         assertNotNull(wavResourceId.getId());
 
         // get sound metadata
-        CampaignSound campaignSound = callfireClient.getCallSoundsEndpoint()
-            .getCampaignSoundMeta(mp3ResourceId.getId(), "name,status,lengthInSeconds");
+        CampaignSound campaignSound = soundsEndpoint.getCampaignSoundMeta(mp3ResourceId.getId(),
+            "name,status,lengthInSeconds");
         assertNull(campaignSound.getId());
         assertEquals(soundName, campaignSound.getName());
         assertEquals(ACTIVE, campaignSound.getStatus());
         assertEquals(Integer.valueOf(6), campaignSound.getLengthInSeconds());
 
         // get mp3
-        InputStream is = callfireClient.getCallSoundsEndpoint().getCampaignSoundDataMp3(mp3ResourceId.getId());
+        InputStream is = soundsEndpoint.getCampaignSoundDataMp3(mp3ResourceId.getId());
         File tempFile = File.createTempFile("mp3_sound", "mp3");
         try (FileOutputStream os = new FileOutputStream(tempFile)) {
             IOUtils.copy(is, os);
         }
 
         // get wav
-        is = callfireClient.getCallSoundsEndpoint().getCampaignSoundDataWav(mp3ResourceId.getId());
+        is = soundsEndpoint.getCampaignSoundDataWav(mp3ResourceId.getId());
         tempFile = File.createTempFile("wav_sound", "wav");
         try (FileOutputStream os = new FileOutputStream(tempFile)) {
             IOUtils.copy(is, os);
@@ -89,8 +94,9 @@ public class CallSoundsEndpointTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
         TextToSpeech tts = new TextToSpeech();
         tts.setMessage("this is TTS message from java client");
-        ResourceId resourceId = callfireClient.getCallSoundsEndpoint().postTtsCampaignSound(tts);
-        CampaignSound campaignSound = callfireClient.getCallSoundsEndpoint().getCampaignSoundMeta(resourceId.getId());
+        ResourceId resourceId = callfireClient.getCampaignsEndpoint().getSoundsEndpoint().postTtsCampaignSound(tts);
+        CampaignSound campaignSound = callfireClient.getCampaignsEndpoint().getSoundsEndpoint()
+            .getCampaignSoundMeta(resourceId.getId());
         assertEquals(resourceId.getId(), campaignSound.getId());
         assertThat(campaignSound.getLengthInSeconds(), greaterThan(2));
     }

@@ -11,12 +11,9 @@ import com.callfire.api.client.endpoint.campaigns.CampaignsEndpoint;
 public class CallfireClient {
     private RestApiClient restApiClient;
 
-    private AdminEndpoint adminEndpoint;
-    private AgentGroupsEndpoint agentGroupsEndpoint;
-    private MeEndpoint meEndpoint;
     private SubscriptionsEndpoint subscriptionsEndpoint;
-    private CallSoundsEndpoint callSoundsEndpoint;
 
+    private MeEndpoint meEndpoint;
     private CampaignsEndpoint campaignsEndpoint;
     private TextsEndpoint textsEndpoint;
     private KeywordsEndpoint keywordsEndpoint;
@@ -30,30 +27,6 @@ public class CallfireClient {
      */
     public CallfireClient(String username, String password) {
         restApiClient = new RestApiClient(username, password);
-    }
-
-    /**
-     * Get /admin endpoint
-     *
-     * @return endpoint object
-     */
-    public AdminEndpoint getAdminEndpoint() {
-        if (adminEndpoint == null) {
-            adminEndpoint = new AdminEndpoint(restApiClient);
-        }
-        return adminEndpoint;
-    }
-
-    /**
-     * Get /agent-groups endpoint
-     *
-     * @return endpoint object
-     */
-    public AgentGroupsEndpoint getAgentGroupsEndpoint() {
-        if (agentGroupsEndpoint == null) {
-            agentGroupsEndpoint = new AgentGroupsEndpoint(restApiClient);
-        }
-        return agentGroupsEndpoint;
     }
 
     /**
@@ -78,19 +51,6 @@ public class CallfireClient {
             subscriptionsEndpoint = new SubscriptionsEndpoint(restApiClient);
         }
         return subscriptionsEndpoint;
-    }
-
-    /**
-     * Get /call-sounds api endpoint
-     *
-     * @return endpoint object
-     * @see CallSoundsEndpoint
-     */
-    public CallSoundsEndpoint getCallSoundsEndpoint() {
-        if (callSoundsEndpoint == null) {
-            callSoundsEndpoint = new CallSoundsEndpoint(restApiClient);
-        }
-        return callSoundsEndpoint;
     }
 
     /**

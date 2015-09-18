@@ -1,4 +1,4 @@
-package com.callfire.api.client.endpoint;
+package com.callfire.api.client.endpoint.campaigns;
 
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
@@ -14,17 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_ITEM_PATH;
-import static com.callfire.api.client.ApiEndpoints.AGENT_GROUPS_PATH;
-import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
-import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
- * Represents rest endpoint /agent-groups
+ * Represents rest endpoint /campaigns/cccs/agent-groups
  */
 public class AgentGroupsEndpoint {
+    private static final String AGENT_GROUPS_PATH = "/campaigns/cccs/agent-groups";
+    private static final String AGENT_GROUPS_ITEM_PATH = "/campaigns/cccs/agent-groups/{}";
 
     private RestApiClient client;
 

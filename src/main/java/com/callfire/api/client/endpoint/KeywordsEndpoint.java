@@ -11,7 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.callfire.api.client.ApiEndpoints.Type.BOOLEAN_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.BOOLEAN_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 
 /**

@@ -1,4 +1,4 @@
-package com.callfire.api.client.endpoint;
+package com.callfire.api.client.endpoint.campaigns;
 
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
@@ -15,28 +15,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.callfire.api.client.ApiEndpoints.Type.INPUT_STREAM_TYPE;
-import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.INPUT_STREAM_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
- * Represents rest endpoint /call-sounds
+ * Represents rest endpoint /campaigns/sounds
  */
-public class CallSoundsEndpoint {
-    // TODO will be /campaigns/sounds
-    private static final String CALL_SOUNDS_PATH = "/call-sounds";
-    private static final String CALL_SOUNDS_ITEM_PATH = "/call-sounds/{}";
-    private static final String CALL_SOUNDS_CALLS_PATH = "/call-sounds/calls";
-    private static final String CALL_SOUNDS_FILES_PATH = "/call-sounds/files";
-    private static final String CALL_SOUNDS_TTS_PATH = "/call-sounds/tts";
+public class SoundsEndpoint {
+    private static final String SOUNDS_PATH = "/campaigns/sounds";
+    private static final String SOUNDS_ITEM_PATH = "/campaigns/sounds/{}";
+    private static final String SOUNDS_CALLS_PATH = "/campaigns/sounds/calls";
+    private static final String SOUNDS_FILES_PATH = "/campaigns/sounds/files";
+    private static final String SOUNDS_TTS_PATH = "/campaigns/sounds/tts";
 
     private static final TypeReference<CampaignSound> CALL_SOUND_TYPE = new TypeReference<CampaignSound>() {
     };
 
     private RestApiClient client;
 
-    public CallSoundsEndpoint(RestApiClient client) {
+    public SoundsEndpoint(RestApiClient client) {
         this.client = client;
     }
 
@@ -49,10 +48,9 @@ public class CallSoundsEndpoint {
      * @throws CallfireClientException in case error has occurred in client
      * @see FindSoundsRequest
      */
-    // TODO is it suitable name for method ??
     public Page<CampaignSound> findCampaignSounds(FindSoundsRequest request)
         throws CallfireApiException, CallfireClientException {
-        return client.get(CALL_SOUNDS_PATH, new TypeReference<Page<CampaignSound>>() {
+        return client.get(SOUNDS_PATH, new TypeReference<Page<CampaignSound>>() {
         }, request);
     }
 
@@ -81,7 +79,7 @@ public class CallSoundsEndpoint {
         throws CallfireApiException, CallfireClientException {
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
-        String path = CALL_SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
+        String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, CALL_SOUND_TYPE, queryParams);
     }
 
@@ -94,7 +92,7 @@ public class CallSoundsEndpoint {
      * @throws CallfireClientException in case error has occurred in client
      */
     public InputStream getCampaignSoundDataMp3(Long id) throws CallfireApiException, CallfireClientException {
-        String path = CALL_SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".mp3";
+        String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".mp3";
         return client.get(path, INPUT_STREAM_TYPE);
     }
 
@@ -107,7 +105,7 @@ public class CallSoundsEndpoint {
      * @throws CallfireClientException in case error has occurred in client
      */
     public InputStream getCampaignSoundDataWav(Long id) throws CallfireApiException, CallfireClientException {
-        String path = CALL_SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".wav";
+        String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".wav";
         return client.get(path, INPUT_STREAM_TYPE);
     }
 
@@ -121,7 +119,7 @@ public class CallSoundsEndpoint {
      */
     public ResourceId postCallCampaignSound(CallCreateSound callCreateSound)
         throws CallfireApiException, CallfireClientException {
-        return client.post(CALL_SOUNDS_CALLS_PATH, RESOURCE_ID_TYPE, callCreateSound);
+        return client.post(SOUNDS_CALLS_PATH, RESOURCE_ID_TYPE, callCreateSound);
     }
 
     /**
@@ -150,7 +148,7 @@ public class CallSoundsEndpoint {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
-        return client.postFile(CALL_SOUNDS_FILES_PATH, RESOURCE_ID_TYPE, params);
+        return client.postFile(SOUNDS_FILES_PATH, RESOURCE_ID_TYPE, params);
     }
 
     /**
@@ -163,6 +161,6 @@ public class CallSoundsEndpoint {
      */
     public ResourceId postTtsCampaignSound(TextToSpeech textToSpeech)
         throws CallfireApiException, CallfireClientException {
-        return client.post(CALL_SOUNDS_TTS_PATH, RESOURCE_ID_TYPE, textToSpeech);
+        return client.post(SOUNDS_TTS_PATH, RESOURCE_ID_TYPE, textToSpeech);
     }
 }

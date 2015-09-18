@@ -12,7 +12,7 @@ public class Text extends BaseModel {
     private String fromNumber;
     private String toNumber;
     private State state;
-    private Long broadcastId;
+    private Long campaignId;
     private Long batchId;
     private Contact contact;
     private Boolean inbound;
@@ -64,12 +64,12 @@ public class Text extends BaseModel {
         this.state = state;
     }
 
-    public Long getBroadcastId() {
-        return broadcastId;
+    public Long getCampaignId() {
+        return campaignId;
     }
 
-    public void setBroadcastId(Long broadcastId) {
-        this.broadcastId = broadcastId;
+    public void setCampaignId(Long campaignId) {
+        this.campaignId = campaignId;
     }
 
     public Long getBatchId() {
@@ -160,7 +160,7 @@ public class Text extends BaseModel {
             .append("fromNumber", fromNumber)
             .append("toNumber", toNumber)
             .append("state", state)
-            .append("broadcastId", broadcastId)
+            .append("campaignId", campaignId)
             .append("batchId", batchId)
             .append("contact", contact)
             .append("inbound", inbound)

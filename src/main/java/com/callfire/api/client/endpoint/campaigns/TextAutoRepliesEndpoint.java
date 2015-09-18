@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
@@ -23,8 +23,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
  * Represents rest endpoint /campaigns/text-auto-replys
  */
 public class TextAutoRepliesEndpoint {
-    private static final String TEXT_AUTO_REPLIES_PATH = "/text-auto-replys";
-    private static final String TEXT_AUTO_REPLIES_ITEM_PATH = "/text-auto-replys/{}";
+    private static final String TEXT_AUTO_REPLIES_PATH = "/campaigns/text-auto-replys";
+    private static final String TEXT_AUTO_REPLIES_ITEM_PATH = "/campaigns/text-auto-replys/{}";
     private static final TypeReference<TextAutoReply> TEXT_AUTO_REPLY_TYPE = new TypeReference<TextAutoReply>() {
     };
     private static final TypeReference<Page<TextAutoReply>> PAGE_OF_TEXT_AUTO_REPLY_TYPE = new TypeReference<Page<TextAutoReply>>() {

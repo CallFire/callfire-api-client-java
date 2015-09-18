@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.BASE_PATH;
 import static com.callfire.api.client.ClientConstants.USER_AGENT;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;

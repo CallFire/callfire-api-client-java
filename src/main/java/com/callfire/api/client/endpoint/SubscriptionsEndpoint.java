@@ -14,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.callfire.api.client.ApiEndpoints.SUBSCRIPTIONS_ITEM_PATH;
-import static com.callfire.api.client.ApiEndpoints.SUBSCRIPTIONS_PATH;
-import static com.callfire.api.client.ApiEndpoints.Type.RESOURCE_ID_TYPE;
-import static com.callfire.api.client.ApiEndpoints.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
@@ -26,6 +24,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
  */
 public class SubscriptionsEndpoint {
     private RestApiClient client;
+    private static final String SUBSCRIPTIONS_PATH = "/subscriptions";
+    private static final String SUBSCRIPTIONS_ITEM_PATH = "/subscriptions/{}";
     private static final TypeReference<Subscription> SUBSCRIPTION_TYPE = new TypeReference<Subscription>() {
     };
 
