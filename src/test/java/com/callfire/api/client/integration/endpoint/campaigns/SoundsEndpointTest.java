@@ -37,7 +37,9 @@ public class SoundsEndpointTest extends AbstractIntegrationTest {
             .findCampaignSounds(request);
         assertEquals(Long.valueOf(4), campaignSounds.getTotalCount());
         assertEquals(3, campaignSounds.getItems().size());
-        campaignSounds.getItems().forEach(i -> assertThat(i.getName(), containsString("Sample")));
+        for (CampaignSound cs : campaignSounds.getItems()) {
+            assertThat(cs.getName(), containsString("Sample"));
+        }
     }
 
     @Test

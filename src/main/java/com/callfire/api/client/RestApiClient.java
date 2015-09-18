@@ -83,7 +83,7 @@ public class RestApiClient {
      * @throws CallfireClientException in case error has occurred in client
      */
     public <T> T get(String path, TypeReference<T> type) throws CallfireClientException, CallfireApiException {
-        return get(path, type, new ArrayList<>());
+        return get(path, type, new ArrayList<NameValuePair>());
     }
 
     /**

@@ -11,10 +11,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.model.request.FindAgentGroupsRequest.FindAgentGroupsRequestBuilder;
-import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
@@ -62,7 +62,12 @@ public class AgentGroupsEndpointTest extends AbstractIntegrationTest {
         assertEquals(2, items.size());
         assertNull(items.get(0).getName());
         assertNull(items.get(1).getName());
-        List<Long> itemsIds = items.stream().mapToLong(AgentGroup::getId).boxed().collect(toList());
+
+        List<Long> itemsIds = new ArrayList<>(items.size());
+        for (AgentGroup item : items) {
+            itemsIds.add(item.getId());
+        }
+
         assertThat(itemsIds, hasItem(groupId1.getId()));
         assertThat(itemsIds, hasItem(groupId2.getId()));
 

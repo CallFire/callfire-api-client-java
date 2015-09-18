@@ -40,7 +40,9 @@ public class KeywordsEndpoint {
     public List<Keyword> getKeywordsInCatalog(List<String> keywords)
         throws CallfireApiException, CallfireClientException {
         List<NameValuePair> queryParams = new ArrayList<>(keywords.size());
-        keywords.stream().forEach(k -> queryParams.add(new BasicNameValuePair("keywords", k)));
+        for (String keyword : keywords) {
+            queryParams.add(new BasicNameValuePair("keywords", keyword));
+        }
         return client.get(KEYWORDS_PATH, KEYWORDS_LIST_TYPE, queryParams);
     }
 

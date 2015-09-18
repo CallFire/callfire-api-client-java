@@ -9,7 +9,6 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.Matchers.hasProperty;
 
@@ -31,8 +30,9 @@ public class AbstractIntegrationTest {
 
         String campaignIdsPropery = System.getProperty("testCampaignIds");
         if (campaignIdsPropery != null) {
-            List<String> list = Arrays.asList(campaignIdsPropery.split(","));
-            campaignIds.addAll(list.stream().mapToLong(Long::valueOf).boxed().collect(Collectors.toList()));
+            for (String s : Arrays.asList(campaignIdsPropery.split(","))) {
+                campaignIds.add(Long.valueOf(s));
+            }
         }
 
         // TODO remove credentials
