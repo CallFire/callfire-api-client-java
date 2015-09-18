@@ -7,9 +7,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Contains common fields for finder endpoints
  */
 public abstract class FindRequest extends BaseModel {
-    private Long limit;
-    private Long offset;
-    private String fields;
+    protected Long limit;
+    protected Long offset;
+    protected String fields;
 
     /**
      * Get max number of records per page to return. If items.size() < limit assume no more items.
@@ -50,9 +50,15 @@ public abstract class FindRequest extends BaseModel {
     /**
      * Abstract builder for find requests
      *
-     * @param <T> type of builder
+     * @param <B> type of builder
      */
-    public static abstract class FindRequestBuilder<T extends FindRequestBuilder> {
+    @SuppressWarnings("unchecked")
+    public static abstract class AbstractBuilder<B extends AbstractBuilder, R extends FindRequest> {
+        protected final R request;
+
+        protected AbstractBuilder(R request) {
+            this.request = request;
+        }
 
         /**
          * Set max number of items returned.
@@ -60,9 +66,9 @@ public abstract class FindRequest extends BaseModel {
          * @param limit max number of items
          * @return builder object
          */
-        public T setLimit(Long limit) {
-            getRequest().limit = limit;
-            return getChild();
+        public B setLimit(Long limit) {
+            request.limit = limit;
+            return (B) this;
         }
 
         /**
@@ -71,9 +77,9 @@ public abstract class FindRequest extends BaseModel {
          * @param offset offset value
          * @return builder object
          */
-        public T setOffset(Long offset) {
-            getRequest().offset = offset;
-            return getChild();
+        public B setOffset(Long offset) {
+            request.offset = offset;
+            return (B) this;
         }
 
         /**
@@ -82,9 +88,9 @@ public abstract class FindRequest extends BaseModel {
          * @param fields fields to return
          * @return builder object
          */
-        public T setFields(String fields) {
-            getRequest().fields = fields;
-            return getChild();
+        public B setFields(String fields) {
+            request.fields = fields;
+            return (B) this;
         }
 
         /**
@@ -92,10 +98,8 @@ public abstract class FindRequest extends BaseModel {
          *
          * @return find request pojo
          */
-        public abstract FindRequest build();
-
-        protected abstract T getChild();
-
-        protected abstract FindRequest getRequest();
+        public R build() {
+            return request;
+        }
     }
 }

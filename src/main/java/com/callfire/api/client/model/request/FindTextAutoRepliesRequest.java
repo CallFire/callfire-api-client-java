@@ -13,6 +13,15 @@ public class FindTextAutoRepliesRequest extends FindRequest {
     }
 
     /**
+     * Create request builder
+     *
+     * @return request build
+     */
+    public static Builder create() {
+        return new Builder();
+    }
+
+    /**
      * Get E.164 11 digit number
      *
      * @return phone number to filter
@@ -26,22 +35,15 @@ public class FindTextAutoRepliesRequest extends FindRequest {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("number", number)
-            .append("baseRequest", super.toString())
             .toString();
     }
 
     /**
      * Builder class for request
      */
-    public static class FindTextAutoRepliesBuilder extends FindRequestBuilder<FindTextAutoRepliesBuilder> {
-        private FindTextAutoRepliesRequest request;
-
-        private FindTextAutoRepliesBuilder() {
-            request = new FindTextAutoRepliesRequest();
-        }
-
-        public static FindTextAutoRepliesBuilder create() {
-            return new FindTextAutoRepliesBuilder();
+    public static class Builder extends AbstractBuilder<Builder, FindTextAutoRepliesRequest> {
+        private Builder() {
+            super(new FindTextAutoRepliesRequest());
         }
 
         /**
@@ -50,24 +52,9 @@ public class FindTextAutoRepliesRequest extends FindRequest {
          * @param number E.164 11 digit number to filter
          * @return builder object
          */
-        public FindTextAutoRepliesBuilder setNumber(String number) {
+        public Builder setNumber(String number) {
             request.number = number;
             return this;
-        }
-
-        @Override
-        public FindTextAutoRepliesRequest build() {
-            return request;
-        }
-
-        @Override
-        protected FindTextAutoRepliesBuilder getChild() {
-            return this;
-        }
-
-        @Override
-        protected FindTextAutoRepliesRequest getRequest() {
-            return request;
         }
     }
 }

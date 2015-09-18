@@ -14,7 +14,6 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.callfire.api.client.model.request.FindAgentGroupsRequest.FindAgentGroupsRequestBuilder;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.core.Is.is;
@@ -52,7 +51,7 @@ public class AgentGroupsEndpointTest extends AbstractIntegrationTest {
         assertThat(agentGroup2.getAgents(), is(empty()));
 
         // test QBE
-        FindAgentGroupsRequest request = FindAgentGroupsRequestBuilder.create()
+        FindAgentGroupsRequest request = FindAgentGroupsRequest.create()
             .setLimit(100L)
             .setOffset(0L)
             .setFields("items(id)")

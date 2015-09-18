@@ -22,6 +22,15 @@ public class FindTextsRequest extends FindCallsTextsRequest {
     }
 
     /**
+     * Create request builder
+     *
+     * @return request build
+     */
+    public static Builder create() {
+        return new Builder();
+    }
+
+    /**
      * Get text statuses
      *
      * @return text statuses
@@ -51,15 +60,9 @@ public class FindTextsRequest extends FindCallsTextsRequest {
     /**
      * Builder class
      */
-    public static class FindTextsRequestBuilder extends FindCallsTextsRequestBuilder<FindTextsRequestBuilder> {
-        private FindTextsRequest request;
-
-        private FindTextsRequestBuilder() {
-            request = new FindTextsRequest();
-        }
-
-        public static FindTextsRequestBuilder create() {
-            return new FindTextsRequestBuilder();
+    public static class Builder extends CallsTextsBuilder<Builder, FindTextsRequest> {
+        private Builder() {
+            super(new FindTextsRequest());
         }
 
         /**
@@ -67,7 +70,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          *
          * @param states list of states to filter
          */
-        public FindTextsRequestBuilder setStates(List<State> states) {
+        public Builder setStates(List<State> states) {
             request.states = states;
             return this;
         }
@@ -77,24 +80,9 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          *
          * @param results text results to set
          */
-        public FindTextsRequestBuilder setResults(List<TextResult> results) {
+        public Builder setResults(List<TextResult> results) {
             request.results = results;
             return this;
-        }
-
-        @Override
-        public FindTextsRequest build() {
-            return request;
-        }
-
-        @Override
-        protected FindTextsRequestBuilder getChild() {
-            return this;
-        }
-
-        @Override
-        protected FindTextsRequest getRequest() {
-            return request;
         }
     }
 }

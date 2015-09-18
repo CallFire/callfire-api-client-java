@@ -3,13 +3,17 @@ package com.callfire.api.client.model.request;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Request object for GET /call-sounds which incapsulates
+ * Request object for GET /campaigns/sounds which incapsulates
  * different query pairs
  */
 public class FindSoundsRequest extends FindRequest {
     private String filter;
 
     private FindSoundsRequest() {
+    }
+
+    public static Builder create() {
+        return new Builder();
     }
 
     /**
@@ -26,42 +30,20 @@ public class FindSoundsRequest extends FindRequest {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("filter", filter)
-            .append("baseRequest", super.toString())
             .toString();
     }
 
     /**
      * Builder class for request
      */
-    public static class FindSoundsRequestBuilder extends FindRequestBuilder<FindSoundsRequestBuilder> {
-        private FindSoundsRequest request;
-
-        private FindSoundsRequestBuilder() {
-            request = new FindSoundsRequest();
+    public static class Builder extends AbstractBuilder<Builder, FindSoundsRequest> {
+        private Builder() {
+            super(new FindSoundsRequest());
         }
 
-        public static FindSoundsRequestBuilder create() {
-            return new FindSoundsRequestBuilder();
-        }
-
-        public FindSoundsRequestBuilder setFilter(String filter) {
+        public Builder setFilter(String filter) {
             request.filter = filter;
             return this;
-        }
-
-        @Override
-        public FindSoundsRequest build() {
-            return request;
-        }
-
-        @Override
-        protected FindSoundsRequestBuilder getChild() {
-            return this;
-        }
-
-        @Override
-        protected FindSoundsRequest getRequest() {
-            return request;
         }
     }
 }

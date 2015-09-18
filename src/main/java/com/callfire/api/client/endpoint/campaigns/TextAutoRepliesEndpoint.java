@@ -7,7 +7,7 @@ import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.ResourceId;
 import com.callfire.api.client.model.campaigns.TextAutoReply;
 import com.callfire.api.client.model.request.FindTextAutoRepliesRequest;
-import com.callfire.api.client.model.request.FindTextAutoRepliesRequest.FindTextAutoRepliesBuilder;
+import com.callfire.api.client.model.request.FindTextAutoRepliesRequest.Builder;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.NameValuePair;
 
@@ -44,7 +44,7 @@ public class TextAutoRepliesEndpoint {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      * @see FindTextAutoRepliesRequest
-     * @see FindTextAutoRepliesBuilder
+     * @see Builder
      */
     public Page<TextAutoReply> findTextAutoReplies(FindTextAutoRepliesRequest request)
         throws CallfireApiException, CallfireClientException {

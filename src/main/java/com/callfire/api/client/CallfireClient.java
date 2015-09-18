@@ -18,6 +18,7 @@ public class CallfireClient {
     private TextsEndpoint textsEndpoint;
     private KeywordsEndpoint keywordsEndpoint;
     private CallsEndpoint callsEndpoint;
+    private WebhooksEndpoint webhooksEndpoint;
 
     /**
      * Constructs callfire client
@@ -101,6 +102,18 @@ public class CallfireClient {
             callsEndpoint = new CallsEndpoint(restApiClient);
         }
         return callsEndpoint;
+    }
+
+    /**
+     * Get /webhooks endpoint
+     *
+     * @return endpoint object
+     */
+    public WebhooksEndpoint getWebhooksEndpoint() {
+        if (webhooksEndpoint == null) {
+            webhooksEndpoint = new WebhooksEndpoint(restApiClient);
+        }
+        return webhooksEndpoint;
     }
 
     /**

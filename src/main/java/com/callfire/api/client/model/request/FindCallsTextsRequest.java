@@ -9,22 +9,22 @@ import java.util.List;
  * Request object for GET /calls or /texts
  */
 public abstract class FindCallsTextsRequest extends FindRequest {
-    private Long broadcastId;
-    private String fromNumber;
-    private String toNumber;
-    private String label;
-    private Boolean inbound;
-    private Date intervalBegin;
-    private Date intervalEnd;
-    private List<Long> id;
+    protected Long campaignId;
+    protected String fromNumber;
+    protected String toNumber;
+    protected String label;
+    protected Boolean inbound;
+    protected Date intervalBegin;
+    protected Date intervalEnd;
+    protected List<Long> id;
 
     /**
      * Get id of broadcast
      *
      * @return id of broadcast
      */
-    public Long getBroadcastId() {
-        return broadcastId;
+    public Long getCampaignId() {
+        return campaignId;
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class FindCallsTextsRequest extends FindRequest {
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
-            .append("broadcastId", broadcastId)
+            .append("campaignId", campaignId)
             .append("fromNumber", fromNumber)
             .append("toNumber", toNumber)
             .append("label", label)
@@ -108,17 +108,22 @@ public abstract class FindCallsTextsRequest extends FindRequest {
     /**
      * Builder class
      */
-    public static abstract class FindCallsTextsRequestBuilder<T extends FindCallsTextsRequestBuilder>
-        extends FindRequestBuilder<T> {
+    @SuppressWarnings("unchecked")
+    public static abstract class CallsTextsBuilder<B extends CallsTextsBuilder, R extends FindCallsTextsRequest>
+        extends AbstractBuilder<B, R> {
+
+        public CallsTextsBuilder(R request) {
+            super(request);
+        }
 
         /**
          * Set phone number text was sent from
          *
          * @param fromNumber phone number text was sent from
          */
-        public T setFromNumber(String fromNumber) {
-            getRequest().fromNumber = fromNumber;
-            return getChild();
+        public B setFromNumber(String fromNumber) {
+            request.fromNumber = fromNumber;
+            return (B) this;
         }
 
         /**
@@ -126,19 +131,19 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          *
          * @param label label assigned with text
          */
-        public T setLabel(String label) {
-            getRequest().label = label;
-            return getChild();
+        public B setLabel(String label) {
+            request.label = label;
+            return (B) this;
         }
 
         /**
-         * Set id of broadcast
+         * Set id of campaign
          *
-         * @param broadcastId id of broadcast
+         * @param campaignId id of campaign
          */
-        public T setBroadcastId(Long broadcastId) {
-            getRequest().broadcastId = broadcastId;
-            return getChild();
+        public B setCampaignId(Long campaignId) {
+            request.campaignId = campaignId;
+            return (B) this;
         }
 
         /**
@@ -146,9 +151,9 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          *
          * @param toNumber phone number text was sent to
          */
-        public T setToNumber(String toNumber) {
-            getRequest().toNumber = toNumber;
-            return getChild();
+        public B setToNumber(String toNumber) {
+            request.toNumber = toNumber;
+            return (B) this;
         }
 
         /**
@@ -156,9 +161,9 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          *
          * @param inbound true if text inbound
          */
-        public T setInbound(Boolean inbound) {
-            getRequest().inbound = inbound;
-            return getChild();
+        public B setInbound(Boolean inbound) {
+            request.inbound = inbound;
+            return (B) this;
         }
 
         /**
@@ -166,9 +171,9 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          *
          * @param intervalBegin beginning of time interval
          */
-        public T setIntervalBegin(Date intervalBegin) {
-            getRequest().intervalBegin = intervalBegin;
-            return getChild();
+        public B setIntervalBegin(Date intervalBegin) {
+            request.intervalBegin = intervalBegin;
+            return (B) this;
         }
 
         /**
@@ -176,9 +181,9 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          *
          * @param intervalEnd end of time interval
          */
-        public T setIntervalEnd(Date intervalEnd) {
-            getRequest().intervalEnd = intervalEnd;
-            return getChild();
+        public B setIntervalEnd(Date intervalEnd) {
+            request.intervalEnd = intervalEnd;
+            return (B) this;
         }
 
         /**
@@ -186,11 +191,9 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          *
          * @param id text ids to filter
          */
-        public T setId(List<Long> id) {
-            getRequest().id = id;
-            return getChild();
+        public B setId(List<Long> id) {
+            request.id = id;
+            return (B) this;
         }
-
-        protected abstract FindCallsTextsRequest getRequest();
     }
 }

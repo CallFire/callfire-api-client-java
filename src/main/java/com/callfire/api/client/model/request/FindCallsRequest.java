@@ -21,6 +21,15 @@ public class FindCallsRequest extends FindCallsTextsRequest {
     }
 
     /**
+     * Create request builder
+     *
+     * @return request build
+     */
+    public static Builder create() {
+        return new Builder();
+    }
+
+    /**
      * Get text statuses
      *
      * @return text statuses
@@ -50,15 +59,9 @@ public class FindCallsRequest extends FindCallsTextsRequest {
     /**
      * Builder class
      */
-    public static class FindCallsRequestBuilder extends FindCallsTextsRequestBuilder<FindCallsRequestBuilder> {
-        private FindCallsRequest request;
-
-        private FindCallsRequestBuilder() {
-            request = new FindCallsRequest();
-        }
-
-        public static FindCallsRequestBuilder create() {
-            return new FindCallsRequestBuilder();
+    public static class Builder extends CallsTextsBuilder<Builder, FindCallsRequest> {
+        private Builder() {
+            super(new FindCallsRequest());
         }
 
         /**
@@ -66,7 +69,7 @@ public class FindCallsRequest extends FindCallsTextsRequest {
          *
          * @param states list of states to filter
          */
-        public FindCallsRequestBuilder setStates(List<Call.State> states) {
+        public Builder setStates(List<Call.State> states) {
             request.states = states;
             return this;
         }
@@ -76,24 +79,9 @@ public class FindCallsRequest extends FindCallsTextsRequest {
          *
          * @param results text results to set
          */
-        public FindCallsRequestBuilder setResults(List<Call.FinalCallResult> results) {
+        public Builder setResults(List<Call.FinalCallResult> results) {
             request.results = results;
             return this;
-        }
-
-        @Override
-        public FindCallsRequest build() {
-            return request;
-        }
-
-        @Override
-        protected FindCallsRequestBuilder getChild() {
-            return this;
-        }
-
-        @Override
-        protected FindCallsRequest getRequest() {
-            return request;
         }
     }
 }

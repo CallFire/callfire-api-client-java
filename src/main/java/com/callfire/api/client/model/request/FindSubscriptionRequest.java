@@ -18,6 +18,15 @@ public class FindSubscriptionRequest extends FindRequest {
     private FindSubscriptionRequest() {
     }
 
+    /**
+     * Create request builder
+     *
+     * @return request build
+     */
+    public static Builder create() {
+        return new Builder();
+    }
+
     public Long getCampaignId() {
         return campaignId;
     }
@@ -47,62 +56,40 @@ public class FindSubscriptionRequest extends FindRequest {
             .append("format", format)
             .append("fromNumber", fromNumber)
             .append("toNumber", toNumber)
-            .append("baseRequest", super.toString())
             .toString();
     }
 
     /**
      * Builder class for findSubscriptions method
      */
-    public static class FindSubscriptionRequestBuilder extends FindRequestBuilder<FindSubscriptionRequestBuilder> {
-        private FindSubscriptionRequest request;
-
-        private FindSubscriptionRequestBuilder() {
-            request = new FindSubscriptionRequest();
+    public static class Builder extends AbstractBuilder<Builder, FindSubscriptionRequest> {
+        private Builder() {
+            super(new FindSubscriptionRequest());
         }
 
-        public static FindSubscriptionRequestBuilder create() {
-            return new FindSubscriptionRequestBuilder();
-        }
-
-        public FindSubscriptionRequestBuilder setCampaignId(Long campaignId) {
+        public Builder setCampaignId(Long campaignId) {
             request.campaignId = campaignId;
             return this;
         }
 
-        public FindSubscriptionRequestBuilder setTrigger(TriggerEvent trigger) {
+        public Builder setTrigger(TriggerEvent trigger) {
             request.trigger = trigger;
             return this;
         }
 
-        public FindSubscriptionRequestBuilder setFormat(NotificationFormat format) {
+        public Builder setFormat(NotificationFormat format) {
             request.format = format;
             return this;
         }
 
-        public FindSubscriptionRequestBuilder setFromNumber(String fromNumber) {
+        public Builder setFromNumber(String fromNumber) {
             request.fromNumber = fromNumber;
             return this;
         }
 
-        public FindSubscriptionRequestBuilder setToNumber(String toNumber) {
+        public Builder setToNumber(String toNumber) {
             request.toNumber = toNumber;
             return this;
-        }
-
-        @Override
-        public FindSubscriptionRequest build() {
-            return request;
-        }
-
-        @Override
-        protected FindSubscriptionRequestBuilder getChild() {
-            return this;
-        }
-
-        @Override
-        protected FindSubscriptionRequest getRequest() {
-            return request;
         }
     }
 }

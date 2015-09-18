@@ -5,7 +5,6 @@ import com.callfire.api.client.endpoint.campaigns.SoundsEndpoint;
 import com.callfire.api.client.integration.endpoint.AbstractIntegrationTest;
 import com.callfire.api.client.model.*;
 import com.callfire.api.client.model.request.FindSoundsRequest;
-import com.callfire.api.client.model.request.FindSoundsRequest.FindSoundsRequestBuilder;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class SoundsEndpointTest extends AbstractIntegrationTest {
     public void testFindCampaignSounds() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        FindSoundsRequest request = FindSoundsRequestBuilder.create()
+        FindSoundsRequest request = FindSoundsRequest.create()
             .setLimit(3L)
             .setFilter("sample")
             .build();

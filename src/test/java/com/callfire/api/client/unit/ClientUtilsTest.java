@@ -18,15 +18,15 @@ public class ClientUtilsTest {
 
     @Test
     public void testBuildQueryParams() throws Exception {
-        FindCallsRequest request = FindCallsRequest.FindCallsRequestBuilder.create()
+        FindCallsRequest request = FindCallsRequest.create()
             .setLimit(3L)
-            .setBroadcastId(2L)
+            .setCampaignId(2L)
             .setResults(Arrays.asList(Call.FinalCallResult.AM, Call.FinalCallResult.BUSY))
             .build();
         List<NameValuePair> queryParams = ClientUtils.buildQueryParams(request);
         assertEquals(3, queryParams.size());
         assertThat(queryParams, hasItem(new BasicNameValuePair("results", "AM,BUSY")));
-        assertThat(queryParams, hasItem(new BasicNameValuePair("broadcastId", Long.valueOf(2).toString())));
+        assertThat(queryParams, hasItem(new BasicNameValuePair("campaignId", Long.valueOf(2).toString())));
         assertThat(queryParams, hasItem(new BasicNameValuePair("limit", Long.valueOf(3).toString())));
     }
 }

@@ -16,6 +16,15 @@ public class FindAgentGroupsRequest extends FindRequest {
     }
 
     /**
+     * Create request builder
+     *
+     * @return request build
+     */
+    public static Builder create() {
+        return new Builder();
+    }
+
+    /**
      * Get id of campaign
      *
      * @return Id of campaign
@@ -56,61 +65,40 @@ public class FindAgentGroupsRequest extends FindRequest {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+            .appendSuper(super.toString())
             .append("campaignId", campaignId)
             .append("name", name)
             .append("agentId", agentId)
             .append("agentEmail", agentEmail)
-            .append("baseRequest", super.toString())
             .toString();
     }
 
     /**
      * Builder class for find method
      */
-    public static class FindAgentGroupsRequestBuilder extends FindRequestBuilder<FindAgentGroupsRequestBuilder> {
-        private FindAgentGroupsRequest request;
-
-        private FindAgentGroupsRequestBuilder() {
-            request = new FindAgentGroupsRequest();
+    public static class Builder extends AbstractBuilder<Builder, FindAgentGroupsRequest> {
+        private Builder() {
+            super(new FindAgentGroupsRequest());
         }
 
-        public static FindAgentGroupsRequestBuilder create() {
-            return new FindAgentGroupsRequestBuilder();
-        }
-
-        public FindAgentGroupsRequestBuilder setCampaignId(Long campaignId) {
+        public Builder setCampaignId(Long campaignId) {
             request.campaignId = campaignId;
             return this;
         }
 
-        public FindAgentGroupsRequestBuilder setName(String name) {
+        public Builder setName(String name) {
             request.name = name;
             return this;
         }
 
-        public FindAgentGroupsRequestBuilder setAgentId(Long agentId) {
+        public Builder setAgentId(Long agentId) {
             request.agentId = agentId;
             return this;
         }
 
-        public FindAgentGroupsRequestBuilder setAgentEmail(String agentEmail) {
+        public Builder setAgentEmail(String agentEmail) {
             request.agentEmail = agentEmail;
             return this;
-        }
-
-        @Override
-        public FindAgentGroupsRequest build() {
-            return request;
-        }
-
-        @Override
-        protected FindAgentGroupsRequestBuilder getChild() {
-            return this;
-        }
-
-        @Override
-        protected FindRequest getRequest() {
-            return request;
         }
     }
 }

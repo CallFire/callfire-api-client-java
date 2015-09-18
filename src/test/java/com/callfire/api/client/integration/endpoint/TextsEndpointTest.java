@@ -4,16 +4,13 @@ import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.Text;
 import com.callfire.api.client.model.request.FindTextsRequest;
-import com.callfire.api.client.model.request.FindTextsRequest.FindTextsRequestBuilder;
 import org.junit.Test;
 
 import java.util.Arrays;
 
 import static com.callfire.api.client.model.Text.State;
 import static com.callfire.api.client.model.TextRecord.TextResult;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * integration tests for /texts api endpoint
@@ -24,7 +21,7 @@ public class TextsEndpointTest extends AbstractIntegrationTest {
     public void testGetParticularText() throws Exception {
         CallfireClient client = getCallfireClient();
 
-        FindTextsRequest request = FindTextsRequestBuilder.create()
+        FindTextsRequest request = FindTextsRequest.create()
             .setStates(Arrays.asList(State.FINISHED, State.READY))
             .setResults(Arrays.asList(TextResult.SENT, TextResult.RECEIVED))
             .build();

@@ -33,7 +33,7 @@ public class TextAutoRepliesEndpointTest extends AbstractIntegrationTest {
         ResourceId resourceId = endpoint.createTextAutoReply(textAutoReply);
         assertNotNull(resourceId.getId());
 
-        FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.FindTextAutoRepliesBuilder.create()
+        FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.create()
             .setNumber(getDid1())
             .build();
         Page<TextAutoReply> textAutoReplies = endpoint.findTextAutoReplies(request);

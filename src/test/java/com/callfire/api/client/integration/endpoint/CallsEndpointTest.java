@@ -30,7 +30,7 @@ public class CallsEndpointTest extends AbstractIntegrationTest {
     @Test
     public void testFindCalls() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        FindCallsRequest request = FindCallsRequest.FindCallsRequestBuilder.create()
+        FindCallsRequest request = FindCallsRequest.create()
             .setStates(Arrays.asList(Call.State.FINISHED, Call.State.READY))
             .setLimit(3L)
             .build();

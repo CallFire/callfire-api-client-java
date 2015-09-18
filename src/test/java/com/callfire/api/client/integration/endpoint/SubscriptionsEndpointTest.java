@@ -5,7 +5,6 @@ import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.ResourceId;
 import com.callfire.api.client.model.Subscription;
 import com.callfire.api.client.model.request.FindSubscriptionRequest;
-import com.callfire.api.client.model.request.FindSubscriptionRequest.FindSubscriptionRequestBuilder;
 import org.junit.Test;
 
 import static com.callfire.api.client.model.Subscription.NotificationFormat.JSON;
@@ -32,7 +31,7 @@ public class SubscriptionsEndpointTest extends AbstractIntegrationTest {
         subscription.setNotificationFormat(XML);
         ResourceId resourceId2 = callfireClient.getSubscriptionsEndpoint().create(subscription);
 
-        FindSubscriptionRequest findRequest = FindSubscriptionRequestBuilder.create()
+        FindSubscriptionRequest findRequest = FindSubscriptionRequest.create()
             .setLimit(30L)
             .setFormat(JSON)
             .setFields("items(id,endpoint)")
@@ -53,7 +52,7 @@ public class SubscriptionsEndpointTest extends AbstractIntegrationTest {
         callfireClient.getSubscriptionsEndpoint().delete(resourceId1.getId());
         callfireClient.getSubscriptionsEndpoint().delete(resourceId2.getId());
 
-        page = callfireClient.getSubscriptionsEndpoint().find(FindSubscriptionRequestBuilder.create().build());
+        page = callfireClient.getSubscriptionsEndpoint().find(FindSubscriptionRequest.create().build());
         assertEquals(Long.valueOf(0), page.getTotalCount());
         assertTrue(page.getItems().isEmpty());
     }
