@@ -36,8 +36,8 @@ public class AbstractIntegrationTest {
         }
 
         // TODO remove credentials
-        this.username = "dcbcb63e595e";
-        this.password = "d15efb7ed79dcd02";
+        this.username = "5935deba1c65";
+        this.password = "3cba59568d238cd1";
         this.callerId = "12132212384";
         this.did1 = "12132046770";
         this.campaignIds.add(6476244003L); // ccc
