@@ -1,9 +1,9 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.auth.Authentication;
-import com.callfire.api.client.model.BaseModel;
-import com.callfire.api.client.model.ErrorMessage;
-import com.callfire.api.client.model.request.FindRequest;
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.ErrorMessage;
+import com.callfire.api.client.api.common.model.request.GetRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpEntity;
@@ -91,7 +91,7 @@ public class RestApiClient {
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T> T get(String path, TypeReference<T> type, FindRequest request)
+    public <T> T get(String path, TypeReference<T> type, GetRequest request)
         throws CallfireClientException, CallfireApiException {
         List<NameValuePair> queryParams = buildQueryParams(request);
         return get(path, type, queryParams);
@@ -276,7 +276,7 @@ public class RestApiClient {
     private void logDebugPrettyJson(String message, Object... params) throws JsonProcessingException {
         if (LOGGER.isDebugEnabled()) {
             for (int i = 0; i < params.length; i++) {
-                if (params[i] instanceof BaseModel) {
+                if (params[i] instanceof CallfireModel) {
                     String prettyJson = jsonConverter.getMapper().writerWithDefaultPrettyPrinter()
                         .writeValueAsString(params[i]);
                     params[i] = prettyJson;

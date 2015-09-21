@@ -1,8 +1,9 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class TextRecord extends BaseModel {
+public class TextRecord extends CallfireModel {
     private Long id;
     private Float billedAmount;
     private Long created;

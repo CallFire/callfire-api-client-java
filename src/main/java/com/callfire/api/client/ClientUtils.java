@@ -1,6 +1,7 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.model.BaseModel;
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.ConvertToString;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -39,7 +40,7 @@ public final class ClientUtils {
      * @return list contains query parameters
      * @throws CallfireClientException in case IllegalAccessException occurred
      */
-    public static <T extends BaseModel> List<NameValuePair> buildQueryParams(T request)
+    public static <T extends CallfireModel> List<NameValuePair> buildQueryParams(T request)
         throws CallfireClientException {
         List<NameValuePair> params = new ArrayList<>();
         Class<?> superclass = request.getClass().getSuperclass();

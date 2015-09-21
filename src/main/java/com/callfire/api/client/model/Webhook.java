@@ -1,11 +1,12 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
 import java.util.Set;
 
-public class Webhook extends BaseModel {
+public class Webhook extends CallfireModel {
     private Long id;
     private Boolean enabled;
     private String name;

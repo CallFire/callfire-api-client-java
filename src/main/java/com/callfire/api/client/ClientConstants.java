@@ -1,7 +1,8 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.model.Page;
-import com.callfire.api.client.model.ResourceId;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.ResourceIds;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.InputStream;
@@ -32,6 +33,8 @@ public interface ClientConstants {
         TypeReference<InputStream> INPUT_STREAM_TYPE = new TypeReference<InputStream>() {
         };
         TypeReference<ResourceId> RESOURCE_ID_TYPE = new TypeReference<ResourceId>() {
+        };
+        TypeReference<ResourceIds> RESOURCE_IDS_TYPE = new TypeReference<ResourceIds>() {
         };
         TypeReference<Page<ResourceId>> PAGE_OF_RESOURCE_ID_TYPE = new TypeReference<Page<ResourceId>>() {
         };

@@ -1,5 +1,6 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * User's account representation
  */
-public class Account extends BaseModel {
+public class Account extends CallfireModel {
     private Long id;
     private String email;
     private String name;

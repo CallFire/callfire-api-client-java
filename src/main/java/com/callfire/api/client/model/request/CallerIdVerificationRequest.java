@@ -1,6 +1,6 @@
 package com.callfire.api.client.model.request;
 
-import com.callfire.api.client.model.BaseModel;
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * <p>
  * POST /admin/callerids/{callerid}/verification-code
  */
-public class CallerIdVerificationRequest extends BaseModel {
+public class CallerIdVerificationRequest extends CallfireModel {
     private String verificationCode;
 
     public String getVerificationCode() {

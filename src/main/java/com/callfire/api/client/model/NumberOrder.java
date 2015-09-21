@@ -1,10 +1,11 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
 
-public class NumberOrder extends BaseModel {
+public class NumberOrder extends CallfireModel {
     private Long id;
     private Status status;
     private Date created;

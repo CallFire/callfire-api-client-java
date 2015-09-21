@@ -1,6 +1,6 @@
 package com.callfire.api.client.model.request;
 
-import com.callfire.api.client.ConvertToString;
+import com.callfire.api.client.api.common.model.request.ConvertToString;
 import com.callfire.api.client.model.Call;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

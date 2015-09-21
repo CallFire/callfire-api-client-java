@@ -1,11 +1,12 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CallRecord extends BaseModel {
+public class CallRecord extends CallfireModel {
     private Long id;
     private Float billedAmount;
     private Long created;

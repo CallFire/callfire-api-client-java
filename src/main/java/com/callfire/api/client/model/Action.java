@@ -1,11 +1,13 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.contacts.model.Contact;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Action extends BaseModel {
+public class Action extends CallfireModel {
     private Long id;
     private String fromNumber;
     private String toNumber;

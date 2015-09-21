@@ -1,5 +1,6 @@
 package com.callfire.api.client.model.request;
 
+import com.callfire.api.client.api.common.model.request.GetRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * Request object for GET /calls or /texts
  */
-public abstract class FindCallsTextsRequest extends FindRequest {
+public abstract class FindCallsTextsRequest extends GetRequest {
     protected Long campaignId;
     protected String fromNumber;
     protected String toNumber;

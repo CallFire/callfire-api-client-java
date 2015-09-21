@@ -1,8 +1,9 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Note extends BaseModel {
+public class Note extends CallfireModel {
     private String text;
     private Long created;
 

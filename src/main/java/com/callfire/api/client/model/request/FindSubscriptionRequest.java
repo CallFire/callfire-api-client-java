@@ -1,5 +1,6 @@
 package com.callfire.api.client.model.request;
 
+import com.callfire.api.client.api.common.model.request.GetRequest;
 import com.callfire.api.client.model.Subscription.NotificationFormat;
 import com.callfire.api.client.model.Subscription.TriggerEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Request object for GET /subscription which incapsulates
  * different query pairs
  */
-public class FindSubscriptionRequest extends FindRequest {
+public class FindSubscriptionRequest extends GetRequest {
     private Long campaignId;
     private TriggerEvent trigger;
     private NotificationFormat format;
@@ -60,7 +61,7 @@ public class FindSubscriptionRequest extends FindRequest {
     }
 
     /**
-     * Builder class for findSubscriptions method
+     * Builder class for find method
      */
     public static class Builder extends AbstractBuilder<Builder, FindSubscriptionRequest> {
         private Builder() {

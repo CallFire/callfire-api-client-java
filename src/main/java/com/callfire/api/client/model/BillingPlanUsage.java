@@ -1,5 +1,6 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.Date;
 /**
  * Object represents Plan usage statistics
  */
-public class BillingPlanUsage extends BaseModel {
+public class BillingPlanUsage extends CallfireModel {
     //@JsonFormat(pattern = DATE_FORMAT_PATTERN)
     private Date intervalStart;
    // @JsonFormat(pattern = DATE_FORMAT_PATTERN)

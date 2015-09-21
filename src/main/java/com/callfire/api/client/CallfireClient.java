@@ -1,8 +1,11 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.auth.BasicAuth;
-import com.callfire.api.client.endpoint.*;
-import com.callfire.api.client.endpoint.campaigns.CampaignsEndpoint;
+import com.callfire.api.client.api.*;
+import com.callfire.api.client.api.campaigns.CampaignsApi;
+import com.callfire.api.client.api.contacts.ContactsApi;
+import com.callfire.api.client.api.keywords.KeywordsApi;
+import com.callfire.api.client.api.numbers.NumbersApi;
 
 /**
  * Callfire API v2 client
@@ -12,16 +15,17 @@ import com.callfire.api.client.endpoint.campaigns.CampaignsEndpoint;
 public class CallfireClient {
     private RestApiClient restApiClient;
 
-    private SubscriptionsEndpoint subscriptionsEndpoint;
+    private SubscriptionsApi subscriptionsApi;
 
-    private MeEndpoint meEndpoint;
-    private CampaignsEndpoint campaignsEndpoint;
-    private TextsEndpoint textsEndpoint;
-    private KeywordsEndpoint keywordsEndpoint;
-    private CallsEndpoint callsEndpoint;
-    private NumbersEndpoint numbersEndpoint;
-    private OrdersEndpoint ordersEndpoint;
-    private WebhooksEndpoint webhooksEndpoint;
+    private CallsApi callsApi;
+    private ContactsApi contactsApi;
+    private MeApi meApi;
+    private CampaignsApi campaignsApi;
+    private TextsApi textsApi;
+    private KeywordsApi keywordsApi;
+    private NumbersApi numbersApi;
+    private OrdersApi ordersApi;
+    private WebhooksApi webhooksApi;
 
     /**
      * Constructs callfire client
@@ -38,11 +42,23 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public MeEndpoint getMeEndpoint() {
-        if (meEndpoint == null) {
-            meEndpoint = new MeEndpoint(restApiClient);
+    public MeApi getMeApi() {
+        if (meApi == null) {
+            meApi = new MeApi(restApiClient);
         }
-        return meEndpoint;
+        return meApi;
+    }
+
+    /**
+     * Get /contacts api endpoint
+     *
+     * @return endpoint object
+     */
+    public ContactsApi getContactsApi() {
+        if (contactsApi == null) {
+            contactsApi = new ContactsApi(restApiClient);
+        }
+        return contactsApi;
     }
 
     /**
@@ -50,37 +66,37 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public SubscriptionsEndpoint getSubscriptionsEndpoint() {
-        if (subscriptionsEndpoint == null) {
-            subscriptionsEndpoint = new SubscriptionsEndpoint(restApiClient);
+    public SubscriptionsApi getSubscriptionsApi() {
+        if (subscriptionsApi == null) {
+            subscriptionsApi = new SubscriptionsApi(restApiClient);
         }
-        return subscriptionsEndpoint;
+        return subscriptionsApi;
     }
 
     /**
      * Get /campaigns endpoint
      *
      * @return endpoint object
-     * @see CampaignsEndpoint
+     * @see CampaignsApi
      */
-    public CampaignsEndpoint getCampaignsEndpoint() {
-        if (campaignsEndpoint == null) {
-            campaignsEndpoint = new CampaignsEndpoint(restApiClient);
+    public CampaignsApi getCampaignsApi() {
+        if (campaignsApi == null) {
+            campaignsApi = new CampaignsApi(restApiClient);
         }
-        return campaignsEndpoint;
+        return campaignsApi;
     }
 
     /**
      * Get /texts endpoint
      *
      * @return endpoint object
-     * @see TextsEndpoint
+     * @see TextsApi
      */
-    public TextsEndpoint getTextsEndpoint() {
-        if (textsEndpoint == null) {
-            textsEndpoint = new TextsEndpoint(restApiClient);
+    public TextsApi getTextsApi() {
+        if (textsApi == null) {
+            textsApi = new TextsApi(restApiClient);
         }
-        return textsEndpoint;
+        return textsApi;
     }
 
     /**
@@ -88,11 +104,11 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public KeywordsEndpoint getKeywordsEndpoint() {
-        if (keywordsEndpoint == null) {
-            keywordsEndpoint = new KeywordsEndpoint(restApiClient);
+    public KeywordsApi getKeywordsApi() {
+        if (keywordsApi == null) {
+            keywordsApi = new KeywordsApi(restApiClient);
         }
-        return keywordsEndpoint;
+        return keywordsApi;
     }
 
     /**
@@ -100,11 +116,11 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public NumbersEndpoint getNumbersEndpoint() {
-        if (numbersEndpoint == null) {
-            numbersEndpoint = new NumbersEndpoint(restApiClient);
+    public NumbersApi getNumbersApi() {
+        if (numbersApi == null) {
+            numbersApi = new NumbersApi(restApiClient);
         }
-        return numbersEndpoint;
+        return numbersApi;
     }
 
     /**
@@ -112,11 +128,11 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public CallsEndpoint getCallsEndpoint() {
-        if (callsEndpoint == null) {
-            callsEndpoint = new CallsEndpoint(restApiClient);
+    public CallsApi getCallsApi() {
+        if (callsApi == null) {
+            callsApi = new CallsApi(restApiClient);
         }
-        return callsEndpoint;
+        return callsApi;
     }
 
     /**
@@ -124,11 +140,11 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public OrdersEndpoint getOrdersEndpoint() {
-        if (ordersEndpoint == null) {
-            ordersEndpoint = new OrdersEndpoint(restApiClient);
+    public OrdersApi getOrdersApi() {
+        if (ordersApi == null) {
+            ordersApi = new OrdersApi(restApiClient);
         }
-        return ordersEndpoint;
+        return ordersApi;
     }
 
     /**
@@ -136,11 +152,11 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public WebhooksEndpoint getWebhooksEndpoint() {
-        if (webhooksEndpoint == null) {
-            webhooksEndpoint = new WebhooksEndpoint(restApiClient);
+    public WebhooksApi getWebhooksApi() {
+        if (webhooksApi == null) {
+            webhooksApi = new WebhooksApi(restApiClient);
         }
-        return webhooksEndpoint;
+        return webhooksApi;
     }
 
     /**

@@ -1,12 +1,13 @@
 package com.callfire.api.client.model.request;
 
+import com.callfire.api.client.api.common.model.request.GetRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for GET /webhooks which incapsulates
  * different query pairs
  */
-public class FindWebhooksRequest extends FindRequest {
+public class FindWebhooksRequest extends GetRequest {
     private String name;
     private String resource;
     private String event;

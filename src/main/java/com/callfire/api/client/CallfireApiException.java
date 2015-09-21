@@ -1,6 +1,6 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.model.ErrorMessage;
+import com.callfire.api.client.api.common.model.ErrorMessage;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**

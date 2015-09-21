@@ -1,8 +1,9 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class Subscription extends BaseModel {
+public class Subscription extends CallfireModel {
     private Long id;
     private Boolean enabled;
     private String endpoint;

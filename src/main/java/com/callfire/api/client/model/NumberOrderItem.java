@@ -1,11 +1,12 @@
 package com.callfire.api.client.model;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NumberOrderItem extends BaseModel {
+public class NumberOrderItem extends CallfireModel {
     private Integer ordered;
     private Double unitCost;
     private List<String> fulfilled = new ArrayList<>();
