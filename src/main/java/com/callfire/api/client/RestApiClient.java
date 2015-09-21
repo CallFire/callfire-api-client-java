@@ -1,5 +1,6 @@
 package com.callfire.api.client;
 
+import com.callfire.api.client.auth.Authentication;
 import com.callfire.api.client.model.BaseModel;
 import com.callfire.api.client.model.ErrorMessage;
 import com.callfire.api.client.model.request.FindRequest;
@@ -8,16 +9,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.auth.AuthenticationException;
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
@@ -28,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.BASE_PATH;
+import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.USER_AGENT;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
-import static org.apache.http.entity.ContentType.*;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 /**
  * REST client which makes HTTP calls to Callfire service
@@ -41,16 +38,13 @@ import static org.apache.http.entity.ContentType.*;
 public class RestApiClient {
     private static final Logger LOGGER = new Logger(RestApiClient.class);
 
-    private static final ContentType AUDIO_MPEG = create("audio/mpeg");
-    private static final ContentType AUDIO_WAV = create("audio/wav");
-
     private HttpClient httpClient;
     private JsonConverter jsonConverter;
-    private UsernamePasswordCredentials credentials;
+    private Authentication authentication;
 
-    public RestApiClient(String username, String password) {
+    public RestApiClient(Authentication authentication) {
+        this.authentication = authentication;
         jsonConverter = new JsonConverter();
-        credentials = new UsernamePasswordCredentials(username, password);
         httpClient = HttpClientBuilder.create().setUserAgent(USER_AGENT).build();
     }
 
@@ -251,7 +245,7 @@ public class RestApiClient {
 
     @SuppressWarnings("unchecked")
     private <T> T doRequest(HttpUriRequest request, TypeReference<T> type) throws IOException {
-        HttpUriRequest httpRequest = addAuthorizationHeader(request);
+        HttpUriRequest httpRequest = authentication.apply(request);
         HttpResponse response = httpClient.execute(httpRequest);
 
         int statusCode = response.getStatusLine().getStatusCode();
@@ -276,15 +270,6 @@ public class RestApiClient {
         throw new CallfireApiException(jsonConverter.deserialize(result,
             new TypeReference<ErrorMessage>() {
             }));
-    }
-
-    private HttpUriRequest addAuthorizationHeader(HttpUriRequest request) throws CallfireClientException {
-        try {
-            request.addHeader(new BasicScheme().authenticate(credentials, request, null));
-            return request;
-        } catch (AuthenticationException e) {
-            throw new CallfireClientException(e);
-        }
     }
 
     // makes extra deserialization to get pretty json string, enable only in case of debugging

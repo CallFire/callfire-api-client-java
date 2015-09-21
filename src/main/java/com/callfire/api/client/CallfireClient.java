@@ -1,5 +1,6 @@
 package com.callfire.api.client;
 
+import com.callfire.api.client.auth.BasicAuth;
 import com.callfire.api.client.endpoint.*;
 import com.callfire.api.client.endpoint.campaigns.CampaignsEndpoint;
 
@@ -29,7 +30,7 @@ public class CallfireClient {
      * @param password api password
      */
     public CallfireClient(String username, String password) {
-        restApiClient = new RestApiClient(username, password);
+        restApiClient = new RestApiClient(new BasicAuth(username, password));
     }
 
     /**
