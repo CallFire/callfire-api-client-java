@@ -24,6 +24,7 @@ public class KeywordsEndpoint {
     };
 
     private RestApiClient client;
+    private KeywordLeasesEndpoint keywordLeasesEndpoint;
 
     public KeywordsEndpoint(RestApiClient client) {
         this.client = client;
@@ -56,5 +57,17 @@ public class KeywordsEndpoint {
      */
     public Boolean isKeywordAvailable(String keyword) throws CallfireApiException, CallfireClientException {
         return client.get(KEYWORD_AVAILABLE_PATH.replaceFirst(PLACEHOLDER, keyword), BOOLEAN_TYPE);
+    }
+
+    /**
+     * Get /keywords/leases api endpoint
+     *
+     * @return endpoint object
+     */
+    public KeywordLeasesEndpoint getKeywordLeasesEndpoint() {
+        if (keywordLeasesEndpoint == null) {
+            keywordLeasesEndpoint = new KeywordLeasesEndpoint(client);
+        }
+        return keywordLeasesEndpoint;
     }
 }
