@@ -4,9 +4,11 @@ import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.model.Call;
 import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.request.FindCallsRequest;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,6 +34,8 @@ public class CallsEndpointTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
         FindCallsRequest request = FindCallsRequest.create()
             .setStates(Arrays.asList(Call.State.FINISHED, Call.State.READY))
+            .setIntervalBegin(DateUtils.addMonths(new Date(), -2))
+            .setIntervalEnd(new Date())
             .setLimit(3L)
             .build();
         Page<Call> calls = callfireClient.getCallsEndpoint().findCalls(request);

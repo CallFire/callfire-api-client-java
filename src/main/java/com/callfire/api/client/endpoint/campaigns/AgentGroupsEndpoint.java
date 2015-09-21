@@ -3,7 +3,7 @@ package com.callfire.api.client.endpoint.campaigns;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
-import com.callfire.api.client.model.AgentGroup;
+import com.callfire.api.client.model.campaigns.AgentGroup;
 import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.ResourceId;
 import com.callfire.api.client.model.request.FindAgentGroupsRequest;

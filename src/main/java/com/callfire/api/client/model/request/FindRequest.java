@@ -13,6 +13,7 @@ public abstract class FindRequest extends BaseModel {
 
     /**
      * Get max number of records per page to return. If items.size() < limit assume no more items.
+     * If value not set, default is 100
      *
      * @return limit number
      */
@@ -22,6 +23,7 @@ public abstract class FindRequest extends BaseModel {
 
     /**
      * Get offset to start of page
+     * If value not set, default is 0
      *
      * @return offset
      */

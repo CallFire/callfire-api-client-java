@@ -3,7 +3,7 @@ package com.callfire.api.client.integration.endpoint.campaigns;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.endpoint.campaigns.AgentGroupsEndpoint;
 import com.callfire.api.client.integration.endpoint.AbstractIntegrationTest;
-import com.callfire.api.client.model.AgentGroup;
+import com.callfire.api.client.model.campaigns.AgentGroup;
 import com.callfire.api.client.model.Page;
 import com.callfire.api.client.model.ResourceId;
 import com.callfire.api.client.model.request.FindAgentGroupsRequest;

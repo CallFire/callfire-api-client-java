@@ -7,6 +7,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,6 +67,9 @@ public final class ClientUtils {
                     if (StringUtils.isEmpty((String) value)) {
                         return;
                     }
+                }
+                if (value instanceof Date) {
+                    value = ((Date) value).getTime();
                 }
                 params.add(new BasicNameValuePair(field.getName(), value.toString()));
             }

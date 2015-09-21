@@ -4,6 +4,8 @@ import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.endpoint.campaigns.SoundsEndpoint;
 import com.callfire.api.client.integration.endpoint.AbstractIntegrationTest;
 import com.callfire.api.client.model.*;
+import com.callfire.api.client.model.campaigns.CallCreateSound;
+import com.callfire.api.client.model.campaigns.CampaignSound;
 import com.callfire.api.client.model.request.FindSoundsRequest;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
@@ -14,7 +16,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
 
-import static com.callfire.api.client.model.CampaignSound.Status.ACTIVE;
+import static com.callfire.api.client.model.campaigns.CampaignSound.Status.ACTIVE;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.*;

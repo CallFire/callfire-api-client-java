@@ -12,6 +12,11 @@ public class FindSoundsRequest extends FindRequest {
     private FindSoundsRequest() {
     }
 
+    /**
+     * Create request builder
+     *
+     * @return request build
+     */
     public static Builder create() {
         return new Builder();
     }

@@ -1,19 +1,16 @@
 package com.callfire.api.client.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
-
-import static com.callfire.api.client.ClientConstants.DATE_FORMAT_PATTERN;
 
 /**
  * Object represents Plan usage statistics
  */
 public class BillingPlanUsage extends BaseModel {
-    @JsonFormat(pattern = DATE_FORMAT_PATTERN)
+    //@JsonFormat(pattern = DATE_FORMAT_PATTERN)
     private Date intervalStart;
-    @JsonFormat(pattern = DATE_FORMAT_PATTERN)
+   // @JsonFormat(pattern = DATE_FORMAT_PATTERN)
     private Date intervalEnd;
     private Double remainingPlanCredits;
     private Double remainingPayAsYouGoCredits;

@@ -28,6 +28,9 @@ public class KeywordPurchaseRequest extends BaseModel {
             .toString();
     }
 
+    /**
+     * Builder class for request
+     */
     public static class Builder {
         private KeywordPurchaseRequest request;
 

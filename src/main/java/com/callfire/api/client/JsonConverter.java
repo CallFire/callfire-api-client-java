@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import java.io.IOException;
 
@@ -15,8 +14,8 @@ public class JsonConverter {
     public JsonConverter() {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.registerModule(new JodaModule());
+    //    mapper.registerModule(new JodaModule());
+        mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     /**

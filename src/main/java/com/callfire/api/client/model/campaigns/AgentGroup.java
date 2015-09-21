@@ -1,5 +1,6 @@
-package com.callfire.api.client.model;
+package com.callfire.api.client.model.campaigns;
 
+import com.callfire.api.client.model.BaseModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;

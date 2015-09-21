@@ -25,6 +25,8 @@ public interface ClientConstants {
     interface Type {
         TypeReference<String> STRING_TYPE = new TypeReference<String>() {
         };
+        TypeReference<Void> VOID_TYPE = new TypeReference<Void>() {
+        };
         TypeReference<Boolean> BOOLEAN_TYPE = new TypeReference<Boolean>() {
         };
         TypeReference<InputStream> INPUT_STREAM_TYPE = new TypeReference<InputStream>() {
