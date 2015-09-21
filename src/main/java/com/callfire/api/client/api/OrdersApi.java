@@ -8,6 +8,7 @@ import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.keywords.model.request.KeywordPurchaseRequest;
 import com.callfire.api.client.api.numbers.model.request.NumberPurchaseRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
@@ -80,6 +81,7 @@ public class OrdersApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public NumberOrder getKeywordOrder(Long id, String fields) {
+        Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
         String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, "keyword").replaceFirst(PLACEHOLDER, id.toString());
@@ -108,6 +110,7 @@ public class OrdersApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public NumberOrder getNumberOrder(Long id, String fields) {
+        Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
         String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, "number").replaceFirst(PLACEHOLDER, id.toString());

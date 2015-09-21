@@ -7,6 +7,7 @@ import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.model.Text;
 import com.callfire.api.client.model.request.FindTextsRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class TextsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public Text getText(Long id, String fields) {
+        Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
         String path = TEXTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());

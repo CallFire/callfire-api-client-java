@@ -6,6 +6,7 @@ import com.callfire.api.client.api.common.model.ResourceIds;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Client constants
@@ -31,6 +32,8 @@ public interface ClientConstants {
         TypeReference<Boolean> BOOLEAN_TYPE = new TypeReference<Boolean>() {
         };
         TypeReference<InputStream> INPUT_STREAM_TYPE = new TypeReference<InputStream>() {
+        };
+        TypeReference<List<String>> LIST_OF_STRINGS_TYPE = new TypeReference<List<String>>() {
         };
         TypeReference<ResourceId> RESOURCE_ID_TYPE = new TypeReference<ResourceId>() {
         };

@@ -70,11 +70,17 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Test
     public void testVerifyCallerId() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        CallerIdVerificationRequest request = new CallerIdVerificationRequest();
-        request.setVerificationCode("1234");
-        Boolean verified = callfireClient.getMeApi().verifyCallerId(getCallerId(), request);
+        CallerIdVerificationRequest request = CallerIdVerificationRequest.create()
+            .setCallerId(getCallerId())
+            .setVerificationCode("1234")
+            .build();
+        Boolean verified = callfireClient.getMeApi().verifyCallerId(request);
         assertTrue(verified);
-        verified = callfireClient.getMeApi().verifyCallerId(getCallerId().replace("84", "85"), request);
+        request = CallerIdVerificationRequest.create()
+            .setCallerId(getCallerId().replace("84", "85"))
+            .setVerificationCode("1234")
+            .build();
+        verified = callfireClient.getMeApi().verifyCallerId(request);
         assertFalse(verified);
     }
 }

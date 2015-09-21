@@ -8,6 +8,7 @@ import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.model.Subscription;
 import com.callfire.api.client.model.request.FindSubscriptionRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class SubscriptionsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public Subscription getSubscription(Long id, String fields) {
+        Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
         String path = SUBSCRIPTIONS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
@@ -95,6 +97,7 @@ public class SubscriptionsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void updateSubscription(Subscription subscription) {
+        Validate.notNull(subscription.getId(), "subscription.id cannot be null");
         client.put(SUBSCRIPTIONS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(subscription.getId())),
             STRING_TYPE, subscription);
     }
@@ -107,6 +110,7 @@ public class SubscriptionsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void deleteSubscription(Long id) {
+        Validate.notNull(id, "id cannot be null");
         client.delete(SUBSCRIPTIONS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
     }
 }
