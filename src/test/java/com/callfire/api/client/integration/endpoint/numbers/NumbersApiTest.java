@@ -26,7 +26,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumbersTollfreeRequest request = FindNumbersTollfreeRequest.create()
-            .setLimit(2L)
+            .limit(2L)
             .build();
         List<Number> numbers = callfireClient.getNumbersApi().findNumbersTollfree(request);
         assertEquals(2, numbers.size());
@@ -39,8 +39,8 @@ public class NumbersApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumbersLocalRequest request = FindNumbersLocalRequest.create()
-            .setLimit(2L)
-            .setState("LA")
+            .limit(2L)
+            .state("LA")
             .build();
         List<Number> numbers = callfireClient.getNumbersApi().findNumbersLocal(request);
         assertEquals(2, numbers.size());
@@ -54,9 +54,9 @@ public class NumbersApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberRegionsRequest request = FindNumberRegionsRequest.create()
-            .setLimit(2L)
-            .setState("IL")
-            .setZipcode("60640")
+            .limit(2L)
+            .state("IL")
+            .zipcode("60640")
             .build();
         Page<Region> regions = callfireClient.getNumbersApi().findNumberRegions(request);
         assertEquals(2, regions.getItems().size());

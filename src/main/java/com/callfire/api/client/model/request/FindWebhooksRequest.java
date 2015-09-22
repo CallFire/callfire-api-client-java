@@ -66,32 +66,32 @@ public class FindWebhooksRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends AbstractBuilder<Builder, FindWebhooksRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindWebhooksRequest> {
         private Builder() {
             super(new FindWebhooksRequest());
         }
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             request.name = name;
             return this;
         }
 
-        public Builder setResource(String resource) {
+        public Builder resource(String resource) {
             request.resource = resource;
             return this;
         }
 
-        public Builder setEvent(String event) {
+        public Builder event(String event) {
             request.event = event;
             return this;
         }
 
-        public Builder setCallback(String callback) {
+        public Builder callback(String callback) {
             request.callback = callback;
             return this;
         }
 
-        public Builder setEnabled(Boolean enabled) {
+        public Builder enabled(Boolean enabled) {
             request.enabled = enabled;
             return this;
         }

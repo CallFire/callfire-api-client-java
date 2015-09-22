@@ -1,6 +1,7 @@
 package com.callfire.api.client.api.keywords.model.request;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
@@ -31,20 +32,14 @@ public class KeywordPurchaseRequest extends CallfireModel {
     /**
      * Builder class for request
      */
-    public static class Builder {
-        private KeywordPurchaseRequest request;
-
-        public Builder setKeywords(List<String> keywords) {
+    public static class Builder extends AbstractBuilder<KeywordPurchaseRequest> {
+        public Builder keywords(List<String> keywords) {
             request.keywords = keywords;
             return this;
         }
 
         private Builder() {
-            request = new KeywordPurchaseRequest();
-        }
-
-        public KeywordPurchaseRequest build() {
-            return request;
+            super(new KeywordPurchaseRequest());
         }
     }
 }

@@ -85,7 +85,7 @@ public abstract class FindByRegionDataRequest extends GetRequest {
      */
     @SuppressWarnings("unchecked")
     public static abstract class RegionDataBuilder<B extends RegionDataBuilder, R extends FindByRegionDataRequest>
-        extends AbstractBuilder<B, R> {
+        extends GetRequestBuilder<B, R> {
 
         protected RegionDataBuilder(R request) {
             super(request);
@@ -96,12 +96,12 @@ public abstract class FindByRegionDataRequest extends GetRequest {
          *
          * @param prefix 4-7 digit prefix
          */
-        public B setPrefix(String prefix) {
+        public B prefix(String prefix) {
             request.prefix = prefix;
             return (B) this;
         }
 
-        public B setCity(String city) {
+        public B city(String city) {
             request.city = city;
             return (B) this;
         }
@@ -111,7 +111,7 @@ public abstract class FindByRegionDataRequest extends GetRequest {
          *
          * @param state 2 letter state code
          */
-        public B setState(String state) {
+        public B state(String state) {
             request.state = state;
             return (B) this;
         }
@@ -121,7 +121,7 @@ public abstract class FindByRegionDataRequest extends GetRequest {
          *
          * @param zipcode 5 digit zipcode
          */
-        public B setZipcode(String zipcode) {
+        public B zipcode(String zipcode) {
             request.zipcode = zipcode;
             return (B) this;
         }
@@ -131,7 +131,7 @@ public abstract class FindByRegionDataRequest extends GetRequest {
          *
          * @param lata LATA code
          */
-        public B setLata(String lata) {
+        public B lata(String lata) {
             request.lata = lata;
             return (B) this;
         }
@@ -141,7 +141,7 @@ public abstract class FindByRegionDataRequest extends GetRequest {
          *
          * @param rateCenter RateCenter code
          */
-        public B setRateCenter(String rateCenter) {
+        public B rateCenter(String rateCenter) {
             request.rateCenter = rateCenter;
             return (B) this;
         }

@@ -1,17 +1,20 @@
 package com.callfire.api.client.api.contacts;
 
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactHistory;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.contacts.model.request.FindContactListsRequest;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Represents rest endpoint /contacts/lists
  */
-public class ListsApi {
+public class ContactListsApi {
     private static final String CONTACT_LISTS_PATH = "/contacts/lists";
     private static final String CONTACT_LISTS_ITEM_PATH = "/contacts/lists/{}";
     private static final String CONTACT_LISTS_UPLOAD_PATH = "/contacts/lists/upload";
@@ -26,7 +29,7 @@ public class ListsApi {
 
     private RestApiClient client;
 
-    public ListsApi(RestApiClient client) {
+    public ContactListsApi(RestApiClient client) {
         this.client = client;
     }
 
@@ -35,17 +38,20 @@ public class ListsApi {
      *
      * @param request request object with fields to filter
      * @return page with contacts
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<Contact> findContactLists(FindContactsRequest request) {
+    public Page<Contact> findContactLists(FindContactListsRequest request) {
         return client.get(CONTACT_LISTS_PATH, PAGE_OF_CONTACT_TYPE, request);
     }
 
     /**
      * Create contact lists
-     * Create contact list which includes list of contacts by ContactDto.
      *
      * @param body ~
-     * @return ResourceIdDto
+     * @return ResourceId with id of contact list
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
      */
     public ResourceId createContactList() {
         return null;

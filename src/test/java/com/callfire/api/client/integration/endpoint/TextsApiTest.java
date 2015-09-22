@@ -22,8 +22,8 @@ public class TextsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
 
         FindTextsRequest request = FindTextsRequest.create()
-            .setStates(Arrays.asList(State.FINISHED, State.READY))
-            .setResults(Arrays.asList(TextResult.SENT, TextResult.RECEIVED))
+            .states(Arrays.asList(State.FINISHED, State.READY))
+            .results(Arrays.asList(TextResult.SENT, TextResult.RECEIVED))
             .build();
         Page<Text> page = client.getTextsApi().findTexts(request);
         assertFalse(page.getItems().isEmpty());

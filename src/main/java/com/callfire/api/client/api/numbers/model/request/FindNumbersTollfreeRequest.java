@@ -23,7 +23,7 @@ public class FindNumbersTollfreeRequest extends GetRequest {
     /**
      * Builder class
      */
-    public static class Builder extends AbstractBuilder<Builder, FindNumbersTollfreeRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindNumbersTollfreeRequest> {
         private Builder() {
             super(new FindNumbersTollfreeRequest());
         }

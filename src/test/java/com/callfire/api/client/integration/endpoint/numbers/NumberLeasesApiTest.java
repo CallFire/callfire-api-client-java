@@ -28,7 +28,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
-            .setLimit(2L)
+            .limit(2L)
             .build();
         Page<NumberLease> leases = callfireClient.getNumbersApi().getNumberLeasesApi()
             .findNumberLeases(request);
@@ -75,7 +75,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
-            .setLimit(2L)
+            .limit(2L)
             .build();
         Page<NumberConfig> configs = callfireClient.getNumbersApi().getNumberLeasesApi()
             .findNumberLeaseConfigs(request);

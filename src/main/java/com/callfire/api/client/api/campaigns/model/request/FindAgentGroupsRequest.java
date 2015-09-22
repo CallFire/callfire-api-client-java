@@ -77,27 +77,27 @@ public class FindAgentGroupsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends AbstractBuilder<Builder, FindAgentGroupsRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindAgentGroupsRequest> {
         private Builder() {
             super(new FindAgentGroupsRequest());
         }
 
-        public Builder setCampaignId(Long campaignId) {
+        public Builder campaignId(Long campaignId) {
             request.campaignId = campaignId;
             return this;
         }
 
-        public Builder setName(String name) {
+        public Builder name(String name) {
             request.name = name;
             return this;
         }
 
-        public Builder setAgentId(Long agentId) {
+        public Builder agentId(Long agentId) {
             request.agentId = agentId;
             return this;
         }
 
-        public Builder setAgentEmail(String agentEmail) {
+        public Builder agentEmail(String agentEmail) {
             request.agentEmail = agentEmail;
             return this;
         }

@@ -42,7 +42,7 @@ public class FindTextAutoRepliesRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends AbstractBuilder<Builder, FindTextAutoRepliesRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindTextAutoRepliesRequest> {
         private Builder() {
             super(new FindTextAutoRepliesRequest());
         }
@@ -53,7 +53,7 @@ public class FindTextAutoRepliesRequest extends GetRequest {
          * @param number E.164 11 digit number to filter
          * @return builder object
          */
-        public Builder setNumber(String number) {
+        public Builder number(String number) {
             request.number = number;
             return this;
         }

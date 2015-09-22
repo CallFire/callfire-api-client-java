@@ -33,10 +33,10 @@ public class CallsApiTest extends AbstractIntegrationTest {
     public void testFindCalls() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
         FindCallsRequest request = FindCallsRequest.create()
-            .setStates(Arrays.asList(Call.State.FINISHED, Call.State.READY))
-            .setIntervalBegin(DateUtils.addMonths(new Date(), -2))
-            .setIntervalEnd(new Date())
-            .setLimit(3L)
+            .states(Arrays.asList(Call.State.FINISHED, Call.State.READY))
+            .intervalBegin(DateUtils.addMonths(new Date(), -2))
+            .intervalEnd(new Date())
+            .limit(3L)
             .build();
         Page<Call> calls = callfireClient.getCallsApi().findCalls(request);
 

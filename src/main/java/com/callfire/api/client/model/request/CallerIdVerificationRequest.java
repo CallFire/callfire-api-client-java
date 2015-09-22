@@ -1,6 +1,7 @@
 package com.callfire.api.client.model.request;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -31,25 +32,20 @@ public class CallerIdVerificationRequest extends CallfireModel {
     /**
      * Builder class for request
      */
-    public static class Builder {
-        private CallerIdVerificationRequest request;
+    public static class Builder extends AbstractBuilder<CallerIdVerificationRequest> {
 
-        public Builder setVerificationCode(String verificationCode) {
+        public Builder verificationCode(String verificationCode) {
             request.verificationCode = verificationCode;
             return this;
         }
 
-        public Builder setCallerId(String callerId) {
+        public Builder callerId(String callerId) {
             request.callerId = callerId;
             return this;
         }
 
         private Builder() {
-            request = new CallerIdVerificationRequest();
-        }
-
-        public CallerIdVerificationRequest build() {
-            return request;
+            super(new CallerIdVerificationRequest());
         }
     }
 }

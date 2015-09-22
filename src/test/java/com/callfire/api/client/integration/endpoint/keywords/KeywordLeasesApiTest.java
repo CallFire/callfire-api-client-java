@@ -23,7 +23,7 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindKeywordLeasesRequest request = FindKeywordLeasesRequest.create()
-            .setLimit(1L)
+            .limit(1L)
             .build();
         Page<KeywordLease> leases = callfireClient.getKeywordsApi().getKeywordLeasesApi()
             .findKeywordLeases(request);

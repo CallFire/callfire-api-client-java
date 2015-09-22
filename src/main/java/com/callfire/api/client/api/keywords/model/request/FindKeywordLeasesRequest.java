@@ -8,7 +8,7 @@ import com.callfire.api.client.api.common.model.request.GetRequest;
  */
 public class FindKeywordLeasesRequest extends GetRequest {
 
-    protected FindKeywordLeasesRequest() {
+    private FindKeywordLeasesRequest() {
     }
 
     /**
@@ -23,9 +23,9 @@ public class FindKeywordLeasesRequest extends GetRequest {
     /**
      * Builder class
      */
-    public static class Builder extends AbstractBuilder<Builder, FindKeywordLeasesRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindKeywordLeasesRequest> {
 
-        protected Builder() {
+        private Builder() {
             super(new FindKeywordLeasesRequest());
         }
     }

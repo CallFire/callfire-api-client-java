@@ -7,7 +7,7 @@ package com.callfire.api.client.api.numbers.model.request;
 public class FindNumberLeaseConfigsRequest extends FindByRegionDataRequest {
     private String labelName;
 
-    protected FindNumberLeaseConfigsRequest() {
+    private FindNumberLeaseConfigsRequest() {
     }
 
     /**
@@ -28,11 +28,11 @@ public class FindNumberLeaseConfigsRequest extends FindByRegionDataRequest {
      */
     public static class Builder extends RegionDataBuilder<Builder, FindNumberLeaseConfigsRequest> {
 
-        protected Builder() {
+        private Builder() {
             super(new FindNumberLeaseConfigsRequest());
         }
 
-        public Builder setLabelName(String labelName) {
+        public Builder labelName(String labelName) {
             request.labelName = labelName;
             return this;
         }

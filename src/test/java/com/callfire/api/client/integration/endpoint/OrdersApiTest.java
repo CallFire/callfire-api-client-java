@@ -24,7 +24,7 @@ public class OrdersApiTest extends AbstractIntegrationTest {
     public void testOrderKeywords() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
         KeywordPurchaseRequest request = KeywordPurchaseRequest.create()
-            .setKeywords(Arrays.asList("TEST1", "TEST2"))
+            .keywords(Arrays.asList("TEST1", "TEST2"))
             .build();
         ResourceId resourceId = callfireClient.getOrdersApi().orderKeywords(request);
         assertNotNull(resourceId.getId());
@@ -41,7 +41,7 @@ public class OrdersApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         NumberPurchaseRequest request = NumberPurchaseRequest.create()
-            .setNumbers(Arrays.asList("12132005646"))
+            .numbers(Arrays.asList("12132005646"))
             .build();
         ResourceId resourceId = callfireClient.getOrdersApi().orderNumbers(request);
         assertNotNull(resourceId.getId());

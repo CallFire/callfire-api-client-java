@@ -33,8 +33,8 @@ public class SoundsApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindSoundsRequest request = FindSoundsRequest.create()
-            .setLimit(3L)
-            .setFilter("sample")
+            .limit(3L)
+            .filter("sample")
             .build();
         Page<CampaignSound> campaignSounds = callfireClient.getCampaignsApi().getSoundsApi()
             .findCampaignSounds(request);

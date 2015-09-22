@@ -15,7 +15,7 @@ public class FindContactsRequest extends GetRequest {
     private List<String> number;
     private List<Long> id;
 
-    protected FindContactsRequest() {
+    private FindContactsRequest() {
     }
 
     public Long getContactListId() {
@@ -60,12 +60,12 @@ public class FindContactsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends AbstractBuilder<Builder, FindContactsRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindContactsRequest> {
         private Builder() {
             super(new FindContactsRequest());
         }
 
-        public Builder setContactListId(Long contactListId) {
+        public Builder contactListId(Long contactListId) {
             request.contactListId = contactListId;
             return this;
         }
@@ -76,7 +76,7 @@ public class FindContactsRequest extends GetRequest {
          * @param propertyName name of contact property to search by
          * @return builder self-reference
          */
-        public Builder setPropertyName(String propertyName) {
+        public Builder propertyName(String propertyName) {
             request.propertyName = propertyName;
             return this;
         }
@@ -87,17 +87,17 @@ public class FindContactsRequest extends GetRequest {
          * @param propertyValue value of contact property to search by
          * @return builder self-reference
          */
-        public Builder setPropertyValue(String propertyValue) {
+        public Builder propertyValue(String propertyValue) {
             request.propertyValue = propertyValue;
             return this;
         }
 
-        public Builder setNumber(List<String> number) {
+        public Builder number(List<String> number) {
             request.number = number;
             return this;
         }
 
-        public Builder setId(List<Long> id) {
+        public Builder id(List<Long> id) {
             request.id = id;
             return this;
         }

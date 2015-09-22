@@ -70,7 +70,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          *
          * @param states list of states to filter
          */
-        public Builder setStates(List<State> states) {
+        public Builder states(List<State> states) {
             request.states = states;
             return this;
         }
@@ -80,7 +80,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          *
          * @param results text results to set
          */
-        public Builder setResults(List<TextResult> results) {
+        public Builder results(List<TextResult> results) {
             request.results = results;
             return this;
         }

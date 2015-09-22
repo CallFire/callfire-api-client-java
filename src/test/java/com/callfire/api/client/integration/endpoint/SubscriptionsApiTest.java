@@ -32,9 +32,9 @@ public class SubscriptionsApiTest extends AbstractIntegrationTest {
         ResourceId resourceId2 = callfireClient.getSubscriptionsApi().createSubscription(subscription);
 
         FindSubscriptionRequest findRequest = FindSubscriptionRequest.create()
-            .setLimit(30L)
-            .setFormat(JSON)
-            .setFields("items(id,endpoint)")
+            .limit(30L)
+            .format(JSON)
+            .fields("items(id,endpoint)")
             .build();
         Page<Subscription> page = callfireClient.getSubscriptionsApi().findSubscriptions(findRequest);
         assertEquals(Long.valueOf(1), page.getTotalCount());

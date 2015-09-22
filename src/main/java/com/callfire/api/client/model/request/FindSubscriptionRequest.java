@@ -63,32 +63,32 @@ public class FindSubscriptionRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends AbstractBuilder<Builder, FindSubscriptionRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindSubscriptionRequest> {
         private Builder() {
             super(new FindSubscriptionRequest());
         }
 
-        public Builder setCampaignId(Long campaignId) {
+        public Builder campaignId(Long campaignId) {
             request.campaignId = campaignId;
             return this;
         }
 
-        public Builder setTrigger(TriggerEvent trigger) {
+        public Builder trigger(TriggerEvent trigger) {
             request.trigger = trigger;
             return this;
         }
 
-        public Builder setFormat(NotificationFormat format) {
+        public Builder format(NotificationFormat format) {
             request.format = format;
             return this;
         }
 
-        public Builder setFromNumber(String fromNumber) {
+        public Builder fromNumber(String fromNumber) {
             request.fromNumber = fromNumber;
             return this;
         }
 
-        public Builder setToNumber(String toNumber) {
+        public Builder toNumber(String toNumber) {
             request.toNumber = toNumber;
             return this;
         }

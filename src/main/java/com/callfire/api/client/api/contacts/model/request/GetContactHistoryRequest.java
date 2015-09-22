@@ -9,7 +9,7 @@ import com.callfire.api.client.api.common.model.request.GetRequest;
 public class GetContactHistoryRequest extends GetRequest {
     private Long id;
 
-    protected GetContactHistoryRequest() {
+    private GetContactHistoryRequest() {
     }
 
     public Long getId() {
@@ -28,7 +28,7 @@ public class GetContactHistoryRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends AbstractBuilder<Builder, GetContactHistoryRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, GetContactHistoryRequest> {
         private Builder() {
             super(new GetContactHistoryRequest());
         }
@@ -39,7 +39,7 @@ public class GetContactHistoryRequest extends GetRequest {
          * @param id id of contact
          * @return builder self-reference
          */
-        public Builder setId(Long id) {
+        public Builder id(Long id) {
             request.id = id;
             return this;
         }

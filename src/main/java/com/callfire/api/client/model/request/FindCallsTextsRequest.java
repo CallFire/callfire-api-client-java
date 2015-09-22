@@ -15,7 +15,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
     protected String toNumber;
     protected String label;
     protected Boolean inbound;
-  //  @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+    //  @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     protected Date intervalBegin;
     protected Date intervalEnd;
     protected List<Long> id;
@@ -112,7 +112,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
      */
     @SuppressWarnings("unchecked")
     public static abstract class CallsTextsBuilder<B extends CallsTextsBuilder, R extends FindCallsTextsRequest>
-        extends AbstractBuilder<B, R> {
+        extends GetRequestBuilder<B, R> {
 
         public CallsTextsBuilder(R request) {
             super(request);
@@ -123,7 +123,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param fromNumber phone number text was sent from
          */
-        public B setFromNumber(String fromNumber) {
+        public B fromNumber(String fromNumber) {
             request.fromNumber = fromNumber;
             return (B) this;
         }
@@ -133,7 +133,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param label label assigned with text
          */
-        public B setLabel(String label) {
+        public B label(String label) {
             request.label = label;
             return (B) this;
         }
@@ -143,7 +143,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param campaignId id of campaign
          */
-        public B setCampaignId(Long campaignId) {
+        public B campaignId(Long campaignId) {
             request.campaignId = campaignId;
             return (B) this;
         }
@@ -153,7 +153,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param toNumber phone number text was sent to
          */
-        public B setToNumber(String toNumber) {
+        public B toNumber(String toNumber) {
             request.toNumber = toNumber;
             return (B) this;
         }
@@ -163,7 +163,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param inbound true if text inbound
          */
-        public B setInbound(Boolean inbound) {
+        public B inbound(Boolean inbound) {
             request.inbound = inbound;
             return (B) this;
         }
@@ -173,7 +173,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param intervalBegin beginning of time interval
          */
-        public B setIntervalBegin(Date intervalBegin) {
+        public B intervalBegin(Date intervalBegin) {
             request.intervalBegin = intervalBegin;
             return (B) this;
         }
@@ -183,7 +183,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param intervalEnd end of time interval
          */
-        public B setIntervalEnd(Date intervalEnd) {
+        public B intervalEnd(Date intervalEnd) {
             request.intervalEnd = intervalEnd;
             return (B) this;
         }
@@ -193,7 +193,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
          *
          * @param id text ids to filter
          */
-        public B setId(List<Long> id) {
+        public B id(List<Long> id) {
             request.id = id;
             return (B) this;
         }

@@ -35,7 +35,7 @@ public class ContactsApi {
     };
 
     private RestApiClient client;
-    private ListsApi listsApi;
+    private ContactListsApi contactListsApi;
 
     public ContactsApi(RestApiClient client) {
         this.client = client;
@@ -71,6 +71,8 @@ public class ContactsApi {
      *
      * @param id id of contact
      * @return requested contact
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
      */
     public Contact getContact(Long id) {
         return getContact(id, null);
@@ -83,6 +85,8 @@ public class ContactsApi {
      * @param id     id of contact
      * @param fields limit fields returned. Example fields=id,name
      * @return requested contact
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
      */
     public Contact getContact(Long id, String fields) {
         List<NameValuePair> queryParams = new ArrayList<>();
@@ -94,6 +98,8 @@ public class ContactsApi {
      * Update contact
      *
      * @param contact contact to update
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
      */
     public void updateContact(Contact contact) {
         client.post(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, contact.getId().toString()), VOID_TYPE, contact);
@@ -104,6 +110,8 @@ public class ContactsApi {
      * any contact lists and marks the contact as deleted so won't show up in queries anymore.
      *
      * @param id id of contact
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
      */
     public void deleteContact(Long id) {
         client.delete(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
@@ -128,10 +136,10 @@ public class ContactsApi {
      *
      * @return endpoint object
      */
-    public ListsApi getListsApi() {
-        if (listsApi == null) {
-            listsApi = new ListsApi(client);
+    public ContactListsApi getContactListsApi() {
+        if (contactListsApi == null) {
+            contactListsApi = new ContactListsApi(client);
         }
-        return listsApi;
+        return contactListsApi;
     }
 }

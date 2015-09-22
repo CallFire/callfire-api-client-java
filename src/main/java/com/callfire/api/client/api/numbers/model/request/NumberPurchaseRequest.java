@@ -1,6 +1,7 @@
 package com.callfire.api.client.api.numbers.model.request;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
@@ -76,60 +77,55 @@ public class NumberPurchaseRequest extends CallfireModel {
             .toString();
     }
 
-    public static class Builder {
-        private NumberPurchaseRequest request;
+    public static class Builder extends AbstractBuilder<NumberPurchaseRequest> {
 
         private Builder() {
-            request = new NumberPurchaseRequest();
+            super(new NumberPurchaseRequest());
         }
 
-        public Builder setTollFreeCount(Integer tollFreeCount) {
+        public Builder tollFreeCount(Integer tollFreeCount) {
             request.tollFreeCount = tollFreeCount;
             return this;
         }
 
-        public Builder setNumbers(List<String> numbers) {
+        public Builder numbers(List<String> numbers) {
             request.numbers = numbers;
             return this;
         }
 
-        public Builder setRateCenter(String rateCenter) {
+        public Builder rateCenter(String rateCenter) {
             request.rateCenter = rateCenter;
             return this;
         }
 
-        public Builder setLocalCount(Integer localCount) {
+        public Builder localCount(Integer localCount) {
             request.localCount = localCount;
             return this;
         }
 
-        public Builder setPrefix(String prefix) {
+        public Builder prefix(String prefix) {
             request.prefix = prefix;
             return this;
         }
 
-        public Builder setCity(String city) {
+        public Builder city(String city) {
             request.city = city;
             return this;
         }
 
-        public Builder setLata(String lata) {
+        public Builder lata(String lata) {
             request.lata = lata;
             return this;
         }
 
-        public Builder setZipcode(String zipcode) {
+        public Builder zipcode(String zipcode) {
             request.zipcode = zipcode;
             return this;
         }
 
-        public Builder setState(String state) {
+        public Builder state(String state) {
             request.state = state;
             return this;
-        }
-
-        public NumberPurchaseRequest build() {
-            return request;
         }
     }
 }

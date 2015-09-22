@@ -69,7 +69,7 @@ public class FindCallsRequest extends FindCallsTextsRequest {
          *
          * @param states list of states to filter
          */
-        public Builder setStates(List<Call.State> states) {
+        public Builder states(List<Call.State> states) {
             request.states = states;
             return this;
         }
@@ -79,7 +79,7 @@ public class FindCallsRequest extends FindCallsTextsRequest {
          *
          * @param results text results to set
          */
-        public Builder setResults(List<Call.FinalCallResult> results) {
+        public Builder results(List<Call.FinalCallResult> results) {
             request.results = results;
             return this;
         }

@@ -55,11 +55,11 @@ public abstract class GetRequest extends CallfireModel {
      * @param <B> type of builder
      */
     @SuppressWarnings("unchecked")
-    public static abstract class AbstractBuilder<B extends AbstractBuilder, R extends GetRequest> {
-        protected final R request;
+    public static abstract class GetRequestBuilder<B extends GetRequestBuilder, R extends GetRequest>
+        extends AbstractBuilder<R> {
 
-        protected AbstractBuilder(R request) {
-            this.request = request;
+        protected GetRequestBuilder(R request) {
+            super(request);
         }
 
         /**
@@ -68,7 +68,7 @@ public abstract class GetRequest extends CallfireModel {
          * @param limit max number of items
          * @return builder object
          */
-        public B setLimit(Long limit) {
+        public B limit(Long limit) {
             request.limit = limit;
             return (B) this;
         }
@@ -79,7 +79,7 @@ public abstract class GetRequest extends CallfireModel {
          * @param offset offset value
          * @return builder object
          */
-        public B setOffset(Long offset) {
+        public B offset(Long offset) {
             request.offset = offset;
             return (B) this;
         }
@@ -90,18 +90,9 @@ public abstract class GetRequest extends CallfireModel {
          * @param fields fields to return
          * @return builder object
          */
-        public B setFields(String fields) {
+        public B fields(String fields) {
             request.fields = fields;
             return (B) this;
-        }
-
-        /**
-         * Build request
-         *
-         * @return find request pojo
-         */
-        public R build() {
-            return request;
         }
     }
 }

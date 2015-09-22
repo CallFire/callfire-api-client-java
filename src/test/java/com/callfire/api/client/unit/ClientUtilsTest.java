@@ -19,9 +19,9 @@ public class ClientUtilsTest {
     @Test
     public void testBuildQueryParams() throws Exception {
         FindCallsRequest request = FindCallsRequest.create()
-            .setLimit(3L)
-            .setCampaignId(2L)
-            .setResults(Arrays.asList(Call.FinalCallResult.AM, Call.FinalCallResult.BUSY))
+            .limit(3L)
+            .campaignId(2L)
+            .results(Arrays.asList(Call.FinalCallResult.AM, Call.FinalCallResult.BUSY))
             .build();
         List<NameValuePair> queryParams = ClientUtils.buildQueryParams(request);
         assertEquals(3, queryParams.size());

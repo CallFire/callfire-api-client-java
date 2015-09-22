@@ -42,12 +42,12 @@ public class FindSoundsRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends AbstractBuilder<Builder, FindSoundsRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindSoundsRequest> {
         private Builder() {
             super(new FindSoundsRequest());
         }
 
-        public Builder setFilter(String filter) {
+        public Builder filter(String filter) {
             request.filter = filter;
             return this;
         }

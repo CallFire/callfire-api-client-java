@@ -34,7 +34,7 @@ public class TextAutoRepliesApiTest extends AbstractIntegrationTest {
         assertNotNull(resourceId.getId());
 
         FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.create()
-            .setNumber(getDid1())
+            .number(getDid1())
             .build();
         Page<TextAutoReply> textAutoReplies = endpoint.findTextAutoReplies(request);
         assertEquals(Long.valueOf(1), textAutoReplies.getTotalCount());

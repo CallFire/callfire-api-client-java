@@ -52,9 +52,9 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
 
         // test QBE
         FindAgentGroupsRequest request = FindAgentGroupsRequest.create()
-            .setLimit(100L)
-            .setOffset(0L)
-            .setFields("items(id)")
+            .limit(100L)
+            .offset(0L)
+            .fields("items(id)")
             .build();
         Page<AgentGroup> agentGroupPage = agentGroupsApi.findAgentGroups(request);
         List<AgentGroup> items = agentGroupPage.getItems();
