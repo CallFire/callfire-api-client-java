@@ -3,23 +3,18 @@ package com.callfire.api.client.api.contacts.model.request;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Request object for POST /contacts/lists/{id}/items which incapsulates
+ * Request object for POST /contacts/do-not-calls/lists/{id}/items which incapsulates
  * different query pairs
  */
-public class AddContactListItemsRequest<T> extends AddContactsRequest<T> {
+public class AddDncListItemsRequest<T> extends AddContactsRequest<T> {
     @JsonIgnore
     private Long contactListId;
-    private String contactNumbersField;
 
-    private AddContactListItemsRequest() {
+    private AddDncListItemsRequest() {
     }
 
     public Long getContactListId() {
         return contactListId;
-    }
-
-    public String getContactNumbersField() {
-        return contactNumbersField;
     }
 
     /**
@@ -34,18 +29,13 @@ public class AddContactListItemsRequest<T> extends AddContactsRequest<T> {
     /**
      * Builder class for find method
      */
-    public static class Builder<T> extends AddContactsBuilder<T, AddContactListItemsRequest<T>> {
+    public static class Builder<T> extends AddContactsBuilder<T, AddDncListItemsRequest<T>> {
         private Builder() {
-            super(new AddContactListItemsRequest<T>());
+            super(new AddDncListItemsRequest<T>());
         }
 
         public Builder<T> contactListId(Long contactListId) {
             request.contactListId = contactListId;
-            return this;
-        }
-
-        public Builder<T> contactNumbersField(String contactNumbersField) {
-            request.contactNumbersField = contactNumbersField;
             return this;
         }
     }

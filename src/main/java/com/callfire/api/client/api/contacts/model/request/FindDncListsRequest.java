@@ -3,13 +3,14 @@ package com.callfire.api.client.api.contacts.model.request;
 import com.callfire.api.client.api.common.model.request.GetRequest;
 
 /**
- * Request object for GET /contacts/lists which incapsulates
+ * Request object for GET /contacts/do-not-calls/lists which incapsulates
  * different query pairs
  */
-public class FindContactListsRequest extends GetRequest {
+public class FindDncListsRequest extends GetRequest {
     private String name;
+    private Long campaignId;
 
-    private FindContactListsRequest() {
+    private FindDncListsRequest() {
     }
 
     /**
@@ -19,6 +20,10 @@ public class FindContactListsRequest extends GetRequest {
      */
     public String getName() {
         return name;
+    }
+
+    public Long getCampaignId() {
+        return campaignId;
     }
 
     /**
@@ -33,9 +38,9 @@ public class FindContactListsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindContactListsRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindDncListsRequest> {
         private Builder() {
-            super(new FindContactListsRequest());
+            super(new FindDncListsRequest());
         }
 
         /**
@@ -46,6 +51,11 @@ public class FindContactListsRequest extends GetRequest {
          */
         public Builder name(String name) {
             request.name = name;
+            return this;
+        }
+
+        public Builder campaignId(Long campaignId) {
+            request.campaignId = campaignId;
             return this;
         }
     }

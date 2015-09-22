@@ -2,6 +2,7 @@ package com.callfire.api.client;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.ConvertToString;
+import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -29,6 +30,22 @@ public final class ClientUtils {
     public static void addQueryParamIfSet(String name, Object value, List<NameValuePair> queryParams) {
         if (name != null && value != null && queryParams != null) {
             queryParams.add(new BasicNameValuePair(name, Objects.toString(value)));
+        }
+    }
+
+    /**
+     * Add query param to map, collection values will be joined with comma-separator
+     *
+     * @param name        parameter name
+     * @param value       collection with values
+     * @param queryParams parameters map
+     */
+    public static void addQueryParamIfSet(String name, Iterable value, List<NameValuePair> queryParams) {
+        if (name != null && value != null && queryParams != null) {
+            String params = StringUtils.join(value, ",");
+            if (StringUtils.isNotEmpty(params)) {
+                queryParams.add(new BasicNameValuePair(name, params));
+            }
         }
     }
 
@@ -61,6 +78,10 @@ public final class ClientUtils {
     private static void readField(Object request, List<NameValuePair> params, Field field) {
         try {
             field.setAccessible(true);
+            if (field.isAnnotationPresent(QueryParamIgnore.class) &&
+                field.getAnnotation(QueryParamIgnore.class).enabled()) {
+                return;
+            }
             Object value = field.get(request);
             if (value != null) {
                 if (field.isAnnotationPresent(ConvertToString.class) && value instanceof Iterable) {

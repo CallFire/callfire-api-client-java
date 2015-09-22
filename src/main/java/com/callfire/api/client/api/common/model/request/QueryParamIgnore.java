@@ -6,16 +6,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Converts iterable field to string representation using provided separator char
- * [A, B, C] => "A,B,C"
+ * Excludes selected field from http query
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ConvertToString {
+public @interface QueryParamIgnore {
     /**
-     * Separator between joined strings. Comma by default.
+     * Set annotation enabled. Enabled by default
      *
-     * @return values separator
+     * @return true if annotation enabled
      */
-    public String separator() default ",";
+    public boolean enabled() default true;
 }

@@ -1,9 +1,8 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.auth.Authentication;
 import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.auth.Authentication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpEntity;
@@ -26,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.callfire.api.client.ClientConstants.BASE_PATH;
+import static com.callfire.api.client.ClientConstants.Type.ERROR_MESSAGE_TYPE;
 import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.USER_AGENT;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
@@ -233,10 +233,24 @@ public class RestApiClient {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void delete(String path) {
+        delete(path, new ArrayList<NameValuePair>());
+    }
+
+    /**
+     * Performs DELETE request to specified path with query parameters
+     *
+     * @param path        request path
+     * @param queryParams query parameters
+     * @throws CallfireApiException    in case API cannot be queried for some reason
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void delete(String path, List<NameValuePair> queryParams) {
         try {
             String uri = BASE_PATH + path;
-            LOGGER.debug("DELETE request to {}", uri);
-            doRequest(RequestBuilder.delete(uri).build(), STRING_TYPE);
+            LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
+            RequestBuilder requestBuilder = RequestBuilder.delete(uri);
+            requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
+            doRequest(requestBuilder.build(), STRING_TYPE);
             LOGGER.debug("delete executed");
         } catch (IOException e) {
             throw new CallfireClientException(e);
@@ -267,9 +281,7 @@ public class RestApiClient {
     }
 
     private void createAndThrowCallfireApiException(String result) throws CallfireApiException {
-        throw new CallfireApiException(jsonConverter.deserialize(result,
-            new TypeReference<ErrorMessage>() {
-            }));
+        throw new CallfireApiException(jsonConverter.deserialize(result, ERROR_MESSAGE_TYPE));
     }
 
     // makes extra deserialization to get pretty json string, enable only in case of debugging

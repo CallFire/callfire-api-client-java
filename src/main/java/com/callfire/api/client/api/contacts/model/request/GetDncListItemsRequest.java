@@ -4,14 +4,15 @@ import com.callfire.api.client.api.common.model.request.GetRequest;
 import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
 
 /**
- * Request object for GET /contacts/{id}/history which incapsulates
+ * Request object for GET /contacts/do-not-calls/lists/{id}/items which incapsulates
  * different query pairs
  */
-public class GetContactHistoryRequest extends GetRequest {
+// TODO vmikhailov move all requests with only one id property to CommonGetRequest class
+public class GetDncListItemsRequest extends GetRequest {
     @QueryParamIgnore
     private Long id;
 
-    private GetContactHistoryRequest() {
+    private GetDncListItemsRequest() {
     }
 
     public Long getId() {
@@ -30,15 +31,15 @@ public class GetContactHistoryRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, GetContactHistoryRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, GetDncListItemsRequest> {
         private Builder() {
-            super(new GetContactHistoryRequest());
+            super(new GetDncListItemsRequest());
         }
 
         /**
-         * Set contact id
+         * Set DNC list id
          *
-         * @param id id of contact
+         * @param id id of DNC list
          * @return builder self-reference
          */
         public Builder id(Long id) {

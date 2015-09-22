@@ -10,6 +10,7 @@ import com.callfire.api.client.api.common.model.ResourceIds;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
 import com.callfire.api.client.api.contacts.model.request.GetContactHistoryRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
@@ -27,15 +28,17 @@ public class ContactsApi {
     private static final String CONTACTS_PATH = "/contacts";
     private static final String CONTACTS_ITEM_PATH = "/contacts/{}";
     private static final String CONTACTS_ITEM_HISTORY_PATH = "/contacts/{}/history";
-    private static final TypeReference<Page<Contact>> PAGE_OF_CONTACT_TYPE = new TypeReference<Page<Contact>>() {
-    };
     private static final TypeReference<Contact> CONTACT_TYPE = new TypeReference<Contact>() {
     };
     private static final TypeReference<ContactHistory> CONTACT_HISTORY_TYPE = new TypeReference<ContactHistory>() {
     };
 
     private RestApiClient client;
+    private DncApi dncApi;
     private ContactListsApi contactListsApi;
+
+    public static final TypeReference<Page<Contact>> PAGE_OF_CONTACT_TYPE = new TypeReference<Page<Contact>>() {
+    };
 
     public ContactsApi(RestApiClient client) {
         this.client = client;
@@ -89,7 +92,8 @@ public class ContactsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public Contact getContact(Long id, String fields) {
-        List<NameValuePair> queryParams = new ArrayList<>();
+        Validate.notNull(id, "id cannot be null");
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.get(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), CONTACT_TYPE, queryParams);
     }
@@ -102,6 +106,7 @@ public class ContactsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void updateContact(Contact contact) {
+        Validate.notNull(contact.getId(), "contact.id cannot be null");
         client.post(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, contact.getId().toString()), VOID_TYPE, contact);
     }
 
@@ -114,6 +119,7 @@ public class ContactsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void deleteContact(Long id) {
+        Validate.notNull(id, "id cannot be null");
         client.delete(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
     }
 
@@ -127,8 +133,21 @@ public class ContactsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public ContactHistory getContactHistory(GetContactHistoryRequest request) {
+        Validate.notNull(request.getId(), "request.id cannot be null");
         String path = CONTACTS_ITEM_HISTORY_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, CONTACT_HISTORY_TYPE, request);
+    }
+
+    /**
+     * Get /contacts/do-not-calls api endpoint
+     *
+     * @return endpoint object
+     */
+    public DncApi getDncApi() {
+        if (dncApi == null) {
+            dncApi = new DncApi(client);
+        }
+        return dncApi;
     }
 
     /**

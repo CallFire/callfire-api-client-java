@@ -1,5 +1,6 @@
 package com.callfire.api.client;
 
+import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.ResourceIds;
@@ -40,6 +41,8 @@ public interface ClientConstants {
         TypeReference<ResourceIds> RESOURCE_IDS_TYPE = new TypeReference<ResourceIds>() {
         };
         TypeReference<Page<ResourceId>> PAGE_OF_RESOURCE_ID_TYPE = new TypeReference<Page<ResourceId>>() {
+        };
+        TypeReference<ErrorMessage> ERROR_MESSAGE_TYPE = new TypeReference<ErrorMessage>() {
         };
     }
 }
