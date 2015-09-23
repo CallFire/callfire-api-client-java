@@ -1,8 +1,8 @@
 package com.callfire.api.client.api.contacts.model;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.model.Call;
-import com.callfire.api.client.model.Text;
+import com.callfire.api.client.api.callstexts.model.Call;
+import com.callfire.api.client.api.callstexts.model.Text;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;

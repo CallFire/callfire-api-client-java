@@ -8,13 +8,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 
 public class JsonConverter {
-    private static final Logger LOGGER = new Logger(JsonConverter.class);
     private ObjectMapper mapper;
 
     public JsonConverter() {
         mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-    //    mapper.registerModule(new JodaModule());
         mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
