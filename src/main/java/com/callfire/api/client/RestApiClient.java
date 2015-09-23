@@ -1,6 +1,7 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.request.GetRequest;
 import com.callfire.api.client.auth.Authentication;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.callfire.api.client.ClientConstants.BASE_PATH;
+import static com.callfire.api.client.ClientConstants.GENERIC_HELP_LINK;
 import static com.callfire.api.client.ClientConstants.Type.ERROR_MESSAGE_TYPE;
 import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.USER_AGENT;
@@ -267,9 +269,15 @@ public class RestApiClient {
             LOGGER.debug("received http code {} with null entity, returning null", statusCode);
             return null;
         }
-        if (statusCode >= 400) {
-            createAndThrowCallfireApiException(EntityUtils.toString(response.getEntity(), "UTF-8"));
+        if (statusCode >= 500) {
+            String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
+            ErrorMessage errorMessage = new ErrorMessage(statusCode, responseText, GENERIC_HELP_LINK);
+            throw new CallfireApiException(errorMessage);
+        } else if (statusCode >= 400) {
+            String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
+            throw new CallfireApiException(jsonConverter.deserialize(responseText, ERROR_MESSAGE_TYPE));
         }
+
         if (type.getType() == InputStream.class) {
             return (T) response.getEntity().getContent();
         }
@@ -278,10 +286,6 @@ public class RestApiClient {
         T entity = jsonConverter.deserialize(result, type);
         logDebugPrettyJson("received entity \n{}", entity);
         return entity;
-    }
-
-    private void createAndThrowCallfireApiException(String result) throws CallfireApiException {
-        throw new CallfireApiException(jsonConverter.deserialize(result, ERROR_MESSAGE_TYPE));
     }
 
     // makes extra deserialization to get pretty json string, enable only in case of debugging

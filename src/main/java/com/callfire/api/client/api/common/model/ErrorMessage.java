@@ -12,6 +12,15 @@ public class ErrorMessage extends CallfireModel {
     private String developerMessage;
     private String helpLink;
 
+    public ErrorMessage() {
+    }
+
+    public ErrorMessage(Integer httpStatusCode, String message, String helpLink) {
+        this.httpStatusCode = httpStatusCode;
+        this.message = message;
+        this.helpLink = helpLink;
+    }
+
     public Integer getHttpStatusCode() {
         return httpStatusCode;
     }
