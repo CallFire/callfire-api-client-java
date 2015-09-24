@@ -34,7 +34,7 @@ public final class ClientUtils {
     }
 
     /**
-     * Add query param to map, collection values will be joined with comma-separator
+     * Add Iterable value as query param
      *
      * @param name        parameter name
      * @param value       collection with values
@@ -42,9 +42,8 @@ public final class ClientUtils {
      */
     public static void addQueryParamIfSet(String name, Iterable value, List<NameValuePair> queryParams) {
         if (name != null && value != null && queryParams != null) {
-            String params = StringUtils.join(value, ",");
-            if (StringUtils.isNotEmpty(params)) {
-                queryParams.add(new BasicNameValuePair(name, params));
+            for (Object o : value) {
+                queryParams.add(new BasicNameValuePair(name, o.toString()));
             }
         }
     }
@@ -89,6 +88,12 @@ public final class ClientUtils {
                     if (StringUtils.isEmpty((String) value)) {
                         return;
                     }
+                }
+                if (value instanceof Iterable) {
+                    for (Object o : (Iterable) value) {
+                        params.add(new BasicNameValuePair(field.getName(), o.toString()));
+                    }
+                    return;
                 }
                 if (value instanceof Date) {
                     value = ((Date) value).getTime();

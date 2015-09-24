@@ -107,7 +107,7 @@ public class ContactsApi {
      */
     public void updateContact(Contact contact) {
         Validate.notNull(contact.getId(), "contact.id cannot be null");
-        client.post(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, contact.getId().toString()), VOID_TYPE, contact);
+        client.put(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, contact.getId().toString()), VOID_TYPE, contact);
     }
 
     /**
