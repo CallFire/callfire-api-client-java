@@ -7,12 +7,26 @@ import com.callfire.api.client.RestApiClient;
  */
 public class CampaignsApi {
     private RestApiClient restApiClient;
+
+    private BatchesApi batchesApi;
     private CccsApi cccsApi;
     private SoundsApi soundsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
 
     public CampaignsApi(RestApiClient restApiClient) {
         this.restApiClient = restApiClient;
+    }
+
+    /**
+     * Get /campaigns/batches api endpoint
+     *
+     * @return endpoint object
+     */
+    public BatchesApi getBatchesApi() {
+        if (batchesApi == null) {
+            batchesApi = new BatchesApi(restApiClient);
+        }
+        return batchesApi;
     }
 
     /**

@@ -3,12 +3,14 @@ package com.callfire.api.client.api.campaigns.model;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Date;
+
 public class Batch extends CallfireModel {
     private Long id;
     private String name;
     private Status status;
     private Long broadcastId;
-    private Long created;
+    private Date created;
     private Integer size;
     private Integer remaining;
     private Boolean enabled;
@@ -49,11 +51,11 @@ public class Batch extends CallfireModel {
         this.broadcastId = broadcastId;
     }
 
-    public Long getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Long created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
