@@ -10,9 +10,7 @@ import com.callfire.api.client.api.contacts.model.ContactList;
 import com.callfire.api.client.api.contacts.model.request.*;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.util.List;
@@ -26,8 +24,6 @@ import static org.junit.Assert.assertThat;
  * integration tests for /contacts/lists api endpoint
  */
 public class ContactListsApiTest extends AbstractIntegrationTest {
-    @Rule
-    public ExpectedException ex = ExpectedException.none();
 
     @Test
     public void testFindContactLists() throws Exception {

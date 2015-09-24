@@ -161,7 +161,7 @@ public class DncListsApi {
     public void addDncListItems(AddDncListItemsRequest request) {
         Validate.notNull(request.getContactListId(), "request.contactListId cannot be null");
         String path = DNC_LISTS_LIST_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getContactListId().toString());
-        client.post(path, VOID_TYPE, request);
+        client.post(path, VOID_TYPE, request.getContacts());
     }
 
     /**
