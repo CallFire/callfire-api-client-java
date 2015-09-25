@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Excludes selected field from http query
+ * Excludes selected field from http query param
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -16,5 +16,5 @@ public @interface QueryParamIgnore {
      *
      * @return true if annotation enabled
      */
-    public boolean enabled() default true;
+    boolean enabled() default true;
 }

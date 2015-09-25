@@ -29,3 +29,9 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'commons-io:commons-io:2.4'
 }
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}

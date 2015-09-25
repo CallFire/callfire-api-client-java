@@ -12,6 +12,7 @@ public class CampaignsApi {
     private CccsApi cccsApi;
     private SoundsApi soundsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
+    private VoiceBroadcastsApi voiceBroadcastsApi;
 
     public CampaignsApi(RestApiClient restApiClient) {
         this.restApiClient = restApiClient;
@@ -64,5 +65,17 @@ public class CampaignsApi {
             textAutoRepliesApi = new TextAutoRepliesApi(restApiClient);
         }
         return textAutoRepliesApi;
+    }
+
+    /**
+     * Get /campaigns/voice-broadcasts api endpoint
+     *
+     * @return endpoint object
+     */
+    public VoiceBroadcastsApi getVoiceBroadcastsApi() {
+        if (voiceBroadcastsApi == null) {
+            voiceBroadcastsApi = new VoiceBroadcastsApi(restApiClient);
+        }
+        return voiceBroadcastsApi;
     }
 }

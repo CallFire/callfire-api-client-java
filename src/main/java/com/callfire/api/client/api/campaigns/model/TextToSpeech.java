@@ -11,13 +11,6 @@ public class TextToSpeech extends CallfireModel {
     private String message;
 
     /**
-     * TTS voice types
-     */
-    public enum Voice {
-        MALE1, FEMALE1, FEMALE2, SPANISH1, FRENCHCANADIAN1,
-    }
-
-    /**
      * Get TTS voice
      *
      * @return voice type

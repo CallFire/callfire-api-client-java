@@ -82,7 +82,7 @@ public class SoundsApi {
      */
     public CampaignSound getCampaignSoundMeta(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
-        List<NameValuePair> queryParams = new ArrayList<>();
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, CALL_SOUND_TYPE, queryParams);

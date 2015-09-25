@@ -21,15 +21,11 @@ import org.apache.http.util.EntityUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static com.callfire.api.client.ClientConstants.BASE_PATH;
-import static com.callfire.api.client.ClientConstants.GENERIC_HELP_LINK;
+import static com.callfire.api.client.ClientConstants.*;
 import static com.callfire.api.client.ClientConstants.Type.ERROR_MESSAGE_TYPE;
 import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
-import static com.callfire.api.client.ClientConstants.USER_AGENT;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -43,6 +39,7 @@ public class RestApiClient {
     private HttpClient httpClient;
     private JsonConverter jsonConverter;
     private Authentication authentication;
+    private SortedSet<RequestFilter> filters = new TreeSet<>();
 
     public RestApiClient(Authentication authentication) {
         this.authentication = authentication;
@@ -79,7 +76,7 @@ public class RestApiClient {
      * @throws CallfireClientException in case error has occurred in client
      */
     public <T> T get(String path, TypeReference<T> type) throws CallfireClientException, CallfireApiException {
-        return get(path, type, new ArrayList<NameValuePair>());
+        return get(path, type, Collections.<NameValuePair>emptyList());
     }
 
     /**
@@ -115,10 +112,10 @@ public class RestApiClient {
         try {
             String uri = BASE_PATH + path;
             LOGGER.debug("GET request to {} with params: {}", uri, queryParams);
-            RequestBuilder requestBuilder = RequestBuilder.get(uri);
-            requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
+            RequestBuilder requestBuilder = RequestBuilder.get(uri)
+                .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
 
-            return doRequest(requestBuilder.build(), type);
+            return doRequest(requestBuilder, type);
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
@@ -158,11 +155,10 @@ public class RestApiClient {
             if (params.get("name") != null) {
                 entityBuilder.addTextBody("name", (String) params.get("name"));
             }
-            RequestBuilder requestBuilder = RequestBuilder.post(uri)
-                .setEntity(entityBuilder.build());
+            RequestBuilder requestBuilder = RequestBuilder.post(uri).setEntity(entityBuilder.build());
             LOGGER.debug("POST file upload request to {} with params {}", uri, params);
 
-            return doRequest(requestBuilder.build(), type);
+            return doRequest(requestBuilder, type);
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
@@ -175,25 +171,41 @@ public class RestApiClient {
      * @param type    response entity type
      * @param payload request payload
      * @param <T>     response entity type
-     * @param <E>     request payload type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T, E> T post(String path, TypeReference<T> type, E payload) {
+    public <T> T post(String path, TypeReference<T> type, Object payload) {
+        return post(path, type, payload, Collections.<NameValuePair>emptyList());
+    }
+
+    /**
+     * Performs POST request with body to specified path
+     *
+     * @param path        request path
+     * @param type        response entity type
+     * @param payload     request payload
+     * @param queryParams query parameters
+     * @param <T>         response entity type
+     * @return pojo mapped from json
+     * @throws CallfireApiException    in case API cannot be queried for some reason
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public <T> T post(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
             String uri = BASE_PATH + path;
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
-                .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType());
+                .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
+                .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
             if (payload != null) {
-                HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
-                requestBuilder.setEntity(httpEntity);
+                String stringPayload = jsonConverter.serialize(payload);
+                requestBuilder.setEntity(EntityBuilder.create().setText(stringPayload).build());
                 logDebugPrettyJson("POST request to {} entity \n{}", uri, payload);
             } else {
                 LOGGER.debug("POST request to {}", uri);
             }
 
-            return doRequest(requestBuilder.build(), type);
+            return doRequest(requestBuilder, type);
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
@@ -206,22 +218,20 @@ public class RestApiClient {
      * @param type    response entity type
      * @param payload request payload
      * @param <T>     response entity type
-     * @param <E>     request payload type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T, E> T put(String path, TypeReference<T> type, E payload) {
+    public <T> T put(String path, TypeReference<T> type, Object payload) {
         try {
             String uri = BASE_PATH + path;
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
-            HttpUriRequest httpRequest = RequestBuilder.put(uri)
+            RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
-                .setEntity(httpEntity)
-                .build();
+                .setEntity(httpEntity);
             logDebugPrettyJson("PUT request to {} entity \n{}", uri, payload);
 
-            return doRequest(httpRequest, type);
+            return doRequest(requestBuilder, type);
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
@@ -235,7 +245,7 @@ public class RestApiClient {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void delete(String path) {
-        delete(path, new ArrayList<NameValuePair>());
+        delete(path, Collections.<NameValuePair>emptyList());
     }
 
     /**
@@ -252,16 +262,29 @@ public class RestApiClient {
             LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
             requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
-            doRequest(requestBuilder.build(), STRING_TYPE);
+            doRequest(requestBuilder, STRING_TYPE);
             LOGGER.debug("delete executed");
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
     }
 
+    /**
+     * Returns HTTP request filters associated with API client
+     *
+     * @return active filters
+     */
+    public SortedSet<RequestFilter> getFilters() {
+        return filters;
+    }
+
     @SuppressWarnings("unchecked")
-    private <T> T doRequest(HttpUriRequest request, TypeReference<T> type) throws IOException {
-        HttpUriRequest httpRequest = authentication.apply(request);
+    private <T> T doRequest(RequestBuilder requestBuilder, TypeReference<T> type) throws IOException {
+        for (RequestFilter filter : filters) {
+            filter.filter(requestBuilder);
+        }
+
+        HttpUriRequest httpRequest = authentication.apply(requestBuilder.build());
         HttpResponse response = httpClient.execute(httpRequest);
 
         int statusCode = response.getStatusLine().getStatusCode();

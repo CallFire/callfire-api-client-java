@@ -24,7 +24,7 @@ public class TextsApi {
     private static final String TEXTS_ITEM_PATH = "/texts/{}";
     private static final TypeReference<Text> TEXT_TYPE = new TypeReference<Text>() {
     };
-    private static final TypeReference<Page<Text>> PAGE_OF_TEXTS_TYPE = new TypeReference<Page<Text>>() {
+    public static final TypeReference<Page<Text>> PAGE_OF_TEXTS_TYPE = new TypeReference<Page<Text>>() {
     };
 
     private RestApiClient client;

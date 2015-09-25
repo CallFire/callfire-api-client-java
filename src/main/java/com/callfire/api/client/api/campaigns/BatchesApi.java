@@ -4,6 +4,7 @@ import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.common.model.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -19,7 +20,9 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
  */
 public class BatchesApi {
     private static final String BATCH_PATH = "/campaigns/batches/{}";
-    private static final TypeReference<Batch> BATCH_TYPE = new TypeReference<Batch>() {
+    public static final TypeReference<Batch> BATCH_TYPE = new TypeReference<Batch>() {
+    };
+    public static final TypeReference<Page<Batch>> PAGE_OF_BATCH_TYPE = new TypeReference<Page<Batch>>() {
     };
 
     private RestApiClient client;

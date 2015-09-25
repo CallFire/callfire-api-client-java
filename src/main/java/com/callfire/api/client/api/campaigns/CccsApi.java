@@ -6,7 +6,7 @@ import com.callfire.api.client.api.campaigns.model.TextAutoReply;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
- * Represents rest endpoint /campaigns/text-auto-replys
+ * Represents rest endpoint /campaigns/cccs
  */
 public class CccsApi {
     private static final String TEXT_AUTO_REPLIES_PATH = "/campaigns/cccs";

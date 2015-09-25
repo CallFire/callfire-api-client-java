@@ -21,9 +21,9 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class CallsApi {
     private static final String CALLS_PATH = "/calls";
     private static final String CALLS_ITEM_PATH = "/calls/{}";
-    private static final TypeReference<Page<Call>> PAGE_OF_CALLS_TYPE = new TypeReference<Page<Call>>() {
-    };
     private static final TypeReference<Call> CALL_TYPE = new TypeReference<Call>() {
+    };
+    public static final TypeReference<Page<Call>> PAGE_OF_CALLS_TYPE = new TypeReference<Page<Call>>() {
     };
 
     private RestApiClient client;
