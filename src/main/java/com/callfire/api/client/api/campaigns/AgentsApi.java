@@ -31,11 +31,13 @@ public class AgentsApi {
     private static final String AGENTS_ITEM_HANGUP_PATH = "/campaigns/cccs/agents/{}/hang-up";
     private static final String AGENTS_SESSIONS_PATH = "/campaigns/cccs/agents/sessions";
     private static final String AGENTS_SESSIONS_ITEM_PATH = "/campaigns/cccs/agents/sessions/{}";
-    private static final TypeReference<Agent> AGENT_TYPE = new TypeReference<Agent>() {
-    };
     private static final TypeReference<Page<Agent>> PAGE_OF_AGENTS_TYPE = new TypeReference<Page<Agent>>() {
     };
     private static final TypeReference<Page<AgentSession>> PAGE_OF_AGENT_SESSIONS_TYPE = new TypeReference<Page<AgentSession>>() {
+    };
+    private static final TypeReference<Agent> AGENT_TYPE = new TypeReference<Agent>() {
+    };
+    public static final TypeReference<List<Agent>> LIST_OF_AGENT_TYPE = new TypeReference<List<Agent>>() {
     };
 
     private RestApiClient client;

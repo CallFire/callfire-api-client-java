@@ -4,6 +4,7 @@ import com.callfire.api.client.api.account.MeApi;
 import com.callfire.api.client.api.account.OrdersApi;
 import com.callfire.api.client.api.callstexts.CallsApi;
 import com.callfire.api.client.api.callstexts.TextsApi;
+import com.callfire.api.client.api.campaigns.AgentGroupsApi;
 import com.callfire.api.client.api.webhooks.SubscriptionsApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
@@ -31,6 +32,7 @@ public class CallfireClient {
     private NumbersApi numbersApi;
     private OrdersApi ordersApi;
     private WebhooksApi webhooksApi;
+    private AgentGroupsApi agentGroupsApi;
 
     /**
      * Constructs callfire client
@@ -165,6 +167,18 @@ public class CallfireClient {
     }
 
     /**
+     * Get /campaigns/cccs/agent-groups endpoint
+     *
+     * @return endpoint object
+     */
+    public AgentGroupsApi getAgentGroupsApi() {
+        if (agentGroupsApi == null) {
+            agentGroupsApi = new AgentGroupsApi(restApiClient);
+        }
+        return agentGroupsApi;
+    }
+
+    /**
      * Get REST api client which uses Apache httpclient inside
      *
      * @return rest client
@@ -172,5 +186,4 @@ public class CallfireClient {
     public RestApiClient getRestApiClient() {
         return restApiClient;
     }
-
 }

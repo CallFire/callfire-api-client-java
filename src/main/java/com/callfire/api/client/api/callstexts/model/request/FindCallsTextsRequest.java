@@ -15,7 +15,7 @@ public abstract class FindCallsTextsRequest extends GetRequest {
     protected String toNumber;
     protected String label;
     protected Boolean inbound;
-    //  @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+
     protected Date intervalBegin;
     protected Date intervalEnd;
     protected List<Long> id;

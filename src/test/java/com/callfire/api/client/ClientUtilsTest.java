@@ -2,8 +2,8 @@ package com.callfire.api.client;
 
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
-import com.callfire.api.client.api.contacts.model.request.GetContactListItemsRequest;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class ClientUtilsTest {
 
     @Test
     public void testBuildQueryParamsWithIgnore() throws Exception {
-        GetContactListItemsRequest request = GetContactListItemsRequest.create()
+        GetByIdRequest request = GetByIdRequest.create()
             .id(2L)
             .limit(10L)
             .build();

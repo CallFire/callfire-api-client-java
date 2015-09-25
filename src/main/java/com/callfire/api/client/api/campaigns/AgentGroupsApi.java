@@ -30,6 +30,8 @@ public class AgentGroupsApi {
     };
     public static final TypeReference<AgentGroup> AGENT_GROUP_TYPE = new TypeReference<AgentGroup>() {
     };
+    public static final TypeReference<List<AgentGroup>> LIST_OF_AGENT_GROUP_TYPE = new TypeReference<List<AgentGroup>>() {
+    };
 
     private RestApiClient client;
 

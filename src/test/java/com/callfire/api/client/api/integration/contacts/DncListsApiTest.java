@@ -3,13 +3,13 @@ package com.callfire.api.client.api.integration.contacts;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.DncListsApi;
 import com.callfire.api.client.api.contacts.model.DncList;
 import com.callfire.api.client.api.contacts.model.DoNotContact;
 import com.callfire.api.client.api.contacts.model.UniversalDnc;
 import com.callfire.api.client.api.contacts.model.request.AddDncListItemsRequest;
 import com.callfire.api.client.api.contacts.model.request.FindDncListsRequest;
-import com.callfire.api.client.api.contacts.model.request.GetDncListItemsRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
@@ -65,7 +65,7 @@ public class DncListsApiTest extends AbstractIntegrationTest {
         api.addDncListItems(addItemsRequest);
 
         // get items
-        GetDncListItemsRequest getItemsRequest = GetDncListItemsRequest.create()
+        GetByIdRequest getItemsRequest = GetByIdRequest.create()
             .id(dncListId.getId())
             .build();
         Page<DoNotContact> dncListItems = api.getDncListItems(getItemsRequest);

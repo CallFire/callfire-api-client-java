@@ -5,6 +5,7 @@ import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactList;
 import com.callfire.api.client.api.contacts.model.request.*;
@@ -121,7 +122,6 @@ public class ContactListsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void updateContactList(UpdateContactListRequest request) {
-        // TODO vmikhailov add validation interceptor to all public api methods
         Validate.notNull(request.getId(), "request.id cannot be null");
         client.put(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, request.getId().toString()), VOID_TYPE, request);
     }
@@ -147,7 +147,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<Contact> getContactListItems(GetContactListItemsRequest request) {
+    public Page<Contact> getContactListItems(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = LISTS_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, PAGE_OF_CONTACT_TYPE, request);

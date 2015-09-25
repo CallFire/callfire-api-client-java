@@ -4,6 +4,7 @@ import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.JsonConverter;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.ContactListsApi;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactList;
@@ -126,7 +127,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         assertEquals(Integer.valueOf(2), contactList.getSize());
 
         // get items
-        GetContactListItemsRequest getItemsRequest = GetContactListItemsRequest.create()
+        GetByIdRequest getItemsRequest = GetByIdRequest.create()
             .id(numbersListId.getId())
             .build();
         Page<Contact> contactListItems = api.getContactListItems(getItemsRequest);
@@ -184,7 +185,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
             .build();
         api.addContactListItems(addItemsRequest);
 
-        GetContactListItemsRequest getItemsRequest = GetContactListItemsRequest.create().id(id.getId()).build();
+        GetByIdRequest getItemsRequest = GetByIdRequest.create().id(id.getId()).build();
         Page<Contact> contactListItems = api.getContactListItems(getItemsRequest);
         List<Contact> items = contactListItems.getItems();
         assertEquals(3, items.size());

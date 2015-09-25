@@ -3,10 +3,10 @@ package com.callfire.api.client.api.integration.contacts;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceIds;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactHistory;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
-import com.callfire.api.client.api.contacts.model.request.GetContactHistoryRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import org.junit.Rule;
 import org.junit.Test;
@@ -91,7 +91,7 @@ public class ContactsApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetContactHistory() throws Exception {
         CallfireClient client = getCallfireClient();
-        GetContactHistoryRequest request = GetContactHistoryRequest.create()
+        GetByIdRequest request = GetByIdRequest.create()
             .id(413858626003L)
             .build();
         ContactHistory contactHistory = client.getContactsApi().getContactHistory(request);

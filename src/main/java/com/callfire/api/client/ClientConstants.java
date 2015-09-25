@@ -8,14 +8,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Client constants
  */
 public interface ClientConstants {
-    // String BASE_PATH = "https://www-stg4.callfire.com/api/v2";
-//    String BASE_PATH = "https://www.callfire.com/api/v2";
-    String BASE_PATH = "http://localhost/api/v2";
+    String BASE_PATH = "https://www.callfire.com/api/v2";
     String PLACEHOLDER = "\\{\\}";
     // Use ISO 8601 format for date and datetime.
     // See https://en.wikipedia.org/wiki/ISO_8601
@@ -37,6 +36,8 @@ public interface ClientConstants {
         TypeReference<InputStream> INPUT_STREAM_TYPE = new TypeReference<InputStream>() {
         };
         TypeReference<List<String>> LIST_OF_STRINGS_TYPE = new TypeReference<List<String>>() {
+        };
+        TypeReference<Map<String, String>> MAP_OF_STRINGS_TYPE = new TypeReference<Map<String, String>>() {
         };
         TypeReference<ResourceId> RESOURCE_ID_TYPE = new TypeReference<ResourceId>() {
         };

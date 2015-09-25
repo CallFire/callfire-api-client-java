@@ -3,9 +3,11 @@ package com.callfire.api.client.api.callstexts;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
-import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.callstexts.model.request.FindTextsRequest;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceIds;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientConstants.Type.RESOURCE_IDS_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
@@ -72,5 +75,17 @@ public class TextsApi {
         addQueryParamIfSet("fields", fields, queryParams);
         String path = TEXTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, TEXT_TYPE, queryParams);
+    }
+
+    /**
+     * Send texts to recipients
+     *
+     * @param recipients text recipients
+     * @return ids of sent texts
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public ResourceIds send(List<TextRecipient> recipients) {
+        return client.post(TEXTS_PATH, RESOURCE_IDS_TYPE, recipients);
     }
 }

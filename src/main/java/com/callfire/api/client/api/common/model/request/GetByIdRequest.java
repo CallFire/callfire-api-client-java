@@ -38,7 +38,7 @@ public class GetByIdRequest extends GetRequest {
             super(new GetByIdRequest());
         }
 
-        Builder id(Long id) {
+        public Builder id(Long id) {
             request.id = id;
             return this;
         }

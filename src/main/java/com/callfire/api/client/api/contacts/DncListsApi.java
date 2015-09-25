@@ -5,12 +5,12 @@ import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.DncList;
 import com.callfire.api.client.api.contacts.model.DoNotContact;
 import com.callfire.api.client.api.contacts.model.UniversalDnc;
 import com.callfire.api.client.api.contacts.model.request.AddDncListItemsRequest;
 import com.callfire.api.client.api.contacts.model.request.FindDncListsRequest;
-import com.callfire.api.client.api.contacts.model.request.GetDncListItemsRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -145,7 +145,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<DoNotContact> getDncListItems(GetDncListItemsRequest request) {
+    public Page<DoNotContact> getDncListItems(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = DNC_LISTS_LIST_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, DncApi.PAGE_OF_DNC_TYPE, request);

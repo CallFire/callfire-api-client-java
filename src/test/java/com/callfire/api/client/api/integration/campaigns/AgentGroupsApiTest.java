@@ -29,8 +29,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        AgentGroupsApi agentGroupsApi = callfireClient.getCampaignsApi().getCccsApi()
-            .getAgentGroupsApi();
+        AgentGroupsApi agentGroupsApi = callfireClient.getAgentGroupsApi();
 
         // test createSubscription & getSubscription
         AgentGroup agentGroup1 = new AgentGroup();

@@ -3,12 +3,12 @@ package com.callfire.api.client.api.contacts;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactHistory;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceIds;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
-import com.callfire.api.client.api.contacts.model.request.GetContactHistoryRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -132,7 +132,7 @@ public class ContactsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ContactHistory getContactHistory(GetContactHistoryRequest request) {
+    public ContactHistory getContactHistory(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = CONTACTS_ITEM_HISTORY_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, CONTACT_HISTORY_TYPE, request);
