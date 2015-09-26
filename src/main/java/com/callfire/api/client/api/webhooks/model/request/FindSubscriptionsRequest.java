@@ -1,6 +1,6 @@
 package com.callfire.api.client.api.webhooks.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import com.callfire.api.client.api.webhooks.model.Subscription.NotificationFormat;
 import com.callfire.api.client.api.webhooks.model.Subscription.TriggerEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @since 1.0
  */
-public class FindSubscriptionsRequest extends GetRequest {
+public class FindSubscriptionsRequest extends FindRequest {
     private Long campaignId;
     private TriggerEvent trigger;
     private NotificationFormat format;
@@ -65,7 +65,7 @@ public class FindSubscriptionsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindSubscriptionsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindSubscriptionsRequest> {
         private Builder() {
             super(new FindSubscriptionsRequest());
         }

@@ -1,13 +1,13 @@
 package com.callfire.api.client.api.numbers.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for searching numbers, region data, etc. which incapsulates
  * different query pairs
  */
-public abstract class FindByRegionDataRequest extends GetRequest {
+public abstract class FindByRegionDataRequest extends FindRequest {
     protected String prefix;
     protected String city;
     protected String state;
@@ -85,7 +85,7 @@ public abstract class FindByRegionDataRequest extends GetRequest {
      */
     @SuppressWarnings("unchecked")
     public static abstract class RegionDataBuilder<B extends RegionDataBuilder, R extends FindByRegionDataRequest>
-        extends GetRequestBuilder<B, R> {
+        extends FindRequestBuilder<B, R> {
 
         protected RegionDataBuilder(R request) {
             super(request);

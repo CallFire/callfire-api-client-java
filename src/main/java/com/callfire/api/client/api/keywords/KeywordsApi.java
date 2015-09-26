@@ -5,6 +5,7 @@ import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.keywords.model.Keyword;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -16,6 +17,8 @@ import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 
 /**
  * Represents rest endpoint /keywords
+ *
+ * @since 1.0
  */
 public class KeywordsApi {
     private static final String KEYWORDS_PATH = "/keywords";
@@ -24,7 +27,6 @@ public class KeywordsApi {
     };
 
     private RestApiClient client;
-    private KeywordLeasesApi keywordLeasesApi;
 
     public KeywordsApi(RestApiClient client) {
         this.client = client;
@@ -38,7 +40,7 @@ public class KeywordsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<Keyword> getKeywordsInCatalog(List<String> keywords) {
+    public List<Keyword> find(List<String> keywords) {
         List<NameValuePair> queryParams = new ArrayList<>(keywords.size());
         for (String keyword : keywords) {
             queryParams.add(new BasicNameValuePair("keywords", keyword));
@@ -54,19 +56,8 @@ public class KeywordsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Boolean isKeywordAvailable(String keyword) {
+    public Boolean isAvailable(String keyword) {
+        Validate.notBlank(keyword, "keyword cannot be blank");
         return client.get(KEYWORD_AVAILABLE_PATH.replaceFirst(PLACEHOLDER, keyword), BOOLEAN_TYPE);
-    }
-
-    /**
-     * Get /keywords/leases api endpoint
-     *
-     * @return endpoint object
-     */
-    public KeywordLeasesApi getKeywordLeasesApi() {
-        if (keywordLeasesApi == null) {
-            keywordLeasesApi = new KeywordLeasesApi(client);
-        }
-        return keywordLeasesApi;
     }
 }

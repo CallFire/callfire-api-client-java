@@ -1,12 +1,12 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 
 /**
  * Request object for GET /contacts/do-not-calls/lists which incapsulates
  * different query pairs
  */
-public class FindDncListsRequest extends GetRequest {
+public class FindDncListsRequest extends FindRequest {
     private String name;
     private Long campaignId;
 
@@ -38,7 +38,7 @@ public class FindDncListsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindDncListsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindDncListsRequest> {
         private Builder() {
             super(new FindDncListsRequest());
         }

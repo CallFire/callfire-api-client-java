@@ -1,13 +1,13 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for GET /agent-groups which incapsulates
  * different query pairs
  */
-public class FindAgentGroupsRequest extends GetRequest {
+public class FindAgentGroupsRequest extends FindRequest {
     private Long campaignId;
     private String name;
     private Long agentId;
@@ -77,7 +77,7 @@ public class FindAgentGroupsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindAgentGroupsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindAgentGroupsRequest> {
         private Builder() {
             super(new FindAgentGroupsRequest());
         }

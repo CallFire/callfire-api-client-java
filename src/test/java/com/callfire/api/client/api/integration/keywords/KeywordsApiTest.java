@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
- * integration tests for /texts api endpoint
+ * integration tests for /keywords api endpoint
  */
 public class KeywordsApiTest extends AbstractIntegrationTest {
 
@@ -24,7 +24,7 @@ public class KeywordsApiTest extends AbstractIntegrationTest {
         String KW2 = "TEST1";
         String KW3 = "TEST2";
 
-        List<Keyword> keywords = client.getKeywordsApi().getKeywordsInCatalog(asList(KW1, KW2, KW3));
+        List<Keyword> keywords = client.getKeywordsApi().find(asList(KW1, KW2, KW3));
         assertEquals(2, keywords.size());
         assertThat(keywords, hasItem(Matchers.<Keyword>hasProperty("keyword", is(KW2))));
         assertThat(keywords, hasItem(Matchers.<Keyword>hasProperty("keyword", is(KW3))));
@@ -33,8 +33,8 @@ public class KeywordsApiTest extends AbstractIntegrationTest {
     @Test
     public void testIsKeywordAvailable() throws Exception {
         CallfireClient client = getCallfireClient();
-        assertTrue(client.getKeywordsApi().isKeywordAvailable("TEST"));
-        assertTrue(client.getKeywordsApi().isKeywordAvailable("KW"));
-        assertFalse(client.getKeywordsApi().isKeywordAvailable("callfire"));
+        assertTrue(client.getKeywordsApi().isAvailable("TEST"));
+        assertTrue(client.getKeywordsApi().isAvailable("KW"));
+        assertFalse(client.getKeywordsApi().isAvailable("callfire"));
     }
 }

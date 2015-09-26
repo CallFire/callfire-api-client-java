@@ -3,9 +3,9 @@ package com.callfire.api.client.api.common.model.request;
 /**
  * Common get request with limit, offset and fields properties
  */
-public class CommonGetRequest extends GetRequest {
+public class CommonFindRequest extends FindRequest {
 
-    private CommonGetRequest() {
+    private CommonFindRequest() {
     }
 
     public static Builder create() {
@@ -15,10 +15,10 @@ public class CommonGetRequest extends GetRequest {
     /**
      * Request builder
      */
-    public static class Builder extends GetRequestBuilder<Builder, CommonGetRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, CommonFindRequest> {
 
         private Builder() {
-            super(new CommonGetRequest());
+            super(new CommonFindRequest());
         }
     }
 }

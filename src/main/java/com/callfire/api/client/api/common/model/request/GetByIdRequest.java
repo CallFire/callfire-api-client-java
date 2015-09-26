@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Common get request with id
  */
-public class GetByIdRequest extends GetRequest {
+public class GetByIdRequest extends FindRequest {
     @QueryParamIgnore
     private Long id;
 
@@ -32,7 +32,7 @@ public class GetByIdRequest extends GetRequest {
     /**
      * Request builder
      */
-    public static class Builder extends GetRequestBuilder<Builder, GetByIdRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, GetByIdRequest> {
 
         private Builder() {
             super(new GetByIdRequest());

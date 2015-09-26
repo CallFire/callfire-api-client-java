@@ -1,12 +1,12 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 
 /**
  * Request object for GET /contacts/lists which incapsulates
  * different query pairs
  */
-public class FindContactListsRequest extends GetRequest {
+public class FindContactListsRequest extends FindRequest {
     private String name;
 
     private FindContactListsRequest() {
@@ -33,7 +33,7 @@ public class FindContactListsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindContactListsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindContactListsRequest> {
         private Builder() {
             super(new FindContactListsRequest());
         }

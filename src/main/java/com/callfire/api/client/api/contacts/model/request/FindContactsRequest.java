@@ -1,6 +1,6 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Request object for GET /contacts which incapsulates
  * different query pairs
  */
-public class FindContactsRequest extends GetRequest {
+public class FindContactsRequest extends FindRequest {
     private Long contactListId;
     private String propertyName;
     private String propertyValue;
@@ -60,7 +60,7 @@ public class FindContactsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindContactsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindContactsRequest> {
         private Builder() {
             super(new FindContactsRequest());
         }

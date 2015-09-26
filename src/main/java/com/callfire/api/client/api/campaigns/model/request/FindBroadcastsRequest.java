@@ -1,12 +1,12 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for searching voice, text, ivr broadcasts
  */
-public class FindBroadcastsRequest extends GetRequest {
+public class FindBroadcastsRequest extends FindRequest {
     private String label;
     private String name;
     private Boolean running;
@@ -58,7 +58,7 @@ public class FindBroadcastsRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindBroadcastsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindBroadcastsRequest> {
         private Builder() {
             super(new FindBroadcastsRequest());
         }

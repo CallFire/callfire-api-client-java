@@ -1,13 +1,13 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for GET /campaigns/sounds which incapsulates
  * different query pairs
  */
-public class FindSoundsRequest extends GetRequest {
+public class FindSoundsRequest extends FindRequest {
     private String filter;
 
     private FindSoundsRequest() {
@@ -42,7 +42,7 @@ public class FindSoundsRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindSoundsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindSoundsRequest> {
         private Builder() {
             super(new FindSoundsRequest());
         }

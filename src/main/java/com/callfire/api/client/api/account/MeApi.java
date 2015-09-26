@@ -8,7 +8,7 @@ import com.callfire.api.client.api.account.model.ApiCredentials;
 import com.callfire.api.client.api.account.model.BillingPlanUsage;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
 import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -142,7 +142,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<ApiCredentials> findApiCredentials(CommonGetRequest request) {
+    public Page<ApiCredentials> findApiCredentials(CommonFindRequest request) {
         return client.get(ME_API_CREDS_PATH, API_CREDS_PAGE_TYPE, request);
     }
 

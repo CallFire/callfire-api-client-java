@@ -1,13 +1,13 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for GET /campaigns/cccs/agents which incapsulates
  * different query pairs
  */
-public class FindAgentSessionsRequest extends GetRequest {
+public class FindAgentSessionsRequest extends FindRequest {
     private Long campaignId;
     private Long agentId;
     private String agentEmail;
@@ -76,7 +76,7 @@ public class FindAgentSessionsRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindAgentSessionsRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindAgentSessionsRequest> {
         private Builder() {
             super(new FindAgentSessionsRequest());
         }

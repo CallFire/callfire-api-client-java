@@ -2,7 +2,7 @@ package com.callfire.api.client.api.integration.numbers;
 
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.Region;
@@ -25,7 +25,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
     public void testFindTollfreeNumbers() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        CommonGetRequest request = CommonGetRequest.create()
+        CommonFindRequest request = CommonFindRequest.create()
             .limit(2L)
             .build();
         List<Number> numbers = callfireClient.getNumbersApi().findNumbersTollfree(request);

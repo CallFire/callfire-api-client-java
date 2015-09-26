@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Contains common fields for finder endpoints
  */
-public abstract class GetRequest extends CallfireModel {
+public abstract class FindRequest extends CallfireModel {
     protected Long limit;
     protected Long offset;
     protected String fields;
@@ -55,10 +55,10 @@ public abstract class GetRequest extends CallfireModel {
      * @param <B> type of builder
      */
     @SuppressWarnings("unchecked")
-    public static abstract class GetRequestBuilder<B extends GetRequestBuilder, R extends GetRequest>
+    public static abstract class FindRequestBuilder<B extends FindRequestBuilder, R extends FindRequest>
         extends AbstractBuilder<R> {
 
-        protected GetRequestBuilder(R request) {
+        protected FindRequestBuilder(R request) {
             super(request);
         }
 

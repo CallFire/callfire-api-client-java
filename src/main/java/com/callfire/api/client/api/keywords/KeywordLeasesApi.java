@@ -4,9 +4,10 @@ import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.keywords.model.KeywordLease;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class KeywordLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<KeywordLease> findKeywordLeases(CommonGetRequest request) {
+    public Page<KeywordLease> find(CommonFindRequest request) {
         return client.get(KEYWORD_LEASES, PAGE_OF_KEYWORD_LEASES_TYPE, request);
     }
 
@@ -54,8 +55,8 @@ public class KeywordLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public KeywordLease getKeywordLease(String keyword) {
-        return getKeywordLease(keyword, null);
+    public KeywordLease get(String keyword) {
+        return get(keyword, null);
     }
 
     /**
@@ -67,8 +68,9 @@ public class KeywordLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public KeywordLease getKeywordLease(String keyword, String fields) {
-        List<NameValuePair> queryParams = new ArrayList<>();
+    public KeywordLease get(String keyword, String fields) {
+        Validate.notBlank(keyword, "keyword cannot be blank");
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.get(KEYWORD_LEASES_ITEM.replaceFirst(PLACEHOLDER, keyword), KEYWORD_LEASE_TYPE, queryParams);
     }
@@ -76,11 +78,12 @@ public class KeywordLeasesApi {
     /**
      * Update keyword lease
      *
-     * @param keywordLease keyword lease payload
+     * @param lease keyword lease payload
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateKeywordLease(KeywordLease keywordLease) {
-        client.put(KEYWORD_LEASES_ITEM.replaceFirst(PLACEHOLDER, keywordLease.getKeyword()), VOID_TYPE, keywordLease);
+    public void update(KeywordLease lease) {
+        Validate.notBlank(lease.getKeyword(), "lease.keyword cannot be blank");
+        client.put(KEYWORD_LEASES_ITEM.replaceFirst(PLACEHOLDER, lease.getKeyword()), VOID_TYPE, lease);
     }
 }

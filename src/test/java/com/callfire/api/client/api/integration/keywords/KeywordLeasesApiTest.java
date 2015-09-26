@@ -2,14 +2,11 @@ package com.callfire.api.client.api.integration.keywords;
 
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import com.callfire.api.client.api.keywords.KeywordLeasesApi;
 import com.callfire.api.client.api.keywords.model.KeywordLease;
-import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
-
-import java.util.Date;
 
 import static com.callfire.api.client.api.keywords.model.KeywordLease.Status.ACTIVE;
 import static org.junit.Assert.*;
@@ -22,11 +19,10 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
     public void testFindKeywordLeases() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        CommonGetRequest request = CommonGetRequest.create()
+        CommonFindRequest request = CommonFindRequest.create()
             .limit(1L)
             .build();
-        Page<KeywordLease> leases = callfireClient.getKeywordsApi().getKeywordLeasesApi()
-            .findKeywordLeases(request);
+        Page<KeywordLease> leases = callfireClient.getKeywordLeasesApi().find(request);
         assertEquals(1, leases.getItems().size());
 
         System.out.println(leases);
@@ -36,10 +32,8 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
     public void testGetKeywordLease() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        KeywordLease lease = callfireClient.getKeywordsApi().getKeywordLeasesApi()
-            .getKeywordLease("callfire");
-        assertNotNull(lease.getLeaseBegin());
-        assertTrue(lease.getAutoRenew());
+        KeywordLease lease = callfireClient.getKeywordLeasesApi().get("callfire");
+        assertNotNull(lease.getKeyword());
         assertEquals(ACTIVE, lease.getStatus());
 
         System.out.println(lease);
@@ -50,18 +44,16 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         String keyword = "callfire";
-        Date newDate = DateUtils.addMonths(new Date(), 1);
-        KeywordLeasesApi leasesEndpoint = callfireClient.getKeywordsApi().getKeywordLeasesApi();
-        KeywordLease lease = leasesEndpoint.getKeywordLease(keyword);
-        assertNotNull(lease.getLeaseBegin());
-        assertNotEquals(newDate, lease.getLeaseEnd());
-        lease.setLeaseEnd(newDate);
+        KeywordLeasesApi api = callfireClient.getKeywordLeasesApi();
+        KeywordLease lease = api.get(keyword);
+        Boolean autoRenewSaved = lease.getAutoRenew();
+        assertNotNull(lease.getKeyword());
+        lease.setAutoRenew(!autoRenewSaved);
 
-        // TODO fix test
-//        leasesEndpoint.updateKeywordLease(keyword, lease);
-//        lease = leasesEndpoint.getKeywordLease(keyword, "leaseEnd");
-//        assertNull(lease.getKeyword());
-//        assertEquals(newDate, lease.getLeaseEnd());
+        api.update(lease);
+        lease = api.get(keyword, "autoRenew");
+        assertNull(lease.getKeyword());
+        assertNotEquals(autoRenewSaved, lease.getAutoRenew());
 
         System.out.println(lease);
     }

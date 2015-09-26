@@ -1,13 +1,13 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Request object for GET /campaigns/text-auto-replys which incapsulates
  * different query pairs
  */
-public class FindTextAutoRepliesRequest extends GetRequest {
+public class FindTextAutoRepliesRequest extends FindRequest {
     private String number;
 
     private FindTextAutoRepliesRequest() {
@@ -42,7 +42,7 @@ public class FindTextAutoRepliesRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindTextAutoRepliesRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindTextAutoRepliesRequest> {
         private Builder() {
             super(new FindTextAutoRepliesRequest());
         }

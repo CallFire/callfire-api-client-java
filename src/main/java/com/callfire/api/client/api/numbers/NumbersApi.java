@@ -4,7 +4,7 @@ import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
@@ -66,7 +66,7 @@ public class NumbersApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<Number> findNumbersTollfree(CommonGetRequest request) {
+    public List<Number> findNumbersTollfree(CommonFindRequest request) {
         return client.get(NUMBERS_TOLLFREE_PATH, NUMBERS_LIST_TYPE, request);
     }
 }

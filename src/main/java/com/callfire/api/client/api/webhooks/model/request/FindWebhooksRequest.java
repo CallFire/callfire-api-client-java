@@ -1,6 +1,6 @@
 package com.callfire.api.client.api.webhooks.model.request;
 
-import com.callfire.api.client.api.common.model.request.GetRequest;
+import com.callfire.api.client.api.common.model.request.FindRequest;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @since 1.0
  */
-public class FindWebhooksRequest extends GetRequest {
+public class FindWebhooksRequest extends FindRequest {
     private String name;
     private String resource;
     private String event;
@@ -68,7 +68,7 @@ public class FindWebhooksRequest extends GetRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindWebhooksRequest> {
+    public static class Builder extends FindRequestBuilder<Builder, FindWebhooksRequest> {
         private Builder() {
             super(new FindWebhooksRequest());
         }
