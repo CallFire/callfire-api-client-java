@@ -14,10 +14,20 @@ public class CallfireApiException extends RuntimeException {
         this.apiErrorMessage = apiErrorMessage;
     }
 
+    /**
+     * Get detailed error message with HTTP code, help link, etc.
+     *
+     * @return detailed message
+     */
     public ErrorMessage getApiErrorMessage() {
         return apiErrorMessage;
     }
 
+    /**
+     * Set detailed error message with HTTP code, help link, etc.
+     *
+     * @param apiErrorMessage detailed message
+     */
     public void setApiErrorMessage(ErrorMessage apiErrorMessage) {
         this.apiErrorMessage = apiErrorMessage;
     }

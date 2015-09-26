@@ -4,6 +4,7 @@ import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.request.GetRequest;
 import com.callfire.api.client.auth.Authentication;
+import com.callfire.api.client.auth.BasicAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.HttpEntity;
@@ -41,6 +42,11 @@ public class RestApiClient {
     private Authentication authentication;
     private SortedSet<RequestFilter> filters = new TreeSet<>();
 
+    /**
+     * REST API client constructor. Currently available authentication methods: {@link BasicAuth}
+     *
+     * @param authentication API authentication method
+     */
     public RestApiClient(Authentication authentication) {
         this.authentication = authentication;
         jsonConverter = new JsonConverter();
@@ -69,13 +75,13 @@ public class RestApiClient {
      * Performs GET request to specified path
      *
      * @param path request path
-     * @param type entity type
-     * @param <T>  entity type
+     * @param type return entity type
+     * @param <T>  return entity type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T> T get(String path, TypeReference<T> type) throws CallfireClientException, CallfireApiException {
+    public <T> T get(String path, TypeReference<T> type) {
         return get(path, type, Collections.<NameValuePair>emptyList());
     }
 
@@ -83,15 +89,14 @@ public class RestApiClient {
      * Performs GET request to specified path
      *
      * @param path    request path
-     * @param type    entity type
-     * @param request find request with query parameters
-     * @param <T>     entity type
+     * @param type    return entity type
+     * @param request finder request with query parameters
+     * @param <T>     return entity type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T> T get(String path, TypeReference<T> type, GetRequest request)
-        throws CallfireClientException, CallfireApiException {
+    public <T> T get(String path, TypeReference<T> type, GetRequest request) {
         List<NameValuePair> queryParams = buildQueryParams(request);
         return get(path, type, queryParams);
     }
@@ -100,15 +105,14 @@ public class RestApiClient {
      * Performs GET request to specified path
      *
      * @param path        request path
-     * @param type        entity type
+     * @param type        return entity type
      * @param queryParams query parameters
-     * @param <T>         entity type
+     * @param <T>         return entity type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client
      */
-    public <T> T get(String path, TypeReference<T> type, List<NameValuePair> queryParams)
-        throws CallfireClientException, CallfireApiException {
+    public <T> T get(String path, TypeReference<T> type, List<NameValuePair> queryParams) {
         try {
             String uri = BASE_PATH + path;
             LOGGER.debug("GET request to {} with params: {}", uri, queryParams);
@@ -125,8 +129,8 @@ public class RestApiClient {
      * Performs POST request to specified path with empty body
      *
      * @param path request path
-     * @param type entity type
-     * @param <T>  entity type
+     * @param type return entity type
+     * @param <T>  return entity type
      * @return pojo mapped from json
      * @throws CallfireApiException    in case API cannot be queried for some reason
      * @throws CallfireClientException in case error has occurred in client

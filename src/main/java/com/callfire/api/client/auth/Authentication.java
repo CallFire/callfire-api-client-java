@@ -12,7 +12,7 @@ public interface Authentication {
      *
      * @param request HTTP request
      * @return updated http request
-     * @throws CallfireClientException
+     * @throws CallfireClientException in case error has occurred in client
      */
     HttpUriRequest apply(HttpUriRequest request);
 }

@@ -21,11 +21,11 @@ public final class ClientUtils {
     }
 
     /**
-     * Add query param to map if it's value not null
+     * Add query param to name-value query list if it's value not null
      *
      * @param name        parameter name
      * @param value       parameter value
-     * @param queryParams parameters map
+     * @param queryParams parameters list
      */
     public static void addQueryParamIfSet(String name, Object value, List<NameValuePair> queryParams) {
         if (name != null && value != null && queryParams != null) {
@@ -34,11 +34,11 @@ public final class ClientUtils {
     }
 
     /**
-     * Add Iterable value as query param
+     * Add {@link Iterable} value as query param to name-value query list
      *
      * @param name        parameter name
      * @param value       collection with values
-     * @param queryParams parameters map
+     * @param queryParams parameters list
      */
     public static void addQueryParamIfSet(String name, Iterable value, List<NameValuePair> queryParams) {
         if (name != null && value != null && queryParams != null) {
@@ -49,7 +49,7 @@ public final class ClientUtils {
     }
 
     /**
-     * Method traverses request object using reflection and build List<NameValuePair> from it
+     * Method traverses request object using reflection and build {@link List<NameValuePair>} from it
      *
      * @param request request
      * @param <T>     type of request
@@ -70,38 +70,39 @@ public final class ClientUtils {
 
     private static void readFields(Object request, List<NameValuePair> params, Class<?> clazz) {
         for (Field field : clazz.getDeclaredFields()) {
-            readField(request, params, field);
+            try {
+                readField(request, params, field);
+            } catch (IllegalAccessException e) {
+                throw new CallfireClientException(e);
+            }
         }
     }
 
-    private static void readField(Object request, List<NameValuePair> params, Field field) {
-        try {
-            field.setAccessible(true);
-            if (field.isAnnotationPresent(QueryParamIgnore.class) &&
-                field.getAnnotation(QueryParamIgnore.class).enabled()) {
-                return;
-            }
-            Object value = field.get(request);
-            if (value != null) {
-                if (field.isAnnotationPresent(ConvertToString.class) && value instanceof Iterable) {
-                    value = StringUtils.join((Iterable) value, field.getAnnotation(ConvertToString.class).separator());
-                    if (StringUtils.isEmpty((String) value)) {
-                        return;
-                    }
-                }
-                if (value instanceof Iterable) {
-                    for (Object o : (Iterable) value) {
-                        params.add(new BasicNameValuePair(field.getName(), o.toString()));
-                    }
+    private static void readField(Object request, List<NameValuePair> params, Field field)
+        throws IllegalAccessException {
+        field.setAccessible(true);
+        if (field.isAnnotationPresent(QueryParamIgnore.class) &&
+            field.getAnnotation(QueryParamIgnore.class).enabled()) {
+            return;
+        }
+        Object value = field.get(request);
+        if (value != null) {
+            if (field.isAnnotationPresent(ConvertToString.class) && value instanceof Iterable) {
+                value = StringUtils.join((Iterable) value, field.getAnnotation(ConvertToString.class).separator());
+                if (StringUtils.isEmpty((String) value)) {
                     return;
                 }
-                if (value instanceof Date) {
-                    value = ((Date) value).getTime();
-                }
-                params.add(new BasicNameValuePair(field.getName(), value.toString()));
             }
-        } catch (IllegalAccessException e) {
-            throw new CallfireClientException(e);
+            if (value instanceof Iterable) {
+                for (Object o : (Iterable) value) {
+                    params.add(new BasicNameValuePair(field.getName(), o.toString()));
+                }
+                return;
+            }
+            if (value instanceof Date) {
+                value = ((Date) value).getTime();
+            }
+            params.add(new BasicNameValuePair(field.getName(), value.toString()));
         }
     }
 }

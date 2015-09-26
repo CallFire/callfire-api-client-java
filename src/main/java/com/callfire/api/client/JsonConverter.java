@@ -7,11 +7,15 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 
+/**
+ * JSON serializer/deserializer
+ */
 public class JsonConverter {
     private ObjectMapper mapper;
 
     public JsonConverter() {
         mapper = new ObjectMapper();
+        // TODO set fail to false
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
         mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
@@ -47,10 +51,20 @@ public class JsonConverter {
         }
     }
 
+    /**
+     * Get Jackson's {@link ObjectMapper}
+     *
+     * @return object mapper
+     */
     public ObjectMapper getMapper() {
         return mapper;
     }
 
+    /**
+     * Set Jackson's {@link ObjectMapper}
+     *
+     * @param mapper object mapper
+     */
     public void setMapper(ObjectMapper mapper) {
         this.mapper = mapper;
     }

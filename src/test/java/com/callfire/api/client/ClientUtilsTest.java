@@ -59,4 +59,5 @@ public class ClientUtilsTest {
         assertEquals(1, queryParams.size());
         assertThat(queryParams, hasItem(new BasicNameValuePair("limit", Long.valueOf(10).toString())));
     }
+
 }
