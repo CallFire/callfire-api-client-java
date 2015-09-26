@@ -6,7 +6,7 @@ import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.webhooks.model.Subscription;
-import com.callfire.api.client.api.webhooks.model.request.FindSubscriptionRequest;
+import com.callfire.api.client.api.webhooks.model.request.FindSubscriptionsRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -22,6 +22,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /subscriptions
+ *
+ * @since 1.0
  */
 public class SubscriptionsApi {
     private static final String SUBSCRIPTIONS_PATH = "/subscriptions";
@@ -40,11 +42,11 @@ public class SubscriptionsApi {
      * Find subscriptions
      *
      * @param request request object with different fields for search
-     * @return Page with Subscription objects
+     * @return {@link Page} with {@link Subscription} objects
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<Subscription> findSubscriptions(FindSubscriptionRequest request) {
+    public Page<Subscription> find(FindSubscriptionsRequest request) {
         return client.get(SUBSCRIPTIONS_PATH, PAGE_OF_SUBSCRIPTIONS_TYPE, request);
     }
 
@@ -52,36 +54,36 @@ public class SubscriptionsApi {
      * Create subscription
      *
      * @param subscription subscription to create
-     * @return ResourceId object with id of created notification
+     * @return {@link ResourceId} object with id of created {@link Subscription}
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createSubscription(Subscription subscription) {
+    public ResourceId create(Subscription subscription) {
         return client.post(SUBSCRIPTIONS_PATH, RESOURCE_ID_TYPE, subscription);
     }
 
     /**
-     * Get notification by id.
+     * Get subscription by id.
      *
-     * @param id Id of notification
-     * @return Subscription object
+     * @param id id of subscription
+     * @return {@link Subscription} object
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Subscription getSubscription(Long id) {
-        return getSubscription(id, null);
+    public Subscription get(Long id) {
+        return get(id, null);
     }
 
     /**
-     * Get notification by id.
+     * Get subscription by id.
      *
-     * @param id     Id of notification
-     * @param fields Limit fields returned. Example fields=id,name
-     * @return Subscription object
+     * @param id     id of subscription
+     * @param fields limit fields returned. Example fields=id,name
+     * @return {@link Subscription} object
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Subscription getSubscription(Long id, String fields) {
+    public Subscription get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
@@ -96,7 +98,7 @@ public class SubscriptionsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateSubscription(Subscription subscription) {
+    public void update(Subscription subscription) {
         Validate.notNull(subscription.getId(), "subscription.id cannot be null");
         client.put(SUBSCRIPTIONS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(subscription.getId())),
             STRING_TYPE, subscription);
@@ -109,7 +111,7 @@ public class SubscriptionsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteSubscription(Long id) {
+    public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(SUBSCRIPTIONS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
     }

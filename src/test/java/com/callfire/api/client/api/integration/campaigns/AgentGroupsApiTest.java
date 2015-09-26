@@ -31,7 +31,6 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
         AgentGroupsApi agentGroupsApi = callfireClient.getAgentGroupsApi();
 
-        // test createSubscription & getSubscription
         AgentGroup agentGroup1 = new AgentGroup();
         agentGroup1.setId(2L);
         agentGroup1.setName("test-group-1");
@@ -69,13 +68,13 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
         assertThat(itemsIds, hasItem(groupId1.getId()));
         assertThat(itemsIds, hasItem(groupId2.getId()));
 
-        // test updateSubscription
+        // test update
         savedGroup1.setName("updated_name");
         agentGroupsApi.update(savedGroup1);
         AgentGroup updatedGroup = agentGroupsApi.getAgentGroup(groupId1.getId());
         assertEquals(savedGroup1.getName(), updatedGroup.getName());
 
-        // test deleteSubscription
+        // test delete
         agentGroupsApi.delete(groupId1.getId());
         agentGroupsApi.delete(groupId2.getId());
 

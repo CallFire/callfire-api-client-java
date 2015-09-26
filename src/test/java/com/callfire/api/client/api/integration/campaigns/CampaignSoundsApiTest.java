@@ -71,7 +71,7 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         assertNotNull(mp3ResourceId.getId());
         assertNotNull(wavResourceId.getId());
 
-        // getSubscription sound metadata
+        // get sound metadata
         CampaignSound campaignSound = campaignSoundsApi.getCampaignSoundMeta(mp3ResourceId.getId(),
             "name,status,lengthInSeconds");
         assertNull(campaignSound.getId());
@@ -79,14 +79,14 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         assertEquals(ACTIVE, campaignSound.getStatus());
         assertEquals(Integer.valueOf(6), campaignSound.getLengthInSeconds());
 
-        // getSubscription mp3
+        // get mp3
         InputStream is = campaignSoundsApi.getCampaignSoundDataMp3(mp3ResourceId.getId());
         File tempFile = File.createTempFile("mp3_sound", "mp3");
         try (FileOutputStream os = new FileOutputStream(tempFile)) {
             IOUtils.copy(is, os);
         }
 
-        // getSubscription wav
+        // get wav
         is = campaignSoundsApi.getCampaignSoundDataWav(mp3ResourceId.getId());
         tempFile = File.createTempFile("wav_sound", "wav");
         try (FileOutputStream os = new FileOutputStream(tempFile)) {

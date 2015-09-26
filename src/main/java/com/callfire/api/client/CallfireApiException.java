@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Callfire API exception is thrown by client in case of 4xx or 5xx HTTP code
  * response
+ *
+ * @since 1.0
  */
 public class CallfireApiException extends RuntimeException {
     private ErrorMessage apiErrorMessage;

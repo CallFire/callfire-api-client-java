@@ -6,17 +6,19 @@ import com.callfire.api.client.api.webhooks.model.Subscription.TriggerEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Request object for GET /subscription which incapsulates
+ * Request object for GET /subscriptions which incapsulates
  * different query pairs
+ *
+ * @since 1.0
  */
-public class FindSubscriptionRequest extends GetRequest {
+public class FindSubscriptionsRequest extends GetRequest {
     private Long campaignId;
     private TriggerEvent trigger;
     private NotificationFormat format;
     private String fromNumber;
     private String toNumber;
 
-    private FindSubscriptionRequest() {
+    private FindSubscriptionsRequest() {
     }
 
     /**
@@ -63,9 +65,9 @@ public class FindSubscriptionRequest extends GetRequest {
     /**
      * Builder class for find method
      */
-    public static class Builder extends GetRequestBuilder<Builder, FindSubscriptionRequest> {
+    public static class Builder extends GetRequestBuilder<Builder, FindSubscriptionsRequest> {
         private Builder() {
-            super(new FindSubscriptionRequest());
+            super(new FindSubscriptionsRequest());
         }
 
         public Builder campaignId(Long campaignId) {

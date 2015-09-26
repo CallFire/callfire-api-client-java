@@ -6,6 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Request object for GET /webhooks which incapsulates
  * different query pairs
+ *
+ * @since 1.0
  */
 public class FindWebhooksRequest extends GetRequest {
     private String name;

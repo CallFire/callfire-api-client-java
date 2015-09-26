@@ -33,6 +33,8 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
 /**
  * REST client which makes HTTP calls to Callfire service
+ *
+ * @since 1.0
  */
 public class RestApiClient {
     private static final Logger LOGGER = new Logger(RestApiClient.class);

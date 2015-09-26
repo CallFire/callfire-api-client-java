@@ -15,6 +15,8 @@ import java.util.Objects;
 
 /**
  * Utility class
+ *
+ * @since 1.0
  */
 public final class ClientUtils {
     private ClientUtils() {

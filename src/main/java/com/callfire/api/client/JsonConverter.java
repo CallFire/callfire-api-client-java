@@ -9,6 +9,8 @@ import java.io.IOException;
 
 /**
  * JSON serializer/deserializer
+ *
+ * @since 1.0
  */
 public class JsonConverter {
     private ObjectMapper mapper;

@@ -9,6 +9,8 @@ import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 
 /**
  * Wrapper around commons-logging with slf4j message format
+ *
+ * @since 1.0
  */
 public class Logger implements Log {
 

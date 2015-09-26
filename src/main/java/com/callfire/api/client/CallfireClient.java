@@ -16,7 +16,7 @@ import com.callfire.api.client.api.numbers.NumbersApi;
 /**
  * Callfire API v2 client
  *
- * @author Vladimir Mikhailov
+ * @author Vladimir Mikhailov (email: vmikhailov@callfire.com)
  * @version 1.0
  */
 public class CallfireClient {

@@ -4,6 +4,8 @@ import org.apache.http.client.methods.RequestBuilder;
 
 /**
  * Extend abstract filter in case you need to modify outgoing http requests
+ *
+ * @since 1.0
  */
 public abstract class RequestFilter implements Comparable<RequestFilter> {
 
