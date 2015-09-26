@@ -5,6 +5,7 @@ import com.callfire.api.client.api.account.OrdersApi;
 import com.callfire.api.client.api.callstexts.CallsApi;
 import com.callfire.api.client.api.callstexts.TextsApi;
 import com.callfire.api.client.api.campaigns.AgentGroupsApi;
+import com.callfire.api.client.api.numbers.NumberLeasesApi;
 import com.callfire.api.client.api.webhooks.SubscriptionsApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
@@ -31,6 +32,7 @@ public class CallfireClient {
     private TextsApi textsApi;
     private KeywordsApi keywordsApi;
     private NumbersApi numbersApi;
+    private NumberLeasesApi numberLeasesApi;
     private OrdersApi ordersApi;
     private WebhooksApi webhooksApi;
     private AgentGroupsApi agentGroupsApi;
@@ -129,6 +131,18 @@ public class CallfireClient {
             numbersApi = new NumbersApi(restApiClient);
         }
         return numbersApi;
+    }
+
+    /**
+     * Get /numbers/leases endpoint
+     *
+     * @return endpoint object
+     */
+    public NumberLeasesApi getNumberLeasesApi() {
+        if (numberLeasesApi == null) {
+            numberLeasesApi = new NumberLeasesApi(restApiClient);
+        }
+        return numberLeasesApi;
     }
 
     /**

@@ -9,6 +9,7 @@ import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.util.ArrayList;
@@ -20,12 +21,14 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /numbers/leases
+ *
+ * @since 1.0
  */
 public class NumberLeasesApi {
-    private static final String NUMBER_LEASES = "/numbers/leases";
-    private static final String NUMBER_LEASES_ITEM = "/numbers/leases/{}";
-    private static final String NUMBER_CONFIGS = "/numbers/leases/configs";
-    private static final String NUMBER_CONFIGS_ITEM = "/numbers/leases/configs/{}";
+    private static final String NUMBER_LEASES_PATH = "/numbers/leases";
+    private static final String NUMBER_LEASES_ITEM_PATH = "/numbers/leases/{}";
+    private static final String NUMBER_CONFIGS_PATH = "/numbers/leases/configs";
+    private static final String NUMBER_CONFIGS_ITEM_PATH = "/numbers/leases/configs/{}";
 
     private static final TypeReference<Page<NumberLease>> PAGE_OF_NUMBER_LEASES_TYPE = new TypeReference<Page<NumberLease>>() {
     };
@@ -50,8 +53,8 @@ public class NumberLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<NumberLease> findNumberLeases(FindNumberLeasesRequest request) {
-        return client.get(NUMBER_LEASES, PAGE_OF_NUMBER_LEASES_TYPE, request);
+    public Page<NumberLease> find(FindNumberLeasesRequest request) {
+        return client.get(NUMBER_LEASES_PATH, PAGE_OF_NUMBER_LEASES_TYPE, request);
     }
 
     /**
@@ -62,8 +65,8 @@ public class NumberLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public NumberLease getNumberLease(String number) {
-        return getNumberLease(number, null);
+    public NumberLease get(String number) {
+        return get(number, null);
     }
 
     /**
@@ -75,21 +78,23 @@ public class NumberLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public NumberLease getNumberLease(String number, String fields) {
+    public NumberLease get(String number, String fields) {
+        Validate.notBlank(number, "number cannot be blank");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(NUMBER_LEASES_ITEM.replaceFirst(PLACEHOLDER, number), NUMBER_LEASE_TYPE, queryParams);
+        return client.get(NUMBER_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, number), NUMBER_LEASE_TYPE, queryParams);
     }
 
     /**
      * Update number lease
      *
-     * @param numberLease update payload
+     * @param lease update payload
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateNumberLease(NumberLease numberLease) {
-        client.put(NUMBER_LEASES_ITEM.replaceFirst(PLACEHOLDER, numberLease.getNumber()), VOID_TYPE, numberLease);
+    public void update(NumberLease lease) {
+        Validate.notBlank(lease.getNumber(), "lease.number cannot be blank");
+        client.put(NUMBER_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, lease.getNumber()), VOID_TYPE, lease);
     }
 
     /**
@@ -100,8 +105,8 @@ public class NumberLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<NumberConfig> findNumberLeaseConfigs(FindNumberLeaseConfigsRequest request) {
-        return client.get(NUMBER_CONFIGS, PAGE_OF_NUMBER_CONFIGS_TYPE, request);
+    public Page<NumberConfig> findConfigs(FindNumberLeaseConfigsRequest request) {
+        return client.get(NUMBER_CONFIGS_PATH, PAGE_OF_NUMBER_CONFIGS_TYPE, request);
     }
 
     /**
@@ -112,8 +117,8 @@ public class NumberLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public NumberConfig getNumberLeaseConfig(String number) {
-        return getNumberLeaseConfig(number, null);
+    public NumberConfig getConfig(String number) {
+        return getConfig(number, null);
     }
 
     /**
@@ -125,21 +130,23 @@ public class NumberLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public NumberConfig getNumberLeaseConfig(String number, String fields) {
+    public NumberConfig getConfig(String number, String fields) {
+        Validate.notBlank(number, "number cannot be blank");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(NUMBER_CONFIGS_ITEM.replaceFirst(PLACEHOLDER, number), NUMBER_CONFIG_TYPE, queryParams);
+        return client.get(NUMBER_CONFIGS_ITEM_PATH.replaceFirst(PLACEHOLDER, number), NUMBER_CONFIG_TYPE, queryParams);
     }
 
     /**
      * Update number lease config
      *
-     * @param numberConfig update payload
+     * @param config update payload
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateNumberLeaseConfig(NumberConfig numberConfig) {
-        client.put(NUMBER_CONFIGS_ITEM.replaceFirst(PLACEHOLDER, numberConfig.getNumber()), VOID_TYPE, numberConfig);
+    public void updateConfig(NumberConfig config) {
+        Validate.notBlank(config.getNumber(), "config.number cannot be blank");
+        client.put(NUMBER_CONFIGS_ITEM_PATH.replaceFirst(PLACEHOLDER, config.getNumber()), VOID_TYPE, config);
     }
 
 }

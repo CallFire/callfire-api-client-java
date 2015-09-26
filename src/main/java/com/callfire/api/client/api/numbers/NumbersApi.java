@@ -15,11 +15,13 @@ import java.util.List;
 
 /**
  * Represents rest endpoint /numbers
+ *
+ * @since 1.0
  */
 public class NumbersApi {
-    private static final String NUMBERS_LOCAL = "/numbers/local";
-    private static final String NUMBERS_REGIONS = "/numbers/regions";
-    private static final String NUMBERS_TOLLFREE = "/numbers/tollfree";
+    private static final String NUMBERS_LOCAL_PATH = "/numbers/local";
+    private static final String NUMBERS_REGIONS_PATH = "/numbers/regions";
+    private static final String NUMBERS_TOLLFREE_PATH = "/numbers/tollfree";
 
     private static final TypeReference<List<Number>> NUMBERS_LIST_TYPE = new TypeReference<List<Number>>() {
     };
@@ -27,7 +29,6 @@ public class NumbersApi {
     };
 
     private RestApiClient client;
-    private NumberLeasesApi numberLeasesApi;
 
     public NumbersApi(RestApiClient client) {
         this.client = client;
@@ -42,7 +43,7 @@ public class NumbersApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public List<Number> findNumbersLocal(FindNumbersLocalRequest request) {
-        return client.get(NUMBERS_LOCAL, NUMBERS_LIST_TYPE, request);
+        return client.get(NUMBERS_LOCAL_PATH, NUMBERS_LIST_TYPE, request);
     }
 
     /**
@@ -54,30 +55,18 @@ public class NumbersApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public Page<Region> findNumberRegions(FindNumberRegionsRequest request) {
-        return client.get(NUMBERS_REGIONS, PAGE_OF_REGIONS_TYPE, request);
+        return client.get(NUMBERS_REGIONS_PATH, PAGE_OF_REGIONS_TYPE, request);
     }
 
     /**
      * Find numbers in tollfree catalog
      *
      * @param request request payload
-     * @return NumberOrder
+     * @return list of {@link Number}
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
     public List<Number> findNumbersTollfree(CommonGetRequest request) {
-        return client.get(NUMBERS_TOLLFREE, NUMBERS_LIST_TYPE, request);
-    }
-
-    /**
-     * Get /numbers/leases api endpoint
-     *
-     * @return endpoint object
-     */
-    public NumberLeasesApi getNumberLeasesApi() {
-        if (numberLeasesApi == null) {
-            numberLeasesApi = new NumberLeasesApi(client);
-        }
-        return numberLeasesApi;
+        return client.get(NUMBERS_TOLLFREE_PATH, NUMBERS_LIST_TYPE, request);
     }
 }
