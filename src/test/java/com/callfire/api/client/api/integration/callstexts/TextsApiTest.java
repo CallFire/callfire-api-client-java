@@ -25,6 +25,7 @@ public class TextsApiTest extends AbstractIntegrationTest {
         FindTextsRequest request = FindTextsRequest.create()
             .states(Arrays.asList(State.FINISHED, State.READY))
             .results(Arrays.asList(TextResult.SENT, TextResult.RECEIVED))
+            .limit(2L)
             .build();
         Page<Text> page = client.getTextsApi().findTexts(request);
         assertFalse(page.getItems().isEmpty());

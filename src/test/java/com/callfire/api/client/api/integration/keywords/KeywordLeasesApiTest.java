@@ -1,11 +1,11 @@
 package com.callfire.api.client.api.integration.keywords;
 
 import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonGetRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import com.callfire.api.client.api.keywords.KeywordLeasesApi;
 import com.callfire.api.client.api.keywords.model.KeywordLease;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.keywords.model.request.FindKeywordLeasesRequest;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
     public void testFindKeywordLeases() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        FindKeywordLeasesRequest request = FindKeywordLeasesRequest.create()
+        CommonGetRequest request = CommonGetRequest.create()
             .limit(1L)
             .build();
         Page<KeywordLease> leases = callfireClient.getKeywordsApi().getKeywordLeasesApi()

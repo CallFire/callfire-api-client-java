@@ -1,13 +1,13 @@
 package com.callfire.api.client.api.integration.numbers;
 
 import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonGetRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import com.callfire.api.client.api.numbers.model.Number;
-import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
-import com.callfire.api.client.api.numbers.model.request.FindNumbersTollfreeRequest;
 import org.junit.Test;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
     public void testFindTollfreeNumbers() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        FindNumbersTollfreeRequest request = FindNumbersTollfreeRequest.create()
+        CommonGetRequest request = CommonGetRequest.create()
             .limit(2L)
             .build();
         List<Number> numbers = callfireClient.getNumbersApi().findNumbersTollfree(request);

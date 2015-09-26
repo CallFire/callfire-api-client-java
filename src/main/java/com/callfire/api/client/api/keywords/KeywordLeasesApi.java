@@ -3,9 +3,9 @@ package com.callfire.api.client.api.keywords;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
-import com.callfire.api.client.api.keywords.model.KeywordLease;
 import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.keywords.model.request.FindKeywordLeasesRequest;
+import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.keywords.model.KeywordLease;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.http.NameValuePair;
 
@@ -42,7 +42,7 @@ public class KeywordLeasesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<KeywordLease> findKeywordLeases(FindKeywordLeasesRequest request) {
+    public Page<KeywordLease> findKeywordLeases(CommonGetRequest request) {
         return client.get(KEYWORD_LEASES, PAGE_OF_KEYWORD_LEASES_TYPE, request);
     }
 

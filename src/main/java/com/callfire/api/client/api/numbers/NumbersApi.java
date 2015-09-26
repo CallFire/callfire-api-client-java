@@ -3,12 +3,12 @@ package com.callfire.api.client.api.numbers;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
-import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonGetRequest;
+import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
-import com.callfire.api.client.api.numbers.model.request.FindNumbersTollfreeRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
@@ -65,7 +65,7 @@ public class NumbersApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<Number> findNumbersTollfree(FindNumbersTollfreeRequest request) {
+    public List<Number> findNumbersTollfree(CommonGetRequest request) {
         return client.get(NUMBERS_TOLLFREE, NUMBERS_LIST_TYPE, request);
     }
 

@@ -59,12 +59,12 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Test
     public void testSendVerificationCode() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        callfireClient.getMeApi().sendVerificationCodeToCallerId(getCallerId().replace("84", "85"));
+        callfireClient.getMeApi().sendVerificationCode(getCallerId().replace("84", "85"));
 
         ex.expect(CallfireApiException.class);
         ex.expect(hasProperty("apiErrorMessage", hasProperty("httpStatusCode", is(400))));
         ex.expect(hasProperty("apiErrorMessage", hasProperty("message", containsString("that is already verified"))));
-        String callerIds = callfireClient.getMeApi().sendVerificationCodeToCallerId(getCallerId());
+        String callerIds = callfireClient.getMeApi().sendVerificationCode(getCallerId());
 
     }
 

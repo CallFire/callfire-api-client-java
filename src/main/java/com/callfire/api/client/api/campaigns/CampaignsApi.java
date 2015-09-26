@@ -10,7 +10,7 @@ public class CampaignsApi {
 
     private BatchesApi batchesApi;
     private CccsApi cccsApi;
-    private SoundsApi soundsApi;
+    private CampaignSoundsApi campaignSoundsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
     private VoiceBroadcastsApi voiceBroadcastsApi;
 
@@ -46,13 +46,13 @@ public class CampaignsApi {
      * Get /campaigns/cccs/sounds api endpoint
      *
      * @return endpoint object
-     * @see SoundsApi
+     * @see CampaignSoundsApi
      */
-    public SoundsApi getSoundsApi() {
-        if (soundsApi == null) {
-            soundsApi = new SoundsApi(restApiClient);
+    public CampaignSoundsApi getCampaignSoundsApi() {
+        if (campaignSoundsApi == null) {
+            campaignSoundsApi = new CampaignSoundsApi(restApiClient);
         }
-        return soundsApi;
+        return campaignSoundsApi;
     }
 
     /**

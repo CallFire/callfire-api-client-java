@@ -28,7 +28,7 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 /**
  * Represents rest endpoint /campaigns/sounds
  */
-public class SoundsApi {
+public class CampaignSoundsApi {
     private static final String SOUNDS_PATH = "/campaigns/sounds";
     private static final String SOUNDS_ITEM_PATH = "/campaigns/sounds/{}";
     private static final String SOUNDS_CALLS_PATH = "/campaigns/sounds/calls";
@@ -42,7 +42,7 @@ public class SoundsApi {
 
     private RestApiClient client;
 
-    public SoundsApi(RestApiClient client) {
+    public CampaignSoundsApi(RestApiClient client) {
         this.client = client;
     }
 

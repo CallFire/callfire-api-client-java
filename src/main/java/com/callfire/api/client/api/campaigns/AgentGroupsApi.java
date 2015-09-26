@@ -124,8 +124,8 @@ public class AgentGroupsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void delete(Long id) throws CallfireApiException, CallfireClientException {
-        // TODO vmikhailov validate input
+    public void delete(Long id) {
+        Validate.notNull(id, "id cannot be null");
         client.delete(AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
     }
 

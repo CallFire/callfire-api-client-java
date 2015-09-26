@@ -5,6 +5,7 @@ import com.callfire.api.client.api.contacts.model.Contact;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Action extends CallfireModel {
@@ -15,8 +16,8 @@ public class Action extends CallfireModel {
     private Long batchId;
     private Contact contact;
     private Boolean inbound;
-    private Long created;
-    private Long modified;
+    private Date created;
+    private Date modified;
     private List<String> labels = new ArrayList<>();
 
     public Long getId() {
@@ -75,19 +76,19 @@ public class Action extends CallfireModel {
         this.inbound = inbound;
     }
 
-    public Long getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Long created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public Long getModified() {
+    public Date getModified() {
         return modified;
     }
 
-    public void setModified(Long modified) {
+    public void setModified(Date modified) {
         this.modified = modified;
     }
 
