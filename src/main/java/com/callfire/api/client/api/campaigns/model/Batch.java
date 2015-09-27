@@ -23,56 +23,28 @@ public class Batch extends CallfireModel {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public Long getBroadcastId() {
         return broadcastId;
-    }
-
-    public void setBroadcastId(Long broadcastId) {
-        this.broadcastId = broadcastId;
     }
 
     public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public Integer getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
     public Integer getRemaining() {
         return remaining;
-    }
-
-    public void setRemaining(Integer remaining) {
-        this.remaining = remaining;
     }
 
     public Boolean getEnabled() {

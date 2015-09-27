@@ -19,13 +19,13 @@ public class BatchesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
         BatchesApi api = callfireClient.getBatchesApi();
 
-        Batch batch = api.getCampaignBatch(1L);
+        Batch batch = api.get(1L);
         System.out.println(batch);
         assertTrue(batch.getEnabled());
 
         batch.setEnabled(false);
-        api.updateCampaignBatch(batch);
-        batch = api.getCampaignBatch(1L);
+        api.update(batch);
+        batch = api.get(1L);
         assertFalse(batch.getEnabled());
     }
 }

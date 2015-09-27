@@ -17,6 +17,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /campaigns/batches
+ *
+ * @since 1.0
  */
 public class BatchesApi {
     private static final String BATCH_PATH = "/campaigns/batches/{}";
@@ -39,8 +41,8 @@ public class BatchesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Batch getCampaignBatch(Long id) {
-        return getCampaignBatch(id, null);
+    public Batch get(Long id) {
+        return get(id, null);
     }
 
     /**
@@ -52,7 +54,7 @@ public class BatchesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Batch getCampaignBatch(Long id, String fields) {
+    public Batch get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
@@ -66,7 +68,7 @@ public class BatchesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateCampaignBatch(Batch batch) {
+    public void update(Batch batch) {
         Validate.notNull(batch.getId(), "batch.id cannot be null");
         client.put(BATCH_PATH.replaceFirst(PLACEHOLDER, batch.getId().toString()), BATCH_TYPE, batch);
     }
