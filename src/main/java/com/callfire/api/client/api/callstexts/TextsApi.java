@@ -97,7 +97,7 @@ public class TextsApi {
      *
      * @param recipients text recipients
      * @param campaignId id of outbound campaign
-     * @param fields     limit fields returned. Example fields=id,name
+     * @param fields     limit fields returned. Example items(id,name,fromNumber)
      * @return list of {@link Text}
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client

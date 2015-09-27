@@ -16,6 +16,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * integration tests for /calls api endpoint
@@ -59,15 +60,14 @@ public class CallsApiTest extends AbstractIntegrationTest {
         CallRecipient recipient2 = new CallRecipient();
         recipient2.setLiveMessageSoundId(1L);
         recipient2.setPhoneNumber(getCallerId());
-        // TODO send(recipients,fields) returns all fields with null
-//        List<Call> calls = client.getCallsApi().send(asList(recipient1, recipient2), null, "id,fromNumber,state");
-           List<Call> calls = client.getCallsApi().send(asList(recipient1, recipient2));
+        List<Call> calls = client.getCallsApi()
+            .send(asList(recipient1, recipient2), null, "items(id,fromNumber,state)");
 
         System.out.println(calls);
 
         assertEquals(2, calls.size());
         assertNotNull(calls.get(0).getId());
-        // assertNull(calls.get(0).getCampaignId());
+        assertNull(calls.get(0).getCampaignId());
         assertEquals(Call.State.READY, calls.get(0).getState());
     }
 }

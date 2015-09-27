@@ -36,8 +36,7 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
             .limit(3L)
             .filter("sample")
             .build();
-        Page<CampaignSound> campaignSounds = callfireClient.getCampaignsApi().getCampaignSoundsApi()
-            .findCampaignSounds(request);
+        Page<CampaignSound> campaignSounds = callfireClient.getCampaignSoundsApi().findCampaignSounds(request);
         assertEquals(Long.valueOf(4), campaignSounds.getTotalCount());
         assertEquals(3, campaignSounds.getItems().size());
         for (CampaignSound cs : campaignSounds.getItems()) {
@@ -52,8 +51,7 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         CallCreateSound callCreateSound = new CallCreateSound();
         callCreateSound.setName("call_in_sound_" + new Date().getTime());
         callCreateSound.setToNumber(getCallerId());
-        ResourceId resourceId = callfireClient.getCampaignsApi().getCampaignSoundsApi()
-            .postCallCampaignSound(callCreateSound);
+        ResourceId resourceId = callfireClient.getCampaignSoundsApi().postCallCampaignSound(callCreateSound);
         assertNotNull(resourceId.getId());
         System.out.println(resourceId.getId());
     }
@@ -61,7 +59,7 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
     @Test
     public void testUploadMp3WavFilesAndGetThem() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        CampaignSoundsApi campaignSoundsApi = callfireClient.getCampaignsApi().getCampaignSoundsApi();
+        CampaignSoundsApi campaignSoundsApi = callfireClient.getCampaignSoundsApi();
         long timstamp = new Date().getTime();
         String soundName = "mp3_test_" + timstamp;
         File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
@@ -99,9 +97,8 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
         TextToSpeech tts = new TextToSpeech();
         tts.setMessage("this is TTS message from java client");
-        ResourceId resourceId = callfireClient.getCampaignsApi().getCampaignSoundsApi().postTtsCampaignSound(tts);
-        CampaignSound campaignSound = callfireClient.getCampaignsApi().getCampaignSoundsApi()
-            .getCampaignSoundMeta(resourceId.getId());
+        ResourceId resourceId = callfireClient.getCampaignSoundsApi().postTtsCampaignSound(tts);
+        CampaignSound campaignSound = callfireClient.getCampaignSoundsApi().getCampaignSoundMeta(resourceId.getId());
         assertEquals(resourceId.getId(), campaignSound.getId());
         assertThat(campaignSound.getLengthInSeconds(), greaterThan(2));
     }

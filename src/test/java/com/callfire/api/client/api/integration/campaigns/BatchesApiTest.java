@@ -17,7 +17,7 @@ public class BatchesApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        BatchesApi api = callfireClient.getCampaignsApi().getBatchesApi();
+        BatchesApi api = callfireClient.getBatchesApi();
 
         Batch batch = api.getCampaignBatch(1L);
         System.out.println(batch);

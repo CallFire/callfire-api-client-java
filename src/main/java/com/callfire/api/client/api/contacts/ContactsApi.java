@@ -23,6 +23,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /contacts
+ *
+ * @since 1.0
  */
 public class ContactsApi {
     private static final String CONTACTS_PATH = "/contacts";

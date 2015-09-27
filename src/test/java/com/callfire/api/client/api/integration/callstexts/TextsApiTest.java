@@ -51,15 +51,14 @@ public class TextsApiTest extends AbstractIntegrationTest {
         TextRecipient recipient2 = new TextRecipient();
         recipient2.setMessage("msg");
         recipient2.setPhoneNumber(getCallerId());
-        // TODO send(recipients,fields) returns all fields with null
-        //List<Text> texts = client.getTextsApi().send(asList(recipient1, recipient2) , null, "id,fromNumber,state");
-        List<Text> texts = client.getTextsApi().send(asList(recipient1, recipient2));
+        List<Text> texts = client.getTextsApi()
+            .send(asList(recipient1, recipient2), null, "items(id,fromNumber,state)");
 
         System.out.println(texts);
 
         assertEquals(2, texts.size());
         assertNotNull(texts.get(0).getId());
-        // assertNull(texts.get(0).getCampaignId());
+        assertNull(texts.get(0).getCampaignId());
         assertEquals(State.READY, texts.get(0).getState());
     }
 }

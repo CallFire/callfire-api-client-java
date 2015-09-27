@@ -5,12 +5,14 @@ import com.callfire.api.client.api.account.OrdersApi;
 import com.callfire.api.client.api.callstexts.CallsApi;
 import com.callfire.api.client.api.callstexts.TextsApi;
 import com.callfire.api.client.api.campaigns.AgentGroupsApi;
+import com.callfire.api.client.api.campaigns.BatchesApi;
+import com.callfire.api.client.api.campaigns.CampaignSoundsApi;
+import com.callfire.api.client.api.campaigns.TextAutoRepliesApi;
 import com.callfire.api.client.api.keywords.KeywordLeasesApi;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
 import com.callfire.api.client.api.webhooks.SubscriptionsApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
-import com.callfire.api.client.api.campaigns.CampaignsApi;
 import com.callfire.api.client.api.contacts.ContactsApi;
 import com.callfire.api.client.api.keywords.KeywordsApi;
 import com.callfire.api.client.api.numbers.NumbersApi;
@@ -29,7 +31,6 @@ public class CallfireClient {
     private CallsApi callsApi;
     private ContactsApi contactsApi;
     private MeApi meApi;
-    private CampaignsApi campaignsApi;
     private TextsApi textsApi;
     private KeywordsApi keywordsApi;
     private KeywordLeasesApi keywordLeasesApi;
@@ -38,6 +39,9 @@ public class CallfireClient {
     private OrdersApi ordersApi;
     private WebhooksApi webhooksApi;
     private AgentGroupsApi agentGroupsApi;
+    private CampaignSoundsApi campaignSoundsApi;
+    private TextAutoRepliesApi textAutoRepliesApi;
+    private BatchesApi batchesApi;
 
     /**
      * Constructs callfire client
@@ -83,19 +87,6 @@ public class CallfireClient {
             subscriptionsApi = new SubscriptionsApi(restApiClient);
         }
         return subscriptionsApi;
-    }
-
-    /**
-     * Get /campaigns endpoint
-     *
-     * @return endpoint object
-     * @see CampaignsApi
-     */
-    public CampaignsApi getCampaignsApi() {
-        if (campaignsApi == null) {
-            campaignsApi = new CampaignsApi(restApiClient);
-        }
-        return campaignsApi;
     }
 
     /**
@@ -208,11 +199,47 @@ public class CallfireClient {
     }
 
     /**
+     * Get /campaigns/sounds endpoint
+     *
+     * @return endpoint object
+     */
+    public CampaignSoundsApi getCampaignSoundsApi() {
+        if (campaignSoundsApi == null) {
+            campaignSoundsApi = new CampaignSoundsApi(restApiClient);
+        }
+        return campaignSoundsApi;
+    }
+
+    /**
      * Get REST api client which uses Apache httpclient inside
      *
      * @return rest client
      */
     public RestApiClient getRestApiClient() {
         return restApiClient;
+    }
+
+    /**
+     * Get /campaigns/text-auto-replys endpoint
+     *
+     * @return endpoint object
+     */
+    public TextAutoRepliesApi getTextAutoRepliesApi() {
+        if (textAutoRepliesApi == null) {
+            textAutoRepliesApi = new TextAutoRepliesApi(restApiClient);
+        }
+        return textAutoRepliesApi;
+    }
+
+    /**
+     * Get /campaigns/batches endpoint
+     *
+     * @return endpoint object
+     */
+    public BatchesApi getBatchesApi() {
+        if (batchesApi == null) {
+            batchesApi = new BatchesApi(restApiClient);
+        }
+        return batchesApi;
     }
 }
