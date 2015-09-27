@@ -34,15 +34,15 @@ public class DncListsApiTest extends AbstractIntegrationTest {
 
         DncList dncList = new DncList();
         dncList.setName("dncList1");
-        ResourceId dncListId = api.createDncList(dncList);
-        DncList created = api.getDncList(dncListId.getId());
+        ResourceId dncListId = api.create(dncList);
+        DncList created = api.get(dncListId.getId());
         assertEquals("dncList1", created.getName());
         assertThat(created.getCreated(), greaterThan(DateUtils.addMinutes(new Date(), -3)));
 
         FindDncListsRequest findRequest = FindDncListsRequest.create()
             .name("dncList1")
             .build();
-        Page<DncList> doNotCallLists = api.findDoNotCallLists(findRequest);
+        Page<DncList> doNotCallLists = api.find(findRequest);
         assertThat(doNotCallLists.getTotalCount(), greaterThan(0L));
         System.out.println(doNotCallLists);
 
@@ -62,27 +62,27 @@ public class DncListsApiTest extends AbstractIntegrationTest {
             .contactListId(dncListId.getId())
             .contacts(asList(dnc1, dnc2, dnc3))
             .build();
-        api.addDncListItems(addItemsRequest);
+        api.addListItems(addItemsRequest);
 
         // get items
         GetByIdRequest getItemsRequest = GetByIdRequest.create()
             .id(dncListId.getId())
             .build();
-        Page<DoNotContact> dncListItems = api.getDncListItems(getItemsRequest);
+        Page<DoNotContact> dncListItems = api.getListItems(getItemsRequest);
         List<DoNotContact> items = dncListItems.getItems();
         assertEquals(3, items.size());
 
-        api.removeDncListItem(dncListId.getId(), "12135543211");
-        dncListItems = api.getDncListItems(getItemsRequest);
+        api.removeListItem(dncListId.getId(), "12135543211");
+        dncListItems = api.getListItems(getItemsRequest);
         items = dncListItems.getItems();
         assertEquals(2, items.size());
 
-        api.removeDncListItems(dncListId.getId(), asList("12135543212", "12135543213"));
-        dncListItems = api.getDncListItems(getItemsRequest);
+        api.removeListItems(dncListId.getId(), asList("12135543212", "12135543213"));
+        dncListItems = api.getListItems(getItemsRequest);
         assertEquals(0, dncListItems.getItems().size());
 
         // delete
-        api.deleteDncList(dncListId.getId());
+        api.delete(dncListId.getId());
 
         List<UniversalDnc> universalDncNumber = api.getUniversalDncNumber(getCallerId());
         System.out.println("universal: " + universalDncNumber);

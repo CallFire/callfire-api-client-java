@@ -6,10 +6,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class UniversalDnc extends CallfireModel {
     private String toNumber;
     private String fromNumber;
-    private boolean inboundCall;
-    private boolean inboundText;
-    private boolean outboundCall;
-    private boolean outboundText;
+    private Boolean inboundCall;
+    private Boolean inboundText;
+    private Boolean outboundCall;
+    private Boolean outboundText;
 
     /**
      * Get required number for DNC
@@ -50,56 +50,56 @@ public class UniversalDnc extends CallfireModel {
     /**
      * @return true if toNumber can receive calls or If toNumber can call fromNumber
      */
-    public boolean isInboundCall() {
+    public Boolean isInboundCall() {
         return inboundCall;
     }
 
     /**
      * @param inboundCall set to true if toNumber should receive calls or if toNumber should call fromNumber
      */
-    public void setInboundCall(boolean inboundCall) {
+    public void setInboundCall(Boolean inboundCall) {
         this.inboundCall = inboundCall;
     }
 
     /**
      * @return true if toNumber can receive texts or if toNumber can text fromNumber
      */
-    public boolean isInboundText() {
+    public Boolean isInboundText() {
         return inboundText;
     }
 
     /**
      * @param inboundText set to true if toNumber should receive texts or if toNumber should text fromNumber
      */
-    public void setInboundText(boolean inboundText) {
+    public void setInboundText(Boolean inboundText) {
         this.inboundText = inboundText;
     }
 
     /**
      * @return true if toNumber should send calls or if fromNumber should call toNumber
      */
-    public boolean isOutboundCall() {
+    public Boolean isOutboundCall() {
         return outboundCall;
     }
 
     /**
      * @param outboundCall set to true if toNumber should send calls or if fromNumber should call toNumber
      */
-    public void setOutboundCall(boolean outboundCall) {
+    public void setOutboundCall(Boolean outboundCall) {
         this.outboundCall = outboundCall;
     }
 
     /**
      * @return true if toNumber can send texts or If fromNumber can text toNumber
      */
-    public boolean isOutboundText() {
+    public Boolean isOutboundText() {
         return outboundText;
     }
 
     /**
      * @param outboundText set to true if toNumber should send texts or if fromNumber should text toNumber
      */
-    public void setOutboundText(boolean outboundText) {
+    public void setOutboundText(Boolean outboundText) {
         this.outboundText = outboundText;
     }
 

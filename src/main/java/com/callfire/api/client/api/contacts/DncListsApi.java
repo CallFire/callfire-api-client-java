@@ -25,8 +25,11 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /contacts/do-not-calls/lists
+ *
+ * @since 1.0
  */
 public class DncListsApi {
+    // TODO vmikhailov fix paths after upcoming release => /dncs
     private static final String DNC_LISTS_PATH = "/contacts/do-not-calls/lists";
     private static final String DNC_LISTS_UNIVERSAL_PATH = "/contacts/do-not-calls/lists/universal/{}";
     private static final String DNC_LISTS_LIST_PATH = "/contacts/do-not-calls/lists/{}";
@@ -53,7 +56,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<DncList> findDoNotCallLists(FindDncListsRequest request) {
+    public Page<DncList> find(FindDncListsRequest request) {
         return client.get(DNC_LISTS_PATH, PAGE_OF_DNC_LIST_TYPE, request);
     }
 
@@ -65,7 +68,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createDncList(DncList dncList) {
+    public ResourceId create(DncList dncList) {
         return client.post(DNC_LISTS_PATH, RESOURCE_ID_TYPE, dncList);
     }
 
@@ -104,8 +107,8 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public DncList getDncList(Long id) {
-        return getDncList(id, null);
+    public DncList get(Long id) {
+        return get(id, null);
     }
 
     /**
@@ -117,9 +120,9 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public DncList getDncList(Long id, String fields) {
+    public DncList get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
-        List<NameValuePair> queryParams = new ArrayList<>();
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.get(DNC_LISTS_LIST_PATH.replaceFirst(PLACEHOLDER, id.toString()), DNC_LIST_TYPE, queryParams);
     }
@@ -131,7 +134,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteDncList(Long id) {
+    public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(DNC_LISTS_LIST_PATH.replaceFirst(PLACEHOLDER, id.toString()));
     }
@@ -145,7 +148,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<DoNotContact> getDncListItems(GetByIdRequest request) {
+    public Page<DoNotContact> getListItems(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = DNC_LISTS_LIST_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, DncApi.PAGE_OF_DNC_TYPE, request);
@@ -158,7 +161,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void addDncListItems(AddDncListItemsRequest request) {
+    public void addListItems(AddDncListItemsRequest request) {
         Validate.notNull(request.getContactListId(), "request.contactListId cannot be null");
         String path = DNC_LISTS_LIST_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getContactListId().toString());
         client.post(path, VOID_TYPE, request.getContacts());
@@ -172,7 +175,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void removeDncListItem(Long id, String number) {
+    public void removeListItem(Long id, String number) {
         Validate.notNull(id, "id cannot be null");
         Validate.notBlank(number, "number cannot be blank");
         String path = DNC_LISTS_LIST_ITEMS_NUMBER_PATH.replaceFirst(PLACEHOLDER, id.toString())
@@ -188,7 +191,7 @@ public class DncListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void removeDncListItems(Long id, List<String> numbers) {
+    public void removeListItems(Long id, List<String> numbers) {
         Validate.notNull(id, "contactListId cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("number", numbers, queryParams);
