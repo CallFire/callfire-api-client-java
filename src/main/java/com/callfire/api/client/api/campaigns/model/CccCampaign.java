@@ -2,10 +2,10 @@ package com.callfire.api.client.api.campaigns.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CccCampaign extends Broadcast {
-    private List<TransferNumber> transferNumbers;
     private Script script;
     private String smartDropSoundText;
     private Voice smartDropSoundTextVoice;
@@ -15,15 +15,15 @@ public class CccCampaign extends Broadcast {
     private Integer multilineDialingRatio;
     private Boolean multilineDialingEnabled;
     private Integer scrubLevel;
-    private List<Agent> agents;
-    private List<AgentGroup> agentGroups;
+    private List<Agent> agents = new ArrayList<>();
+    private List<AgentGroup> agentGroups = new ArrayList<>();
+    private List<TransferNumber> transferNumbers = new ArrayList<>();
 
     public List<TransferNumber> getTransferNumbers() {
         return transferNumbers;
     }
 
-    public void setTransferNumbers(
-        List<TransferNumber> transferNumbers) {
+    public void setTransferNumbers(List<TransferNumber> transferNumbers) {
         this.transferNumbers = transferNumbers;
     }
 

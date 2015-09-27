@@ -4,6 +4,7 @@ import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Agent extends CallfireModel {
@@ -11,7 +12,7 @@ public class Agent extends CallfireModel {
     private Boolean enabled;
     private String name;
     private String email;
-    private Long lastLogin;
+    private Date lastLogin;
     private Long activeSessionId;
     private List<Long> campaignIds = new ArrayList<Long>();
     private List<Long> groupIds = new ArrayList<Long>();
@@ -48,11 +49,11 @@ public class Agent extends CallfireModel {
         this.email = email;
     }
 
-    public Long getLastLogin() {
+    public Date getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(Long lastLogin) {
+    public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
     }
 

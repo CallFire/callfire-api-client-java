@@ -5,7 +5,6 @@ import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.campaigns.model.Agent;
 import com.callfire.api.client.api.campaigns.model.AgentGroup;
-import com.callfire.api.client.api.campaigns.model.CampaignCommand;
 import com.callfire.api.client.api.campaigns.model.CccCampaign;
 import com.callfire.api.client.api.campaigns.model.request.AgentInviteRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
@@ -133,10 +132,10 @@ public class CccsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void control(Long id, CampaignCommand command) {
+    public void control(Long id) {
         Validate.notNull(id, "id cannot be null");
-        Validate.notNull(command, "command cannot be null");
-        client.post(CCC_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, command);
+        Validate.notNull(null, "command cannot be null");
+        client.post(CCC_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
     }
 
     /**

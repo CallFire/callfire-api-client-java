@@ -6,7 +6,6 @@ import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.CampaignCommand;
 import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.TextBroadcast;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
@@ -194,10 +193,10 @@ public class TextBroadcastsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void control(Long id, CampaignCommand command) {
+    public void control(Long id) {
         Validate.notNull(id, "id cannot be null");
-        Validate.notNull(command, "command cannot be null");
-        client.post(TB_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, command);
+        Validate.notNull(null, "command cannot be null");
+        client.post(TB_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
     }
 
     /**

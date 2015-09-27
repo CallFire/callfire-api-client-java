@@ -19,8 +19,7 @@ public abstract class Broadcast extends CallfireModel {
     private List<String> labels = new ArrayList<>();
 
     public enum Status {
-        TEST, SETUP, START_PENDING,
-        RUNNING, STOPPED, FINISHED, ARCHIVED
+        TEST, SETUP, START_PENDING, RUNNING, STOPPED, FINISHED, ARCHIVED
     }
 
     public Long getId() {

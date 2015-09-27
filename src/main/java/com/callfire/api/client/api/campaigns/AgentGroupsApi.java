@@ -51,7 +51,7 @@ public class AgentGroupsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<AgentGroup> findAgentGroups(FindAgentGroupsRequest request) {
+    public Page<AgentGroup> find(FindAgentGroupsRequest request) {
         return client.get(AGENT_GROUPS_PATH, PAGE_OF_AGENT_GROUPS_TYPE, request);
     }
 
@@ -65,7 +65,7 @@ public class AgentGroupsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createAgentGroup(AgentGroup agentGroup) {
+    public ResourceId create(AgentGroup agentGroup) {
         return client.post(AGENT_GROUPS_PATH, RESOURCE_ID_TYPE, agentGroup);
     }
 

@@ -3,10 +3,12 @@ package com.callfire.api.client.api.campaigns.model;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Date;
+
 public class CampaignSound extends CallfireModel {
     private Long id;
     private String name;
-    private Long created;
+    private Date created;
     private Integer lengthInSeconds;
     private Status status;
 
@@ -30,11 +32,11 @@ public class CampaignSound extends CallfireModel {
         this.name = name;
     }
 
-    public Long getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Long created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 

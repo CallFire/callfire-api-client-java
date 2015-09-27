@@ -52,8 +52,7 @@ public class VoiceBroadcast extends Broadcast {
         return answeringMachineConfig;
     }
 
-    public void setAnsweringMachineConfig(
-        AnsweringMachineConfig answeringMachineConfig) {
+    public void setAnsweringMachineConfig(AnsweringMachineConfig answeringMachineConfig) {
         this.answeringMachineConfig = answeringMachineConfig;
     }
 

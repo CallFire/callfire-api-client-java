@@ -11,7 +11,7 @@ public class AgentSession extends CallfireModel {
     private Long campaignId;
     private AgentState agentState;
     private Integer callCount;
-    private Long start;
+    private Date start;
     private Date lastUpdate;
 
     public enum AgentState {
@@ -59,11 +59,11 @@ public class AgentSession extends CallfireModel {
         this.callCount = callCount;
     }
 
-    public Long getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(Long start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 

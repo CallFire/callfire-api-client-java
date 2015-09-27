@@ -34,7 +34,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
         AgentGroup agentGroup1 = new AgentGroup();
         agentGroup1.setId(2L);
         agentGroup1.setName("test-group01");
-        ResourceId groupId1 = agentGroupsApi.createAgentGroup(agentGroup1);
+        ResourceId groupId1 = agentGroupsApi.create(agentGroup1);
         AgentGroup savedGroup1 = agentGroupsApi.get(groupId1.getId());
         assertEquals(groupId1.getId(), savedGroup1.getId());
         assertEquals(agentGroup1.getName(), savedGroup1.getName());
@@ -42,7 +42,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
 
         AgentGroup agentGroup2 = new AgentGroup();
         agentGroup2.setName("test-group02");
-        ResourceId groupId2 = agentGroupsApi.createAgentGroup(agentGroup2);
+        ResourceId groupId2 = agentGroupsApi.create(agentGroup2);
         AgentGroup savedGroup2 = agentGroupsApi.get(groupId2.getId(), "name,campaignIds");
         assertNull(savedGroup2.getId());
         assertEquals(agentGroup2.getName(), savedGroup2.getName());
@@ -55,7 +55,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
             .fields("items(id)")
             .name("test-group0")
             .build();
-        Page<AgentGroup> agentGroupPage = agentGroupsApi.findAgentGroups(request);
+        Page<AgentGroup> agentGroupPage = agentGroupsApi.find(request);
         List<AgentGroup> items = agentGroupPage.getItems();
         assertEquals(2, items.size());
         assertNull(items.get(0).getName());

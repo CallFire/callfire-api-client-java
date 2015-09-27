@@ -27,6 +27,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /campaigns/sounds
+ *
+ * @since 1.0
  */
 public class CampaignSoundsApi {
     private static final String SOUNDS_PATH = "/campaigns/sounds";
@@ -55,7 +57,7 @@ public class CampaignSoundsApi {
      * @throws CallfireClientException in case error has occurred in client
      * @see FindSoundsRequest
      */
-    public Page<CampaignSound> findCampaignSounds(FindSoundsRequest request) {
+    public Page<CampaignSound> find(FindSoundsRequest request) {
         return client.get(SOUNDS_PATH, PAGE_OF_SOUNDS_TYPE, request);
     }
 
@@ -67,8 +69,8 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public CampaignSound getCampaignSoundMeta(Long id) {
-        return getCampaignSoundMeta(id, null);
+    public CampaignSound get(Long id) {
+        return get(id, null);
     }
 
     /**
@@ -80,7 +82,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public CampaignSound getCampaignSoundMeta(Long id, String fields) {
+    public CampaignSound get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
@@ -96,7 +98,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public InputStream getCampaignSoundDataMp3(Long id) {
+    public InputStream getMp3(Long id) {
         Validate.notNull(id, "id cannot be null");
         String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".mp3";
         return client.get(path, INPUT_STREAM_TYPE);
@@ -110,21 +112,21 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public InputStream getCampaignSoundDataWav(Long id) {
+    public InputStream getWav(Long id) {
         Validate.notNull(id, "id cannot be null");
         String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".wav";
         return client.get(path, INPUT_STREAM_TYPE);
     }
 
     /**
-     * Record a sound file via a phone call
+     * Record a sound via a phone call. Fill in toNumber and Callfire will dial you to record a message
      *
      * @param callCreateSound request object to create campaign sound
      * @return ResourceId object with sound id
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId postCallCampaignSound(CallCreateSound callCreateSound) {
+    public ResourceId recordViaPhone(CallCreateSound callCreateSound) {
         return client.post(SOUNDS_CALLS_PATH, RESOURCE_ID_TYPE, callCreateSound);
     }
 
@@ -136,8 +138,8 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId postFileCampaignSound(File file) {
-        return postFileCampaignSound(file, null);
+    public ResourceId upload(File file) {
+        return upload(file, null);
     }
 
     /**
@@ -149,7 +151,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId postFileCampaignSound(File file, String name) {
+    public ResourceId upload(File file, String name) {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
@@ -164,7 +166,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId postTtsCampaignSound(TextToSpeech textToSpeech) {
+    public ResourceId createFromTts(TextToSpeech textToSpeech) {
         return client.post(SOUNDS_TTS_PATH, RESOURCE_ID_TYPE, textToSpeech);
     }
 }
