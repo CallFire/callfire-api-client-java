@@ -15,7 +15,7 @@ public class Account extends CallfireModel {
     private String name;
     private String firstName;
     private String lastName;
-    private List<String> permissions = new ArrayList<String>();
+    private List<String> permissions = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -68,6 +68,7 @@ public class Account extends CallfireModel {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+            .appendSuper(super.toString())
             .append("id", id)
             .append("email", email)
             .append("name", name)

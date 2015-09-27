@@ -22,6 +22,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /me
+ *
+ * @since 1.0
  */
 public class MeApi {
     private static final String ME_ACCOUNT_PATH = "/me/account";
@@ -93,13 +95,12 @@ public class MeApi {
      * POST /me/callerids/{callerid}
      *
      * @param callerid callerid number
-     * @return String
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public String sendVerificationCode(String callerid) {
+    public void sendVerificationCode(String callerid) {
         Validate.notBlank(callerid, "callerid cannot be blank");
-        return client.post(ME_CALLERIDS_CODE_PATH.replaceFirst(PLACEHOLDER, callerid), STRING_TYPE);
+        client.post(ME_CALLERIDS_CODE_PATH.replaceFirst(PLACEHOLDER, callerid), VOID_TYPE);
     }
 
     /**
@@ -118,6 +119,8 @@ public class MeApi {
         return client.post(path, BOOLEAN_TYPE, request);
     }
 
+    // TODO vmikhailov make public when implementation will be ready
+
     /**
      * Creates API credentials. ApiCredentials.name property required
      * <p/>
@@ -128,7 +131,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ApiCredentials createApiCredentials(ApiCredentials credentials) {
+    private ApiCredentials createApiCredentials(ApiCredentials credentials) {
         return client.post(ME_API_CREDS_PATH, API_CREDS_TYPE, credentials);
     }
 
@@ -142,7 +145,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<ApiCredentials> findApiCredentials(CommonFindRequest request) {
+    private Page<ApiCredentials> findApiCredentials(CommonFindRequest request) {
         return client.get(ME_API_CREDS_PATH, API_CREDS_PAGE_TYPE, request);
     }
 
@@ -156,7 +159,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ApiCredentials getApiCredentials(Long id) {
+    private ApiCredentials getApiCredentials(Long id) {
         return getApiCredentials(id, null);
     }
 
@@ -171,7 +174,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ApiCredentials getApiCredentials(Long id, String fields) {
+    private ApiCredentials getApiCredentials(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
@@ -187,7 +190,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteApiCredentials(Long id) {
+    private void deleteApiCredentials(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(ME_API_CREDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
     }

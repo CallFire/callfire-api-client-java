@@ -10,8 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.Arrays;
-
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -25,7 +24,7 @@ public class OrdersApiTest extends AbstractIntegrationTest {
     public void testOrderKeywords() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
         KeywordPurchaseRequest request = KeywordPurchaseRequest.create()
-            .keywords(Arrays.asList("TEST1", "TEST2"))
+            .keywords(asList("TEST1", "TEST2"))
             .build();
         ResourceId resourceId = callfireClient.getOrdersApi().orderKeywords(request);
         assertNotNull(resourceId.getId());
@@ -42,7 +41,7 @@ public class OrdersApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         NumberPurchaseRequest request = NumberPurchaseRequest.create()
-            .numbers(Arrays.asList("12132005646"))
+            .numbers(asList("12132212289"))
             .build();
         ResourceId resourceId = callfireClient.getOrdersApi().orderNumbers(request);
         assertNotNull(resourceId.getId());

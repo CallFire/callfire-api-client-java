@@ -9,9 +9,7 @@ import java.util.Date;
  * Object represents Plan usage statistics
  */
 public class BillingPlanUsage extends CallfireModel {
-    //@JsonFormat(pattern = DATE_FORMAT_PATTERN)
     private Date intervalStart;
-   // @JsonFormat(pattern = DATE_FORMAT_PATTERN)
     private Date intervalEnd;
     private Double remainingPlanCredits;
     private Double remainingPayAsYouGoCredits;

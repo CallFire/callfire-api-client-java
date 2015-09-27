@@ -82,7 +82,7 @@ public class OrdersApi {
      */
     public NumberOrder getKeywordOrder(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
-        List<NameValuePair> queryParams = new ArrayList<>();
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, "keyword").replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, NUMBER_ORDER_TYPE, queryParams);
@@ -111,7 +111,7 @@ public class OrdersApi {
      */
     public NumberOrder getNumberOrder(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
-        List<NameValuePair> queryParams = new ArrayList<>();
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, "number").replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, NUMBER_ORDER_TYPE, queryParams);

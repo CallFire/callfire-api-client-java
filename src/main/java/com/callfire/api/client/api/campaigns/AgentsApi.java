@@ -112,16 +112,16 @@ public class AgentsApi {
         return client.get(path, PAGE_OF_AGENT_SESSIONS_TYPE);
     }
 
-    public void joinCampaign(Long id) {
+    private void joinCampaign(Long id) {
         // TODO vmikhailov implement when backend will be ready
         throw new NotImplementedException("not implemented yet");
     }
 
-    public void nextCall(Long id) {
+    private void nextCall(Long id) {
         throw new NotImplementedException("not implemented yet");
     }
 
-    public void hangUp(Long id) {
+    private void hangUp(Long id) {
         throw new NotImplementedException("not implemented yet");
     }
 }
