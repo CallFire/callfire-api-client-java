@@ -24,19 +24,21 @@ public class TextAutoRepliesApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        TextAutoRepliesApi endpoint = callfireClient.getTextAutoRepliesApi();
+        TextAutoRepliesApi api = callfireClient.getTextAutoRepliesApi();
 
         TextAutoReply textAutoReply = new TextAutoReply();
-        textAutoReply.setNumber(getDid1());
+        textAutoReply.setNumber("19206596476");
         textAutoReply.setMessage("test message");
         textAutoReply.setMatch("test match");
-        ResourceId resourceId = endpoint.createTextAutoReply(textAutoReply);
+        ResourceId resourceId = api.create(textAutoReply);
         assertNotNull(resourceId.getId());
 
         FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.create()
-            .number(getDid1())
+            .number("19206596476")
             .build();
-        Page<TextAutoReply> textAutoReplies = endpoint.findTextAutoReplies(request);
+        Page<TextAutoReply> textAutoReplies = api.find(request);
+        System.out.println(textAutoReplies);
+
         assertEquals(Long.valueOf(1), textAutoReplies.getTotalCount());
         assertEquals(1, textAutoReplies.getItems().size());
         TextAutoReply savedTextAutoReply = textAutoReplies.getItems().get(0);
@@ -45,15 +47,17 @@ public class TextAutoRepliesApiTest extends AbstractIntegrationTest {
         assertEquals(textAutoReply.getMessage(), savedTextAutoReply.getMessage());
         assertEquals(textAutoReply.getMatch(), savedTextAutoReply.getMatch());
 
-        savedTextAutoReply = endpoint.getTextAutoReply(resourceId.getId(), "number,message");
+        savedTextAutoReply = api.get(resourceId.getId(), "number,message");
+        System.out.println(savedTextAutoReply);
+
         assertNull(savedTextAutoReply.getId());
         assertNull(savedTextAutoReply.getKeyword());
         assertEquals(textAutoReply.getNumber(), savedTextAutoReply.getNumber());
         assertEquals(textAutoReply.getMessage(), savedTextAutoReply.getMessage());
 
-        endpoint.deleteTextAutoReply(resourceId.getId());
+        api.delete(resourceId.getId());
 
         expect404NotFoundCallfireApiException(ex);
-        endpoint.getTextAutoReply(resourceId.getId());
+        api.get(resourceId.getId());
     }
 }

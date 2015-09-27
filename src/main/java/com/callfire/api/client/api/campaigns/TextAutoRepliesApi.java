@@ -21,6 +21,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /campaigns/text-auto-replys
+ *
+ * @since 1.0
  */
 public class TextAutoRepliesApi {
     private static final String TEXT_AUTO_REPLIES_PATH = "/campaigns/text-auto-replys";
@@ -45,7 +47,7 @@ public class TextAutoRepliesApi {
      * @throws CallfireClientException in case error has occurred in client
      * @see FindTextAutoRepliesRequest
      */
-    public Page<TextAutoReply> findTextAutoReplies(FindTextAutoRepliesRequest request) {
+    public Page<TextAutoReply> find(FindTextAutoRepliesRequest request) {
         return client.get(TEXT_AUTO_REPLIES_PATH, PAGE_OF_TEXT_AUTO_REPLIES_TYPE, request);
     }
 
@@ -59,7 +61,7 @@ public class TextAutoRepliesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createTextAutoReply(TextAutoReply textAutoReply) {
+    public ResourceId create(TextAutoReply textAutoReply) {
         return client.post(TEXT_AUTO_REPLIES_PATH, RESOURCE_ID_TYPE, textAutoReply);
     }
 
@@ -71,8 +73,8 @@ public class TextAutoRepliesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public TextAutoReply getTextAutoReply(Long id) {
-        return getTextAutoReply(id, null);
+    public TextAutoReply get(Long id) {
+        return get(id, null);
     }
 
     /**
@@ -84,9 +86,9 @@ public class TextAutoRepliesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public TextAutoReply getTextAutoReply(Long id, String fields) {
+    public TextAutoReply get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
-        List<NameValuePair> queryParams = new ArrayList<>();
+        List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = TEXT_AUTO_REPLIES_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
         return client.get(path, TEXT_AUTO_REPLY_TYPE, queryParams);
@@ -99,7 +101,7 @@ public class TextAutoRepliesApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteTextAutoReply(Long id) {
+    public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(TEXT_AUTO_REPLIES_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
     }
