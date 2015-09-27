@@ -1,7 +1,7 @@
 package com.callfire.api.client.api.common.model.request;
 
 /**
- * Common get request with limit, offset and fields properties
+ * Common find request with limit, offset and fields properties
  */
 public class CommonFindRequest extends FindRequest {
 

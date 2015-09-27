@@ -2,14 +2,10 @@ package com.callfire.api.client.api.common.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Page<T> extends CallfireModel {
+public class Page<T> extends ListHolder<T> {
     private Long limit;
     private Long offset;
     private Long totalCount;
-    private List<T> items = new ArrayList<T>();
 
     public Long getLimit() {
         return limit;
@@ -35,21 +31,13 @@ public class Page<T> extends CallfireModel {
         this.totalCount = totalCount;
     }
 
-    public List<T> getItems() {
-        return items;
-    }
-
-    public void setItems(List<T> items) {
-        this.items = items;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+            .appendSuper(super.toString())
             .append("limit", limit)
             .append("offset", offset)
             .append("totalCount", totalCount)
-            .append("items", items)
             .toString();
     }
 }

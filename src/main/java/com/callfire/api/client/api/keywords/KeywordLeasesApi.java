@@ -19,10 +19,12 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /keywords/leases
+ *
+ * @since 1.0
  */
 public class KeywordLeasesApi {
-    private static final String KEYWORD_LEASES = "/keywords/leases";
-    private static final String KEYWORD_LEASES_ITEM = "/keywords/leases/{}";
+    private static final String KEYWORD_LEASES_PATH = "/keywords/leases";
+    private static final String KEYWORD_LEASES_ITEM_PATH = "/keywords/leases/{}";
 
     private static final TypeReference<Page<KeywordLease>> PAGE_OF_KEYWORD_LEASES_TYPE = new TypeReference<Page<KeywordLease>>() {
     };
@@ -44,7 +46,7 @@ public class KeywordLeasesApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public Page<KeywordLease> find(CommonFindRequest request) {
-        return client.get(KEYWORD_LEASES, PAGE_OF_KEYWORD_LEASES_TYPE, request);
+        return client.get(KEYWORD_LEASES_PATH, PAGE_OF_KEYWORD_LEASES_TYPE, request);
     }
 
     /**
@@ -72,7 +74,7 @@ public class KeywordLeasesApi {
         Validate.notBlank(keyword, "keyword cannot be blank");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(KEYWORD_LEASES_ITEM.replaceFirst(PLACEHOLDER, keyword), KEYWORD_LEASE_TYPE, queryParams);
+        return client.get(KEYWORD_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, keyword), KEYWORD_LEASE_TYPE, queryParams);
     }
 
     /**
@@ -84,6 +86,6 @@ public class KeywordLeasesApi {
      */
     public void update(KeywordLease lease) {
         Validate.notBlank(lease.getKeyword(), "lease.keyword cannot be blank");
-        client.put(KEYWORD_LEASES_ITEM.replaceFirst(PLACEHOLDER, lease.getKeyword()), VOID_TYPE, lease);
+        client.put(KEYWORD_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, lease.getKeyword()), VOID_TYPE, lease);
     }
 }

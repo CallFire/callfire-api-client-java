@@ -1,18 +1,13 @@
 package com.callfire.api.client.api.callstexts.model;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CallRecord extends CallfireModel {
-    private Long id;
-    private Float billedAmount;
-    private Long created;
-    private Long finishTime;
+public class CallRecord extends ActionRecord {
     private CallResult callResult;
-    private List<Note> notes = new ArrayList<Note>();
+    private List<Note> notes = new ArrayList<>();
 
     public enum CallResult {
         LA, AM, BUSY, DNC, XFER, NO_ANS, XFER_LEG, INTERNAL_ERROR, CARRIER_ERROR, CARRIER_TEMP_ERROR, UNDIALED, SD, POSTPONED, ABANDONED, SKIPPED,
@@ -34,46 +29,10 @@ public class CallRecord extends CallfireModel {
         this.callResult = callResult;
     }
 
-    public Long getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(Long finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    public Long getCreated() {
-        return created;
-    }
-
-    public void setCreated(Long created) {
-        this.created = created;
-    }
-
-    public Float getBilledAmount() {
-        return billedAmount;
-    }
-
-    public void setBilledAmount(Float billedAmount) {
-        this.billedAmount = billedAmount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
-            .append("id", id)
-            .append("billedAmount", billedAmount)
-            .append("created", created)
-            .append("finishTime", finishTime)
             .append("callResult", callResult)
             .append("notes", notes)
             .toString();

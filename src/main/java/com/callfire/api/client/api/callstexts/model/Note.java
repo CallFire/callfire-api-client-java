@@ -3,9 +3,11 @@ package com.callfire.api.client.api.callstexts.model;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.Date;
+
 public class Note extends CallfireModel {
     private String text;
-    private Long created;
+    private Date created;
 
     public String getText() {
         return text;
@@ -15,11 +17,11 @@ public class Note extends CallfireModel {
         this.text = text;
     }
 
-    public Long getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Long created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
