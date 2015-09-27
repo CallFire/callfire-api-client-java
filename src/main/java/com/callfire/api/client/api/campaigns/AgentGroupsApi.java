@@ -22,6 +22,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /campaigns/cccs/agent-groups
+ *
+ * @since 1.0
  */
 public class AgentGroupsApi {
     private static final String AGENT_GROUPS_PATH = "/campaigns/cccs/agent-groups";
@@ -43,7 +45,7 @@ public class AgentGroupsApi {
      * Query for agent groups using optional filters
      * (Note: agentId and agentEmail are mutually exclusive, please only provide one)
      * <p/>
-     * GET /agent-groups
+     * GET /campaigns/cccs/agent-groups
      *
      * @return Page object with matched entities
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
@@ -56,7 +58,7 @@ public class AgentGroupsApi {
     /**
      * Create agent group using either list of agent ids or list of agent emails but not both
      * <p/>
-     * POST /agent-groups
+     * POST /campaigns/cccs/agent-groups
      *
      * @param agentGroup AgentGroup object to create
      * @return ResourceId holder object with agent group id
@@ -70,21 +72,21 @@ public class AgentGroupsApi {
     /**
      * Get agent group by id. Returns AgentGroup
      * <p/>
-     * GET /agent-groups/{id}
+     * GET /campaigns/cccs/agent-groups/{id}
      *
      * @param id Id of agent group
      * @return AgentGroup pojo
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public AgentGroup getAgentGroup(Long id) {
-        return getAgentGroup(id, null);
+    public AgentGroup get(Long id) {
+        return get(id, null);
     }
 
     /**
      * Get agent group by id. Returns AgentGroup
      * <p/>
-     * GET /agent-groups/{id}
+     * GET /campaigns/cccs/agent-groups/{id}
      *
      * @param id     Id of agent group
      * @param fields Limit fields returned. Example fields=id,name,agents(id)
@@ -92,7 +94,7 @@ public class AgentGroupsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public AgentGroup getAgentGroup(Long id, String fields) throws CallfireApiException, CallfireClientException {
+    public AgentGroup get(Long id, String fields) throws CallfireApiException, CallfireClientException {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
@@ -103,7 +105,7 @@ public class AgentGroupsApi {
     /**
      * Update existing agent group by id
      * <p/>
-     * PUT /agent-groups/{id}
+     * PUT /campaigns/cccs/agent-groups/{id}
      *
      * @param agentGroup AgentGroup to update
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
@@ -118,7 +120,7 @@ public class AgentGroupsApi {
     /**
      * Delete agent group by id
      * <p/>
-     * DELETE /agent-groups/{id}
+     * DELETE /campaigns/cccs/agent-groups/{id}
      *
      * @param id Id of agent group to delete
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error

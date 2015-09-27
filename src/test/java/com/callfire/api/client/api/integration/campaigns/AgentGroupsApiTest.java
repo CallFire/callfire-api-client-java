@@ -33,17 +33,17 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
 
         AgentGroup agentGroup1 = new AgentGroup();
         agentGroup1.setId(2L);
-        agentGroup1.setName("test-group-1");
+        agentGroup1.setName("test-group01");
         ResourceId groupId1 = agentGroupsApi.createAgentGroup(agentGroup1);
-        AgentGroup savedGroup1 = agentGroupsApi.getAgentGroup(groupId1.getId());
+        AgentGroup savedGroup1 = agentGroupsApi.get(groupId1.getId());
         assertEquals(groupId1.getId(), savedGroup1.getId());
         assertEquals(agentGroup1.getName(), savedGroup1.getName());
         assertThat(agentGroup1.getAgents(), is(empty()));
 
         AgentGroup agentGroup2 = new AgentGroup();
-        agentGroup2.setName("test-group-2");
+        agentGroup2.setName("test-group02");
         ResourceId groupId2 = agentGroupsApi.createAgentGroup(agentGroup2);
-        AgentGroup savedGroup2 = agentGroupsApi.getAgentGroup(groupId2.getId(), "name,campaignIds");
+        AgentGroup savedGroup2 = agentGroupsApi.get(groupId2.getId(), "name,campaignIds");
         assertNull(savedGroup2.getId());
         assertEquals(agentGroup2.getName(), savedGroup2.getName());
         assertThat(agentGroup2.getAgents(), is(empty()));
@@ -53,6 +53,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
             .limit(100L)
             .offset(0L)
             .fields("items(id)")
+            .name("test-group0")
             .build();
         Page<AgentGroup> agentGroupPage = agentGroupsApi.findAgentGroups(request);
         List<AgentGroup> items = agentGroupPage.getItems();
@@ -71,7 +72,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
         // test update
         savedGroup1.setName("updated_name");
         agentGroupsApi.update(savedGroup1);
-        AgentGroup updatedGroup = agentGroupsApi.getAgentGroup(groupId1.getId());
+        AgentGroup updatedGroup = agentGroupsApi.get(groupId1.getId());
         assertEquals(savedGroup1.getName(), updatedGroup.getName());
 
         // test delete
@@ -79,6 +80,6 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
         agentGroupsApi.delete(groupId2.getId());
 
         expect404NotFoundCallfireApiException(ex);
-        agentGroupsApi.getAgentGroup(groupId1.getId());
+        agentGroupsApi.get(groupId1.getId());
     }
 }
