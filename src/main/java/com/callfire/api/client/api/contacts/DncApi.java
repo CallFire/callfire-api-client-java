@@ -12,15 +12,16 @@ import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 
 /**
  * Represents rest endpoint /contacts/do-not-calls
+ *
+ * @since 1.0
  */
 public class DncApi {
+    // TODO vmikhailov fix path to /dncs after prod release
     private static final String DNC_PATH = "/contacts/do-not-calls";
-
-    private RestApiClient client;
-    private DncListsApi dncListsApi;
-
     public static final TypeReference<Page<DoNotContact>> PAGE_OF_DNC_TYPE = new TypeReference<Page<DoNotContact>>() {
     };
+
+    private RestApiClient client;
 
     public DncApi(RestApiClient client) {
         this.client = client;
@@ -34,30 +35,18 @@ public class DncApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<DoNotContact> findDncContacts(FindDncContactsRequest request) {
+    public Page<DoNotContact> find(FindDncContactsRequest request) {
         return client.get(DNC_PATH, PAGE_OF_DNC_TYPE, request);
     }
 
     /**
      * Update dnc by number
      *
-     * @param doNotContact DNC item to update
+     * @param dnc DNC item to update
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateDncNumber(DoNotContact doNotContact) {
-        client.put(DNC_PATH, VOID_TYPE, doNotContact);
-    }
-
-    /**
-     * Get /contacts/do-not-calls/lists api endpoint
-     *
-     * @return endpoint object
-     */
-    public DncListsApi getDncListsApi() {
-        if (dncListsApi == null) {
-            dncListsApi = new DncListsApi(client);
-        }
-        return dncListsApi;
+    public void update(DoNotContact dnc) {
+        client.put(DNC_PATH, VOID_TYPE, dnc);
     }
 }

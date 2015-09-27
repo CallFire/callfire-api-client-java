@@ -31,7 +31,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
 
         FindContactListsRequest request = FindContactListsRequest.create().build();
-        Page<ContactList> contactLists = client.getContactsApi().getContactListsApi().findContactLists(request);
+        Page<ContactList> contactLists = client.getContactListsApi().findContactLists(request);
         System.out.println(contactLists);
     }
 
@@ -102,7 +102,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
     public void testCreateContactListFromFile() throws Exception {
         CallfireClient client = getCallfireClient();
         File file = new File(getClass().getClassLoader().getResource("file-examples/contacts1.csv").toURI());
-        ContactListsApi api = client.getContactsApi().getContactListsApi();
+        ContactListsApi api = client.getContactListsApi();
         ResourceId id = api.createContactListFromFile("fileList", file);
 
         ContactList contactList = api.getContactList(id.getId());
@@ -114,7 +114,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
     @Test
     public void testContactListCRUD() throws Exception {
         CallfireClient client = getCallfireClient();
-        ContactListsApi api = client.getContactsApi().getContactListsApi();
+        ContactListsApi api = client.getContactListsApi();
 
         // create from numbers
         CreateContactListRequest request = CreateContactListRequest.<String>create()
@@ -165,7 +165,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
     @Test
     public void testContactListItemsCRUD() throws Exception {
         CallfireClient client = getCallfireClient();
-        ContactListsApi api = client.getContactsApi().getContactListsApi();
+        ContactListsApi api = client.getContactListsApi();
         // create from dto
         Contact c1 = new Contact();
         c1.setFirstName("name1");

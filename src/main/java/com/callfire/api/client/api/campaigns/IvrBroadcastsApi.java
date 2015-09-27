@@ -9,7 +9,6 @@ import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.ResourceIds;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
@@ -171,13 +170,13 @@ public class IvrBroadcastsApi {
      *
      * @param id         id of ivr broadcast
      * @param recipients recipients to add
-     * @return {@link ResourceIds} with recipient ids
+     * @return list of {@link ResourceId} with recipient ids
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceIds addRecipients(Long id, List<Recipient> recipients) {
+    public List<ResourceId> addRecipients(Long id, List<Recipient> recipients) {
         Validate.notNull(id, "id cannot be null");
         String path = IVR_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, RESOURCE_IDS_TYPE, recipients);
+        return client.post(path, LIST_OF_RESOURCE_ID_TYPE, recipients).getItems();
     }
 }

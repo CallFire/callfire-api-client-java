@@ -14,26 +14,26 @@ import org.junit.Test;
 public class DncApiTest extends AbstractIntegrationTest {
 
     @Test
-    public void testFindDncContacts() throws Exception {
+    public void testFind() throws Exception {
         FindDncContactsRequest request = FindDncContactsRequest.create()
             .textDnc(true)
             .limit(1L)
             .build();
         CallfireClient client = getCallfireClient();
-        Page<DoNotContact> dncContacts = client.getContactsApi().getDncApi().findDncContacts(request);
-        Assert.assertEquals(1, dncContacts.getItems().size());
-
+        Page<DoNotContact> dncContacts = client.getDncApi().find(request);
         System.out.println(dncContacts);
+
+        Assert.assertEquals(1, dncContacts.getItems().size());
     }
 
     @Test
-    public void testUpdateDncNumber() throws Exception {
+    public void testUpdate() throws Exception {
         CallfireClient client = getCallfireClient();
         DoNotContact number = new DoNotContact();
-        number.setListId(1700040003L);
+        number.setListId(1L);
         number.setNumber("16505541938");
         number.setCall(true);
         number.setText(true);
-        client.getContactsApi().getDncApi().updateDncNumber(number);
+        client.getDncApi().update(number);
     }
 }

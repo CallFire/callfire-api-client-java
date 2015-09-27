@@ -8,6 +8,9 @@ import com.callfire.api.client.api.campaigns.AgentGroupsApi;
 import com.callfire.api.client.api.campaigns.BatchesApi;
 import com.callfire.api.client.api.campaigns.CampaignSoundsApi;
 import com.callfire.api.client.api.campaigns.TextAutoRepliesApi;
+import com.callfire.api.client.api.contacts.ContactListsApi;
+import com.callfire.api.client.api.contacts.DncApi;
+import com.callfire.api.client.api.contacts.DncListsApi;
 import com.callfire.api.client.api.keywords.KeywordLeasesApi;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
 import com.callfire.api.client.api.webhooks.SubscriptionsApi;
@@ -26,22 +29,31 @@ import com.callfire.api.client.api.numbers.NumbersApi;
 public class CallfireClient {
     private RestApiClient restApiClient;
 
-    private SubscriptionsApi subscriptionsApi;
-
-    private CallsApi callsApi;
-    private ContactsApi contactsApi;
-    private MeApi meApi;
-    private TextsApi textsApi;
-    private KeywordsApi keywordsApi;
-    private KeywordLeasesApi keywordLeasesApi;
-    private NumbersApi numbersApi;
-    private NumberLeasesApi numberLeasesApi;
-    private OrdersApi ordersApi;
-    private WebhooksApi webhooksApi;
+    // campaigns
     private AgentGroupsApi agentGroupsApi;
+    private BatchesApi batchesApi;
     private CampaignSoundsApi campaignSoundsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
-    private BatchesApi batchesApi;
+    // keywords
+    private KeywordsApi keywordsApi;
+    private KeywordLeasesApi keywordLeasesApi;
+    // numbers
+    private NumbersApi numbersApi;
+    private NumberLeasesApi numberLeasesApi;
+    // calls & texts
+    private CallsApi callsApi;
+    private TextsApi textsApi;
+    // account
+    private MeApi meApi;
+    private OrdersApi ordersApi;
+    // contacts
+    private ContactsApi contactsApi;
+    private ContactListsApi contactListsApi;
+    private DncApi dncApi;
+    private DncListsApi dncListsApi;
+    // webhooks
+    private SubscriptionsApi subscriptionsApi;
+    private WebhooksApi webhooksApi;
 
     /**
      * Constructs callfire client
@@ -51,6 +63,15 @@ public class CallfireClient {
      */
     public CallfireClient(String username, String password) {
         restApiClient = new RestApiClient(new BasicAuth(username, password));
+    }
+
+    /**
+     * Get REST api client which uses Apache httpclient inside
+     *
+     * @return rest client
+     */
+    public RestApiClient getRestApiClient() {
+        return restApiClient;
     }
 
     /**
@@ -211,12 +232,15 @@ public class CallfireClient {
     }
 
     /**
-     * Get REST api client which uses Apache httpclient inside
+     * Get /contacts/do-not-calls/lists api endpoint
      *
-     * @return rest client
+     * @return endpoint object
      */
-    public RestApiClient getRestApiClient() {
-        return restApiClient;
+    public DncListsApi getDncListsApi() {
+        if (dncListsApi == null) {
+            dncListsApi = new DncListsApi(restApiClient);
+        }
+        return dncListsApi;
     }
 
     /**
@@ -241,5 +265,29 @@ public class CallfireClient {
             batchesApi = new BatchesApi(restApiClient);
         }
         return batchesApi;
+    }
+
+    /**
+     * Get /contacts/do-not-calls api endpoint
+     *
+     * @return endpoint object
+     */
+    public DncApi getDncApi() {
+        if (dncApi == null) {
+            dncApi = new DncApi(restApiClient);
+        }
+        return dncApi;
+    }
+
+    /**
+     * Get /contacts/lists api endpoint
+     *
+     * @return endpoint object
+     */
+    public ContactListsApi getContactListsApi() {
+        if (contactListsApi == null) {
+            contactListsApi = new ContactListsApi(restApiClient);
+        }
+        return contactListsApi;
     }
 }

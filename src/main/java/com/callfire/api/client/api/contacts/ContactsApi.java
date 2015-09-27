@@ -3,11 +3,11 @@ package com.callfire.api.client.api.contacts;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactHistory;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceIds;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_IDS_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.LIST_OF_RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
@@ -34,13 +34,10 @@ public class ContactsApi {
     };
     private static final TypeReference<ContactHistory> CONTACT_HISTORY_TYPE = new TypeReference<ContactHistory>() {
     };
-
-    private RestApiClient client;
-    private DncApi dncApi;
-    private ContactListsApi contactListsApi;
-
     public static final TypeReference<Page<Contact>> PAGE_OF_CONTACT_TYPE = new TypeReference<Page<Contact>>() {
     };
+
+    private RestApiClient client;
 
     public ContactsApi(RestApiClient client) {
         this.client = client;
@@ -50,11 +47,11 @@ public class ContactsApi {
      * Find contacts by number, contact-list id, etc...
      *
      * @param request request object with different fields to filter
-     * @return Page with {@link Contact} objects
+     * @return {@link Page} with {@link Contact} objects
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<Contact> findContacts(FindContactsRequest request) {
+    public Page<Contact> find(FindContactsRequest request) {
         return client.get(CONTACTS_PATH, PAGE_OF_CONTACT_TYPE, request);
     }
 
@@ -66,8 +63,8 @@ public class ContactsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceIds createContacts(List<Contact> contacts) {
-        return client.post(CONTACTS_PATH, RESOURCE_IDS_TYPE, contacts);
+    public List<ResourceId> create(List<Contact> contacts) {
+        return client.post(CONTACTS_PATH, LIST_OF_RESOURCE_ID_TYPE, contacts).getItems();
     }
 
     /**
@@ -79,8 +76,8 @@ public class ContactsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Contact getContact(Long id) {
-        return getContact(id, null);
+    public Contact get(Long id) {
+        return get(id, null);
     }
 
     /**
@@ -93,7 +90,7 @@ public class ContactsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Contact getContact(Long id, String fields) {
+    public Contact get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
@@ -107,7 +104,7 @@ public class ContactsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateContact(Contact contact) {
+    public void update(Contact contact) {
         Validate.notNull(contact.getId(), "contact.id cannot be null");
         client.put(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, contact.getId().toString()), VOID_TYPE, contact);
     }
@@ -120,7 +117,7 @@ public class ContactsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteContact(Long id) {
+    public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(CONTACTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
     }
@@ -129,38 +126,14 @@ public class ContactsApi {
      * Get contact history
      * List all calls and texts associated with a contact
      *
-     * @param request id of call
+     * @param request request to get particular contact's history
      * @return object with sent calls/texts history
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ContactHistory getContactHistory(GetByIdRequest request) {
+    public ContactHistory getHistory(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = CONTACTS_ITEM_HISTORY_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, CONTACT_HISTORY_TYPE, request);
-    }
-
-    /**
-     * Get /contacts/do-not-calls api endpoint
-     *
-     * @return endpoint object
-     */
-    public DncApi getDncApi() {
-        if (dncApi == null) {
-            dncApi = new DncApi(client);
-        }
-        return dncApi;
-    }
-
-    /**
-     * Get /contacts/lists api endpoint
-     *
-     * @return endpoint object
-     */
-    public ContactListsApi getContactListsApi() {
-        if (contactListsApi == null) {
-            contactListsApi = new ContactListsApi(client);
-        }
-        return contactListsApi;
     }
 }
