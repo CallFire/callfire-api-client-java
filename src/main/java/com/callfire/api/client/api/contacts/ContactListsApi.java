@@ -27,6 +27,8 @@ import static com.callfire.api.client.api.contacts.ContactsApi.PAGE_OF_CONTACT_T
 
 /**
  * Represents rest endpoint /contacts/lists
+ *
+ * @since 1.0
  */
 public class ContactListsApi {
     private static final String LISTS_PATH = "/contacts/lists";
@@ -53,7 +55,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<ContactList> findContactLists(FindContactListsRequest request) {
+    public Page<ContactList> find(FindContactListsRequest request) {
         return client.get(LISTS_PATH, PAGE_OF_CONTACT_LIST_TYPE, request);
     }
 
@@ -61,11 +63,11 @@ public class ContactListsApi {
      * Create contact lists
      *
      * @param request request object with provided contacts, list name and other values
-     * @return ResourceId with id of contact list
+     * @return {@link ResourceId} with id of contact list
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createContactList(CreateContactListRequest request) {
+    public ResourceId create(CreateContactListRequest request) {
         return client.post(LISTS_PATH, RESOURCE_ID_TYPE, request);
     }
 
@@ -75,11 +77,12 @@ public class ContactListsApi {
      *
      * @param name contact list name
      * @param file CSV file with contacts to upload
-     * @return ResourceId of created contact list
+     * @return {@link ResourceId} with id of created contact list
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId createContactListFromFile(String name, File file) {
+    // TODO make public when backend will be ready
+    private ResourceId createFromFile(String name, File file) {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
@@ -90,12 +93,12 @@ public class ContactListsApi {
      * Get contact list by id
      *
      * @param id id of contact list
-     * @return ContactList object
+     * @return {@link ContactList} object
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ContactList getContactList(Long id) {
-        return getContactList(id, null);
+    public ContactList get(Long id) {
+        return get(id, null);
     }
 
     /**
@@ -107,7 +110,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ContactList getContactList(Long id, String fields) {
+    public ContactList get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
@@ -121,7 +124,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void updateContactList(UpdateContactListRequest request) {
+    public void update(UpdateContactListRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         client.put(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, request.getId().toString()), VOID_TYPE, request);
     }
@@ -133,7 +136,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void deleteContactList(Long id) {
+    public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
     }
@@ -147,7 +150,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<Contact> getContactListItems(GetByIdRequest request) {
+    public Page<Contact> getListItems(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = LISTS_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, PAGE_OF_CONTACT_TYPE, request);
@@ -160,7 +163,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void addContactListItems(AddContactListItemsRequest request) {
+    public void addListItems(AddContactListItemsRequest request) {
         Validate.notNull(request.getContactListId(), "request.contactListId cannot be null");
         String path = LISTS_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getContactListId().toString());
         client.post(path, VOID_TYPE, request);
@@ -174,7 +177,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void removeContactListItem(Long listId, Long contactId) {
+    public void removeListItem(Long listId, Long contactId) {
         Validate.notNull(listId, "listId cannot be null");
         Validate.notNull(contactId, "contactId cannot be null");
         String path = LISTS_ITEMS_CONTACT_PATH.replaceFirst(PLACEHOLDER, listId.toString())
@@ -190,7 +193,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void removeContactListItems(Long contactListId, List<Long> contactIds) {
+    public void removeListItems(Long contactListId, List<Long> contactIds) {
         Validate.notNull(contactListId, "contactListId cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("id", contactIds, queryParams);

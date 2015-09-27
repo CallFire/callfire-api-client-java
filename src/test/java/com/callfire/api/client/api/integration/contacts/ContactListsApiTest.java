@@ -31,7 +31,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
 
         FindContactListsRequest request = FindContactListsRequest.create().build();
-        Page<ContactList> contactLists = client.getContactListsApi().findContactLists(request);
+        Page<ContactList> contactLists = client.getContactListsApi().find(request);
         System.out.println(contactLists);
     }
 
@@ -54,7 +54,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         // contactIds
         CreateContactListRequest requestLong = CreateContactListRequest.<Long>create()
             .name("listFromIds")
-            .contacts(asList(123L, 456L))
+            .contacts(asList(1L, 2L))
             .build();
 
         String serialized = jsonConverter.serialize(requestLong);
@@ -103,9 +103,10 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
         File file = new File(getClass().getClassLoader().getResource("file-examples/contacts1.csv").toURI());
         ContactListsApi api = client.getContactListsApi();
-        ResourceId id = api.createContactListFromFile("fileList", file);
+        ResourceId id = new ResourceId();
+        //ResourceId id = api.createContactListFromFile("fileList", file);
 
-        ContactList contactList = api.getContactList(id.getId());
+        ContactList contactList = api.get(id.getId());
         System.out.println(contactList);
         assertEquals(Integer.valueOf(3), contactList.getSize());
         assertEquals("fileList", contactList.getName());
@@ -121,8 +122,8 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
             .name("listFromNumbers")
             .contacts(asList("12135678881", "12135678882"))
             .build();
-        ResourceId numbersListId = api.createContactList(request);
-        ContactList contactList = api.getContactList(numbersListId.getId());
+        ResourceId numbersListId = api.create(request);
+        ContactList contactList = api.get(numbersListId.getId());
         assertEquals("listFromNumbers", contactList.getName());
         assertEquals(Integer.valueOf(2), contactList.getSize());
 
@@ -130,7 +131,8 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         GetByIdRequest getItemsRequest = GetByIdRequest.create()
             .id(numbersListId.getId())
             .build();
-        Page<Contact> contactListItems = api.getContactListItems(getItemsRequest);
+        Page<Contact> contactListItems = api.getListItems(getItemsRequest);
+        System.out.println(contactListItems);
         List<Contact> items = contactListItems.getItems();
         assertEquals(2, items.size());
 
@@ -139,12 +141,12 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
             .name("listFromExistingContacts")
             .contacts(asList(items.get(0).getId(), items.get(1).getId()))
             .build();
-        ResourceId contactsListId = api.createContactList(request);
+        ResourceId contactsListId = api.create(request);
 
         FindContactListsRequest findRequest = FindContactListsRequest.create()
             .name("listFrom")
             .build();
-        Page<ContactList> contactLists = api.findContactLists(findRequest);
+        Page<ContactList> contactLists = api.find(findRequest);
         assertThat(contactLists.getTotalCount(), greaterThan(1L));
         System.out.println(contactLists);
 
@@ -153,13 +155,13 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
             .id(contactsListId.getId())
             .name("new_name")
             .build();
-        api.updateContactList(updateListRequest);
-        ContactList updatedList = api.getContactList(contactsListId.getId());
+        api.update(updateListRequest);
+        ContactList updatedList = api.get(contactsListId.getId());
         assertEquals("new_name", updatedList.getName());
 
         // delete
-        api.deleteContactList(numbersListId.getId());
-        api.deleteContactList(contactsListId.getId());
+        api.delete(numbersListId.getId());
+        api.delete(contactsListId.getId());
     }
 
     @Test
@@ -177,28 +179,28 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
             .name("listFromContacts")
             .contacts(asList(c1, c2))
             .build();
-        ResourceId id = api.createContactList(request);
+        ResourceId id = api.create(request);
 
         AddContactListItemsRequest addItemsRequest = AddContactListItemsRequest.<String>create()
             .contactListId(id.getId())
             .contacts(asList("12345543211"))
             .build();
-        api.addContactListItems(addItemsRequest);
+        api.addListItems(addItemsRequest);
 
         GetByIdRequest getItemsRequest = GetByIdRequest.create().id(id.getId()).build();
-        Page<Contact> contactListItems = api.getContactListItems(getItemsRequest);
+        Page<Contact> contactListItems = api.getListItems(getItemsRequest);
         List<Contact> items = contactListItems.getItems();
         assertEquals(3, items.size());
 
-        api.removeContactListItem(id.getId(), items.get(0).getId());
-        contactListItems = api.getContactListItems(getItemsRequest);
+        api.removeListItem(id.getId(), items.get(0).getId());
+        contactListItems = api.getListItems(getItemsRequest);
         items = contactListItems.getItems();
         assertEquals(2, items.size());
 
-        api.removeContactListItems(id.getId(), asList(items.get(0).getId(), items.get(1).getId()));
-        contactListItems = api.getContactListItems(getItemsRequest);
+        api.removeListItems(id.getId(), asList(items.get(0).getId(), items.get(1).getId()));
+        contactListItems = api.getListItems(getItemsRequest);
         assertEquals(0, contactListItems.getItems().size());
 
-        api.deleteContactList(id.getId());
+        api.delete(id.getId());
     }
 }
