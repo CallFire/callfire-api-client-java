@@ -1,10 +1,10 @@
 group 'com.callfire'
-version '0.1-SNAPSHOT'
+version '1.0.0-SNAPSHOT'
 
 apply plugin: 'idea'
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.7
 
 repositories {
     mavenCentral()
@@ -14,11 +14,9 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.1'
-
-    compile 'joda-time:joda-time:2.8.2'
 
     compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'org.apache.httpcomponents:httpmime:4.5'
     compile 'org.apache.commons:commons-lang3:3.4'
 
     testCompile('junit:junit:4.12') {
@@ -26,4 +24,11 @@ dependencies {
         exclude module: 'hamcrest-core'
     }
     testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'commons-io:commons-io:2.4'
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
 }

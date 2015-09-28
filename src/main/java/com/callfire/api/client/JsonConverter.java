@@ -4,19 +4,22 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import java.io.IOException;
 
+/**
+ * JSON serializer/deserializer
+ *
+ * @since 1.0
+ */
 public class JsonConverter {
-    private static final Logger LOGGER = new Logger(JsonConverter.class);
     private ObjectMapper mapper;
 
     public JsonConverter() {
         mapper = new ObjectMapper();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.registerModule(new JodaModule());
+        // TODO set fail to false
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+        mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     /**
@@ -50,10 +53,20 @@ public class JsonConverter {
         }
     }
 
+    /**
+     * Get Jackson's {@link ObjectMapper}
+     *
+     * @return object mapper
+     */
     public ObjectMapper getMapper() {
         return mapper;
     }
 
+    /**
+     * Set Jackson's {@link ObjectMapper}
+     *
+     * @param mapper object mapper
+     */
     public void setMapper(ObjectMapper mapper) {
         this.mapper = mapper;
     }

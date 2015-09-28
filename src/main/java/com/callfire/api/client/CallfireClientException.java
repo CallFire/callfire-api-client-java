@@ -2,6 +2,8 @@ package com.callfire.api.client;
 
 /**
  * Thrown by client in case of invalid instantiation
+ *
+ * @since 1.0
  */
 public class CallfireClientException extends RuntimeException {
     public CallfireClientException() {
