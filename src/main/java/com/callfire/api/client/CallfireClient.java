@@ -31,6 +31,7 @@ public class CallfireClient {
     private AgentGroupsApi agentGroupsApi;
     private BatchesApi batchesApi;
     private CampaignSoundsApi campaignSoundsApi;
+    private CccsApi cccsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
     // keywords
     private KeywordsApi keywordsApi;
@@ -83,6 +84,19 @@ public class CallfireClient {
         }
         return agentsApi;
     }
+
+    /**
+     * Get /campaigns/cccs api endpoint
+     *
+     * @return endpoint object
+     */
+    public CccsApi getCccsApi() {
+        if (cccsApi == null) {
+            cccsApi = new CccsApi(restApiClient);
+        }
+        return cccsApi;
+    }
+
     /**
      * Get /me api endpoint
      *

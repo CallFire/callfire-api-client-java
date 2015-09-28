@@ -26,6 +26,8 @@ import static com.callfire.api.client.api.campaigns.AgentsApi.LIST_OF_AGENT_TYPE
 
 /**
  * Represents rest endpoint /campaigns/cccs
+ *
+ * @since 1.0
  */
 public class CccsApi {
     private static final String CCC_PATH = "/campaigns/cccs";
@@ -36,7 +38,9 @@ public class CccsApi {
     private static final String CCC_ITEM_AGENTS_ITEM_PATH = "/campaigns/cccs/{}/agents/{}";
     private static final String CCC_ITEM_AGENT_GROUPS_PATH = "/campaigns/cccs/{}/agent-groups";
     private static final String CCC_ITEM_AGENT_GROUPS_ITEM_PATH = "/campaigns/cccs/{}/agent-groups/{}";
-    private static final String CCC_ITEM_CONTROL_PATH = "/campaigns/cccs/{}/control";
+    private static final String CCC_ITEM_START_PATH = "/campaigns/cccs/{}/start";
+    private static final String CCC_ITEM_STOP_PATH = "/campaigns/cccs/{}/stop";
+    private static final String CCC_ITEM_ARCHIVE_PATH = "/campaigns/cccs/{}/archive";
     private static final TypeReference<CccCampaign> CCC_TYPE = new TypeReference<CccCampaign>() {
     };
     private static final TypeReference<Page<CccCampaign>> PAGE_OF_CCCS_TYPE = new TypeReference<Page<CccCampaign>>() {
@@ -108,8 +112,23 @@ public class CccsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public void update(CccCampaign campaign) {
+        update(campaign, false);
+    }
+
+    /**
+     * Update CCC campaign
+     *
+     * @param campaign  CCC campaign to update
+     * @param sendEmail if true sends email to invited agents
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void update(CccCampaign campaign, Boolean sendEmail) {
         Validate.notNull(campaign.getId(), "campaign.id cannot be null");
-        client.put(CCC_ITEM_PATH.replaceFirst(PLACEHOLDER, campaign.getId().toString()), VOID_TYPE, campaign);
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("sendEmail", sendEmail, queryParams);
+        String path = CCC_ITEM_PATH.replaceFirst(PLACEHOLDER, campaign.getId().toString());
+        client.put(path, VOID_TYPE, campaign, queryParams);
     }
 
     /**
@@ -125,17 +144,39 @@ public class CccsApi {
     }
 
     /**
-     * Control CCC campaign (START, STOP, ARCHIVE)
+     * Starts CCC campaign
      *
-     * @param id      id of campaign
-     * @param command command for campaign
+     * @param id id of campaign
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void control(Long id) {
+    public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
-        Validate.notNull(null, "command cannot be null");
-        client.post(CCC_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(CCC_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Stops CCC campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void stop(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(CCC_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Archives CCC campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void archive(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(CCC_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
     }
 
     /**
@@ -162,7 +203,7 @@ public class CccsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = CCC_ITEM_AGENTS_PATH.replaceFirst(PLACEHOLDER, campaignId.toString());
-        return client.post(path, LIST_OF_AGENT_TYPE, queryParams);
+        return client.get(path, LIST_OF_AGENT_TYPE, queryParams);
     }
 
     /**
@@ -179,7 +220,21 @@ public class CccsApi {
     }
 
     /**
-     * Get agents of particular campaign
+     * Add agents to particular CCC campaign
+     *
+     * @param request request object with id of CCC campaign and agent information
+     * @return
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public Map<String, String> addAgents(AgentInviteRequest request) {
+        Validate.notNull(request.getCampaignId(), "request.campaignId cannot be null");
+        String path = CCC_ITEM_INVITES_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
+        return client.post(path, MAP_OF_STRINGS_TYPE, request);
+    }
+
+    /**
+     * Remove agent from particular campaign
      *
      * @param campaignId id of campaign
      * @param agentId    id of assigned agent
@@ -198,6 +253,17 @@ public class CccsApi {
      * Get agent groups of particular campaign
      *
      * @param campaignId id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public List<AgentGroup> getAgentGroups(Long campaignId) {
+        return getAgentGroups(campaignId, null);
+    }
+
+    /**
+     * Get agent groups of particular campaign
+     *
+     * @param campaignId id of campaign
      * @param fields     limit fields returned. Example fields=id,message
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
@@ -208,20 +274,6 @@ public class CccsApi {
         addQueryParamIfSet("fields", fields, queryParams);
         String path = CCC_ITEM_AGENT_GROUPS_PATH.replaceFirst(PLACEHOLDER, campaignId.toString());
         return client.get(path, LIST_OF_AGENT_GROUP_TYPE, queryParams);
-    }
-
-    /**
-     * Add agents to particular CCC campaign
-     *
-     * @param request request object with id of CCC campaign and agent information
-     * @return
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
-     */
-    public Map<String, String> addAgents(AgentInviteRequest request) {
-        Validate.notNull(request.getCampaignId(), "request.campaignId cannot be null");
-        String path = CCC_ITEM_INVITES_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
-        return client.post(path, MAP_OF_STRINGS_TYPE, request);
     }
 
     /**

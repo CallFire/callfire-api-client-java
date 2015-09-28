@@ -229,11 +229,28 @@ public class RestApiClient {
      * @throws CallfireClientException in case error has occurred in client
      */
     public <T> T put(String path, TypeReference<T> type, Object payload) {
+        return put(path, type, payload, Collections.<NameValuePair>emptyList());
+    }
+
+    /**
+     * Performs PUT request with body to specified path
+     *
+     * @param path        request path
+     * @param type        response entity type
+     * @param payload     request payload
+     * @param queryParams query parameters
+     * @param <T>         response entity type
+     * @return pojo mapped from json
+     * @throws CallfireApiException    in case API cannot be queried for some reason
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public <T> T put(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
             String uri = BASE_PATH + path;
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
+                .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]))
                 .setEntity(httpEntity);
             logDebugPrettyJson("PUT request to {} entity \n{}", uri, payload);
 
