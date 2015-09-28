@@ -93,6 +93,7 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @Ignore("need TTS setup")
     public void testCreateFromTts() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
         TextToSpeech tts = new TextToSpeech();

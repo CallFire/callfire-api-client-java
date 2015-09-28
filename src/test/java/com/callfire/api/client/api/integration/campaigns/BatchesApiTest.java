@@ -6,8 +6,7 @@ import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * integration tests for /campaigns/batches api endpoint
@@ -21,11 +20,11 @@ public class BatchesApiTest extends AbstractIntegrationTest {
 
         Batch batch = api.get(1L);
         System.out.println(batch);
-        assertTrue(batch.getEnabled());
 
-        batch.setEnabled(false);
+        Boolean enabled = batch.getEnabled();
+        batch.setEnabled(!enabled);
         api.update(batch);
-        batch = api.get(1L);
-        assertFalse(batch.getEnabled());
+        Batch updatedBatch = api.get(1L);
+        assertNotEquals(updatedBatch.getEnabled(), enabled);
     }
 }

@@ -3,6 +3,7 @@ package com.callfire.api.client.api.keywords;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.keywords.model.Keyword;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
@@ -23,7 +24,7 @@ import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 public class KeywordsApi {
     private static final String KEYWORDS_PATH = "/keywords";
     private static final String KEYWORD_AVAILABLE_PATH = "/keywords/{}/available";
-    private static final TypeReference<List<Keyword>> KEYWORDS_LIST_TYPE = new TypeReference<List<Keyword>>() {
+    private static final TypeReference<ListHolder<Keyword>> KEYWORDS_LIST_TYPE = new TypeReference<ListHolder<Keyword>>() {
     };
 
     private RestApiClient client;
@@ -45,7 +46,7 @@ public class KeywordsApi {
         for (String keyword : keywords) {
             queryParams.add(new BasicNameValuePair("keywords", keyword));
         }
-        return client.get(KEYWORDS_PATH, KEYWORDS_LIST_TYPE, queryParams);
+        return client.get(KEYWORDS_PATH, KEYWORDS_LIST_TYPE, queryParams).getItems();
     }
 
     /**

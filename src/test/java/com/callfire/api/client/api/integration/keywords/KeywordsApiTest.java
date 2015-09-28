@@ -20,14 +20,13 @@ public class KeywordsApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetKeywordsInCatalog() throws Exception {
         CallfireClient client = getCallfireClient();
-        String KW1 = "callfire";
-        String KW2 = "TEST1";
-        String KW3 = "TEST2";
+        String KW1 = "TEST1";
+        String KW2 = "TEST2";
 
-        List<Keyword> keywords = client.keywordsApi().find(asList(KW1, KW2, KW3));
+        List<Keyword> keywords = client.keywordsApi().find(asList(KW1, KW2));
         assertEquals(2, keywords.size());
+        assertThat(keywords, hasItem(Matchers.<Keyword>hasProperty("keyword", is(KW1))));
         assertThat(keywords, hasItem(Matchers.<Keyword>hasProperty("keyword", is(KW2))));
-        assertThat(keywords, hasItem(Matchers.<Keyword>hasProperty("keyword", is(KW3))));
     }
 
     @Test
@@ -35,6 +34,5 @@ public class KeywordsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
         assertTrue(client.keywordsApi().isAvailable("TEST"));
         assertTrue(client.keywordsApi().isAvailable("KW"));
-        assertFalse(client.keywordsApi().isAvailable("callfire"));
     }
 }
