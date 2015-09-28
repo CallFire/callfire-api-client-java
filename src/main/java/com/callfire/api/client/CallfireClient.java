@@ -4,21 +4,18 @@ import com.callfire.api.client.api.account.MeApi;
 import com.callfire.api.client.api.account.OrdersApi;
 import com.callfire.api.client.api.callstexts.CallsApi;
 import com.callfire.api.client.api.callstexts.TextsApi;
-import com.callfire.api.client.api.campaigns.AgentGroupsApi;
-import com.callfire.api.client.api.campaigns.BatchesApi;
-import com.callfire.api.client.api.campaigns.CampaignSoundsApi;
-import com.callfire.api.client.api.campaigns.TextAutoRepliesApi;
+import com.callfire.api.client.api.campaigns.*;
 import com.callfire.api.client.api.contacts.ContactListsApi;
+import com.callfire.api.client.api.contacts.ContactsApi;
 import com.callfire.api.client.api.contacts.DncApi;
 import com.callfire.api.client.api.contacts.DncListsApi;
 import com.callfire.api.client.api.keywords.KeywordLeasesApi;
+import com.callfire.api.client.api.keywords.KeywordsApi;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
+import com.callfire.api.client.api.numbers.NumbersApi;
 import com.callfire.api.client.api.webhooks.SubscriptionsApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
-import com.callfire.api.client.api.contacts.ContactsApi;
-import com.callfire.api.client.api.keywords.KeywordsApi;
-import com.callfire.api.client.api.numbers.NumbersApi;
 
 /**
  * Callfire API v2 client
@@ -30,6 +27,7 @@ public class CallfireClient {
     private RestApiClient restApiClient;
 
     // campaigns
+    private AgentsApi agentsApi;
     private AgentGroupsApi agentGroupsApi;
     private BatchesApi batchesApi;
     private CampaignSoundsApi campaignSoundsApi;
@@ -74,6 +72,17 @@ public class CallfireClient {
         return restApiClient;
     }
 
+    /**
+     * Get /campaigns/cccs/agents api endpoint
+     *
+     * @return endpoint object
+     */
+    public AgentsApi getAgentsApi() {
+        if (agentsApi == null) {
+            agentsApi = new AgentsApi(restApiClient);
+        }
+        return agentsApi;
+    }
     /**
      * Get /me api endpoint
      *

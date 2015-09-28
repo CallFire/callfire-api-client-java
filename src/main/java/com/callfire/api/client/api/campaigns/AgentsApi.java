@@ -22,6 +22,8 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /campaigns/cccs/agents
+ *
+ * @since 1.0
  */
 public class AgentsApi {
     private static final String AGENTS_PATH = "/campaigns/cccs/agents";
@@ -32,6 +34,8 @@ public class AgentsApi {
     private static final String AGENTS_SESSIONS_PATH = "/campaigns/cccs/agents/sessions";
     private static final String AGENTS_SESSIONS_ITEM_PATH = "/campaigns/cccs/agents/sessions/{}";
     private static final TypeReference<Page<Agent>> PAGE_OF_AGENTS_TYPE = new TypeReference<Page<Agent>>() {
+    };
+    private static final TypeReference<AgentSession> AGENT_SESSION_TYPE = new TypeReference<AgentSession>() {
     };
     private static final TypeReference<Page<AgentSession>> PAGE_OF_AGENT_SESSIONS_TYPE = new TypeReference<Page<AgentSession>>() {
     };
@@ -95,7 +99,7 @@ public class AgentsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public Page<AgentSession> findSessions(FindAgentSessionsRequest request) {
-        return client.get(AGENTS_PATH, PAGE_OF_AGENT_SESSIONS_TYPE, request);
+        return client.get(AGENTS_SESSIONS_PATH, PAGE_OF_AGENT_SESSIONS_TYPE, request);
     }
 
     /**
@@ -106,10 +110,10 @@ public class AgentsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<AgentSession> getSession(Long id) {
+    public AgentSession getSession(Long id) {
         Validate.notNull(id, "id cannot be null");
         String path = AGENTS_SESSIONS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, PAGE_OF_AGENT_SESSIONS_TYPE);
+        return client.get(path, AGENT_SESSION_TYPE);
     }
 
     private void joinCampaign(Long id) {
