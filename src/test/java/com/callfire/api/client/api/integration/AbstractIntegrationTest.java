@@ -3,6 +3,7 @@ package com.callfire.api.client.api.integration;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.campaigns.model.Recipient;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import org.apache.commons.lang3.Validate;
 import org.hamcrest.Matchers;
 import org.junit.rules.ExpectedException;
@@ -89,11 +90,30 @@ public class AbstractIntegrationTest {
         return asList(recipient1, recipient2);
     }
 
+    protected List<TextRecipient> makeTextRecipients() {
+        TextRecipient recipient1 = new TextRecipient();
+        recipient1.setPhoneNumber("12131234567");
+        recipient1.setMessage("msg1");
+        TextRecipient recipient2 = new TextRecipient();
+        recipient2.setPhoneNumber("12131234568");
+        recipient2.setMessage("msg1");
+
+        return asList(recipient1, recipient2);
+    }
+
     protected Long getLiveSoundId() {
         return 1L;
     }
 
     protected Long getVoiceBroadcastId() {
         return 1L;
+    }
+
+    protected Long getTextBroadcastId() {
+        return 3L;
+    }
+
+    protected Long getIvrBroadcastId() {
+        return 7L;
     }
 }

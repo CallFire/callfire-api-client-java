@@ -88,12 +88,14 @@ public class CallfireClient {
         return agentsApi;
     }
 
+    // TODO vmikhailov temporary disabled
+
     /**
      * Get /campaigns/cccs api endpoint
      *
      * @return endpoint object
      */
-    public CccsApi cccsApi() {
+    private CccsApi cccsApi() {
         if (cccsApi == null) {
             cccsApi = new CccsApi(restApiClient);
         }

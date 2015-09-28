@@ -1,8 +1,8 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.api.common.model.ErrorMessage;
+import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.ResourceIds;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.InputStream;
@@ -15,8 +15,7 @@ import java.util.Map;
  * @since 1.0
  */
 public interface ClientConstants {
- //   String BASE_PATH = "https://www.callfire.com/api/v2";
-    String BASE_PATH = "http://localhost/api/v2";
+    String BASE_PATH = "https://www.callfire.com/api/v2";
 
     String PLACEHOLDER = "\\{\\}";
     // Use ISO 8601 format for date and datetime.
@@ -44,7 +43,7 @@ public interface ClientConstants {
         };
         TypeReference<ResourceId> RESOURCE_ID_TYPE = new TypeReference<ResourceId>() {
         };
-        TypeReference<ResourceIds> RESOURCE_IDS_TYPE = new TypeReference<ResourceIds>() {
+        TypeReference<ListHolder<ResourceId>> LIST_OF_RESOURCE_ID_TYPE = new TypeReference<ListHolder<ResourceId>>() {
         };
         TypeReference<ErrorMessage> ERROR_MESSAGE_TYPE = new TypeReference<ErrorMessage>() {
         };

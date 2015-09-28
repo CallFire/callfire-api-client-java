@@ -33,7 +33,9 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testCrudOperations() throws Exception {
-        CccsApi api = getCallfireClient().cccsApi();
+        // TODO vmikhailov fix tests when ccc will be ready
+        CccsApi api = new CccsApi(null);
+        //        CccsApi api = getCallfireClient().cccsApi();
 
         // create
         CccCampaign campaign = new CccCampaign();
@@ -83,7 +85,8 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testStartStopArchiveCampaign() throws Exception {
-        CccsApi api = getCallfireClient().cccsApi();
+        CccsApi api = new CccsApi(null);
+        //        CccsApi api = getCallfireClient().cccsApi();
         CccCampaign campaign = api.get(8L);
         System.out.println(campaign);
         assertNotNull(campaign);
@@ -103,7 +106,8 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testAgentsCrudOperations() throws Exception {
-        CccsApi api = getCallfireClient().cccsApi();
+        CccsApi api = new CccsApi(null);
+        //        CccsApi api = getCallfireClient().cccsApi();
         FindCccBroadcastsRequest findRequest = FindCccBroadcastsRequest.create()
             .build();
         Page<CccCampaign> page = api.find(findRequest);
@@ -137,7 +141,8 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testAgentGroupsCrudOperations() throws Exception {
-        CccsApi api = getCallfireClient().cccsApi();
+        CccsApi api = new CccsApi(null);
+        //        CccsApi api = getCallfireClient().cccsApi();
         FindCccBroadcastsRequest findRequest = FindCccBroadcastsRequest.create()
             .build();
         Page<CccCampaign> page = api.find(findRequest);

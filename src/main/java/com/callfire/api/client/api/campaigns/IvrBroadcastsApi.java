@@ -29,6 +29,8 @@ import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYP
 
 /**
  * Represents rest endpoint /campaigns/ivrs
+ *
+ * @since 1.0
  */
 public class IvrBroadcastsApi {
     private static final String IVR_PATH = "/campaigns/ivrs";

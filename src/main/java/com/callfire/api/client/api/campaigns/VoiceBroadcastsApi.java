@@ -28,6 +28,8 @@ import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYP
 
 /**
  * Represents rest endpoint /campaigns/voice-broadcasts
+ *
+ * @since 1.0
  */
 public class VoiceBroadcastsApi {
     private static final String VB_PATH = "/campaigns/voice-broadcasts";

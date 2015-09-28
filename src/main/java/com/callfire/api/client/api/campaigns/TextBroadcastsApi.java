@@ -6,8 +6,8 @@ import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.TextBroadcast;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
@@ -26,12 +26,15 @@ import java.util.Map;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientConstants.Type.*;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.api.callstexts.TextsApi.LIST_OF_TEXTS_TYPE;
 import static com.callfire.api.client.api.callstexts.TextsApi.PAGE_OF_TEXTS_TYPE;
 import static com.callfire.api.client.api.campaigns.BatchesApi.BATCH_TYPE;
 import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYPE;
 
 /**
  * Represents rest endpoint /campaigns/text-broadcasts
+ *
+ * @since 1.0
  */
 public class TextBroadcastsApi {
     private static final String TB_PATH = "/campaigns/text-broadcasts";
@@ -39,7 +42,9 @@ public class TextBroadcastsApi {
     private static final String TB_ITEM_PATH = "/campaigns/text-broadcasts/{}";
     private static final String TB_ITEM_BATCHES_PATH = "/campaigns/text-broadcasts/{}/batches";
     private static final String TB_ITEM_TEXTS_PATH = "/campaigns/text-broadcasts/{}/texts";
-    private static final String TB_ITEM_CONTROL_PATH = "/campaigns/text-broadcasts/{}/control";
+    private static final String TB_ITEM_START_PATH = "/campaigns/text-broadcasts/{}/start";
+    private static final String TB_ITEM_STOP_PATH = "/campaigns/text-broadcasts/{}/stop";
+    private static final String TB_ITEM_ARCHIVE_PATH = "/campaigns/text-broadcasts/{}/archive";
     private static final String TB_ITEM_RECIPIENTS_PATH = "/campaigns/text-broadcasts/{}/recipients";
     private static final String TB_ITEM_RECIPIENTS_FILE_PATH = "/campaigns/text-broadcasts/{}/recipients-file";
     private static final TypeReference<TextBroadcast> TB_TYPE = new TypeReference<TextBroadcast>() {
@@ -67,6 +72,18 @@ public class TextBroadcastsApi {
 
     /**
      * Create text broadcast
+     *
+     * @param broadcast text broadcast to create
+     * @return {@link ResourceId} object with id of created broadcast
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public ResourceId create(TextBroadcast broadcast) {
+        return create(broadcast, null);
+    }
+
+    /**
+     * Create text broadcast. If start set to true campaign starts immediately
      *
      * @param broadcast text broadcast to create
      * @param start     if set to true broadcast will starts immediately
@@ -118,6 +135,42 @@ public class TextBroadcastsApi {
     public void update(TextBroadcast broadcast) {
         Validate.notNull(broadcast.getId(), "broadcast.id cannot be null");
         client.put(TB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), VOID_TYPE, broadcast);
+    }
+
+    /**
+     * Starts text campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void start(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(TB_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Stops text campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void stop(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(TB_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Archives text campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void archive(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(TB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
     }
 
     /**
@@ -186,20 +239,6 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Control text broadcast (START, STOP, ARCHIVE)
-     *
-     * @param id      id of text broadcast
-     * @param command command for broadcast
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
-     */
-    public void control(Long id) {
-        Validate.notNull(id, "id cannot be null");
-        Validate.notNull(null, "command cannot be null");
-        client.post(TB_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
-    }
-
-    /**
      * Add recipients to text broadcast
      *
      * @param id         id of text broadcast
@@ -208,10 +247,10 @@ public class TextBroadcastsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<ResourceId> addRecipients(Long id, List<Recipient> recipients) {
+    public List<Text> addRecipients(Long id, List<TextRecipient> recipients) {
         Validate.notNull(id, "id cannot be null");
         String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_RESOURCE_ID_TYPE, recipients).getItems();
+        return client.post(path, LIST_OF_TEXTS_TYPE, recipients).getItems();
     }
 
     /**
@@ -223,7 +262,8 @@ public class TextBroadcastsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<ResourceId> addRecipients(Long id, File file) {
+    // TODO vmikhailov backend isn't ready yet
+    private List<ResourceId> addRecipients(Long id, File file) {
         Validate.notNull(id, "id cannot be null");
         Validate.notNull(file, "file cannot be null");
         Map<String, Object> params = new HashMap<>(1);
