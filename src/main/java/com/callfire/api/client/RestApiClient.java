@@ -44,6 +44,8 @@ public class RestApiClient {
     private Authentication authentication;
     private SortedSet<RequestFilter> filters = new TreeSet<>();
 
+    private final String baseApiPath;
+
     /**
      * REST API client constructor. Currently available authentication methods: {@link BasicAuth}
      *
@@ -53,6 +55,7 @@ public class RestApiClient {
         this.authentication = authentication;
         jsonConverter = new JsonConverter();
         httpClient = HttpClientBuilder.create().setUserAgent(USER_AGENT).build();
+        baseApiPath = CallfireClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
     }
 
     /**
@@ -116,7 +119,7 @@ public class RestApiClient {
      */
     public <T> T get(String path, TypeReference<T> type, List<NameValuePair> queryParams) {
         try {
-            String uri = BASE_PATH + path;
+            String uri = baseApiPath + path;
             LOGGER.debug("GET request to {} with params: {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.get(uri)
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -154,7 +157,7 @@ public class RestApiClient {
      */
     public <T> T postFile(String path, TypeReference<T> type, Map<String, ?> params) {
         try {
-            String uri = BASE_PATH + path;
+            String uri = baseApiPath + path;
             MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
             entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             entityBuilder.addBinaryBody("file", (File) params.get("file"));
@@ -199,7 +202,7 @@ public class RestApiClient {
      */
     public <T> T post(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
-            String uri = BASE_PATH + path;
+            String uri = baseApiPath + path;
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -246,7 +249,7 @@ public class RestApiClient {
      */
     public <T> T put(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
-            String uri = BASE_PATH + path;
+            String uri = baseApiPath + path;
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
@@ -281,7 +284,7 @@ public class RestApiClient {
      */
     public void delete(String path, List<NameValuePair> queryParams) {
         try {
-            String uri = BASE_PATH + path;
+            String uri = baseApiPath + path;
             LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
             requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));

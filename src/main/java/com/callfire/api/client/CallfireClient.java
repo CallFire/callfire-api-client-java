@@ -17,6 +17,11 @@ import com.callfire.api.client.api.webhooks.SubscriptionsApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
 
+import java.io.IOException;
+import java.util.Properties;
+
+import static com.callfire.api.client.ClientConstants.CLIENT_CONFIG_FILE;
+
 /**
  * Callfire API v2 client
  *
@@ -24,6 +29,12 @@ import com.callfire.api.client.auth.BasicAuth;
  * @version 1.0
  */
 public class CallfireClient {
+    private static Properties clientConfig = new Properties();
+
+    static {
+        loadConfig();
+    }
+
     private RestApiClient restApiClient;
 
     // campaigns
@@ -74,6 +85,15 @@ public class CallfireClient {
      */
     public RestApiClient getRestApiClient() {
         return restApiClient;
+    }
+
+    /**
+     * Get client configuration
+     *
+     * @return configuration properties
+     */
+    public static Properties getClientConfig() {
+        return clientConfig;
     }
 
     /**
@@ -353,5 +373,13 @@ public class CallfireClient {
             contactListsApi = new ContactListsApi(restApiClient);
         }
         return contactListsApi;
+    }
+
+    private static void loadConfig() {
+        try {
+            clientConfig.load(CallfireClient.class.getResourceAsStream(CLIENT_CONFIG_FILE));
+        } catch (IOException e) {
+            throw new CallfireClientException("Cannot instantiate Callfire Client.", e);
+        }
     }
 }

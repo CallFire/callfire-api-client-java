@@ -5,11 +5,13 @@ import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.account.model.Account;
 import com.callfire.api.client.api.account.model.ApiCredentials;
 import com.callfire.api.client.api.account.model.BillingPlanUsage;
+import com.callfire.api.client.api.account.model.CallerId;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
 import org.apache.commons.lang3.StringUtils;
+import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,9 +58,9 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetCallerIds() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        List<String> callerIds = callfireClient.meApi().getCallerIds();
+        List<CallerId> callerIds = callfireClient.meApi().getCallerIds();
         System.out.println(callerIds);
-        assertThat(callerIds, hasItem("12132212289"));
+        assertThat(callerIds, hasItem(Matchers.<CallerId>hasProperty("phoneNumber", equalTo("12132212289"))));
     }
 
     @Test

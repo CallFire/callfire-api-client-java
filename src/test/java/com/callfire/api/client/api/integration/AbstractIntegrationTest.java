@@ -4,6 +4,7 @@ import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.hamcrest.Matchers;
 import org.junit.rules.ExpectedException;
@@ -11,6 +12,7 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.callfire.api.client.ClientConstants.BASE_PATH_PROPERTY;
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasProperty;
 
@@ -22,6 +24,7 @@ public class AbstractIntegrationTest {
     private String password;
     private String callerId;
     private String did1;
+    private String basePath;
     private List<Long> campaignIds = new ArrayList<>();
 
     public AbstractIntegrationTest() {
@@ -29,6 +32,11 @@ public class AbstractIntegrationTest {
         password = System.getProperty("testApiPassword");
         callerId = System.getProperty("testCallerId");
         did1 = System.getProperty("testDid1");
+        basePath = System.getProperty("basePath");
+        if (StringUtils.isEmpty(basePath)) {
+            basePath = "http://localhost/api/v2";
+        }
+        CallfireClient.getClientConfig().put(BASE_PATH_PROPERTY, basePath);
 
         String campaignIdsPropery = System.getProperty("testCampaignIds");
         if (campaignIdsPropery != null) {

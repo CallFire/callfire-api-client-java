@@ -15,7 +15,8 @@ import java.util.Map;
  * @since 1.0
  */
 public interface ClientConstants {
-    String BASE_PATH = "https://www.callfire.com/api/v2";
+    String BASE_PATH_PROPERTY = "com.callfire.api.client.path";
+    String CLIENT_CONFIG_FILE = "/callfire.properties";
 
     String PLACEHOLDER = "\\{\\}";
     // Use ISO 8601 format for date and datetime.

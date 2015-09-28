@@ -6,7 +6,9 @@ import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.account.model.Account;
 import com.callfire.api.client.api.account.model.ApiCredentials;
 import com.callfire.api.client.api.account.model.BillingPlanUsage;
+import com.callfire.api.client.api.account.model.CallerId;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -40,6 +42,8 @@ public class MeApi {
     private static final TypeReference<Page<ApiCredentials>> API_CREDS_PAGE_TYPE = new TypeReference<Page<ApiCredentials>>() {
     };
     private static final TypeReference<BillingPlanUsage> BILLING_PLAN_USAGE_TYPE = new TypeReference<BillingPlanUsage>() {
+    };
+    private static final TypeReference<ListHolder<CallerId>> LIST_OF_CALLERID_TYPE = new TypeReference<ListHolder<CallerId>>() {
     };
 
     private RestApiClient client;
@@ -79,12 +83,12 @@ public class MeApi {
      * <p/>
      * GET /me/callerids
      *
-     * @return List<String> list with callerIds
+     * @return list of callerId numbers
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<String> getCallerIds() {
-        return client.get(ME_CALLERIDS_PATH, LIST_OF_STRINGS_TYPE);
+    public List<CallerId> getCallerIds() {
+        return client.get(ME_CALLERIDS_PATH, LIST_OF_CALLERID_TYPE).getItems();
     }
 
     /**

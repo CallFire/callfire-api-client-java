@@ -1,5 +1,5 @@
 group 'com.callfire'
-version '0.1-SNAPSHOT'
+version '1.0.0-SNAPSHOT'
 
 apply plugin: 'idea'
 apply plugin: 'java'
@@ -14,9 +14,6 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
-//    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.1'
-
-//    compile 'joda-time:joda-time:2.8.2'
 
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'org.apache.httpcomponents:httpmime:4.5'
