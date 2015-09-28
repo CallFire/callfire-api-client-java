@@ -2,14 +2,15 @@ package com.callfire.api.client.api.integration;
 
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.campaigns.model.Recipient;
 import org.apache.commons.lang3.Validate;
 import org.hamcrest.Matchers;
 import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasProperty;
 
 /**
@@ -30,7 +31,7 @@ public class AbstractIntegrationTest {
 
         String campaignIdsPropery = System.getProperty("testCampaignIds");
         if (campaignIdsPropery != null) {
-            for (String s : Arrays.asList(campaignIdsPropery.split(","))) {
+            for (String s : asList(campaignIdsPropery.split(","))) {
                 campaignIds.add(Long.valueOf(s));
             }
         }
@@ -77,5 +78,14 @@ public class AbstractIntegrationTest {
     protected void expect404NotFoundCallfireApiException(ExpectedException ex) {
         ex.expect(CallfireApiException.class);
         ex.expect(hasProperty("apiErrorMessage", hasProperty("httpStatusCode", Matchers.is(404))));
+    }
+
+    protected List<Recipient> makeRecipients() {
+        Recipient recipient1 = new Recipient();
+        recipient1.setPhoneNumber("12131234567");
+        Recipient recipient2 = new Recipient();
+        recipient2.setPhoneNumber("12131234568");
+
+        return asList(recipient1, recipient2);
     }
 }

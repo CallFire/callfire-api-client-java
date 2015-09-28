@@ -20,7 +20,7 @@ public class DncApiTest extends AbstractIntegrationTest {
             .limit(1L)
             .build();
         CallfireClient client = getCallfireClient();
-        Page<DoNotContact> dncContacts = client.getDncApi().find(request);
+        Page<DoNotContact> dncContacts = client.dncApi().find(request);
         System.out.println(dncContacts);
 
         Assert.assertEquals(1, dncContacts.getItems().size());
@@ -34,6 +34,6 @@ public class DncApiTest extends AbstractIntegrationTest {
         number.setNumber("16505541938");
         number.setCall(true);
         number.setText(true);
-        client.getDncApi().update(number);
+        client.dncApi().update(number);
     }
 }

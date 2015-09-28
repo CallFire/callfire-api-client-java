@@ -26,14 +26,14 @@ public class OrdersApiTest extends AbstractIntegrationTest {
         KeywordPurchaseRequest request = KeywordPurchaseRequest.create()
             .keywords(asList("TEST1", "TEST2"))
             .build();
-        ResourceId resourceId = callfireClient.getOrdersApi().orderKeywords(request);
+        ResourceId resourceId = callfireClient.ordersApi().orderKeywords(request);
         assertNotNull(resourceId.getId());
 
-        NumberOrder order = callfireClient.getOrdersApi().getKeywordOrder(resourceId.getId());
+        NumberOrder order = callfireClient.ordersApi().getKeywordOrder(resourceId.getId());
         System.out.println(order);
 
         expect404NotFoundCallfireApiException(ex);
-        callfireClient.getOrdersApi().getKeywordOrder(1L);
+        callfireClient.ordersApi().getKeywordOrder(1L);
     }
 
     @Test
@@ -43,13 +43,13 @@ public class OrdersApiTest extends AbstractIntegrationTest {
         NumberPurchaseRequest request = NumberPurchaseRequest.create()
             .numbers(asList("12132212289"))
             .build();
-        ResourceId resourceId = callfireClient.getOrdersApi().orderNumbers(request);
+        ResourceId resourceId = callfireClient.ordersApi().orderNumbers(request);
         assertNotNull(resourceId.getId());
 
-        NumberOrder order = callfireClient.getOrdersApi().getNumberOrder(resourceId.getId());
+        NumberOrder order = callfireClient.ordersApi().getNumberOrder(resourceId.getId());
         System.out.println(order);
 
         expect404NotFoundCallfireApiException(ex);
-        callfireClient.getOrdersApi().getNumberOrder(1L);
+        callfireClient.ordersApi().getNumberOrder(1L);
     }
 }

@@ -22,7 +22,7 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
         CommonFindRequest request = CommonFindRequest.create()
             .limit(1L)
             .build();
-        Page<KeywordLease> leases = callfireClient.getKeywordLeasesApi().find(request);
+        Page<KeywordLease> leases = callfireClient.keywordLeasesApi().find(request);
         assertEquals(1, leases.getItems().size());
 
         System.out.println(leases);
@@ -32,7 +32,7 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
     public void testGetKeywordLease() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        KeywordLease lease = callfireClient.getKeywordLeasesApi().get("callfire");
+        KeywordLease lease = callfireClient.keywordLeasesApi().get("callfire");
         assertNotNull(lease.getKeyword());
         assertEquals(ACTIVE, lease.getStatus());
 
@@ -44,7 +44,7 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         String keyword = "callfire";
-        KeywordLeasesApi api = callfireClient.getKeywordLeasesApi();
+        KeywordLeasesApi api = callfireClient.keywordLeasesApi();
         KeywordLease lease = api.get(keyword);
         Boolean autoRenewSaved = lease.getAutoRenew();
         assertNotNull(lease.getKeyword());

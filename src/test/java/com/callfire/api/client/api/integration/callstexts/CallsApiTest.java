@@ -26,7 +26,7 @@ public class CallsApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetCall() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        Call call = callfireClient.getCallsApi().get(1L, "id,toNumber,state");
+        Call call = callfireClient.callsApi().get(1L, "id,toNumber,state");
 
         assertEquals(Long.valueOf(1L), call.getId());
         assertEquals("18088395900", call.getToNumber());
@@ -44,7 +44,7 @@ public class CallsApiTest extends AbstractIntegrationTest {
             .intervalEnd(new Date())
             .limit(3L)
             .build();
-        Page<Call> calls = callfireClient.getCallsApi().find(request);
+        Page<Call> calls = callfireClient.callsApi().find(request);
         System.out.println(calls);
 
         assertEquals(3, calls.getItems().size());
@@ -60,7 +60,7 @@ public class CallsApiTest extends AbstractIntegrationTest {
         CallRecipient recipient2 = new CallRecipient();
         recipient2.setLiveMessageSoundId(1L);
         recipient2.setPhoneNumber(getCallerId());
-        List<Call> calls = client.getCallsApi()
+        List<Call> calls = client.callsApi()
             .send(asList(recipient1, recipient2), null, "items(id,fromNumber,state)");
 
         System.out.println(calls);

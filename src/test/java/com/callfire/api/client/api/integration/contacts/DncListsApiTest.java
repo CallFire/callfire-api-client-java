@@ -30,7 +30,7 @@ public class DncListsApiTest extends AbstractIntegrationTest {
     @Test
     public void testDncContactListWithItemsCRUD() throws Exception {
         CallfireClient client = getCallfireClient();
-        DncListsApi api = client.getDncListsApi();
+        DncListsApi api = client.dncListsApi();
 
         DncList dncList = new DncList();
         dncList.setName("dncList1");

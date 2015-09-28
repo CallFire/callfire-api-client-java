@@ -25,7 +25,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
             .limit(2L)
             .build();
-        Page<NumberLease> leases = callfireClient.getNumberLeasesApi().find(request);
+        Page<NumberLease> leases = callfireClient.numberLeasesApi().find(request);
         assertEquals(2, leases.getItems().size());
 
         System.out.println(leases);
@@ -36,7 +36,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         String number = "19206596476";
-        NumberLease lease = callfireClient.getNumberLeasesApi().get(number);
+        NumberLease lease = callfireClient.numberLeasesApi().get(number);
         assertNotNull(lease.getRegion());
         assertEquals(number, lease.getNumber());
         assertThat(lease.getRegion().getCity(), containsString("APPLETON"));
@@ -49,7 +49,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         String number = "19206596476";
-        NumberLeasesApi api = callfireClient.getNumberLeasesApi();
+        NumberLeasesApi api = callfireClient.numberLeasesApi();
         NumberLease lease = api.get(number);
         assertNotNull(lease.getRegion());
         Boolean autoRenewSaved = lease.getAutoRenew();
@@ -71,7 +71,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
             .limit(2L)
             .build();
-        Page<NumberConfig> configs = callfireClient.getNumberLeasesApi().findConfigs(request);
+        Page<NumberConfig> configs = callfireClient.numberLeasesApi().findConfigs(request);
         assertEquals(2, configs.getItems().size());
 
         System.out.println(configs);
@@ -81,7 +81,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
     public void testGetNumberLeaseConfig() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
 
-        NumberConfig config = callfireClient.getNumberLeasesApi().getConfig("19206596476");
+        NumberConfig config = callfireClient.numberLeasesApi().getConfig("19206596476");
         assertEquals(IVR, config.getConfigType());
         assertNotNull(config.getIvrInboundConfig());
 
@@ -93,7 +93,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         String number = "19206596476";
-        NumberLeasesApi api = callfireClient.getNumberLeasesApi();
+        NumberLeasesApi api = callfireClient.numberLeasesApi();
         NumberConfig config = api.getConfig(number);
         assertNull(config.getCallTrackingConfig());
         assertEquals(IVR, config.getConfigType());

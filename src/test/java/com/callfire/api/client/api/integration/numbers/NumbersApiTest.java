@@ -28,7 +28,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
         CommonFindRequest request = CommonFindRequest.create()
             .limit(2L)
             .build();
-        List<Number> numbers = callfireClient.getNumbersApi().findNumbersTollfree(request);
+        List<Number> numbers = callfireClient.numbersApi().findNumbersTollfree(request);
         assertEquals(2, numbers.size());
 
         System.out.println(numbers);
@@ -42,7 +42,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
             .limit(2L)
             .state("LA")
             .build();
-        List<Number> numbers = callfireClient.getNumbersApi().findNumbersLocal(request);
+        List<Number> numbers = callfireClient.numbersApi().findNumbersLocal(request);
         assertEquals(2, numbers.size());
         assertThat(numbers.get(0).getNationalFormat(), startsWith("(225)"));
 
@@ -58,7 +58,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
             .state("IL")
             .zipcode("60640")
             .build();
-        Page<Region> regions = callfireClient.getNumbersApi().findNumberRegions(request);
+        Page<Region> regions = callfireClient.numbersApi().findNumberRegions(request);
         assertEquals(2, regions.getItems().size());
         assertThat(regions.getItems().get(0).getCity(), containsString("CHICAGO"));
         assertEquals("1773275", regions.getItems().get(0).getPrefix());

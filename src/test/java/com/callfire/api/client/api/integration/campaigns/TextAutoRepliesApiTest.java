@@ -24,7 +24,7 @@ public class TextAutoRepliesApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        TextAutoRepliesApi api = callfireClient.getTextAutoRepliesApi();
+        TextAutoRepliesApi api = callfireClient.textAutoRepliesApi();
 
         TextAutoReply textAutoReply = new TextAutoReply();
         textAutoReply.setNumber("19206596476");

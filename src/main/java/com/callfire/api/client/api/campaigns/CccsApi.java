@@ -7,7 +7,7 @@ import com.callfire.api.client.api.campaigns.model.Agent;
 import com.callfire.api.client.api.campaigns.model.AgentGroup;
 import com.callfire.api.client.api.campaigns.model.CccCampaign;
 import com.callfire.api.client.api.campaigns.model.request.AgentInviteRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindCccBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -60,7 +60,7 @@ public class CccsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<CccCampaign> find(FindBroadcastsRequest request) {
+    public Page<CccCampaign> find(FindCccBroadcastsRequest request) {
         return client.get(CCC_PATH, PAGE_OF_CCCS_TYPE, request);
     }
 

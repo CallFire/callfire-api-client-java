@@ -33,7 +33,7 @@ public class ContactsApiTest extends AbstractIntegrationTest {
             .id(asList(1L, 2L))
             .build();
         CallfireClient client = getCallfireClient();
-        Page<Contact> contacts = client.getContactsApi().find(request);
+        Page<Contact> contacts = client.contactsApi().find(request);
         System.out.println(contacts);
 
         assertEquals(2, contacts.getItems().size());
@@ -51,12 +51,12 @@ public class ContactsApiTest extends AbstractIntegrationTest {
         Contact contact2 = new Contact();
         contact2.setHomePhone("12345678902");
         CallfireClient client = getCallfireClient();
-        List<ResourceId> contacts = client.getContactsApi().create(asList(contact1, contact2));
+        List<ResourceId> contacts = client.contactsApi().create(asList(contact1, contact2));
         System.out.println(contacts);
 
         assertEquals(2, contacts.size());
 
-        Contact savedContact1 = client.getContactsApi().get(contacts.get(0).getId());
+        Contact savedContact1 = client.contactsApi().get(contacts.get(0).getId());
         System.out.println(savedContact1);
         assertEquals("12345678901", savedContact1.getHomePhone());
         assertEquals("firstName", savedContact1.getFirstName());
@@ -71,17 +71,17 @@ public class ContactsApiTest extends AbstractIntegrationTest {
         properties.put("key1", "value1");
         properties.put("key2", "value2");
         contact2.setProperties(properties);
-        client.getContactsApi().update(contact2);
+        client.contactsApi().update(contact2);
 
-        Contact savedContact2 = client.getContactsApi().get(contact2.getId(), "homePhone,zipcode,properties");
+        Contact savedContact2 = client.contactsApi().get(contact2.getId(), "homePhone,zipcode,properties");
         System.out.println(savedContact2);
         assertNull(savedContact2.getFirstName());
         assertEquals("12345678902", savedContact2.getHomePhone());
         assertEquals("12345", savedContact2.getZipcode());
         assertEquals(properties, savedContact2.getProperties());
 
-        client.getContactsApi().delete(contacts.get(0).getId());
-        Contact contact = client.getContactsApi().get(contacts.get(0).getId(), "id,deleted");
+        client.contactsApi().delete(contacts.get(0).getId());
+        Contact contact = client.contactsApi().get(contacts.get(0).getId(), "id,deleted");
         assertTrue(contact.getDeleted());
     }
 
@@ -91,7 +91,7 @@ public class ContactsApiTest extends AbstractIntegrationTest {
         GetByIdRequest request = GetByIdRequest.create()
             .id(1L)
             .build();
-        ContactHistory contactHistory = client.getContactsApi().getHistory(request);
+        ContactHistory contactHistory = client.contactsApi().getHistory(request);
         assertFalse(contactHistory.getCalls().isEmpty());
 
         System.out.println(contactHistory);

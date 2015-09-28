@@ -4,9 +4,11 @@ import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
 import com.callfire.api.client.api.callstexts.model.Call;
-import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.IvrBroadcast;
+import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindIvrBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -18,8 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.*;
+import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
+import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.api.callstexts.CallsApi.LIST_OF_CALLS_TYPE;
 import static com.callfire.api.client.api.callstexts.CallsApi.PAGE_OF_CALLS_TYPE;
 import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYPE;
 
@@ -31,7 +35,9 @@ public class IvrBroadcastsApi {
     private static final String IVR_ITEM_PATH = "/campaigns/ivrs/{}";
     private static final String IVR_ITEM_BATCHES_PATH = "/campaigns/ivrs/{}/batches";
     private static final String IVR_ITEM_CALLS_PATH = "/campaigns/ivrs/{}/calls";
-    private static final String IVR_ITEM_CONTROL_PATH = "/campaigns/ivrs/{}/control";
+    private static final String IVR_ITEM_START_PATH = "/campaigns/ivrs/{}/start";
+    private static final String IVR_ITEM_STOP_PATH = "/campaigns/ivrs/{}/stop";
+    private static final String IVR_ITEM_ARCHIVE_PATH = "/campaigns/ivrs/{}/archive";
     private static final String IVR_ITEM_RECIPIENTS_PATH = "/campaigns/ivrs/{}/recipients";
     private static final TypeReference<IvrBroadcast> IVR_TYPE = new TypeReference<IvrBroadcast>() {
     };
@@ -52,8 +58,20 @@ public class IvrBroadcastsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<IvrBroadcast> find(FindBroadcastsRequest request) {
+    public Page<IvrBroadcast> find(FindIvrBroadcastsRequest request) {
         return client.get(IVR_PATH, PAGE_OF_IVRS_TYPE, request);
+    }
+
+    /**
+     * Create ivr broadcast
+     *
+     * @param broadcast ivr broadcast to create
+     * @return {@link ResourceId} object with id of created broadcast
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public ResourceId create(IvrBroadcast broadcast) {
+        return create(broadcast, null);
     }
 
     /**
@@ -65,7 +83,7 @@ public class IvrBroadcastsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public ResourceId create(VoiceBroadcast broadcast, Boolean start) {
+    public ResourceId create(IvrBroadcast broadcast, Boolean start) {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("start", start, queryParams);
         return client.post(IVR_PATH, RESOURCE_ID_TYPE, broadcast, queryParams);
@@ -152,17 +170,39 @@ public class IvrBroadcastsApi {
     }
 
     /**
-     * Control ivr broadcast (START, STOP, ARCHIVE)
+     * Starts IVR campaign
      *
-     * @param id      id of ivr broadcast
-     * @param command command for broadcast
+     * @param id id of campaign
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void control(Long id) {
+    public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
-        Validate.notNull(null, "command cannot be null");
-        client.post(IVR_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(IVR_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Stops IVR campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void stop(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(IVR_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Archives IVR campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void archive(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(IVR_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
     }
 
     /**
@@ -170,13 +210,13 @@ public class IvrBroadcastsApi {
      *
      * @param id         id of ivr broadcast
      * @param recipients recipients to add
-     * @return list of {@link ResourceId} with recipient ids
+     * @return list of {@link Call} to recipients
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<ResourceId> addRecipients(Long id, List<Recipient> recipients) {
+    public List<Call> addRecipients(Long id, List<Recipient> recipients) {
         Validate.notNull(id, "id cannot be null");
         String path = IVR_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_RESOURCE_ID_TYPE, recipients).getItems();
+        return client.post(path, LIST_OF_CALLS_TYPE, recipients).getItems();
     }
 }

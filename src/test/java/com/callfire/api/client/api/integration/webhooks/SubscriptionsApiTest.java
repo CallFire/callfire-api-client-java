@@ -28,7 +28,7 @@ public class SubscriptionsApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        SubscriptionsApi api = callfireClient.getSubscriptionsApi();
+        SubscriptionsApi api = callfireClient.subscriptionsApi();
         String endpoint = "http://your-site.com/endpoint";
 
         Subscription subscription = new Subscription();

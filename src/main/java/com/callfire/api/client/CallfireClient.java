@@ -32,6 +32,9 @@ public class CallfireClient {
     private BatchesApi batchesApi;
     private CampaignSoundsApi campaignSoundsApi;
     private CccsApi cccsApi;
+    private IvrBroadcastsApi ivrBroadcastsApi;
+    private VoiceBroadcastsApi voiceBroadcastsApi;
+    private TextBroadcastsApi textBroadcastsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
     // keywords
     private KeywordsApi keywordsApi;
@@ -78,7 +81,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public AgentsApi getAgentsApi() {
+    public AgentsApi agentsApi() {
         if (agentsApi == null) {
             agentsApi = new AgentsApi(restApiClient);
         }
@@ -90,7 +93,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public CccsApi getCccsApi() {
+    public CccsApi cccsApi() {
         if (cccsApi == null) {
             cccsApi = new CccsApi(restApiClient);
         }
@@ -98,11 +101,47 @@ public class CallfireClient {
     }
 
     /**
+     * Get /campaigns/cccs api endpoint
+     *
+     * @return endpoint object
+     */
+    public IvrBroadcastsApi ivrBroadcastsApi() {
+        if (ivrBroadcastsApi == null) {
+            ivrBroadcastsApi = new IvrBroadcastsApi(restApiClient);
+        }
+        return ivrBroadcastsApi;
+    }
+
+    /**
+     * Get /campaigns/text-broadcasts api endpoint
+     *
+     * @return endpoint object
+     */
+    public TextBroadcastsApi textBroadcastsApi() {
+        if (textBroadcastsApi == null) {
+            textBroadcastsApi = new TextBroadcastsApi(restApiClient);
+        }
+        return textBroadcastsApi;
+    }
+
+    /**
+     * Get /campaigns/voice-broadcasts api endpoint
+     *
+     * @return endpoint object
+     */
+    public VoiceBroadcastsApi voiceBroadcastsApi() {
+        if (voiceBroadcastsApi == null) {
+            voiceBroadcastsApi = new VoiceBroadcastsApi(restApiClient);
+        }
+        return voiceBroadcastsApi;
+    }
+
+    /**
      * Get /me api endpoint
      *
      * @return endpoint object
      */
-    public MeApi getMeApi() {
+    public MeApi meApi() {
         if (meApi == null) {
             meApi = new MeApi(restApiClient);
         }
@@ -114,7 +153,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public ContactsApi getContactsApi() {
+    public ContactsApi contactsApi() {
         if (contactsApi == null) {
             contactsApi = new ContactsApi(restApiClient);
         }
@@ -126,7 +165,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public SubscriptionsApi getSubscriptionsApi() {
+    public SubscriptionsApi subscriptionsApi() {
         if (subscriptionsApi == null) {
             subscriptionsApi = new SubscriptionsApi(restApiClient);
         }
@@ -139,7 +178,7 @@ public class CallfireClient {
      * @return endpoint object
      * @see TextsApi
      */
-    public TextsApi getTextsApi() {
+    public TextsApi textsApi() {
         if (textsApi == null) {
             textsApi = new TextsApi(restApiClient);
         }
@@ -151,7 +190,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public KeywordsApi getKeywordsApi() {
+    public KeywordsApi keywordsApi() {
         if (keywordsApi == null) {
             keywordsApi = new KeywordsApi(restApiClient);
         }
@@ -163,7 +202,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public KeywordLeasesApi getKeywordLeasesApi() {
+    public KeywordLeasesApi keywordLeasesApi() {
         if (keywordLeasesApi == null) {
             keywordLeasesApi = new KeywordLeasesApi(restApiClient);
         }
@@ -175,7 +214,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public NumbersApi getNumbersApi() {
+    public NumbersApi numbersApi() {
         if (numbersApi == null) {
             numbersApi = new NumbersApi(restApiClient);
         }
@@ -187,7 +226,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public NumberLeasesApi getNumberLeasesApi() {
+    public NumberLeasesApi numberLeasesApi() {
         if (numberLeasesApi == null) {
             numberLeasesApi = new NumberLeasesApi(restApiClient);
         }
@@ -199,7 +238,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public CallsApi getCallsApi() {
+    public CallsApi callsApi() {
         if (callsApi == null) {
             callsApi = new CallsApi(restApiClient);
         }
@@ -211,7 +250,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public OrdersApi getOrdersApi() {
+    public OrdersApi ordersApi() {
         if (ordersApi == null) {
             ordersApi = new OrdersApi(restApiClient);
         }
@@ -223,7 +262,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public WebhooksApi getWebhooksApi() {
+    public WebhooksApi webhooksApi() {
         if (webhooksApi == null) {
             webhooksApi = new WebhooksApi(restApiClient);
         }
@@ -235,7 +274,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public AgentGroupsApi getAgentGroupsApi() {
+    public AgentGroupsApi agentGroupsApi() {
         if (agentGroupsApi == null) {
             agentGroupsApi = new AgentGroupsApi(restApiClient);
         }
@@ -247,7 +286,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public CampaignSoundsApi getCampaignSoundsApi() {
+    public CampaignSoundsApi campaignSoundsApi() {
         if (campaignSoundsApi == null) {
             campaignSoundsApi = new CampaignSoundsApi(restApiClient);
         }
@@ -259,7 +298,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public DncListsApi getDncListsApi() {
+    public DncListsApi dncListsApi() {
         if (dncListsApi == null) {
             dncListsApi = new DncListsApi(restApiClient);
         }
@@ -271,7 +310,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public TextAutoRepliesApi getTextAutoRepliesApi() {
+    public TextAutoRepliesApi textAutoRepliesApi() {
         if (textAutoRepliesApi == null) {
             textAutoRepliesApi = new TextAutoRepliesApi(restApiClient);
         }
@@ -283,7 +322,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public BatchesApi getBatchesApi() {
+    public BatchesApi batchesApi() {
         if (batchesApi == null) {
             batchesApi = new BatchesApi(restApiClient);
         }
@@ -295,7 +334,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public DncApi getDncApi() {
+    public DncApi dncApi() {
         if (dncApi == null) {
             dncApi = new DncApi(restApiClient);
         }
@@ -307,7 +346,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    public ContactListsApi getContactListsApi() {
+    public ContactListsApi contactListsApi() {
         if (contactListsApi == null) {
             contactListsApi = new ContactListsApi(restApiClient);
         }

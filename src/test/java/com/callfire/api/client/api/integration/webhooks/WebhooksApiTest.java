@@ -25,7 +25,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        WebhooksApi api = callfireClient.getWebhooksApi();
+        WebhooksApi api = callfireClient.webhooksApi();
 
         Webhook webhook = new Webhook();
         webhook.setCallback("test_callback");

@@ -29,7 +29,7 @@ public class AgentGroupsApiTest extends AbstractIntegrationTest {
     @Test
     public void testCrudOperations() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        AgentGroupsApi agentGroupsApi = callfireClient.getAgentGroupsApi();
+        AgentGroupsApi agentGroupsApi = callfireClient.agentGroupsApi();
 
         AgentGroup agentGroup1 = new AgentGroup();
         agentGroup1.setId(2L);

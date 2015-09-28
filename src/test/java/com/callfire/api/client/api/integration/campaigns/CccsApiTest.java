@@ -5,7 +5,7 @@ import com.callfire.api.client.api.campaigns.model.*;
 import com.callfire.api.client.api.campaigns.model.Broadcast.Status;
 import com.callfire.api.client.api.campaigns.model.Question.ResponseType;
 import com.callfire.api.client.api.campaigns.model.request.AgentInviteRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindCccBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.integration.AbstractIntegrationTest;
@@ -33,7 +33,7 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testCrudOperations() throws Exception {
-        CccsApi api = getCallfireClient().getCccsApi();
+        CccsApi api = getCallfireClient().cccsApi();
 
         // create
         CccCampaign campaign = new CccCampaign();
@@ -69,7 +69,7 @@ public class CccsApiTest extends AbstractIntegrationTest {
         savedCampaign.setName("updated_name");
         api.update(savedCampaign, true);
         // find
-        FindBroadcastsRequest request = FindBroadcastsRequest.create()
+        FindCccBroadcastsRequest request = FindCccBroadcastsRequest.create()
             .name("updated_name")
             .build();
         Page<CccCampaign> page = api.find(request);
@@ -83,7 +83,7 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testStartStopArchiveCampaign() throws Exception {
-        CccsApi api = getCallfireClient().getCccsApi();
+        CccsApi api = getCallfireClient().cccsApi();
         CccCampaign campaign = api.get(8L);
         System.out.println(campaign);
         assertNotNull(campaign);
@@ -103,8 +103,8 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testAgentsCrudOperations() throws Exception {
-        CccsApi api = getCallfireClient().getCccsApi();
-        FindBroadcastsRequest findRequest = FindBroadcastsRequest.create()
+        CccsApi api = getCallfireClient().cccsApi();
+        FindCccBroadcastsRequest findRequest = FindCccBroadcastsRequest.create()
             .build();
         Page<CccCampaign> page = api.find(findRequest);
         System.out.println(page);
@@ -137,8 +137,8 @@ public class CccsApiTest extends AbstractIntegrationTest {
 
     @Test
     public void testAgentGroupsCrudOperations() throws Exception {
-        CccsApi api = getCallfireClient().getCccsApi();
-        FindBroadcastsRequest findRequest = FindBroadcastsRequest.create()
+        CccsApi api = getCallfireClient().cccsApi();
+        FindCccBroadcastsRequest findRequest = FindCccBroadcastsRequest.create()
             .build();
         Page<CccCampaign> page = api.find(findRequest);
         System.out.println(page);
@@ -153,7 +153,7 @@ public class CccsApiTest extends AbstractIntegrationTest {
         String name = "ccc-group-" + new Date().getTime();
         AgentGroup agentGroup = new AgentGroup();
         agentGroup.setName(name);
-        ResourceId resourceId = getCallfireClient().getAgentGroupsApi().create(agentGroup);
+        ResourceId resourceId = getCallfireClient().agentGroupsApi().create(agentGroup);
         Long groupId = resourceId.getId();
         api.addAgentGroups(campaignId, asList(groupId));
 
@@ -169,6 +169,6 @@ public class CccsApiTest extends AbstractIntegrationTest {
         System.out.println(groups);
         assertEquals(updatedGroups.size() - 1, groups.size());
 
-        getCallfireClient().getAgentGroupsApi().delete(groupId);
+        getCallfireClient().agentGroupsApi().delete(groupId);
     }
 }

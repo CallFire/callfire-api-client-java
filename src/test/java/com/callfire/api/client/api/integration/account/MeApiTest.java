@@ -31,7 +31,7 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetAccount() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        Account account = callfireClient.getMeApi().getAccount();
+        Account account = callfireClient.meApi().getAccount();
 
         assertEquals(account.getId(), Long.valueOf(1L));
         assertThat(account.getEmail(), stringContainsInOrder(Arrays.asList("@", ".")));
@@ -44,7 +44,7 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetBillingPlanUsage() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        BillingPlanUsage billingPlanUsage = callfireClient.getMeApi().getBillingPlanUsage();
+        BillingPlanUsage billingPlanUsage = callfireClient.meApi().getBillingPlanUsage();
 
         assertNotNull(billingPlanUsage.getIntervalStart());
         assertNotNull(billingPlanUsage.getIntervalEnd());
@@ -56,7 +56,7 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetCallerIds() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        List<String> callerIds = callfireClient.getMeApi().getCallerIds();
+        List<String> callerIds = callfireClient.meApi().getCallerIds();
         System.out.println(callerIds);
         assertThat(callerIds, hasItem("12132212289"));
     }
@@ -65,12 +65,12 @@ public class MeApiTest extends AbstractIntegrationTest {
     @Ignore("requires environment setup")
     public void testSendVerificationCode() throws Exception {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
-        callfireClient.getMeApi().sendVerificationCode("12132212289");
+        callfireClient.meApi().sendVerificationCode("12132212289");
 
         ex.expect(CallfireApiException.class);
         ex.expect(hasProperty("apiErrorMessage", hasProperty("httpStatusCode", is(400))));
         ex.expect(hasProperty("apiErrorMessage", hasProperty("message", containsString("that is already verified"))));
-        callfireClient.getMeApi().sendVerificationCode(getCallerId());
+        callfireClient.meApi().sendVerificationCode(getCallerId());
     }
 
     @Test
@@ -80,13 +80,13 @@ public class MeApiTest extends AbstractIntegrationTest {
             .callerId(getCallerId())
             .verificationCode("1234")
             .build();
-        Boolean verified = callfireClient.getMeApi().verifyCallerId(request);
+        Boolean verified = callfireClient.meApi().verifyCallerId(request);
         //   assertTrue(verified);
         request = CallerIdVerificationRequest.create()
             .callerId(getCallerId().replace("84", "85"))
             .verificationCode("1234")
             .build();
-        verified = callfireClient.getMeApi().verifyCallerId(request);
+        verified = callfireClient.meApi().verifyCallerId(request);
         //  assertFalse(verified);
     }
 
@@ -96,7 +96,7 @@ public class MeApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = new CallfireClient(getUsername(), getPassword());
         ApiCredentials credentials = new ApiCredentials();
         credentials.setName("test1");
-        //        ApiCredentials created = callfireClient.getMeApi().createApiCredentials(credentials);
+        //        ApiCredentials created = callfireClient.meApi().createApiCredentials(credentials);
         ApiCredentials created = null;
         System.out.println(created);
 
@@ -104,16 +104,16 @@ public class MeApiTest extends AbstractIntegrationTest {
         assertTrue(created.getEnabled());
         assertNotNull(created.getId());
 
-        //        created = callfireClient.getMeApi().getApiCredentials(created.getId(), "name,enabled");
+        //        created = callfireClient.meApi().getApiCredentials(created.getId(), "name,enabled");
         assertEquals(credentials.getName(), created.getName());
         assertTrue(created.getEnabled());
         assertNull(created.getId());
         assertNull(created.getPassword());
 
-        //        callfireClient.getMeApi().deleteApiCredentials(created.getId());
+        //        callfireClient.meApi().deleteApiCredentials(created.getId());
 
         expect404NotFoundCallfireApiException(ex);
-        //        callfireClient.getMeApi().getApiCredentials(created.getId(), "name,enabled");
+        //        callfireClient.meApi().getApiCredentials(created.getId(), "name,enabled");
     }
 
     @Test
@@ -123,7 +123,7 @@ public class MeApiTest extends AbstractIntegrationTest {
         CommonFindRequest request = CommonFindRequest.create()
             .limit(2L)
             .build();
-        //        Page<ApiCredentials> credentials = callfireClient.getMeApi().findApiCredentials(request);
+        //        Page<ApiCredentials> credentials = callfireClient.meApi().findApiCredentials(request);
         Page<ApiCredentials> credentials = null;
         assertEquals(2, credentials.getItems().size());
         assertNotNull(credentials.getItems().get(0).getId());

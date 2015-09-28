@@ -6,21 +6,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 /**
  * Request object for searching voice, text, ivr broadcasts
  */
-public class FindBroadcastsRequest extends FindRequest {
-    private String label;
-    private String name;
-    private Boolean running;
+public abstract class FindBroadcastsRequest extends FindRequest {
+    protected String label;
+    protected String name;
+    protected Boolean running;
 
-    private FindBroadcastsRequest() {
-    }
-
-    /**
-     * Create request builder
-     *
-     * @return request build
-     */
-    public static Builder create() {
-        return new Builder();
+    protected FindBroadcastsRequest() {
     }
 
     /**
@@ -58,9 +49,12 @@ public class FindBroadcastsRequest extends FindRequest {
     /**
      * Builder class for request
      */
-    public static class Builder extends FindRequestBuilder<Builder, FindBroadcastsRequest> {
-        private Builder() {
-            super(new FindBroadcastsRequest());
+    @SuppressWarnings("unchecked")
+    public abstract static class FindBroadcastsBuilder<B extends FindBroadcastsBuilder, R extends FindBroadcastsRequest>
+        extends FindRequestBuilder<B, R> {
+
+        protected FindBroadcastsBuilder(R request) {
+            super(request);
         }
 
         /**
@@ -69,9 +63,9 @@ public class FindBroadcastsRequest extends FindRequest {
          * @param name name of voice broadcast
          * @return builder self reference
          */
-        public Builder name(String name) {
+        public B name(String name) {
             request.name = name;
-            return this;
+            return (B) this;
         }
 
         /**
@@ -80,14 +74,15 @@ public class FindBroadcastsRequest extends FindRequest {
          * @param label label of voice broadcast
          * @return builder self reference
          */
-        public Builder label(String label) {
+        public B label(String label) {
             request.label = label;
-            return this;
+            return (B) this;
         }
 
-        public Builder running(Boolean running) {
+        public B running(Boolean running) {
             request.running = running;
-            return this;
+            return (B) this;
         }
+
     }
 }

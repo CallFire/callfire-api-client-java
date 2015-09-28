@@ -29,12 +29,12 @@ public class TextsApiTest extends AbstractIntegrationTest {
             .results(asList(TextResult.SENT, TextResult.RECEIVED))
             .limit(2L)
             .build();
-        Page<Text> page = client.getTextsApi().find(request);
+        Page<Text> page = client.textsApi().find(request);
         assertFalse(page.getItems().isEmpty());
 
         System.out.println(page);
 
-        Text text = client.getTextsApi().get(page.getItems().get(0).getId(), "id,fromNumber,state");
+        Text text = client.textsApi().get(page.getItems().get(0).getId(), "id,fromNumber,state");
         assertNotNull(text.getId());
         assertNotNull(text.getFromNumber());
         assertNotNull(text.getState());
@@ -51,7 +51,7 @@ public class TextsApiTest extends AbstractIntegrationTest {
         TextRecipient recipient2 = new TextRecipient();
         recipient2.setMessage("msg");
         recipient2.setPhoneNumber(getCallerId());
-        List<Text> texts = client.getTextsApi()
+        List<Text> texts = client.textsApi()
             .send(asList(recipient1, recipient2), null, "items(id,fromNumber,state)");
 
         System.out.println(texts);

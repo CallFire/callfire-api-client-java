@@ -27,12 +27,12 @@ public class AgentsApiTest extends AbstractIntegrationTest {
         FindAgentsRequest request = FindAgentsRequest.create()
             .agentGroupName("")
             .build();
-        Page<Agent> agentPage = client.getAgentsApi().find(request);
+        Page<Agent> agentPage = client.agentsApi().find(request);
         System.out.println(agentPage);
 
         assertFalse(agentPage.getItems().isEmpty());
 
-        Agent agent = client.getAgentsApi().get(agentPage.getItems().get(0).getId());
+        Agent agent = client.agentsApi().get(agentPage.getItems().get(0).getId());
         System.out.println(agent);
     }
 
@@ -43,12 +43,12 @@ public class AgentsApiTest extends AbstractIntegrationTest {
         FindAgentSessionsRequest request = FindAgentSessionsRequest.create()
             .agentEmail("dev+agent@callfire.com")
             .build();
-        Page<AgentSession> sessionPage = client.getAgentsApi().findSessions(request);
+        Page<AgentSession> sessionPage = client.agentsApi().findSessions(request);
         System.out.println(sessionPage);
 
         assertFalse(sessionPage.getItems().isEmpty());
 
-        AgentSession session = client.getAgentsApi().getSession(sessionPage.getItems().get(0).getId());
+        AgentSession session = client.agentsApi().getSession(sessionPage.getItems().get(0).getId());
         System.out.println(session);
     }
 
