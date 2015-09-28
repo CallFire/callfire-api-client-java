@@ -88,4 +88,12 @@ public class AbstractIntegrationTest {
 
         return asList(recipient1, recipient2);
     }
+
+    protected Long getLiveSoundId() {
+        return 1L;
+    }
+
+    protected Long getVoiceBroadcastId() {
+        return 1L;
+    }
 }

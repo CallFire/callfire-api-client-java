@@ -8,7 +8,7 @@ import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.VoiceBroadcast;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindVoiceBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -22,6 +22,7 @@ import java.util.List;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientConstants.Type.*;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.api.callstexts.CallsApi.LIST_OF_CALLS_TYPE;
 import static com.callfire.api.client.api.callstexts.CallsApi.PAGE_OF_CALLS_TYPE;
 import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYPE;
 
@@ -33,7 +34,9 @@ public class VoiceBroadcastsApi {
     private static final String VB_ITEM_PATH = "/campaigns/voice-broadcasts/{}";
     private static final String VB_ITEM_BATCHES_PATH = "/campaigns/voice-broadcasts/{}/batches";
     private static final String VB_ITEM_CALLS_PATH = "/campaigns/voice-broadcasts/{}/calls";
-    private static final String VB_ITEM_CONTROL_PATH = "/campaigns/voice-broadcasts/{}/control";
+    private static final String VB_ITEM_START_PATH = "/campaigns/voice-broadcasts/{}/start";
+    private static final String VB_ITEM_STOP_PATH = "/campaigns/voice-broadcasts/{}/stop";
+    private static final String VB_ITEM_ARCHIVE_PATH = "/campaigns/voice-broadcasts/{}/archive";
     private static final String VB_ITEM_RECIPIENTS_PATH = "/campaigns/voice-broadcasts/{}/recipients";
     private static final TypeReference<VoiceBroadcast> VB_TYPE = new TypeReference<VoiceBroadcast>() {
     };
@@ -54,12 +57,24 @@ public class VoiceBroadcastsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public Page<VoiceBroadcast> find(FindBroadcastsRequest request) {
+    public Page<VoiceBroadcast> find(FindVoiceBroadcastsRequest request) {
         return client.get(VB_PATH, PAGE_OF_VBS_TYPE, request);
     }
 
     /**
      * Create voice broadcast
+     *
+     * @param broadcast voice broadcast to create
+     * @return {@link ResourceId} object with id of created broadcast
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public ResourceId create(VoiceBroadcast broadcast) {
+        return create(broadcast, null);
+    }
+
+    /**
+     * Create voice broadcast, if start argument true campaign starts immediately
      *
      * @param broadcast voice broadcast to create
      * @param start     if set to true broadcast will starts immediately
@@ -154,17 +169,39 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Control voice broadcast (START, STOP, ARCHIVE)
+     * Starts IVR campaign
      *
-     * @param id      id of voice broadcast
-     * @param command command for broadcast
+     * @param id id of campaign
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public void control(Long id) {
+    public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
-        Validate.notNull(null, "command cannot be null");
-        client.post(VB_ITEM_CONTROL_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(VB_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Stops IVR campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void stop(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(VB_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+    }
+
+    /**
+     * Archives IVR campaign
+     *
+     * @param id id of campaign
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public void archive(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.post(VB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
     }
 
     /**
@@ -172,13 +209,13 @@ public class VoiceBroadcastsApi {
      *
      * @param id         id of voice broadcast
      * @param recipients recipients to add
-     * @return list of {@link ResourceId} with recipient ids
+     * @return list of {@link Call} to recipients
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public List<ResourceId> addRecipients(Long id, List<Recipient> recipients) {
+    public List<Call> addRecipients(Long id, List<Recipient> recipients) {
         Validate.notNull(id, "id cannot be null");
         String path = VB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_RESOURCE_ID_TYPE, recipients).getItems();
+        return client.post(path, LIST_OF_CALLS_TYPE, recipients).getItems();
     }
 }
