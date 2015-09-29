@@ -5,18 +5,44 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.7
 
+def clientBaseName = 'callfire-api-client'
+def clientVersion = '1.0.0-SNAPSHOT'
+
 repositories {
     mavenCentral()
 }
 
 jar {
-    baseName = 'callfire-api-client'
-    version = '1.0.0-SNAPSHOT'
+    baseName = clientBaseName
+    version = clientVersion
+    // TODO vmikhailov configure manifest file
+    manifest {
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = clientVersion + '-sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = clientVersion + '-javadoc'
+    from javadoc.destinationDir
+}
+
+task clientFatJar(type: Jar, dependsOn: jar) {
+    baseName = clientBaseName
+    version = clientVersion + '-all'
     manifest {
     }
     from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives clientFatJar
+}
 
 dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.1'
