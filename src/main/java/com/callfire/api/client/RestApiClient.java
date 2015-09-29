@@ -54,7 +54,9 @@ public class RestApiClient {
     public RestApiClient(Authentication authentication) {
         this.authentication = authentication;
         jsonConverter = new JsonConverter();
-        httpClient = HttpClientBuilder.create().setUserAgent(USER_AGENT).build();
+        httpClient = HttpClientBuilder.create()
+            .setUserAgent(CallfireClient.getClientConfig().getProperty(USER_AGENT_PROPERTY))
+            .build();
         baseApiPath = CallfireClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
     }
 

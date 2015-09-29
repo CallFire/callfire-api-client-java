@@ -217,8 +217,24 @@ public class IvrBroadcastsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public List<Call> addRecipients(Long id, List<Recipient> recipients) {
+        return addRecipients(id, recipients, null);
+    }
+
+    /**
+     * Add recipients to ivr broadcast
+     *
+     * @param id         id of ivr broadcast
+     * @param recipients recipients to add
+     * @param fields     limit fields returned. Example fields=id,message
+     * @return list of {@link Call} to recipients
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public List<Call> addRecipients(Long id, List<Recipient> recipients, String fields) {
         Validate.notNull(id, "id cannot be null");
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("fields", fields, queryParams);
         String path = IVR_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_CALLS_TYPE, recipients).getItems();
+        return client.post(path, LIST_OF_CALLS_TYPE, recipients, queryParams).getItems();
     }
 }

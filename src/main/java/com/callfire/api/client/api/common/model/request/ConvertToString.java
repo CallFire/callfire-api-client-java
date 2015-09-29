@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * Converts iterable field to string representation using provided separator char
- * [A, B, C] => "A,B,C"
+ * [A, B, C] to "A,B,C"
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

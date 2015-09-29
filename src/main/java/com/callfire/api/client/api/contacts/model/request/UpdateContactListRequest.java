@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Request object for
- * <p/>
+ *
  * PUT /contacts/lists/{id}
  */
 public class UpdateContactListRequest extends CallfireModel {

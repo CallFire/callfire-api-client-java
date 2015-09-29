@@ -54,7 +54,6 @@ public class MeApi {
 
     /**
      * Method queries account info like id, email, name, etc...
-     * <p/>
      * GET /me/account
      *
      * @return user's account
@@ -67,7 +66,6 @@ public class MeApi {
 
     /**
      * Get Plan usage statistics
-     * <p/>
      * GET /me/billing/plan-usage
      *
      * @return BillingPlanUsage object
@@ -80,7 +78,6 @@ public class MeApi {
 
     /**
      * Get callerIds associated with account.
-     * <p/>
      * GET /me/callerids
      *
      * @return list of callerId numbers
@@ -95,7 +92,6 @@ public class MeApi {
      * Send generated verification code to callerid number.
      * After receiving verification code on phone call POST /callerids/{callerid}/verification-code
      * to verify number.
-     * <p/>
      * POST /me/callerids/{callerid}
      *
      * @param callerid callerid number
@@ -109,7 +105,6 @@ public class MeApi {
 
     /**
      * Verify callerId by providing calling number and verificationCode received on phone.
-     * <p/>
      * POST /me/callerids/{callerid}/verification-code
      *
      * @param request request object
@@ -127,7 +122,6 @@ public class MeApi {
 
     /**
      * Creates API credentials. ApiCredentials.name property required
-     * <p/>
      * Performs POST /me/api/credentials request
      *
      * @param credentials API credentials to create
@@ -141,7 +135,6 @@ public class MeApi {
 
     /**
      * Find API credentials associated with current account
-     * <p/>
      * Performs GET /me/api/credentials request
      *
      * @param request request with properties to filter
@@ -155,7 +148,6 @@ public class MeApi {
 
     /**
      * Get API credentials by id
-     * <p/>
      * GET /me/api/credentials/{id}
      *
      * @param id id of credentials
@@ -169,7 +161,6 @@ public class MeApi {
 
     /**
      * Get API credentials by id
-     * <p/>
      * GET /me/api/credentials/{id}
      *
      * @param id     id of credentials
@@ -187,7 +178,6 @@ public class MeApi {
 
     /**
      * Delete API credentials by id
-     * <p/>
      * DELETE /me/api/credentials/{id}
      *
      * @param id id of credentials

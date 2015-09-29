@@ -16,14 +16,13 @@ import java.util.Map;
  */
 public interface ClientConstants {
     String BASE_PATH_PROPERTY = "com.callfire.api.client.path";
-    String CLIENT_CONFIG_FILE = "/callfire.properties";
+    String USER_AGENT_PROPERTY = "com.callfire.api.client.version";
+    String CLIENT_CONFIG_FILE = "/com/callfire/api/callfire.properties";
 
     String PLACEHOLDER = "\\{\\}";
     // Use ISO 8601 format for date and datetime.
     // See https://en.wikipedia.org/wiki/ISO_8601
     String DATE_FORMAT_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    // TODO vmikhailov add versioning to user agent
-    String USER_AGENT = "Java-Client-0.1-SNAPSHOT";
     String GENERIC_HELP_LINK = "https://answers.callfire.com/hc/en-us";
 
     /**

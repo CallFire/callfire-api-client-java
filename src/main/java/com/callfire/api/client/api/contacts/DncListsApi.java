@@ -29,12 +29,11 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
  * @since 1.0
  */
 public class DncListsApi {
-    // TODO vmikhailov fix paths after upcoming release => /dncs
-    private static final String DNC_LISTS_PATH = "/contacts/do-not-calls/lists";
-    private static final String DNC_LISTS_UNIVERSAL_PATH = "/contacts/do-not-calls/lists/universal/{}";
-    private static final String DNC_LISTS_LIST_PATH = "/contacts/do-not-calls/lists/{}";
-    private static final String DNC_LISTS_LIST_ITEMS_PATH = "/contacts/do-not-calls/lists/{}/items";
-    private static final String DNC_LISTS_LIST_ITEMS_NUMBER_PATH = "/contacts/do-not-calls/lists/{}/items/{}";
+    private static final String DNC_LISTS_PATH = "/contacts/dncs/lists";
+    private static final String DNC_LISTS_UNIVERSAL_PATH = "/contacts/dncs/lists/universal/{}";
+    private static final String DNC_LISTS_LIST_PATH = "/contacts/dncs/lists/{}";
+    private static final String DNC_LISTS_LIST_ITEMS_PATH = "/contacts/dncs/lists/{}/items";
+    private static final String DNC_LISTS_LIST_ITEMS_NUMBER_PATH = "/contacts/dncs/lists/{}/items/{}";
     private static final TypeReference<Page<DncList>> PAGE_OF_DNC_LIST_TYPE = new TypeReference<Page<DncList>>() {
     };
     private static final TypeReference<DncList> DNC_LIST_TYPE = new TypeReference<DncList>() {

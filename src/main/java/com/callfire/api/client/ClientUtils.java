@@ -51,7 +51,7 @@ public final class ClientUtils {
     }
 
     /**
-     * Method traverses request object using reflection and build {@link List<NameValuePair>} from it
+     * Method traverses request object using reflection and build {@link List} of {@link NameValuePair} from it
      *
      * @param request request
      * @param <T>     type of request

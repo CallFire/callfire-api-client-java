@@ -37,7 +37,7 @@ public class OrdersApiTest extends AbstractIntegrationTest {
         //        System.out.println(order);
 
         expect404NotFoundCallfireApiException(ex);
-        callfireClient.ordersApi().getKeywordOrder(1L);
+        callfireClient.ordersApi().getOrder(1L);
     }
 
     @Test
@@ -58,6 +58,6 @@ public class OrdersApiTest extends AbstractIntegrationTest {
         //        System.out.println(order);
 
         expect404NotFoundCallfireApiException(ex);
-        callfireClient.ordersApi().getNumberOrder(1L);
+        callfireClient.ordersApi().getOrder(1L);
     }
 }

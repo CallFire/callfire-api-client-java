@@ -44,7 +44,6 @@ public class AgentGroupsApi {
     /**
      * Query for agent groups using optional filters
      * (Note: agentId and agentEmail are mutually exclusive, please only provide one)
-     * <p/>
      * GET /campaigns/cccs/agent-groups
      *
      * @return Page object with matched entities
@@ -57,7 +56,6 @@ public class AgentGroupsApi {
 
     /**
      * Create agent group using either list of agent ids or list of agent emails but not both
-     * <p/>
      * POST /campaigns/cccs/agent-groups
      *
      * @param agentGroup AgentGroup object to create
@@ -71,7 +69,6 @@ public class AgentGroupsApi {
 
     /**
      * Get agent group by id. Returns AgentGroup
-     * <p/>
      * GET /campaigns/cccs/agent-groups/{id}
      *
      * @param id Id of agent group
@@ -85,7 +82,6 @@ public class AgentGroupsApi {
 
     /**
      * Get agent group by id. Returns AgentGroup
-     * <p/>
      * GET /campaigns/cccs/agent-groups/{id}
      *
      * @param id     Id of agent group
@@ -104,7 +100,6 @@ public class AgentGroupsApi {
 
     /**
      * Update existing agent group by id
-     * <p/>
      * PUT /campaigns/cccs/agent-groups/{id}
      *
      * @param agentGroup AgentGroup to update
@@ -119,7 +114,6 @@ public class AgentGroupsApi {
 
     /**
      * Delete agent group by id
-     * <p/>
      * DELETE /campaigns/cccs/agent-groups/{id}
      *
      * @param id Id of agent group to delete

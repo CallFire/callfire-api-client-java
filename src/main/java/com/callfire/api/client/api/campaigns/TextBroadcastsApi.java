@@ -248,9 +248,25 @@ public class TextBroadcastsApi {
      * @throws CallfireClientException in case error has occurred in client
      */
     public List<Text> addRecipients(Long id, List<TextRecipient> recipients) {
+        return addRecipients(id, recipients, null);
+    }
+
+    /**
+     * Add recipients to text broadcast
+     *
+     * @param id         id of text broadcast
+     * @param recipients recipients to add
+     * @param fields     limit fields returned. E.g. fields=id,name or fields=items(id,name)
+     * @return list of {@link ResourceId} with recipient ids
+     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
+     * @throws CallfireClientException in case error has occurred in client
+     */
+    public List<Text> addRecipients(Long id, List<TextRecipient> recipients, String fields) {
         Validate.notNull(id, "id cannot be null");
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("fields", fields, queryParams);
         String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_TEXTS_TYPE, recipients).getItems();
+        return client.post(path, LIST_OF_TEXTS_TYPE, recipients, queryParams).getItems();
     }
 
     /**

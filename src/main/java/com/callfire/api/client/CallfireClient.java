@@ -316,7 +316,7 @@ public class CallfireClient {
     }
 
     /**
-     * Get /contacts/do-not-calls/lists api endpoint
+     * Get /contacts/dncs/lists api endpoint
      *
      * @return endpoint object
      */
