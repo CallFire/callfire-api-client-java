@@ -16,8 +16,7 @@ import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
  * @since 1.0
  */
 public class DncApi {
-    // TODO vmikhailov fix path to /dncs after prod release
-    private static final String DNC_PATH = "/contacts/do-not-calls";
+    private static final String DNC_PATH = "/contacts/dncs";
     public static final TypeReference<Page<DoNotContact>> PAGE_OF_DNC_TYPE = new TypeReference<Page<DoNotContact>>() {
     };
 

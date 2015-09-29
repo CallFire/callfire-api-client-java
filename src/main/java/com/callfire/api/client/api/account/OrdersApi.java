@@ -24,7 +24,7 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class OrdersApi {
     private static final String ORDERS_KEYWORDS = "/orders/keywords";
     private static final String ORDERS_NUMBERS = "/orders/numbers";
-    private static final String ORDERS_GET_ORDER = "/orders/{}/{}";
+    private static final String ORDERS_GET_ORDER = "/orders/{}";
 
     private static final TypeReference<NumberOrder> NUMBER_ORDER_TYPE = new TypeReference<NumberOrder>() {
     };
@@ -67,8 +67,8 @@ public class OrdersApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public NumberOrder getKeywordOrder(Long id) {
-        return getKeywordOrder(id, null);
+    public NumberOrder getOrder(Long id) {
+        return getOrder(id, null);
     }
 
     /**
@@ -80,40 +80,10 @@ public class OrdersApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    public NumberOrder getKeywordOrder(Long id, String fields) {
+    public NumberOrder getOrder(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, "keyword").replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, NUMBER_ORDER_TYPE, queryParams);
-    }
-
-    /**
-     * Get order for keyword and/or number orders
-     *
-     * @param id id of order
-     * @return NumberOrder
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
-     */
-    public NumberOrder getNumberOrder(Long id) {
-        return getNumberOrder(id, null);
-    }
-
-    /**
-     * Get order for keyword and/or number orders
-     *
-     * @param id     id of order
-     * @param fields limit fields returned. Example fields=id,name
-     * @return NumberOrder
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
-     */
-    public NumberOrder getNumberOrder(Long id, String fields) {
-        Validate.notNull(id, "id cannot be null");
-        List<NameValuePair> queryParams = new ArrayList<>(1);
-        addQueryParamIfSet("fields", fields, queryParams);
-        String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, "number").replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, NUMBER_ORDER_TYPE, queryParams);
+        return client.get(ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, id.toString()), NUMBER_ORDER_TYPE, queryParams);
     }
 }

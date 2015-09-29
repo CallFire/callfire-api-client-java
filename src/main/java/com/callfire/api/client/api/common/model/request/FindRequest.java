@@ -12,7 +12,7 @@ public abstract class FindRequest extends CallfireModel {
     protected String fields;
 
     /**
-     * Get max number of records per page to return. If items.size() < limit assume no more items.
+     * Get max number of records per page to return. If items.size() less than limit assume no more items.
      * If value not set, default is 100
      *
      * @return limit number
