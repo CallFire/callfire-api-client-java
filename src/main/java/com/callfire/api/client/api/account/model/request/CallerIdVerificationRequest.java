@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Request object for
- * <p/>
  * POST /admin/callerids/{callerid}/verification-code
  */
 public class CallerIdVerificationRequest extends CallfireModel {
