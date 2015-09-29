@@ -36,6 +36,7 @@ task clientFatJar(type: Jar, dependsOn: jar) {
     manifest {
     }
     from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    from sourceSets.main.allSource
 }
 
 artifacts {
