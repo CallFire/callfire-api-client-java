@@ -3,7 +3,7 @@ package com.callfire.api.client.api.contacts.model.request;
 import com.callfire.api.client.api.common.model.request.FindRequest;
 
 /**
- * Request object for GET /contacts/do-not-calls/lists which incapsulates
+ * Request object for GET /contacts/dncs/lists which incapsulates
  * different query pairs
  */
 public class FindDncListsRequest extends FindRequest {

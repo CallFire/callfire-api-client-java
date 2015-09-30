@@ -42,16 +42,8 @@ public abstract class Broadcast extends CallfireModel {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public Date getLastModified() {
         return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
     }
 
     public String getFromNumber() {
@@ -66,8 +58,7 @@ public abstract class Broadcast extends CallfireModel {
         return localTimeRestriction;
     }
 
-    public void setLocalTimeRestriction(
-        LocalTimeRestriction localTimeRestriction) {
+    public void setLocalTimeRestriction(LocalTimeRestriction localTimeRestriction) {
         this.localTimeRestriction = localTimeRestriction;
     }
 

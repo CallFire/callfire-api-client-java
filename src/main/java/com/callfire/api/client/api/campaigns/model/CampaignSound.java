@@ -36,24 +36,12 @@ public class CampaignSound extends CallfireModel {
         return created;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public Integer getLengthInSeconds() {
         return lengthInSeconds;
     }
 
-    public void setLengthInSeconds(Integer lengthInSeconds) {
-        this.lengthInSeconds = lengthInSeconds;
-    }
-
     public Status getStatus() {
         return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     @Override

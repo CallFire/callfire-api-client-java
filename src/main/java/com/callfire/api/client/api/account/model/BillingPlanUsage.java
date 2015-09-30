@@ -25,30 +25,12 @@ public class BillingPlanUsage extends CallfireModel {
     }
 
     /**
-     * Sets start of usage period
-     *
-     * @param intervalStart start of usage period
-     */
-    public void setIntervalStart(Date intervalStart) {
-        this.intervalStart = intervalStart;
-    }
-
-    /**
      * Gets end of usage period
      *
      * @return end of usage period
      */
     public Date getIntervalEnd() {
         return intervalEnd;
-    }
-
-    /**
-     * Sets end of usage period
-     *
-     * @param intervalEnd end of usage period
-     */
-    public void setIntervalEnd(Date intervalEnd) {
-        this.intervalEnd = intervalEnd;
     }
 
     /**
@@ -61,15 +43,6 @@ public class BillingPlanUsage extends CallfireModel {
     }
 
     /**
-     * Sets remaining plan credits rounded to nearest whole value.
-     *
-     * @param remainingPlanCredits remaining plan credits rounded to nearest whole value.
-     */
-    public void setRemainingPlanCredits(Double remainingPlanCredits) {
-        this.remainingPlanCredits = remainingPlanCredits;
-    }
-
-    /**
      * Gets remaining pay as you go credits rounded to nearest whole value.
      *
      * @return remaining pay as you go credits rounded to nearest whole value.
@@ -79,30 +52,12 @@ public class BillingPlanUsage extends CallfireModel {
     }
 
     /**
-     * Sets remaining pay as you go credits rounded to nearest whole value.
-     *
-     * @param remainingPayAsYouGoCredits remaining pay as you go credits rounded to nearest whole value.
-     */
-    public void setRemainingPayAsYouGoCredits(Double remainingPayAsYouGoCredits) {
-        this.remainingPayAsYouGoCredits = remainingPayAsYouGoCredits;
-    }
-
-    /**
      * Gets total remaining credits (remainingPlanCredits + remainingPayAsYouGoCredits)
      *
      * @return total remaining credits (remainingPlanCredits + remainingPayAsYouGoCredits)
      */
     public Double getTotalRemainingCredits() {
         return totalRemainingCredits;
-    }
-
-    /**
-     * Sets total remaining credits (remainingPlanCredits + remainingPayAsYouGoCredits)
-     *
-     * @param totalRemainingCredits total remaining credits (remainingPlanCredits + remainingPayAsYouGoCredits)
-     */
-    public void setTotalRemainingCredits(Double totalRemainingCredits) {
-        this.totalRemainingCredits = totalRemainingCredits;
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.Date;
 public class ActionRecord extends CallfireModel {
     private Long id;
     private Double billedAmount;
-    private Date created;
     private Date finishTime;
 
     public Long getId() {
@@ -23,24 +22,8 @@ public class ActionRecord extends CallfireModel {
         return billedAmount;
     }
 
-    public void setBilledAmount(Double billedAmount) {
-        this.billedAmount = billedAmount;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public Date getFinishTime() {
         return finishTime;
-    }
-
-    public void setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
     }
 
     @Override
@@ -49,7 +32,6 @@ public class ActionRecord extends CallfireModel {
             .appendSuper(super.toString())
             .append("id", id)
             .append("billedAmount", billedAmount)
-            .append("created", created)
             .append("finishTime", finishTime)
             .toString();
     }

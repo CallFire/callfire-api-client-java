@@ -10,7 +10,6 @@ public class ContactList extends CallfireModel {
     private String name;
     private Integer size;
     private Date created;
-    private String value;
     private Status status;
 
     public enum Status {
@@ -49,14 +48,6 @@ public class ContactList extends CallfireModel {
         this.created = created;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -73,7 +64,6 @@ public class ContactList extends CallfireModel {
             .append("name", name)
             .append("size", size)
             .append("created", created)
-            .append("value", value)
             .append("status", status)
             .toString();
     }

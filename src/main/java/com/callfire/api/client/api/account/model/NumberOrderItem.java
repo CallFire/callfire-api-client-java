@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NumberOrderItem extends CallfireModel {
-    private Integer ordered;
+    private Integer ordered = 0;
     private Double unitCost;
     private List<String> fulfilled = new ArrayList<>();
 
@@ -23,16 +23,8 @@ public class NumberOrderItem extends CallfireModel {
         return unitCost;
     }
 
-    public void setUnitCost(Double unitCost) {
-        this.unitCost = unitCost;
-    }
-
     public List<String> getFulfilled() {
         return fulfilled;
-    }
-
-    public void setFulfilled(List<String> fulfilled) {
-        this.fulfilled = fulfilled;
     }
 
     @Override

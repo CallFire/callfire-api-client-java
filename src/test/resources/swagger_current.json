@@ -19,40 +19,22 @@
   "basePath": "/v2",
   "tags": [
     {
+      "name": "keyword-leases"
+    },
+    {
       "name": "campaigns"
     },
     {
-      "name": "text-auto-reply"
+      "name": "campaign-sounds"
     },
     {
-      "name": "contacts-lists"
-    },
-    {
-      "name": "contacts"
-    },
-    {
-      "name": "number-leases"
-    },
-    {
-      "name": "subscriptions"
-    },
-    {
-      "name": "text-broadcasts"
+      "name": "keywords"
     },
     {
       "name": "numbers"
     },
     {
-      "name": "calls"
-    },
-    {
-      "name": "ivrs"
-    },
-    {
-      "name": "orders"
-    },
-    {
-      "name": "keywords"
+      "name": "number-leases"
     },
     {
       "name": "texts"
@@ -61,25 +43,40 @@
       "name": "me"
     },
     {
-      "name": "keyword-leases"
+      "name": "text-auto-reply"
     },
     {
-      "name": "webhooks"
-    },
-    {
-      "name": "campaign-batches"
-    },
-    {
-      "name": "voice-broadcasts"
-    },
-    {
-      "name": "dnc-lists"
+      "name": "contacts"
     },
     {
       "name": "dncs"
     },
     {
-      "name": "campaign-sounds"
+      "name": "campaign-batches"
+    },
+    {
+      "name": "orders"
+    },
+    {
+      "name": "subscriptions"
+    },
+    {
+      "name": "voice-broadcasts"
+    },
+    {
+      "name": "calls"
+    },
+    {
+      "name": "ivrs"
+    },
+    {
+      "name": "webhooks"
+    },
+    {
+      "name": "contacts-lists"
+    },
+    {
+      "name": "text-broadcasts"
     }
   ],
   "schemes": [
@@ -98,7 +95,7 @@
           "calls"
         ],
         "summary": "Find calls",
-        "description": "Finds all calls sent or received by the user. Use \"id=0\" for the campaignId parameter to query for all calls sent through the POST /calls API.",
+        "description": "Finds all calls sent or received by the user. Use \"id=0\" for the campaignId parameter to query for all calls sent through the POST /calls API. See [call states and results](https://developers.callfire.com/results-responses-errors.html)",
         "operationId": "findCalls",
         "consumes": [
           "application/json"
@@ -2504,8 +2501,8 @@
           "campaigns",
           "voice-broadcasts"
         ],
-        "summary": "Archive text broadcast",
-        "description": "Archibe a voice broadcast",
+        "summary": "Archive voice broadcast",
+        "description": "Archive a voice broadcast",
         "operationId": "archiveVoiceBroadcast",
         "consumes": [
           "application/json"
@@ -2826,7 +2823,7 @@
           "campaigns",
           "voice-broadcasts"
         ],
-        "summary": "Stop text broadcast",
+        "summary": "Stop voice broadcast",
         "description": "Stop a voice broadcast",
         "operationId": "stopVoiceBroadcast",
         "consumes": [
@@ -3142,478 +3139,6 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/contacts/dncs/lists": {
-      "get": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Find DNC lists",
-        "description": "Find all Do Not Contact (DNC) lists created by the user. Search on campaignId attached to a DNC list or by the name of the list. Returns a paged list of DoNotContactList.",
-        "operationId": "findDoNotCallLists",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum number of records to return in a paged list response. The default is 100.",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Offset to the start of a given page. The default is 0.",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "campaignId",
-            "in": "query",
-            "description": "Id of campaign where DNC list is attached",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Name of DNC list",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/contacts/dncs/lists\"",
-        "x-response": "{\"items\":[{\"id\":2,\"size\":3,\"campaignId\":14,\"name\":\"DNC list for VB Campaign\",\"created\":1443388331000}],\"totalCount\":1}"
-      },
-      "post": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Create a DNC list",
-        "description": "Create a Do Not Contact (DNC) list. This is a list of DoNotContact entries that can be used to control contacts in a campaign. This endpoint only creates the DNC list, one must add contacts to it via the add apis.",
-        "operationId": "createDncList",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "~",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/DoNotContactList"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/JResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"campaignId\":\"14\",\"name\":\"DNC list for VB Campaign\"}' \"https://api.callfire.com/v2/contacts/dncs/lists\"",
-        "x-response": "{\"id\":2}"
-      }
-    },
-    "/contacts/dncs/lists/universal/{toNumber}": {
-      "get": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Find a specific Universal DNC",
-        "description": "Returns a UniversalDoNotContact object for a given phone number.",
-        "operationId": "getUniversalDncNumber",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "toNumber",
-            "in": "path",
-            "description": "E.164 number sans + to search Universal DNC for",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "fromNumber",
-            "in": "query",
-            "description": "E.164 number sans +. When included, searches for entries where fromNumber is communicating with toNumber, or vice versa.",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/List"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/contacts/dncs/lists/universal/911\"",
-        "x-response": "{\"items\":[{\"toNumber\":\"911\",\"inboundCall\":false,\"inboundText\":false,\"outboundCall\":true,\"outboundText\":false}]}"
-      }
-    },
-    "/contacts/dncs/lists/{id}": {
-      "get": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Find a specific DNC list",
-        "description": "Returns a DoNotContactList object for a given DNC list id",
-        "operationId": "getDncList",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of DNC list",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/DoNotContactList"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/contacts/dncs/lists/2\"",
-        "x-response": "{\"id\":2,\"size\":3,\"campaignId\":14,\"name\":\"DNC list for VB Campaign\",\"created\":1443388331000}"
-      },
-      "delete": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Delete a DNC list",
-        "description": "Delete a Do Not Contact (DNC) list. Deleting a DNC list also deletes all DoNotContact entries inside of the list.",
-        "operationId": "deleteDncList",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of DNC list",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X DELETE \"https://api.callfire.com/v2/contacts/dncs/lists/2\"",
-        "x-response": "204 No Content"
-      }
-    },
-    "/contacts/dncs/lists/{id}/items": {
-      "get": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Find contacts in a DNC list",
-        "description": "Find all entries in a given Do Not Contact (DNC) list. Returns a paged list of DoNotContact entries.",
-        "operationId": "getDoNotCallListItems",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of DNC list",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Offset to the start of a given page. The default is 0.",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum number of records to return in a paged list response. The default is 100.",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/contacts/dncs/lists/2/items\"",
-        "x-response": "{\"items\":[{\"number\":\"12135551129\",\"call\":true,\"text\":true,\"listId\":2},{\"number\":\"12135551130\",\"call\":true,\"text\":false,\"listId\":2},{\"number\":\"12135551131\",\"call\":true,\"text\":true,\"listId\":2}],\"totalCount\":3}"
-      },
-      "post": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Add contacts to a DNC list",
-        "description": "Add Do Not Contact (DNC) entries into a DNC list. ",
-        "operationId": "addToDncList",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of DNC list to add entries to",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Array of DoNotContact entries",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/DoNotContact"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '[{\"number\":\"12135551131\",\"call\":\"true\",\"text\":\"true\"},{\"number\":\"12135551129\",\"call\":\"true\",\"text\":\"true\"},{\"number\":\"12135551130\",\"call\":\"true\",\"text\":\"false\"}]' \"https://api.callfire.com/v2/contacts/dncs/lists/2/items\"",
-        "x-response": "200 OK - No Response"
-      },
-      "delete": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Delete contacts from a DNC list",
-        "description": "Delete Do Not Contact (DNC) entries from a DNC list. If the \"number\" parameter is not supplied or is empty, this API will delete all entries in the list.",
-        "operationId": "removeDoNotCallListItems",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of DNC list",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "number",
-            "in": "query",
-            "description": "A query param list of numbers to remove from the DNC list. If not supplied or is empty, all entries will be deleted.",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "csv"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X DELETE \"https://api.callfire.com/v2/contacts/dncs/lists/2/items?numbers=12135551130,12135551131\"",
-        "x-response": "200 OK - No Response"
-      }
-    },
-    "/contacts/dncs/lists/{id}/items/{number}": {
-      "delete": {
-        "tags": [
-          "dnc-lists",
-          "dncs",
-          "contacts"
-        ],
-        "summary": "Delete a contact from a DNC list",
-        "description": "Delete a single Do Not Contact (DNC) entry from a DNC list.",
-        "operationId": "removeDoNotCallListItem",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of DNC list",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "number",
-            "in": "path",
-            "description": "E.164 number to delete sans +",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X DELETE \"https://api.callfire.com/v2/contacts/dncs/lists/2/items/12135551129\"",
-        "x-response": "200 OK - No Response"
-      }
-    },
     "/contacts/lists": {
       "get": {
         "tags": [
@@ -3725,6 +3250,54 @@
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Created Contact List\",\"contacts\":[{\"firstName\":\"Carl\",\"lastName\":\"Friar\",\"homePhone\":\"12135551125\"}]}' \"https://api.callfire.com/v2/contacts/lists\"",
         "x-response": "{\"id\":3}"
+      }
+    },
+    "/contacts/lists/upload": {
+      "post": {
+        "tags": [
+          "contacts-lists",
+          "contacts"
+        ],
+        "summary": "Create contact list from file",
+        "description": "Create a contact list for use with campaigns through uploading a .csv file",
+        "operationId": "createContactListFromFile",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Name of contact list",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "CSV file to be uploaded",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ResourceId"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": "curl -u username:password -X POST -F \"name=testing\" -F \"file=@small_contact_upload.csv\" \"https://api.callfire.com/v2/contacts/lists/upload\"",
+        "x-response": "{\"id\":4}"
       }
     },
     "/contacts/lists/{id}": {
@@ -5318,7 +4891,7 @@
           "numbers"
         ],
         "summary": "Find local numbers",
-        "description": "Find numbers in the CallFire local numbers catalog that are available for purchase.",
+        "description": "Find numbers in the CallFire local numbers catalog that are available for purchase. At least one additional parameter is required.",
         "operationId": "findNumbersLocal",
         "consumes": [
           "application/json"
@@ -5528,7 +5101,7 @@
             "description": "Maximum number of records to return in a paged list response. The default is 100.",
             "required": false,
             "type": "integer",
-            "default": 1,
+            "default": 100,
             "format": "int64"
           },
           {
@@ -5994,7 +5567,7 @@
           "texts"
         ],
         "summary": "Find texts",
-        "description": "Finds all texts sent or received by the user. Use \"id=0\" for the campaignId parameter to query for all texts sent through the POST /texts API.",
+        "description": "Finds all texts sent or received by the user. Use \"id=0\" for the campaignId parameter to query for all texts sent through the POST /texts API. See [call states and results](https://developers.callfire.com/results-responses-errors.html)",
         "operationId": "findTexts",
         "consumes": [
           "application/json"
@@ -7249,37 +6822,6 @@
           "type": "integer",
           "format": "int64",
           "description": "Id of list"
-        }
-      },
-      "description": "~"
-    },
-    "DoNotContactList": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of DNC list"
-        },
-        "size": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Size of list"
-        },
-        "campaignId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Campaign that the list corresponds"
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of DNC list"
-        },
-        "created": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Time created in unix milliseconds",
-          "readOnly": true
         }
       },
       "description": "~"

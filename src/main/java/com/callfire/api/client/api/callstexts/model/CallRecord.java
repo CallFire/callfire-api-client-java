@@ -25,10 +25,6 @@ public class CallRecord extends ActionRecord {
         return callResult;
     }
 
-    public void setCallResult(CallResult callResult) {
-        this.callResult = callResult;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)

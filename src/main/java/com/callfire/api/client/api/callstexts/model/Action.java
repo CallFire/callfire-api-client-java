@@ -4,11 +4,9 @@ import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.contacts.model.Contact;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class Action extends CallfireModel {
+public class Action<T extends ActionRecord> extends CallfireModel {
     private Long id;
     private String fromNumber;
     private String toNumber;
@@ -18,7 +16,33 @@ public class Action extends CallfireModel {
     private Boolean inbound;
     private Date created;
     private Date modified;
+    private State state;
     private List<String> labels = new ArrayList<>();
+    private Map<String, String> attributes = new HashMap<>();
+    private List<T> records = new ArrayList<>();
+
+    public enum State {
+        // non-terminal
+        READY, SELECTED, CALLBACK,
+        // terminal
+        FINISHED, DISABLED, DNC, DUP, INVALID, TIMEOUT, PERIOD_LIMIT,
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public List<T> getRecords() {
+        return records;
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
 
     public Long getId() {
         return id;
@@ -48,16 +72,8 @@ public class Action extends CallfireModel {
         return campaignId;
     }
 
-    public void setCampaignId(Long campaignId) {
-        this.campaignId = campaignId;
-    }
-
     public Long getBatchId() {
         return batchId;
-    }
-
-    public void setBatchId(Long batchId) {
-        this.batchId = batchId;
     }
 
     public Contact getContact() {
@@ -80,16 +96,8 @@ public class Action extends CallfireModel {
         return created;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     public Date getModified() {
         return modified;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
     }
 
     public List<String> getLabels() {
@@ -111,8 +119,11 @@ public class Action extends CallfireModel {
             .append("contact", contact)
             .append("inbound", inbound)
             .append("created", created)
+            .append("state", state)
             .append("modified", modified)
             .append("labels", labels)
+            .append("attributes", attributes)
+            .append("records", records)
             .toString();
     }
 }

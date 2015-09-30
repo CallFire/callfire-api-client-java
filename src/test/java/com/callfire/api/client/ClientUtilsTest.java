@@ -23,7 +23,7 @@ public class ClientUtilsTest {
         FindCallsRequest request = FindCallsRequest.create()
             .limit(3L)
             .campaignId(2L)
-            .results(Arrays.asList(Call.FinalCallResult.AM, Call.FinalCallResult.BUSY))
+            .results(Arrays.asList(Call.CallResult.AM, Call.CallResult.BUSY))
             .build();
         List<NameValuePair> queryParams = ClientUtils.buildQueryParams(request);
         assertEquals(3, queryParams.size());

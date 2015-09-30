@@ -1,37 +1,14 @@
 package com.callfire.api.client.api.keywords.model;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
 
-public class KeywordLease extends CallfireModel {
-    private String shortCode;
-    private String keyword;
+public class KeywordLease extends Keyword {
     private Date leaseBegin;
     private Date leaseEnd;
     private Boolean autoRenew;
-    private Status status;
-
-    public enum Status {
-        PENDING, ACTIVE, RELEASED, UNAVAILABLE
-    }
-
-    public String getShortCode() {
-        return shortCode;
-    }
-
-    public void setShortCode(String shortCode) {
-        this.shortCode = shortCode;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
+    private LeaseStatus status;
 
     public Date getLeaseBegin() {
         return leaseBegin;
@@ -57,20 +34,18 @@ public class KeywordLease extends CallfireModel {
         this.autoRenew = autoRenew;
     }
 
-    public Status getStatus() {
+    public LeaseStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(LeaseStatus leaseStatus) {
+        this.status = leaseStatus;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
-            .append("shortCode", shortCode)
-            .append("keyword", keyword)
             .append("leaseBegin", leaseBegin)
             .append("leaseEnd", leaseEnd)
             .append("autoRenew", autoRenew)
