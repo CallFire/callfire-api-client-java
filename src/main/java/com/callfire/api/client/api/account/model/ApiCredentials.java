@@ -34,6 +34,10 @@ public class ApiCredentials extends CallfireModel {
         return enabled;
     }
 
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)

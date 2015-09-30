@@ -48,10 +48,6 @@ public class DncList extends CallfireModel {
         return created;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)

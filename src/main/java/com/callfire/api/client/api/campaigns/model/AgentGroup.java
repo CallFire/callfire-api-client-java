@@ -9,8 +9,8 @@ import java.util.List;
 public class AgentGroup extends CallfireModel {
     private Long id;
     private String name;
-    private List<Agent> agents = new ArrayList<Agent>();
-    private List<Long> campaignIds = new ArrayList<Long>();
+    private List<Agent> agents = new ArrayList<>();
+    private List<Long> campaignIds = new ArrayList<>();
 
     public Long getId() {
         return id;

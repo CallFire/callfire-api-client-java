@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Number extends CallfireModel {
     private String number;
     private String nationalFormat;
-    private boolean tollFree;
+    private Boolean tollFree;
     private Region region;
 
     public String getNumber() {
@@ -25,11 +25,11 @@ public class Number extends CallfireModel {
         this.nationalFormat = nationalFormat;
     }
 
-    public boolean isTollFree() {
+    public Boolean isTollFree() {
         return tollFree;
     }
 
-    public void setTollFree(boolean tollFree) {
+    public void setTollFree(Boolean tollFree) {
         this.tollFree = tollFree;
     }
 

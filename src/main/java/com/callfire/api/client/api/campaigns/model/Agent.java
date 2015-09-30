@@ -14,8 +14,8 @@ public class Agent extends CallfireModel {
     private String email;
     private Date lastLogin;
     private Long activeSessionId;
-    private List<Long> campaignIds = new ArrayList<Long>();
-    private List<Long> groupIds = new ArrayList<Long>();
+    private List<Long> campaignIds = new ArrayList<>();
+    private List<Long> groupIds = new ArrayList<>();
 
     public Long getId() {
         return id;

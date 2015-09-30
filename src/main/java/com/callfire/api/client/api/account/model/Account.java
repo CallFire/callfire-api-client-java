@@ -15,7 +15,11 @@ public class Account extends CallfireModel {
     private String name;
     private String firstName;
     private String lastName;
-    private List<String> permissions = new ArrayList<>();
+    private List<UserPermission> permissions = new ArrayList<>();
+
+    public enum UserPermission {
+        API, ACCOUNT_HOLDER, AGENT,
+    }
 
     public Long getId() {
         return id;
@@ -57,11 +61,11 @@ public class Account extends CallfireModel {
         this.lastName = lastName;
     }
 
-    public List<String> getPermissions() {
+    public List<UserPermission> getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(List<String> permissions) {
+    public void setPermissions(List<UserPermission> permissions) {
         this.permissions = permissions;
     }
 

@@ -3,9 +3,7 @@ package com.callfire.api.client.api.contacts.model;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Contact extends CallfireModel {
@@ -20,7 +18,6 @@ public class Contact extends CallfireModel {
     private String externalSystem;
     private Boolean deleted;
     private Map<String, String> properties = new HashMap<>();
-    private List<String> labels = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -102,14 +99,6 @@ public class Contact extends CallfireModel {
         this.properties = properties;
     }
 
-    public List<String> getLabels() {
-        return labels;
-    }
-
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
-    }
-
     public Boolean getDeleted() {
         return deleted;
     }
@@ -132,7 +121,6 @@ public class Contact extends CallfireModel {
             .append("externalId", externalId)
             .append("externalSystem", externalSystem)
             .append("properties", properties)
-            .append("labels", labels)
             .append("deleted", deleted)
             .toString();
     }

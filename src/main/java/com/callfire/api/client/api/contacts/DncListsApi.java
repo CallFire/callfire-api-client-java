@@ -3,6 +3,7 @@ package com.callfire.api.client.api.contacts;
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClientException;
 import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -38,7 +39,7 @@ public class DncListsApi {
     };
     private static final TypeReference<DncList> DNC_LIST_TYPE = new TypeReference<DncList>() {
     };
-    private static final TypeReference<List<UniversalDnc>> LIST_UNIVERSAL_DNC_TYPE = new TypeReference<List<UniversalDnc>>() {
+    private static final TypeReference<ListHolder<UniversalDnc>> LIST_UNIVERSAL_DNC_TYPE = new TypeReference<ListHolder<UniversalDnc>>() {
     };
 
     private RestApiClient client;
@@ -95,7 +96,7 @@ public class DncListsApi {
         List<NameValuePair> queryParams = new ArrayList<>(2);
         addQueryParamIfSet("fromNumber", fromNumber, queryParams);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(path, LIST_UNIVERSAL_DNC_TYPE, queryParams);
+        return client.get(path, LIST_UNIVERSAL_DNC_TYPE, queryParams).getItems();
     }
 
     /**

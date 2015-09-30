@@ -15,7 +15,7 @@ public class FindCallsRequest extends FindCallsTextsRequest {
     @ConvertToString
     private List<Call.State> states = new ArrayList<>();
     @ConvertToString
-    private List<Call.FinalCallResult> results = new ArrayList<>();
+    private List<Call.CallResult> results = new ArrayList<>();
 
     private FindCallsRequest() {
     }
@@ -43,7 +43,7 @@ public class FindCallsRequest extends FindCallsTextsRequest {
      *
      * @return list of text results
      */
-    public List<Call.FinalCallResult> getResults() {
+    public List<Call.CallResult> getResults() {
         return results;
     }
 
@@ -79,7 +79,7 @@ public class FindCallsRequest extends FindCallsTextsRequest {
          *
          * @param results text results to set
          */
-        public Builder results(List<Call.FinalCallResult> results) {
+        public Builder results(List<Call.CallResult> results) {
             request.results = results;
             return this;
         }
