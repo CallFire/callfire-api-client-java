@@ -1,43 +1,51 @@
-group 'com.callfire'
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+}
 
 apply plugin: 'idea'
 apply plugin: 'java'
 
 sourceCompatibility = 1.7
 
-def clientBaseName = 'callfire-api-client'
-def clientVersion = '1.0.0-SNAPSHOT'
-
 repositories {
-    mavenCentral()
-}
-
-jar {
-    baseName = clientBaseName
-    version = clientVersion
-    // TODO vmikhailov configure manifest file
-    manifest {
-    }
+    jcenter()
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = clientVersion + '-sources'
+    classifier = 'sources'
     from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = clientVersion + '-javadoc'
+    classifier = 'javadoc'
     from javadoc.destinationDir
 }
 
 task clientFatJar(type: Jar, dependsOn: jar) {
-    baseName = clientBaseName
-    version = clientVersion + '-all'
-    manifest {
-    }
+    classifier = 'all'
+    from sourceSets.main.output
     from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
-    from sourceSets.main.allSource
 }
+
+tasks.withType(Jar) {
+    manifest {
+        attributes(
+            'Manifest-Version': '1.0',
+            'Implementation-Title': project.name,
+            'Implementation-Version': version,
+            'Implementation-Build-Number': buildNumber(),
+            'Implementation-Vendor': "Callfire, Inc.",
+            'Implementation-Build-Date': new Date().format("yyyy-MM-dd"),
+            'Documentation': 'https://developers.callfire.com',
+            'Repository': 'https://github.com/CallFire/callfire-api-client-java'
+        )
+    }
+}
+
+build.dependsOn javadoc
 
 artifacts {
     archives sourcesJar
@@ -65,4 +73,15 @@ idea {
     module {
         downloadJavadoc = true
     }
+}
+
+/**
+ * Get build number from system properties. Used in Jenkins env
+ *
+ * @return build number if passed as system property
+ */
+def buildNumber() {
+    String buildNumber = System.properties[ 'BUILD_NUMBER' ] ?: "SNAPSHOT"
+
+    "$buildNumber"
 }
