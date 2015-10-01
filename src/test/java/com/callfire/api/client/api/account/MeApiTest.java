@@ -1,24 +1,28 @@
 package com.callfire.api.client.api.account;
 
-import com.callfire.api.client.JsonConverter;
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.account.model.Account;
 import com.callfire.api.client.api.account.model.BillingPlanUsage;
+import com.callfire.api.client.api.account.model.CallerId;
+import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import org.apache.http.HttpHeaders;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
+import java.util.List;
+
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 public class MeApiTest extends AbstractApiTest {
 
@@ -35,29 +39,62 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testGetAccount() throws Exception {
-        String responseJson = getJsonPayload("/responses/account/meApi/getAccount.json");
-
-        when(mockHttpResponse.getStatusLine()).thenReturn(getStatus200_Ok());
-        when(mockHttpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
-        doReturn(mockHttpResponse).when(mockHttpClient).execute(any(HttpUriRequest.class));
+        String expectedJson = getJsonPayload("/responses/account/meApi/getAccount.json");
+        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         Account account = client.meApi().getAccount();
-        String jsonString = new JsonConverter().serialize(account);
-
-        assertThat(jsonString, equalToIgnoringWhiteSpace(responseJson));
+        assertThat(jsonConverter.serialize(account), equalToIgnoringWhiteSpace(expectedJson));
     }
 
     @Test
     public void testGetBillingPlanUsage() throws Exception {
-        String responseJson = getJsonPayload("/responses/account/meApi/getBillingPlanUsage.json");
-
-        when(mockHttpResponse.getStatusLine()).thenReturn(getStatus200_Ok());
-        when(mockHttpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
-        doReturn(mockHttpResponse).when(mockHttpClient).execute(any(HttpUriRequest.class));
+        String expectedJson = getJsonPayload("/responses/account/meApi/getBillingPlanUsage.json");
+        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         BillingPlanUsage billingPlanUsage = client.meApi().getBillingPlanUsage();
-        String jsonString = new JsonConverter().serialize(billingPlanUsage);
+        assertThat(jsonConverter.serialize(billingPlanUsage), equalToIgnoringWhiteSpace(expectedJson));
+    }
 
-        assertThat(jsonString, equalToIgnoringWhiteSpace(responseJson));
+    @Test
+    public void testGetCallerIds() throws Exception {
+        String expectedJson = getJsonPayload("/responses/account/meApi/getCallerIds.json");
+        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+
+        List<CallerId> callerIds = client.meApi().getCallerIds();
+        assertThat(jsonConverter.serialize(new ListHolder<>(callerIds)), equalToIgnoringWhiteSpace(expectedJson));
+    }
+
+    @Test
+    public void testSendVerificationCode() throws Exception {
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        String callerId = "1234567890";
+
+        client.meApi().sendVerificationCode(callerId);
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(arg.getURI().toString(), containsString(callerId));
+        assertNull(extractHttpEntity(arg));
+    }
+
+    @Test
+    public void testVerifyCallerId() throws Exception {
+        String expectedJson = getJsonPayload("/responses/account/meApi/verifyCallerId.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+
+        CallerIdVerificationRequest request = CallerIdVerificationRequest.create()
+            .callerId("1234567890")
+            .verificationCode("0987654321")
+            .build();
+        Boolean verified = client.meApi().verifyCallerId(request);
+        assertThat(jsonConverter.serialize(verified), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertEquals(jsonConverter.serialize(request), extractHttpEntity(arg));
+        assertEquals(2, arg.getAllHeaders().length);
+        assertNotNull(arg.getFirstHeader(HttpHeaders.AUTHORIZATION).getValue());
+        assertEquals(APPLICATION_JSON.getMimeType(), arg.getFirstHeader(HttpHeaders.CONTENT_TYPE).getValue());
+        assertThat(arg.getURI().toString(), containsString(request.getCallerId()));
     }
 }
