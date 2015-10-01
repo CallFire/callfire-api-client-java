@@ -25,7 +25,7 @@ import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
- * Represents rest endpoint /contacts/do-not-calls/lists
+ * Represents rest endpoint /contacts/dncs/lists
  *
  * @since 1.0
  */

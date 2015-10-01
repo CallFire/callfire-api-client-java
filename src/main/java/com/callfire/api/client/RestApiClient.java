@@ -79,6 +79,15 @@ public class RestApiClient {
     }
 
     /**
+     * Get Jackson's json converter
+     *
+     * @return json converter
+     */
+    public JsonConverter getJsonConverter() {
+        return jsonConverter;
+    }
+
+    /**
      * Performs GET request to specified path
      *
      * @param path request path
