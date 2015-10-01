@@ -3,6 +3,7 @@ package com.callfire.api.client.api.account.model;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -11,9 +12,9 @@ import java.util.Date;
 public class BillingPlanUsage extends CallfireModel {
     private Date intervalStart;
     private Date intervalEnd;
-    private Double remainingPlanCredits;
-    private Double remainingPayAsYouGoCredits;
-    private Double totalRemainingCredits;
+    private BigDecimal remainingPlanCredits;
+    private BigDecimal remainingPayAsYouGoCredits;
+    private BigDecimal totalRemainingCredits;
 
     /**
      * Gets start of usage period
@@ -38,7 +39,7 @@ public class BillingPlanUsage extends CallfireModel {
      *
      * @return remaining plan credits rounded to nearest whole value.
      */
-    public Double getRemainingPlanCredits() {
+    public BigDecimal getRemainingPlanCredits() {
         return remainingPlanCredits;
     }
 
@@ -47,7 +48,7 @@ public class BillingPlanUsage extends CallfireModel {
      *
      * @return remaining pay as you go credits rounded to nearest whole value.
      */
-    public Double getRemainingPayAsYouGoCredits() {
+    public BigDecimal getRemainingPayAsYouGoCredits() {
         return remainingPayAsYouGoCredits;
     }
 
@@ -56,7 +57,7 @@ public class BillingPlanUsage extends CallfireModel {
      *
      * @return total remaining credits (remainingPlanCredits + remainingPayAsYouGoCredits)
      */
-    public Double getTotalRemainingCredits() {
+    public BigDecimal getTotalRemainingCredits() {
         return totalRemainingCredits;
     }
 
