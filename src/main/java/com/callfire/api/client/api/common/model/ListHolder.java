@@ -8,6 +8,13 @@ import java.util.List;
 public class ListHolder<T> extends CallfireModel {
     protected List<T> items = new ArrayList<>();
 
+    public ListHolder() {
+    }
+
+    public ListHolder(List<T> items) {
+        this.items = items;
+    }
+
     public List<T> getItems() {
         return items;
     }
