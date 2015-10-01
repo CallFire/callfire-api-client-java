@@ -15,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 import org.mockito.ArgumentCaptor;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -25,6 +27,9 @@ import static org.mockito.Mockito.when;
  * Base api test class
  */
 public class AbstractApiTest {
+    protected static final String FIELDS = "id,name,created";
+    protected static final String ENCODED_FIELDS = "fields=" + encode(FIELDS);
+
     protected CallfireClient client;
     protected JsonConverter jsonConverter;
 
@@ -60,17 +65,25 @@ public class AbstractApiTest {
         return mockHttpResponse(mockHttpClient, mockHttpResponse, null);
     }
 
-    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient mockHttpClient,
-        HttpResponse mockHttpResponse, String responseJson) throws Exception {
-        when(mockHttpResponse.getStatusLine()).thenReturn(getStatus200_Ok());
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient httpClient, HttpResponse httpResponse,
+        String responseJson) throws Exception {
+        when(httpResponse.getStatusLine()).thenReturn(getStatus200_Ok());
         if (responseJson != null) {
-            when(mockHttpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
+            when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
         }
 
         ArgumentCaptor<HttpUriRequest> captor = ArgumentCaptor.forClass(HttpUriRequest.class);
-        doReturn(mockHttpResponse).when(mockHttpClient).execute(captor.capture());
+        doReturn(httpResponse).when(httpClient).execute(captor.capture());
 
         return captor;
+    }
+
+    protected static String encode(String value) {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected StatusLine getStatus200_Ok() {
