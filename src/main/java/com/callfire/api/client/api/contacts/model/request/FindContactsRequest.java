@@ -18,6 +18,11 @@ public class FindContactsRequest extends FindRequest {
     private FindContactsRequest() {
     }
 
+    /**
+     * Get  particular contact list to search by
+     *
+     * @return particular contact list id to search by
+     */
     public Long getContactListId() {
         return contactListId;
     }
@@ -40,10 +45,22 @@ public class FindContactsRequest extends FindRequest {
         return propertyValue;
     }
 
+    /**
+     * Get multiple contact numbers can be specified. If the number parameter is included,
+     * the other query parameters are ignored.
+     *
+     * @return contact numbers
+     */
     public List<String> getNumber() {
         return number;
     }
 
+    /**
+     * Get multiple contact ids can be specified. If the id parameter is included,
+     * the other query parameters are ignored.
+     *
+     * @return contact ids
+     */
     public List<Long> getId() {
         return id;
     }
@@ -65,6 +82,12 @@ public class FindContactsRequest extends FindRequest {
             super(new FindContactsRequest());
         }
 
+        /**
+         * A particular contact list to search by
+         *
+         * @param contactListId particular contact list to search by
+         * @return builder self reference
+         */
         public Builder contactListId(Long contactListId) {
             request.contactListId = contactListId;
             return this;
@@ -74,7 +97,7 @@ public class FindContactsRequest extends FindRequest {
          * Set name of contact property to search by
          *
          * @param propertyName name of contact property to search by
-         * @return builder self-reference
+         * @return builder self reference
          */
         public Builder propertyName(String propertyName) {
             request.propertyName = propertyName;
@@ -85,18 +108,32 @@ public class FindContactsRequest extends FindRequest {
          * Set value of contact property to search by
          *
          * @param propertyValue value of contact property to search by
-         * @return builder self-reference
+         * @return builder self reference
          */
         public Builder propertyValue(String propertyValue) {
             request.propertyValue = propertyValue;
             return this;
         }
 
+        /**
+         * Multiple contact numbers can be specified. If the number parameter is included,
+         * the other query parameters are ignored.
+         *
+         * @param number list of numbers to query
+         * @return builder self reference
+         */
         public Builder number(List<String> number) {
             request.number = number;
             return this;
         }
 
+        /**
+         * Multiple contact ids can be specified. If the id parameter is included,
+         * the other query parameters are ignored.
+         *
+         * @param id contact ids to search by
+         * @return builder self reference
+         */
         public Builder id(List<Long> id) {
             request.id = id;
             return this;

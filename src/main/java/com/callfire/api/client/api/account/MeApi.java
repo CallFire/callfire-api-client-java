@@ -53,7 +53,7 @@ public class MeApi {
     }
 
     /**
-     * Method queries account info like id, email, name, etc...
+     * Find account details for the user. Details include name, email, and basic account permissions.
      * GET /me/account
      *
      * @return user's account
@@ -77,7 +77,8 @@ public class MeApi {
     }
 
     /**
-     * Get callerIds associated with account.
+     * Returns a list of verified caller ids. If the number is not shown in the list,
+     * then it is not verified, and will have to send for a verification code.
      * GET /me/callerids
      *
      * @return list of callerId numbers
@@ -90,8 +91,8 @@ public class MeApi {
 
     /**
      * Send generated verification code to callerid number.
-     * After receiving verification code on phone call POST /callerids/{callerid}/verification-code
-     * to verify number.
+     * The verification code is delivered via a phone call.
+     * After receiving verification code on phone call POST /callerids/{callerid}/verification-code to verify number.
      * POST /me/callerids/{callerid}
      *
      * @param callerid callerid number
@@ -119,8 +120,10 @@ public class MeApi {
     }
 
     /**
-     * Creates API credentials. ApiCredentials.name property required
-     * Performs POST /me/api/credentials request
+     * Create API credentials for the CallFire API. This endpoint requires full CallFire account
+     * credentials to be used, authenticated using Basic Authentication. At this time, the user
+     * can only supply the name for the credentials. The generated credentials can be used to
+     * access any endpoint on the CallFire API. ApiCredentials.name property required
      *
      * @param credentials API credentials to create
      * @return {@link ApiCredentials} object

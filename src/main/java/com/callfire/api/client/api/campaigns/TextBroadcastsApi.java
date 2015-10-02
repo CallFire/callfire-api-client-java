@@ -59,7 +59,8 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Find text broadcasts by name, label, etc...
+     * Find all text broadcasts created by the user. Can query on label, name, and the current
+     * running status of the campaign.
      *
      * @param request finder request with properties to search by
      * @return {@link Page} with {@link TextBroadcast} objects
@@ -71,7 +72,8 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Create text broadcast
+     * Create a text broadcast campaign using the Text Broadcast API. A campaign can be created with
+     * no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.
      *
      * @param broadcast text broadcast to create
      * @return {@link ResourceId} object with id of created broadcast
@@ -83,7 +85,9 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Create text broadcast. If start set to true campaign starts immediately
+     * Create a text broadcast campaign using the Text Broadcast API. A campaign can be created with
+     * no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.
+     * If start set to true campaign starts immediately
      *
      * @param broadcast text broadcast to create
      * @param start     if set to true broadcast will starts immediately
@@ -212,7 +216,11 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Add batch to text broadcast
+     * Add batch to text broadcast.
+     * The add batch API allows the user to add additional batches to an already created text broadcast
+     * campaign. The added batch will go through the CallFire validation process, unlike in the
+     * recipients version of this API. Because of this, use the scrubDuplicates flag to remove duplicates
+     * from your batch. Batches may be added as a contact list id, a list of contact ids, or a list of numbers.
      *
      * @param request request with contacts
      * @return {@link ResourceId} with id of created {@link Batch}
@@ -239,7 +247,10 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Add recipients to text broadcast
+     * Use this API to add recipients to an already created text broadcast. Post a list of Recipient
+     * objects for them to be immediately added to the text broadcast campaign. These contacts do not
+     * go through validation process, and will be acted upon as they are added. Recipients may be added
+     * as a list of contact ids, or list of numbers.
      *
      * @param id         id of text broadcast
      * @param recipients recipients to add
@@ -252,7 +263,10 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Add recipients to text broadcast
+     * Use this API to add recipients to an already created text broadcast. Post a list of Recipient
+     * objects for them to be immediately added to the text broadcast campaign. These contacts do not
+     * go through validation process, and will be acted upon as they are added. Recipients may be added
+     * as a list of contact ids, or list of numbers.
      *
      * @param id         id of text broadcast
      * @param recipients recipients to add

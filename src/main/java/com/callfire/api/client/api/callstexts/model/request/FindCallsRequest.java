@@ -8,8 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Request object for GET /calls which incapsulates
- * different query pairs
+ * <p>
+ * Request object used to find all calls sent or received by the user.
+ * Use "campaignId=0" parameter to query for all calls sent through the POST /calls API.
+ * </p>
+ *
+ * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
  */
 public class FindCallsRequest extends FindCallsTextsRequest {
     @ConvertToString
@@ -30,18 +34,20 @@ public class FindCallsRequest extends FindCallsTextsRequest {
     }
 
     /**
-     * Get text statuses
+     * Get call statuses
      *
-     * @return text statuses
+     * @return call statuses
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
      */
     public List<Call.State> getStates() {
         return states;
     }
 
     /**
-     * Get text results
+     * Get call results.
      *
-     * @return list of text results
+     * @return list of call results
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
      */
     public List<Call.CallResult> getResults() {
         return results;
@@ -65,9 +71,11 @@ public class FindCallsRequest extends FindCallsTextsRequest {
         }
 
         /**
-         * Set text statuses to filter
+         * Set call statuses to filter
          *
          * @param states list of states to filter
+         * @return builder self reference
+         * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
          */
         public Builder states(List<Call.State> states) {
             request.states = states;
@@ -75,9 +83,11 @@ public class FindCallsRequest extends FindCallsTextsRequest {
         }
 
         /**
-         * Set text results
+         * Set call results
          *
-         * @param results text results to set
+         * @param results call results to set
+         * @return builder self reference
+         * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
          */
         public Builder results(List<Call.CallResult> results) {
             request.results = results;

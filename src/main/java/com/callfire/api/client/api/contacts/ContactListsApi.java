@@ -68,8 +68,8 @@ public class ContactListsApi {
      * contact list, or is on a specific DNC list. The default resolution in these safeguards will be
      * to remove contacts that are against these rules. If contacts are not being added to a list,
      * this means the data needs to be properly formatted and correct before calling this API.
-     * <br />
-     * <b>Examples:<b/>
+     * <br>
+     * <b>Examples:</b>
      * <pre>
      * {@code
      * Contact c1 = new Contact();
@@ -80,17 +80,17 @@ public class ContactListsApi {
      *     .name("listFromContacts")
      *     .contacts(asList(c1, c2))
      *     .build();
-     * <br />
+     * <br>
      * CreateContactListRequest request = CreateContactListRequest.<Long>create()
      *     .name("listFromContactIds")
      *     .contacts(asList(123L, 456L))
      *     .build();
-     * <br />
+     * <br>
      * CreateContactListRequest request = CreateContactListRequest.<String>create()
      *     .name("listFromNumbers")
      *     .contacts(asList("12135678881", "12135678882"))
      *     .build();
-     * <br />
+     * <br>
      * }
      * </pre>
      *

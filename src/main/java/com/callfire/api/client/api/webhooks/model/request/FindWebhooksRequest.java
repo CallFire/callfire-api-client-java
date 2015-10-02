@@ -29,26 +29,46 @@ public class FindWebhooksRequest extends FindRequest {
     }
 
     /**
-     * Get search field for fileName/name
+     * Get name of webhook
      *
-     * @return search field for fileName/name
+     * @return name of webhook
      */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get name of resource
+     *
+     * @return name of resource
+     */
     public String getResource() {
         return resource;
     }
 
+    /**
+     * Get name of event
+     *
+     * @return name of event
+     */
     public String getEvent() {
         return event;
     }
 
+    /**
+     * Get callback URL
+     *
+     * @return callback URL
+     */
     public String getCallback() {
         return callback;
     }
 
+    /**
+     * Is webhook enabled
+     *
+     * @return true if webhook enabled
+     */
     public Boolean getEnabled() {
         return enabled;
     }
@@ -73,26 +93,56 @@ public class FindWebhooksRequest extends FindRequest {
             super(new FindWebhooksRequest());
         }
 
+        /**
+         * Set name of webhook
+         *
+         * @param name name of webhook
+         * @return builder self reference
+         */
         public Builder name(String name) {
             request.name = name;
             return this;
         }
 
+        /**
+         * Set name of resource
+         *
+         * @param resource name of resource
+         * @return builder self reference
+         */
         public Builder resource(String resource) {
             request.resource = resource;
             return this;
         }
 
+        /**
+         * Set name of event
+         *
+         * @param event name of event
+         * @return builder self reference
+         */
         public Builder event(String event) {
             request.event = event;
             return this;
         }
 
+        /**
+         * Set callback URL of webhook
+         *
+         * @param callback callback URL of webhook
+         * @return builder self reference
+         */
         public Builder callback(String callback) {
             request.callback = callback;
             return this;
         }
 
+        /**
+         * Set webhook enabled
+         *
+         * @param enabled set true to search for enabled webhooks
+         * @return builder self reference
+         */
         public Builder enabled(Boolean enabled) {
             request.enabled = enabled;
             return this;

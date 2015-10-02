@@ -20,7 +20,11 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /calls
+ * Use the /calls API to quickly send individual calls, get results.
+ * A verified Caller ID and sufficient credits are required to make a call.
+ * <br>
  *
+ * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
  * @since 1.0
  */
 public class CallsApi {
@@ -40,12 +44,15 @@ public class CallsApi {
     }
 
     /**
-     * Find calls by different properties, broadcast id, toNumber, fromNumber, label, state, etc.
+     * Finds all calls sent or received by the user, filtered by different properties, broadcast id,
+     * toNumber, fromNumber, label, state, etc. Use "campaignId=0" parameter to query
+     * for all calls sent through the POST /calls API {@link CallsApi#send(List)}.
      *
      * @param request request object with different fields to filter
      * @return Page with @{Call} objects
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
      */
     public Page<Call> find(FindCallsRequest request) {
         return client.get(CALLS_PATH, PAGE_OF_CALLS_TYPE, request);
@@ -81,7 +88,9 @@ public class CallsApi {
     }
 
     /**
-     * Send calls to recipients through default campaign
+     * Send calls to recipients through default campaign.
+     * Use the API to quickly send individual calls.
+     * A verified Caller ID and sufficient credits are required to make a call.
      *
      * @param recipients call recipients
      * @return list of {@link Call}
@@ -94,10 +103,12 @@ public class CallsApi {
 
     /**
      * Send call to recipients through existing campaign, if null default campaign will be used
+     * Use the API to quickly send individual calls.
+     * A verified Caller ID and sufficient credits are required to make a call.
      *
-     * @param recipients text recipients
-     * @param campaignId id of outbound campaign
-     * @param fields     limit fields returned. Example fields=id,name
+     * @param recipients call recipients
+     * @param campaignId specify a campaignId to send calls quickly on a previously created campaign
+     * @param fields     fields returned. E.g. fields=id,name or fields=items(id,name)
      * @return list of {@link Call}
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client

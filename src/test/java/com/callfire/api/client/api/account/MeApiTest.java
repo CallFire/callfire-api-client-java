@@ -152,7 +152,7 @@ public class MeApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testDeleteCredentials() throws Exception {
+    public void testDeleteApiCredentials() throws Exception {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
 
         client.meApi().deleteApiCredentials(11L);
@@ -162,5 +162,4 @@ public class MeApiTest extends AbstractApiTest {
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString("/11"));
     }
-
 }

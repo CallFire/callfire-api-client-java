@@ -18,6 +18,11 @@ public class AddContactListItemsRequest<T> extends AddContactsRequest<T> {
         return contactListId;
     }
 
+    /**
+     * Get type of phone number (homePhone, workPhone, mobilePhone)
+     *
+     * @return type of phone number (homePhone, workPhone, mobilePhone)
+     */
     public String getContactNumbersField() {
         return contactNumbersField;
     }
@@ -25,6 +30,7 @@ public class AddContactListItemsRequest<T> extends AddContactsRequest<T> {
     /**
      * Create request builder
      *
+     * @param <T> type of builder
      * @return request build
      */
     public static <T> Builder<T> create() {
@@ -44,6 +50,12 @@ public class AddContactListItemsRequest<T> extends AddContactsRequest<T> {
             return this;
         }
 
+        /**
+         * Set type of phone number (homePhone, workPhone, mobilePhone)
+         *
+         * @param contactNumbersField type of phone number (homePhone, workPhone, mobilePhone)
+         * @return builder self reference
+         */
         public Builder<T> contactNumbersField(String contactNumbersField) {
             request.contactNumbersField = contactNumbersField;
             return this;

@@ -49,7 +49,8 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Find sounds in account
+     * Find all campaign sounds that were created by the user.
+     * These are all of the available sounds to be used in campaigns.
      *
      * @param request request object with different fields for search
      * @return page with campaign sound objects
@@ -62,7 +63,8 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Get sound metadata by id
+     * Returns a single CampaignSound instance for a given campaign sound id. This is the meta
+     * data to the sounds only. No audio data is returned from this API.
      *
      * @param id id of campaign sound
      * @return CampaignSound meta object
@@ -74,7 +76,8 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Get sound metadata by id
+     * Returns a single CampaignSound instance for a given campaign sound id. This is the meta
+     * data to the sounds only. No audio data is returned from this API.
      *
      * @param id     id of campaign sound
      * @param fields Limit text fields returned. Example fields=limit,offset,items(id,message)
@@ -91,7 +94,7 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Returns mp3 of sound by id
+     * Download the MP3 version of the hosted file.
      *
      * @param id id of sound
      * @return mp3 file as input stream
@@ -105,7 +108,7 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Returns wav of sound by id
+     * Download the WAV version of the hosted file.
      *
      * @param id id of sound
      * @return wav file as input stream
@@ -119,7 +122,9 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Record a sound via a phone call. Fill in toNumber and Callfire will dial you to record a message
+     * Use this API to create a sound via phone call. Supply the required phone number in
+     * the CallCreateSound object inside of the request, and the user will receive a call
+     * shortly after with instructions on how to record a sound over the phone.
      *
      * @param callCreateSound request object to create campaign sound
      * @return ResourceId object with sound id
@@ -159,7 +164,7 @@ public class CampaignSoundsApi {
     }
 
     /**
-     * Creates a sound file using TTS
+     * Use this API to create a sound file via a supplied string of text.
      *
      * @param textToSpeech TTS object to create
      * @return ResourceId object with sound id

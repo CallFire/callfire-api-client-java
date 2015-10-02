@@ -47,6 +47,7 @@ public class NumberLeasesApi {
 
     /**
      * Find number leases by prefix, zipcode, etc...
+     * This API is useful for finding all numbers currently owned by an account.
      *
      * @param request request payload
      * @return page of number leases
@@ -98,7 +99,7 @@ public class NumberLeasesApi {
     }
 
     /**
-     * Find number lease configs
+     * Find all number lease configs for the user.
      *
      * @param request request payload
      * @return page of number leases configs

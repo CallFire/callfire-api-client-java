@@ -6,6 +6,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents contact information in Callfire system
+ */
 public class Contact extends CallfireModel {
     private Long id;
     private String firstName;
@@ -75,34 +78,74 @@ public class Contact extends CallfireModel {
         this.mobilePhone = mobilePhone;
     }
 
+    /**
+     * Get external id of contact for syncing with external sources
+     *
+     * @return external id of contact for syncing with external sources
+     */
     public String getExternalId() {
         return externalId;
     }
 
+    /**
+     * Set external id of contact for syncing with external sources
+     *
+     * @param externalId external id of contact for syncing with external sources
+     */
     public void setExternalId(String externalId) {
         this.externalId = externalId;
     }
 
+    /**
+     * Get external system that external id refers to
+     *
+     * @return external system that external id refers to
+     */
     public String getExternalSystem() {
         return externalSystem;
     }
 
+    /**
+     * Set external system that external id refers to
+     *
+     * @param externalSystem external system that external id refers to
+     */
     public void setExternalSystem(String externalSystem) {
         this.externalSystem = externalSystem;
     }
 
+    /**
+     * Get map of string properties for contact
+     *
+     * @return map of string properties for contact
+     */
     public Map<String, String> getProperties() {
         return properties;
     }
 
+    /**
+     * Set map of string properties for contact
+     *
+     * @param properties set map of string properties for contact
+     */
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 
+    /**
+     * Is contact deleted
+     *
+     * @return true if contact was deleted
+     */
     public Boolean getDeleted() {
         return deleted;
     }
 
+    /**
+     * Set true if contact was deleted
+     *
+     * @param deleted true if contact was deleted
+     */
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }

@@ -50,7 +50,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
     }
 
     /**
-     * Get LATA code
+     * Get Local access and transport area (LATA) code
      *
      * @return LATA code
      */
@@ -95,6 +95,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
          * Set prefix
          *
          * @param prefix 4-7 digit prefix
+         * @return builder self reference
          */
         public B prefix(String prefix) {
             request.prefix = prefix;
@@ -110,6 +111,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
          * Set state
          *
          * @param state 2 letter state code
+         * @return builder self reference
          */
         public B state(String state) {
             request.state = state;
@@ -120,6 +122,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
          * Set zipcode
          *
          * @param zipcode 5 digit zipcode
+         * @return builder self reference
          */
         public B zipcode(String zipcode) {
             request.zipcode = zipcode;
@@ -127,9 +130,10 @@ public abstract class FindByRegionDataRequest extends FindRequest {
         }
 
         /**
-         * Set LATA code
+         * Set Local access and transport area (LATA) code
          *
          * @param lata LATA code
+         * @return builder self reference
          */
         public B lata(String lata) {
             request.lata = lata;
@@ -140,6 +144,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
          * Set RateCenter code
          *
          * @param rateCenter RateCenter code
+         * @return builder self reference
          */
         public B rateCenter(String rateCenter) {
             request.rateCenter = rateCenter;

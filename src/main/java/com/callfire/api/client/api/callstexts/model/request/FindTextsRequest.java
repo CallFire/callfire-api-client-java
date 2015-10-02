@@ -69,6 +69,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          * Set text statuses to filter
          *
          * @param states list of states to filter
+         * @return builder self reference
          */
         public Builder states(List<Text.State> states) {
             request.states = states;
@@ -79,6 +80,7 @@ public class FindTextsRequest extends FindCallsTextsRequest {
          * Set text results
          *
          * @param results text results to set
+         * @return builder self reference
          */
         public Builder results(List<TextRecord.TextResult> results) {
             request.results = results;

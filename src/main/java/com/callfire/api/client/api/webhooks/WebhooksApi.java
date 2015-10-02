@@ -40,7 +40,8 @@ public class WebhooksApi {
     }
 
     /**
-     * Find webhooks by name, event, etc.
+     * Find all webhooks for the user.
+     * Search for webhooks on name, resource, event, callback URL, or whether they are enabled.
      *
      * @param request request object with different fields to filter
      * @return {@link Page} with {@link Webhook} objects
@@ -81,7 +82,10 @@ public class WebhooksApi {
     }
 
     /**
-     * Create webhook
+     * Create a Webhook for notification in the CallFire system. Use the webhooks API to receive
+     * notifications of important CallFire events. Select the resource to listen to, and then choose
+     * the events for that resource to receive notifications on. When an event triggers,
+     * a POST will be made to the callback URL with a payload of notification information.
      *
      * @param webhook webhook to create
      * @return {@link ResourceId} object with id of created {@link Webhook}

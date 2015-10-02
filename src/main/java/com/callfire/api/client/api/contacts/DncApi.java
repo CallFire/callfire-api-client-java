@@ -27,7 +27,8 @@ public class DncApi {
     }
 
     /**
-     * Find do not contact numbers
+     * Find all Do Not Contact (DNC) objects created by the user.
+     * These DoNotContact entries only affect calls/texts/campaigns on this account.
      *
      * @param request find request with different properties to filter
      * @return Page with numbers which must not be contacted
@@ -39,7 +40,7 @@ public class DncApi {
     }
 
     /**
-     * Update dnc by number
+     * Update a Do Not Contact (DNC) contact value. Can toggle whether the DNC is enabled for calls/texts.
      *
      * @param dnc DNC item to update
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error

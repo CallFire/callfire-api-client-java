@@ -47,7 +47,8 @@ public class NumbersApi {
     }
 
     /**
-     * Get region data for numbers by prefix, zipcode, etc...
+     * Find number region information. Use this API to obtain detailed region information that
+     * can then be used to query for more specific phone numbers than a general query.
      *
      * @param request request payload
      * @return page of region objects
@@ -59,7 +60,7 @@ public class NumbersApi {
     }
 
     /**
-     * Find numbers in tollfree catalog
+     * Find numbers in the CallFire tollfree numbers catalog that are available for purchase.
      *
      * @param request request payload
      * @return list of {@link Number}
