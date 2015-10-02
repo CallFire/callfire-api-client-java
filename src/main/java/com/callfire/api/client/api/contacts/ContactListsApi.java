@@ -60,7 +60,39 @@ public class ContactListsApi {
     }
 
     /**
-     * Create contact lists
+     * Creates a contact list for use with campaigns using 1 of 3 inputs. A List of Contact objects,
+     * a list of String E.164 numbers, or a list of CallFire contactIds can be used as the data source
+     * for the created contact list. After staging these contacts into the CallFire system, contact lists
+     * go through seven system safeguards that check the accuracy and consistency of the data. For example,
+     * our system checks if a number is formatted correctly, is invalid, is duplicated in another
+     * contact list, or is on a specific DNC list. The default resolution in these safeguards will be
+     * to remove contacts that are against these rules. If contacts are not being added to a list,
+     * this means the data needs to be properly formatted and correct before calling this API.
+     * <br />
+     * <b>Examples:<b/>
+     * <pre>
+     * {@code
+     * Contact c1 = new Contact();
+     * c1.setName("Name");
+     * Contact c2 = new Contact();
+     * c2.setName("Name");
+     * CreateContactListRequest request = CreateContactListRequest.<Contact>create()
+     *     .name("listFromContacts")
+     *     .contacts(asList(c1, c2))
+     *     .build();
+     * <br />
+     * CreateContactListRequest request = CreateContactListRequest.<Long>create()
+     *     .name("listFromContactIds")
+     *     .contacts(asList(123L, 456L))
+     *     .build();
+     * <br />
+     * CreateContactListRequest request = CreateContactListRequest.<String>create()
+     *     .name("listFromNumbers")
+     *     .contacts(asList("12135678881", "12135678882"))
+     *     .build();
+     * <br />
+     * }
+     * </pre>
      *
      * @param request request object with provided contacts, list name and other values
      * @return {@link ResourceId} with id of contact list
@@ -81,8 +113,7 @@ public class ContactListsApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    // TODO make public when backend will be ready
-    private ResourceId createFromFile(String name, File file) {
+    public ResourceId createFromCsv(String name, File file) {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
@@ -93,7 +124,7 @@ public class ContactListsApi {
      * Get contact list by id
      *
      * @param id id of contact list
-     * @return {@link ContactList} object
+     * @return a single ContactList instance for a given contact list id
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -106,7 +137,7 @@ public class ContactListsApi {
      *
      * @param id     id of contact list
      * @param fields limit fields returned. Example fields=name,status
-     * @return ContactList object
+     * @return a single ContactList instance for a given contact list id
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -142,11 +173,10 @@ public class ContactListsApi {
     }
 
     /**
-     * Get contact list items
-     * Property <b>request.id</b> required
+     * Find all entries in a given contact list. Property <b>request.id</b> required
      *
      * @param request request object with properties to filter
-     * @return Page filled with contacts
+     * @return paged list of Contact entries.
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
