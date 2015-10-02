@@ -19,6 +19,7 @@ public class JsonConverter {
     public JsonConverter() {
         mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
         mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
