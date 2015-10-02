@@ -27,6 +27,8 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
 
     /**
      * Used for internal dynamic property name mapping in Jackson
+     *
+     * @return current instance fields with proper names
      */
     @JsonAnyGetter
     public Map<String, Object> getProperties() {
@@ -66,8 +68,8 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
         }
 
         /**
-         * Set contacts, possible types are list of Contact objects, contact ids,
-         * contact numbers
+         * Set contacts, possible types are list of {@link Contact} objects, contact ids {@link Long},
+         * contact numbers {@link String}
          *
          * @param contacts contacts to add
          * @return builder self-reference

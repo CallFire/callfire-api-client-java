@@ -183,6 +183,7 @@ public class CccsApi {
      * Get agents of particular campaign
      *
      * @param campaignId id of campaign
+     * @return list of assigned agents
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -195,6 +196,7 @@ public class CccsApi {
      *
      * @param campaignId id of campaign
      * @param fields     limit fields returned. Example fields=id,message
+     * @return list of assigned agents
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -210,6 +212,7 @@ public class CccsApi {
      * Get agent invite URI for CCC campaign
      *
      * @param campaignId id of campaign
+     * @return URL for agent invitation
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -223,7 +226,7 @@ public class CccsApi {
      * Add agents to particular CCC campaign
      *
      * @param request request object with id of CCC campaign and agent information
-     * @return
+     * @return map with agents email address as a key and invite URL as a value
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -253,6 +256,7 @@ public class CccsApi {
      * Get agent groups of particular campaign
      *
      * @param campaignId id of campaign
+     * @return list of agent groups assigned to particular campaign
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
@@ -265,6 +269,7 @@ public class CccsApi {
      *
      * @param campaignId id of campaign
      * @param fields     limit fields returned. Example fields=id,message
+     * @return list of agent groups assigned to particular campaign
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */

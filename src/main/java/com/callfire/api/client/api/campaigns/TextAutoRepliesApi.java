@@ -95,7 +95,8 @@ public class TextAutoRepliesApi {
     }
 
     /**
-     * Delete text auto reply message attached to number
+     * Delete text auto reply message attached to number.
+     * Can not delete a TextAutoReply currently active on a campaign.
      *
      * @param id id of text auto reply
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error

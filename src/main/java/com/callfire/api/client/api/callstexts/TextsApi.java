@@ -20,7 +20,10 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 
 /**
  * Represents rest endpoint /texts
+ * Use the /texts API to quickly send individual texts. A verified Caller ID and sufficient
+ * credits are required to make a call.
  *
+ * @see <a href="https://developers.callfire.com/results-responses-errors.html">text states and results</a>
  * @since 1.0
  */
 public class TextsApi {
@@ -40,12 +43,15 @@ public class TextsApi {
     }
 
     /**
-     * Find texts by broadcast id etc... If no limit is given then the last 100 texts will be returned.
+     * Finds all texts sent or received by the user. Use "campaignId=0"  parameter to query for all
+     * texts sent through the POST /texts API.
+     * If no limit is given then the last 100 texts will be returned.
      *
      * @param request request object with different fields to filter
      * @return Page with @{Text} objects
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">text states and results</a>
      */
     public Page<Text> find(FindTextsRequest request) {
         return client.get(TEXTS_PATH, PAGE_OF_TEXTS_TYPE, request);
@@ -82,6 +88,8 @@ public class TextsApi {
 
     /**
      * Send texts to recipients through default campaign
+     * Use the /texts API to quickly send individual texts. A verified Caller ID and sufficient
+     * credits are required to make a call.
      *
      * @param recipients text recipients
      * @return list of {@link Text}
@@ -94,6 +102,8 @@ public class TextsApi {
 
     /**
      * Send texts to recipients through existing campaign, if null default campaign will be used
+     * Use the /texts API to quickly send individual texts. A verified Caller ID and sufficient
+     * credits are required to make a call.
      *
      * @param recipients text recipients
      * @param campaignId id of outbound campaign

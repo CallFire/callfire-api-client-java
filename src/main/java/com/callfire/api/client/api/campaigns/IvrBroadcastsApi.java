@@ -53,7 +53,8 @@ public class IvrBroadcastsApi {
     }
 
     /**
-     * Find ivr broadcasts by name, label, etc...
+     * Find all IVR campaigns created by the user. Can query on label, name,
+     * and the current running status of the campaign.
      *
      * @param request finder request with properties to search by
      * @return {@link Page} with {@link IvrBroadcast} objects
@@ -65,7 +66,10 @@ public class IvrBroadcastsApi {
     }
 
     /**
-     * Create ivr broadcast
+     * Create an IVR (Interactive Voice Response) campaign using the this API. By default, Campaigns are STOPPED.
+     * To start your campaign on creation, set start=true along with the standard request, or by using the
+     * {@link IvrBroadcastsApi#start(Long)} API for the campaign. A campaign can be created with no contacts
+     * and bare minimum configuration, but contacts will have to be added further on to use the campaign.
      *
      * @param broadcast ivr broadcast to create
      * @return {@link ResourceId} object with id of created broadcast
@@ -77,7 +81,10 @@ public class IvrBroadcastsApi {
     }
 
     /**
-     * Create ivr broadcast
+     * Create an IVR (Interactive Voice Response) campaign using the this API. By default, Campaigns are STOPPED.
+     * To start your campaign on creation, set start=true along with the standard request, or by using the
+     * {@link IvrBroadcastsApi#start(Long)} API for the campaign. A campaign can be created with no contacts
+     * and bare minimum configuration, but contacts will have to be added further on to use the campaign.
      *
      * @param broadcast ivr broadcast to create
      * @param start     if set to true broadcast will starts immediately
@@ -145,7 +152,10 @@ public class IvrBroadcastsApi {
     }
 
     /**
-     * Add batch to ivr broadcast
+     * The add batch API allows the user to add additional batches to an already created IVR campaign.
+     * The added batch will go through the CallFire validation process, unlike in the recipients
+     * version of this API. Because of this, use the scrubDuplicates flag to remove duplicates
+     * from your batch. Batches may be added as a contact list id, a list of contact ids, or a list of numbers.
      *
      * @param request request with contacts
      * @return {@link ResourceId} with id of created {@link Batch}
@@ -158,7 +168,6 @@ public class IvrBroadcastsApi {
     }
 
     /**
-     * Get ivr broadcast calls.
      * Get calls associated with ivr broadcast ordered by date
      *
      * @param request request with properties to filter

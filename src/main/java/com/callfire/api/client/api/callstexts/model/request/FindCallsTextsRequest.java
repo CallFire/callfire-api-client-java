@@ -30,36 +30,36 @@ public abstract class FindCallsTextsRequest extends FindRequest {
     }
 
     /**
-     * Get phone number text was sent from
+     * Get phone number call/text was sent from
      *
-     * @return phone number text was sent from
+     * @return phone number call/text was sent from
      */
     public String getFromNumber() {
         return fromNumber;
     }
 
     /**
-     * Get phone number text was sent to
+     * Get phone number call/text was sent to
      *
-     * @return phone number text was sent to
+     * @return phone number call/text was sent to
      */
     public String getToNumber() {
         return toNumber;
     }
 
     /**
-     * Get label assigned with text
+     * Get label assigned with call/text
      *
-     * @return label assigned with text
+     * @return label assigned with call/text
      */
     public String getLabel() {
         return label;
     }
 
     /**
-     * Is inbound text
+     * Is inbound call/text
      *
-     * @return true if text inbound, otherwise false
+     * @return true if call/text inbound, otherwise false
      */
     public Boolean getInbound() {
         return inbound;
@@ -119,9 +119,10 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         }
 
         /**
-         * Set phone number text was sent from
+         * Set E.164 number that calls/texts are from
          *
          * @param fromNumber phone number text was sent from
+         * @return builder self reference
          */
         public B fromNumber(String fromNumber) {
             request.fromNumber = fromNumber;
@@ -129,9 +130,10 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         }
 
         /**
-         * Set label assigned with text
+         * Set label assigned with call/text
          *
-         * @param label label assigned with text
+         * @param label label assigned with call/text
+         * @return builder self reference
          */
         public B label(String label) {
             request.label = label;
@@ -139,9 +141,10 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         }
 
         /**
-         * Set id of campaign
+         * Query for calls/texts inside of a particular campaign.
          *
          * @param campaignId id of campaign
+         * @return builder self reference
          */
         public B campaignId(Long campaignId) {
             request.campaignId = campaignId;
@@ -149,9 +152,10 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         }
 
         /**
-         * Set phone number text was sent to
+         * Set E.164 number that calls/texts are to
          *
          * @param toNumber phone number text was sent to
+         * @return builder self reference
          */
         public B toNumber(String toNumber) {
             request.toNumber = toNumber;
@@ -159,9 +163,10 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         }
 
         /**
-         * Set inbound text
+         * Set inbound call/text
          *
-         * @param inbound true if text inbound
+         * @param inbound true if call/text inbound
+         * @return builder self reference
          */
         public B inbound(Boolean inbound) {
             request.inbound = inbound;
@@ -172,6 +177,7 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          * Set beginning of time interval
          *
          * @param intervalBegin beginning of time interval
+         * @return builder self reference
          */
         public B intervalBegin(Date intervalBegin) {
             request.intervalBegin = intervalBegin;
@@ -182,6 +188,7 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          * Set end of time interval
          *
          * @param intervalEnd end of time interval
+         * @return builder self reference
          */
         public B intervalEnd(Date intervalEnd) {
             request.intervalEnd = intervalEnd;
@@ -189,9 +196,10 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         }
 
         /**
-         * Set particular text ids to filter
+         * Set particular call/text ids to filter
          *
          * @param id text ids to filter
+         * @return builder self reference
          */
         public B id(List<Long> id) {
             request.id = id;

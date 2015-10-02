@@ -34,7 +34,8 @@ public class KeywordsApi {
     }
 
     /**
-     * Find keywords by name. If queried keyword appears in the list, it is available.
+     * Find keywords for purchase on the CallFire platform. If a keyword appears in the response,
+     * it is available for purchase.
      *
      * @param keywords keywords to find
      * @return available keywords
@@ -50,9 +51,9 @@ public class KeywordsApi {
     }
 
     /**
-     * Find the status of an individual keyword
+     * Find an individual keyword for purchase on the CallFire platform.
      *
-     * @param keyword keyword to check status of, can send multiple keyword params
+     * @param keyword keyword to check status of
      * @return true if keyword is available, otherwise false
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client

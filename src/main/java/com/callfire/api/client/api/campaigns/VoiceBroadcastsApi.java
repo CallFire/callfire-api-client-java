@@ -52,7 +52,8 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Find voice broadcasts by name, label, etc...
+     * Find all voice broadcasts created by the user. Can query on label, name, and the current
+     * running status of the campaign.
      *
      * @param request finder request with properties to search by
      * @return {@link Page} with {@link VoiceBroadcast} objects
@@ -64,7 +65,8 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Create voice broadcast
+     * Create a voice broadcast campaign using the Voice Broadcast API. A campaign can be created with
+     * no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.
      *
      * @param broadcast voice broadcast to create
      * @return {@link ResourceId} object with id of created broadcast
@@ -76,7 +78,9 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Create voice broadcast, if start argument true campaign starts immediately
+     * Create a voice broadcast campaign using the Voice Broadcast API. A campaign can be created with
+     * no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.
+     * If start argument true campaign starts immediately
      *
      * @param broadcast voice broadcast to create
      * @param start     if set to true broadcast will starts immediately
@@ -144,7 +148,11 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Add batch to voice broadcast
+     * Add batch to voice broadcast.
+     * The add batch API allows the user to add additional batches to an already created voice broadcast
+     * campaign. The added batch will go through the CallFire validation process, unlike in the recipients
+     * version of this API. Because of this, use the scrubDuplicates flag to remove duplicates
+     * from your batch. Batches may be added as a contact list id, a list of contact ids, or a list of numbers.
      *
      * @param request request with contacts
      * @return {@link ResourceId} with id of created {@link Batch}
@@ -207,7 +215,10 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Add recipients to voice broadcast
+     * Use this API to add recipients to an already created voice broadcast. Post a list of Recipient
+     * objects for them to be immediately added to the voice broadcast campaign. These contacts do not
+     * go through validation process, and will be acted upon as they are added. Recipients may be added
+     * as a list of contact ids, or list of numbers.
      *
      * @param id         id of voice broadcast
      * @param recipients recipients to add
@@ -220,7 +231,10 @@ public class VoiceBroadcastsApi {
     }
 
     /**
-     * Add recipients to voice broadcast
+     * Use this API to add recipients to an already created voice broadcast. Post a list of Recipient
+     * objects for them to be immediately added to the voice broadcast campaign. These contacts do not
+     * go through validation process, and will be acted upon as they are added. Recipients may be added
+     * as a list of contact ids, or list of numbers.
      *
      * @param id         id of voice broadcast
      * @param recipients recipients to add

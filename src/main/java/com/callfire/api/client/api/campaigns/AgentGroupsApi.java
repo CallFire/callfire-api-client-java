@@ -46,6 +46,7 @@ public class AgentGroupsApi {
      * (Note: agentId and agentEmail are mutually exclusive, please only provide one)
      * GET /campaigns/cccs/agent-groups
      *
+     * @param request request object to query agent groups
      * @return Page object with matched entities
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client

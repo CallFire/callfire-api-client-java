@@ -34,7 +34,8 @@ public class BatchesApi {
     }
 
     /**
-     * Get campaign batch by id
+     * Returns a single Batch instance for a given batch id.
+     * This API is useful for determining the state of a validating batch.
      *
      * @param id id of batch
      * @return requested batch
@@ -46,7 +47,8 @@ public class BatchesApi {
     }
 
     /**
-     * Get campaign batch by id
+     * Returns a single Batch instance for a given batch id.
+     * This API is useful for determining the state of a validating batch.
      *
      * @param id     id of batch
      * @param fields limit fields returned. Example fields=id,name

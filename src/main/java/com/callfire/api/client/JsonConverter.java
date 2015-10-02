@@ -43,7 +43,8 @@ public class JsonConverter {
      * Deserialize the given JSON string to Java object.
      *
      * @param body The JSON string
-     * @param type The type to deserialize body
+     * @param type The type of deserialized entity
+     * @param <T>  type of deserialized entity
      * @return deserialized Java object
      * @throws CallfireClientException in case body cannot be deserialized
      */

@@ -36,7 +36,8 @@ public class OrdersApi {
     }
 
     /**
-     * Order keywords by list
+     * Purchase keywords. Send a list of available keywords into this API to purchase them
+     * using CallFire credits. Be sure the account has credits before trying to purchase.
      *
      * @param request request payload
      * @return ResourceId with id of created order
@@ -48,7 +49,10 @@ public class OrdersApi {
     }
 
     /**
-     * Order numbers by list of number or by a query
+     * Purchase numbers. There are many ways to purchase a number. Set either tollFreeCount or localCount
+     * along with some querying fields to purchase numbers by bulk query. Set the list of numbers
+     * to purchase by list. Available numbers will be purchased using CallFire credits owned by the user.
+     * Be sure the account has credits before trying to purchase.
      *
      * @param request request payload
      * @return ResourceId with id of created order

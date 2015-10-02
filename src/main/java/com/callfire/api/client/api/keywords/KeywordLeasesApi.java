@@ -38,7 +38,7 @@ public class KeywordLeasesApi {
     }
 
     /**
-     * Find keyword leases
+     * Find all owned keyword leases for a user. A keyword lease is the ownership information involving a keyword.
      *
      * @param request request payload
      * @return page of keyword leases

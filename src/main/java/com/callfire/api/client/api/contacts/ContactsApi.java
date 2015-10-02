@@ -44,7 +44,7 @@ public class ContactsApi {
     }
 
     /**
-     * Find contacts by number, contact-list id, etc...
+     * Find contacts by id, contact list, or on any property name. Returns a paged list of contacts.
      *
      * @param request request object with different fields to filter
      * @return {@link Page} with {@link Contact} objects
@@ -56,7 +56,8 @@ public class ContactsApi {
     }
 
     /**
-     * Create contacts by list of contact items
+     * Create contacts in the CallFire system. These contacts are not validated on creation.
+     * They will be validated upon being added to a campaign.
      *
      * @param contacts contacts to create
      * @return list of ids newly created contacts
@@ -123,11 +124,10 @@ public class ContactsApi {
     }
 
     /**
-     * Get contact history
-     * List all calls and texts associated with a contact
+     * Find all texts and calls attributed to a contact.
      *
      * @param request request to get particular contact's history
-     * @return object with sent calls/texts history
+     * @return returns a list of calls and texts a contact has been involved with.
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */

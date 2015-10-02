@@ -20,6 +20,7 @@ public class AddDncListItemsRequest<T> extends AddContactsRequest<T> {
     /**
      * Create request builder
      *
+     * @param <T> builder type
      * @return request build
      */
     public static <T> Builder<T> create() {

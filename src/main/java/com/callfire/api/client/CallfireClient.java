@@ -24,9 +24,28 @@ import static com.callfire.api.client.ClientConstants.CLIENT_CONFIG_FILE;
 
 /**
  * Callfire API v2 client
+ * <p>
+ * <b>Authentication:</b> the CallFire API V2 uses HTTP Basic Authentication to verify
+ * the user of an endpoint. A generated username/password API credential from your
+ * account settings is required.
+ * </p>
+ * <p>
+ * <b>Errors:</b> codes in the 400s range detail all of the errors a CallFire Developer could
+ * encounter while using the API. Bad Request, Rate Limit Reached, and Unauthorized
+ * are some of the sorts of responses in the 400s block. Codes in the 500s range are
+ * error responses from the CallFire system. If an error has occurred anywhere in
+ * the execution of a resource that was not due to user input, a 500 response
+ * will be returned with a corresponding JSON error body.
+ * In that body will contain a message detailing what went wrong. In both cases
+ * {@link CallfireApiException} will be thrown, if error occurred inside client -
+ * {@link CallfireClientException}
+ * </p>
  *
  * @author Vladimir Mikhailov (email: vmikhailov@callfire.com)
- * @version 1.0
+ * @see <a href="https://developers.callfire.com/docs.html">Callfire API documentation</a>
+ * @see <a href="https://developers.callfire.com/learn.html">HowTos and examples</a>
+ * @see <a href="http://stackoverflow.com/questions/tagged/callfire">Stackoverflow community questions</a>
+ * @since 1.0
  */
 public class CallfireClient {
     private static Properties clientConfig = new Properties();

@@ -42,6 +42,11 @@ public class AddBatchRequest extends CallfireModel {
         return contactListId;
     }
 
+    /**
+     * Remove duplicate recipients in batch
+     *
+     * @return remove duplicate recipients in batch
+     */
     public Boolean getScrubDuplicates() {
         return scrubDuplicates;
     }
@@ -67,6 +72,12 @@ public class AddBatchRequest extends CallfireModel {
             super(new AddBatchRequest());
         }
 
+        /**
+         * Set remove duplicate recipients in batch
+         *
+         * @param scrubDuplicates if true remove duplicate recipients in batch
+         * @return builder self reference
+         */
         public Builder scrubDuplicates(Boolean scrubDuplicates) {
             request.scrubDuplicates = scrubDuplicates;
             return this;
