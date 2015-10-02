@@ -118,8 +118,6 @@ public class MeApi {
         return client.post(path, BOOLEAN_TYPE, request);
     }
 
-    // TODO vmikhailov make public when implementation will be ready
-
     /**
      * Creates API credentials. ApiCredentials.name property required
      * Performs POST /me/api/credentials request
@@ -129,7 +127,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    private ApiCredentials createApiCredentials(ApiCredentials credentials) {
+    public ApiCredentials createApiCredentials(ApiCredentials credentials) {
         return client.post(ME_API_CREDS_PATH, API_CREDS_TYPE, credentials);
     }
 
@@ -142,7 +140,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    private Page<ApiCredentials> findApiCredentials(CommonFindRequest request) {
+    public Page<ApiCredentials> findApiCredentials(CommonFindRequest request) {
         return client.get(ME_API_CREDS_PATH, API_CREDS_PAGE_TYPE, request);
     }
 
@@ -155,7 +153,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    private ApiCredentials getApiCredentials(Long id) {
+    public ApiCredentials getApiCredentials(Long id) {
         return getApiCredentials(id, null);
     }
 
@@ -169,7 +167,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    private ApiCredentials getApiCredentials(Long id, String fields) {
+    public ApiCredentials getApiCredentials(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
@@ -184,7 +182,7 @@ public class MeApi {
      * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
      * @throws CallfireClientException in case error has occurred in client
      */
-    private void deleteApiCredentials(Long id) {
+    public void deleteApiCredentials(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(ME_API_CREDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
     }

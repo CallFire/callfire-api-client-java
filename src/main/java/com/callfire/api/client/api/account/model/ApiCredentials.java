@@ -10,6 +10,13 @@ public class ApiCredentials extends CallfireModel {
     private String password;
     private Boolean enabled;
 
+    public ApiCredentials() {
+    }
+
+    public ApiCredentials(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

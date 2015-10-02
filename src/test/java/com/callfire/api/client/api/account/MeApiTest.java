@@ -2,15 +2,16 @@ package com.callfire.api.client.api.account;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.account.model.Account;
+import com.callfire.api.client.api.account.model.ApiCredentials;
 import com.callfire.api.client.api.account.model.BillingPlanUsage;
 import com.callfire.api.client.api.account.model.CallerId;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
 import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -39,7 +40,7 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testGetAccount() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/meApi/getAccount.json");
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getAccount.json");
         mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         Account account = client.meApi().getAccount();
@@ -48,7 +49,7 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testGetBillingPlanUsage() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/meApi/getBillingPlanUsage.json");
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getBillingPlanUsage.json");
         mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         BillingPlanUsage billingPlanUsage = client.meApi().getBillingPlanUsage();
@@ -57,7 +58,7 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testGetCallerIds() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/meApi/getCallerIds.json");
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getCallerIds.json");
         mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         List<CallerId> callerIds = client.meApi().getCallerIds();
@@ -79,7 +80,7 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testVerifyCallerId() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/meApi/verifyCallerId.json");
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/verifyCallerId.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         CallerIdVerificationRequest request = CallerIdVerificationRequest.create()
@@ -97,4 +98,68 @@ public class MeApiTest extends AbstractApiTest {
         assertEquals(APPLICATION_JSON.getMimeType(), arg.getFirstHeader(HttpHeaders.CONTENT_TYPE).getValue());
         assertThat(arg.getURI().toString(), containsString(request.getCallerId()));
     }
+
+    @Test
+    public void testCreateApiCredentials() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/createApiCredentials.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+
+        ApiCredentials credentials = new ApiCredentials("test_name");
+        ApiCredentials apiCredentials = client.meApi().createApiCredentials(credentials);
+        assertThat(jsonConverter.serialize(apiCredentials), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertEquals(jsonConverter.serialize(credentials), extractHttpEntity(arg));
+    }
+
+    @Test
+    public void testFindApiCredentials() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/findApiCredentials.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+
+        CommonFindRequest request = CommonFindRequest.create()
+            .limit(1L)
+            .offset(5L)
+            .build();
+        Page<ApiCredentials> apiCredentials = client.meApi().findApiCredentials(request);
+        assertThat(jsonConverter.serialize(apiCredentials), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("limit=1"));
+        assertThat(arg.getURI().toString(), containsString("offset=5"));
+    }
+
+    @Test
+    public void testGetApiCredentials() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getApiCredentials.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+
+        ApiCredentials apiCredentials = client.meApi().getApiCredentials(11L, FIELDS);
+        assertThat(jsonConverter.serialize(apiCredentials), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
+
+        client.meApi().getApiCredentials(11L);
+        assertEquals(2, captor.getAllValues().size());
+        assertThat(captor.getAllValues().get(1).getURI().toString(), not(containsString("fields")));
+    }
+
+    @Test
+    public void testDeleteCredentials() throws Exception {
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+
+        client.meApi().deleteApiCredentials(11L);
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpDelete.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("/11"));
+    }
+
 }
