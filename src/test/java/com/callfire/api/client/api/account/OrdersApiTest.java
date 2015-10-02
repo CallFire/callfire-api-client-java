@@ -37,44 +37,44 @@ public class OrdersApiTest extends AbstractApiTest {
 
     @Test
     public void testOrderKeywords() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/ordersApi/orderKeywords.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        String requestJson = getJsonPayload(BASE_PATH + "/account/ordersApi/request/orderKeywords.json");
+        String responseJson = getJsonPayload(BASE_PATH + "/account/ordersApi/response/orderKeywords.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
 
         KeywordPurchaseRequest request = KeywordPurchaseRequest.create()
             .keywords(asList("KW1", "KW2"))
             .build();
 
         ResourceId id = client.ordersApi().orderKeywords(request);
-        assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
-        assertEquals(jsonConverter.serialize(request), extractHttpEntity(arg));
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
     }
 
     @Test
     public void testOrderNumbers() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/ordersApi/orderNumbers.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        String requestJson = getJsonPayload(BASE_PATH + "/account/ordersApi/request/orderNumbers.json");
+        String responseJson = getJsonPayload(BASE_PATH + "/account/ordersApi/response/orderNumbers.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
 
         NumberPurchaseRequest request = NumberPurchaseRequest.create()
-            .city("City")
-            .numbers(asList("1234567890", "1234567888"))
-            .zipcode("1234")
-            .state("LA")
+            .localCount(2)
+            .zipcode("90401")
             .build();
 
         ResourceId id = client.ordersApi().orderNumbers(request);
-        assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
-        assertEquals(jsonConverter.serialize(request), extractHttpEntity(arg));
+        assertThat(jsonConverter.serialize(request), equalToIgnoringWhiteSpace(requestJson));
     }
 
     @Test
     public void testGetOrder() throws Exception {
-        String expectedJson = getJsonPayload("/responses/account/ordersApi/getOrder.json");
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/ordersApi/response/getOrder.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         NumberOrder numberOrder = client.ordersApi().getOrder(1L);
