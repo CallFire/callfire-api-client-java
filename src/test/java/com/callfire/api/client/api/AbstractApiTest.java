@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
  * Base api test class
  */
 public class AbstractApiTest {
+    protected static final String BASE_PATH = "/com/callfire/api/client/api";
     protected static final String FIELDS = "id,name,created";
     protected static final String ENCODED_FIELDS = "fields=" + encode(FIELDS);
 
