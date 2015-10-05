@@ -14,6 +14,8 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.util.EntityUtils;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -35,6 +37,9 @@ public class AbstractApiTest {
     protected static final String BASE_PATH = "/com/callfire/api/client/api";
     protected static final String FIELDS = "id,name,created";
     protected static final String ENCODED_FIELDS = "fields=" + encode(FIELDS);
+
+    @Rule
+    public ExpectedException ex = ExpectedException.none();
 
     protected CallfireClient client;
     protected JsonConverter jsonConverter;
