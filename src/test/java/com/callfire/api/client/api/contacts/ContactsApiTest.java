@@ -36,11 +36,6 @@ public class ContactsApiTest extends AbstractApiTest {
     protected static final String EMPTY_REQUEST_ID_MSG = "request.id cannot be null";
     protected static final String EMPTY_CONTACT_ID_MSG = "contact.id cannot be null";
 
-    @Spy
-    private HttpClient mockHttpClient = client.getRestApiClient().getHttpClient();
-    @Mock
-    private CloseableHttpResponse mockHttpResponse;
-
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -51,9 +46,9 @@ public class ContactsApiTest extends AbstractApiTest {
     public void testDynamicPropertiesSerializationStringNumbers() throws Exception {
         // contactNumbers
         CreateContactListRequest requestString = CreateContactListRequest.<String>create()
-                .name("listFromNumbers")
-                .contacts(asList("12345678881", "12345678882"))
-                .build();
+            .name("listFromNumbers")
+            .contacts(asList("12345678881", "12345678882"))
+            .build();
         JsonConverter jsonConverter = new JsonConverter();
         String serialized = jsonConverter.serialize(requestString);
         System.out.println("contactNumbers: " + serialized);
@@ -65,9 +60,9 @@ public class ContactsApiTest extends AbstractApiTest {
         JsonConverter jsonConverter = new JsonConverter();
         // contactIds
         CreateContactListRequest requestLong = CreateContactListRequest.<Long>create()
-                .name("listFromIds")
-                .contacts(asList(1L, 2L))
-                .build();
+            .name("listFromIds")
+            .contacts(asList(1L, 2L))
+            .build();
 
         String serialized = jsonConverter.serialize(requestLong);
         System.out.println("contactIds: " + serialized);
@@ -84,9 +79,9 @@ public class ContactsApiTest extends AbstractApiTest {
         c2.setFirstName("name2");
         // contacts
         CreateContactListRequest requestObjects = CreateContactListRequest.<Contact>create()
-                .name("listFromContacts")
-                .contacts(asList(c1, c2))
-                .build();
+            .name("listFromContacts")
+            .contacts(asList(c1, c2))
+            .build();
         String serialized = jsonConverter.serialize(requestObjects);
         System.out.println("contacts: " + serialized);
         assertThat(serialized, containsString("\"contacts\":"));
@@ -96,10 +91,10 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testDynamicPropertiesSerializationWithOtherProps() throws Exception {
         AddContactListItemsRequest requestObjects = AddContactListItemsRequest.<Long>create()
-                .contactNumbersField("field")
-                .contactListId(5L)
-                .contacts(asList(1L, 2L))
-                .build();
+            .contactNumbersField("field")
+            .contactListId(5L)
+            .contacts(asList(1L, 2L))
+            .build();
         JsonConverter jsonConverter = new JsonConverter();
         String serialized = jsonConverter.serialize(requestObjects);
         System.out.println("contactIds: " + serialized);
@@ -114,9 +109,9 @@ public class ContactsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         FindContactsRequest request = FindContactsRequest.create()
-                .limit(1L)
-                .offset(5L)
-                .build();
+            .limit(1L)
+            .offset(5L)
+            .build();
         Page<Contact> contacts = client.contactsApi().find(request);
         assertThat(jsonConverter.serialize(contacts), equalToIgnoringWhiteSpace(expectedJson));
 
@@ -141,11 +136,9 @@ public class ContactsApiTest extends AbstractApiTest {
 
     @Test
     public void testGetByNullId() throws Exception {
-        try {
-            client.contactsApi().get(null);
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), EMPTY_ID_MSG);
-        }
+        ex.expectMessage(EMPTY_ID_MSG);
+        ex.expect(NullPointerException.class);
+        client.contactsApi().get(null);
     }
 
     @Test
@@ -168,12 +161,9 @@ public class ContactsApiTest extends AbstractApiTest {
 
     @Test
     public void testUpdateByNullId() throws Exception {
-        try {
-            Contact contact = new Contact();
-            client.contactsApi().update(contact);
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), EMPTY_CONTACT_ID_MSG);
-        }
+        ex.expectMessage(EMPTY_CONTACT_ID_MSG);
+        ex.expect(NullPointerException.class);
+        client.contactsApi().update(new Contact());
     }
 
     @Test
@@ -192,11 +182,9 @@ public class ContactsApiTest extends AbstractApiTest {
 
     @Test
     public void testDeleteByNullId() throws Exception {
-        try {
-            client.contactsApi().delete(null);
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), EMPTY_ID_MSG);
-        }
+        ex.expectMessage(EMPTY_ID_MSG);
+        ex.expect(NullPointerException.class);
+        client.contactsApi().delete(null);
     }
 
     @Test
@@ -213,11 +201,9 @@ public class ContactsApiTest extends AbstractApiTest {
 
     @Test
     public void testGetContactHistoryByNullId() throws Exception {
-        try {
-            client.contactsApi().getHistory(GetByIdRequest.create().build());
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), EMPTY_REQUEST_ID_MSG);
-        }
+        ex.expectMessage(EMPTY_REQUEST_ID_MSG);
+        ex.expect(NullPointerException.class);
+        client.contactsApi().getHistory(GetByIdRequest.create().build());
     }
 
     @Test
@@ -226,10 +212,10 @@ public class ContactsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
-                .id(TEST_ID)
-                .limit(1L)
-                .offset(5L)
-                .build();
+            .id(TEST_ID)
+            .limit(1L)
+            .offset(5L)
+            .build();
         ContactHistory contactHistory = client.contactsApi().getHistory(request);
         assertThat(jsonConverter.serialize(contactHistory), equalToIgnoringWhiteSpace(expectedJson));
 
