@@ -17,11 +17,12 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class WebhooksApiTest extends AbstractApiTest {
+    private static final String JSON_PATH = BASE_PATH + "/webhooks/webhooksApi";
 
     @Test
-    public void testCreateWebhook() throws Exception {
-        String responseJson = getJsonPayload(BASE_PATH + "/webhooks/webhooksApi/response/createWebhook.json");
-        String requestJson = getJsonPayload(BASE_PATH + "/webhooks/webhooksApi/request/createWebhook.json");
+    public void testCreate() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/createWebhook.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/createWebhook.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
 
         Webhook webhook = new Webhook();
@@ -38,8 +39,8 @@ public class WebhooksApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testFindWebhooks() throws Exception {
-        String expectedJson = getJsonPayload(BASE_PATH + "/webhooks/webhooksApi/response/findWebhooks.json");
+    public void testFind() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhooks.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         FindWebhooksRequest request = FindWebhooksRequest.create()
@@ -54,15 +55,12 @@ public class WebhooksApiTest extends AbstractApiTest {
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
-        assertThat(arg.getURI().toString(), containsString("limit=5"));
-        assertThat(arg.getURI().toString(), containsString("offset=0"));
-        assertThat(arg.getURI().toString(), containsString("resource=resource"));
-        assertThat(arg.getURI().toString(), containsString("enabled=false"));
+        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "resource=resource", "enabled=false");
     }
 
     @Test
-    public void testGetWebhook() throws Exception {
-        String expectedJson = getJsonPayload(BASE_PATH + "/webhooks/webhooksApi/response/getWebhook.json");
+    public void testGet() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/getWebhook.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
 
         Webhook webhook = client.webhooksApi().get(11L, FIELDS);
@@ -79,8 +77,15 @@ public class WebhooksApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testUpdateWebhook() throws Exception {
-        String expectedJson = getJsonPayload(BASE_PATH + "/webhooks/webhooksApi/request/updateWebhook.json");
+    public void testGetNullId() throws Exception {
+        ex.expectMessage("id cannot be null");
+        ex.expect(NullPointerException.class);
+        client.webhooksApi().get(null);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/request/updateWebhook.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
 
         Webhook webhook = new Webhook();
@@ -98,7 +103,15 @@ public class WebhooksApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testDeleteWebhook() throws Exception {
+    public void testUpdateNullId() throws Exception {
+        ex.expectMessage("id cannot be null");
+        ex.expect(NullPointerException.class);
+        Webhook webhook = new Webhook();
+        client.webhooksApi().update(webhook);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
 
         client.webhooksApi().delete(11L);
@@ -107,5 +120,12 @@ public class WebhooksApiTest extends AbstractApiTest {
         assertEquals(HttpDelete.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString("/11"));
+    }
+
+    @Test
+    public void testDeleteNullId() throws Exception {
+        ex.expectMessage("id cannot be null");
+        ex.expect(NullPointerException.class);
+        client.webhooksApi().delete(null);
     }
 }

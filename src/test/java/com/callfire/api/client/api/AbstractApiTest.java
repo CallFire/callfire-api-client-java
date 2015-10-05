@@ -23,10 +23,13 @@ import org.mockito.Spy;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
@@ -106,6 +109,12 @@ public class AbstractApiTest {
             return URLEncoder.encode(value, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void assertUriContainsQueryParams(URI uri, String... params) {
+        for (String param : params) {
+            assertThat(uri.toString(), containsString(param));
         }
     }
 
