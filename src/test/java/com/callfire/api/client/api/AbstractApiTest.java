@@ -9,10 +9,15 @@ import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.util.EntityUtils;
+import org.junit.Before;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -34,9 +39,21 @@ public class AbstractApiTest {
     protected CallfireClient client;
     protected JsonConverter jsonConverter;
 
+    @Spy
+    protected HttpClient mockHttpClient;
+    @Mock
+    protected CloseableHttpResponse mockHttpResponse;
+
     public AbstractApiTest() {
         client = new CallfireClient("login", "password");
+        mockHttpClient = client.getRestApiClient().getHttpClient();
         jsonConverter = client.getRestApiClient().getJsonConverter();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        client.getRestApiClient().setHttpClient(mockHttpClient);
     }
 
     protected String getJsonPayload(String path) {
