@@ -3,6 +3,11 @@
   "firstName": "testFirstName",
   "lastName": "testLastName",
   "zipcode": "12345",
+  "homePhone": "",
   "workPhone": "231554254",
-  "deleted": false
+  "mobilePhone": "",
+  "externalId": "",
+  "externalSystem": "",
+  "deleted": false,
+  "properties": {"test": "test"}
 }
