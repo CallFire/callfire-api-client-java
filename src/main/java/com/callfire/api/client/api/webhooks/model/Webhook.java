@@ -11,6 +11,7 @@ public class Webhook extends CallfireModel {
     private Boolean enabled;
     private String name;
     private String resource;
+    private Boolean nonStrictSsl;
     private String fields;
     private String callback;
     private String secret;
@@ -48,6 +49,14 @@ public class Webhook extends CallfireModel {
 
     public void setResource(String resource) {
         this.resource = resource;
+    }
+
+    public Boolean getNonStrictSsl() {
+        return nonStrictSsl;
+    }
+
+    public void setNonStrictSsl(Boolean nonStrictSsl) {
+        this.nonStrictSsl = nonStrictSsl;
     }
 
     public String getFields() {
@@ -106,6 +115,7 @@ public class Webhook extends CallfireModel {
             .append("enabled", enabled)
             .append("name", name)
             .append("resource", resource)
+            .append("nonStrictSsl", nonStrictSsl)
             .append("fields", fields)
             .append("callback", callback)
             .append("secret", secret)
