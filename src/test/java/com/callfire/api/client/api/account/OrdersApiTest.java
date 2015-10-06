@@ -5,17 +5,11 @@ import com.callfire.api.client.api.account.model.NumberOrder;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.keywords.model.request.KeywordPurchaseRequest;
 import com.callfire.api.client.api.numbers.model.request.NumberPurchaseRequest;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.*;
@@ -23,17 +17,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class OrdersApiTest extends AbstractApiTest {
-
-    @Spy
-    private HttpClient mockHttpClient = client.getRestApiClient().getHttpClient();
-    @Mock
-    private CloseableHttpResponse mockHttpResponse;
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        client.getRestApiClient().setHttpClient(mockHttpClient);
-    }
 
     @Test
     public void testOrderKeywords() throws Exception {
@@ -88,5 +71,4 @@ public class OrdersApiTest extends AbstractApiTest {
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
     }
-
 }

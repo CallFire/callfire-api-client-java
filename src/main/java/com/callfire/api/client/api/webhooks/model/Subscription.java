@@ -7,6 +7,7 @@ public class Subscription extends CallfireModel {
     private Long id;
     private Boolean enabled;
     private String endpoint;
+    private Boolean nonStrictSsl;
     private NotificationFormat notificationFormat;
     private TriggerEvent triggerEvent;
     private Long broadcastId;
@@ -45,6 +46,14 @@ public class Subscription extends CallfireModel {
 
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
+    }
+
+    public Boolean getNonStrictSsl() {
+        return nonStrictSsl;
+    }
+
+    public void setNonStrictSsl(Boolean nonStrictSsl) {
+        this.nonStrictSsl = nonStrictSsl;
     }
 
     public NotificationFormat getNotificationFormat() {
@@ -101,6 +110,7 @@ public class Subscription extends CallfireModel {
             .append("id", id)
             .append("enabled", enabled)
             .append("endpoint", endpoint)
+            .append("nonStrictSsl", nonStrictSsl)
             .append("notificationFormat", notificationFormat)
             .append("triggerEvent", triggerEvent)
             .append("broadcastId", broadcastId)

@@ -10,14 +10,12 @@ import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import org.apache.http.HttpHeaders;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.*;
-import org.junit.Before;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import java.util.List;
 
@@ -26,17 +24,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class MeApiTest extends AbstractApiTest {
-
-    @Spy
-    private HttpClient mockHttpClient = client.getRestApiClient().getHttpClient();
-    @Mock
-    private CloseableHttpResponse mockHttpResponse;
-
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        client.getRestApiClient().setHttpClient(mockHttpClient);
-    }
 
     @Test
     public void testGetAccount() throws Exception {

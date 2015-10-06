@@ -9,17 +9,27 @@ import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicStatusLine;
 import org.apache.http.util.EntityUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
@@ -30,13 +40,31 @@ public class AbstractApiTest {
     protected static final String BASE_PATH = "/com/callfire/api/client/api";
     protected static final String FIELDS = "id,name,created";
     protected static final String ENCODED_FIELDS = "fields=" + encode(FIELDS);
+    protected static final Long TEST_ID = 100500L;
+    protected static final String EMPTY_ID_MSG = "id cannot be null";
+    protected static final String EMPTY_REQUEST_ID_MSG = "request.id cannot be null";
+
+    @Rule
+    public ExpectedException ex = ExpectedException.none();
 
     protected CallfireClient client;
     protected JsonConverter jsonConverter;
 
+    @Spy
+    protected HttpClient mockHttpClient;
+    @Mock
+    protected CloseableHttpResponse mockHttpResponse;
+
     public AbstractApiTest() {
         client = new CallfireClient("login", "password");
+        mockHttpClient = client.getRestApiClient().getHttpClient();
         jsonConverter = client.getRestApiClient().getJsonConverter();
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        client.getRestApiClient().setHttpClient(mockHttpClient);
     }
 
     protected String getJsonPayload(String path) {
@@ -84,6 +112,12 @@ public class AbstractApiTest {
             return URLEncoder.encode(value, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void assertUriContainsQueryParams(URI uri, String... params) {
+        for (String param : params) {
+            assertThat(uri.toString(), containsString(param));
         }
     }
 
