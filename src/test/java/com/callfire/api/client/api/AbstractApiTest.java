@@ -40,6 +40,9 @@ public class AbstractApiTest {
     protected static final String BASE_PATH = "/com/callfire/api/client/api";
     protected static final String FIELDS = "id,name,created";
     protected static final String ENCODED_FIELDS = "fields=" + encode(FIELDS);
+    protected static final Long TEST_ID = new Long(100500);
+    protected static final String EMPTY_ID_MSG = "id cannot be null";
+    protected static final String EMPTY_REQUEST_ID_MSG = "request.id cannot be null";
 
     @Rule
     public ExpectedException ex = ExpectedException.none();
