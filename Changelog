@@ -1,0 +1,36 @@
+Callfire API client Changelog
+=============================
+
+Version 1.3.1 - Oct 7 2015
+    - added 'nonStrictSsl' property to Webhook and Subscription domain classes to disable certificate check of
+      user's endpoints
+
+-----------------------------
+
+Version 1.3.0 - Oct 2 2015
+    - added ContactListsApi.createFromCsv(name, file) API method to allow creation of contact lists from csv file
+    - javadoc updates
+
+-----------------------------
+
+Version 1.2.0 - Oct 2 2015
+    - added CRUD operations (createApiCredentials, findApiCredentials, getApiCredentials, deleteApiCredentials)
+      for API credentials in meApi class
+    - disabled serialization of empty arrays
+
+-----------------------------
+
+Version 1.1.1 - Oct 1 2015
+    - replaced Double type in BillingPlanUsage domain class to BigDecimal
+    - Jackson's ObjectMapper is now accessible via CallfireClient.getRestApiClient().getJsonConverter()
+
+-----------------------------
+
+Version 1.1.0 - Sep 30 2015
+    - removed setters for read-only fields
+    - corrected /dncs API path
+
+-----------------------------
+
+Version 1.0.0 - Sep 29 2015
+    - first release
