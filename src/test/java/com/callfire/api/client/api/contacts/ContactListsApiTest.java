@@ -26,9 +26,9 @@ public class ContactListsApiTest extends AbstractApiTest {
 
     protected static final String RESPONSES_PATH = "/contacts/contactsApi/response/";
     protected static final String REQUESTS_PATH = "/contacts/contactsApi/request/";
-    protected static final String EMPTY_REQ_CONTACT_LIST_ID_MSG = "request.contactListId cannot be null";
     protected static final String EMPTY_LIST_ID_MSG = "listId cannot be null";
     protected static final String EMPTY_CONTACT_ID_MSG = "contactId cannot be null";
+    protected static final String EMPTY_REQ_CONTACT_LIST_ID_MSG = "request.contactListId cannot be null";
     protected static final String EMPTY_CONTACT_LIST_ID_MSG = "contactListId cannot be null";
 
     @Before
@@ -107,7 +107,7 @@ public class ContactListsApiTest extends AbstractApiTest {
             .limit(1L)
             .offset(5L)
             .name("test")
-            .fields("id")
+            .fields(FIELDS)
             .build();
         Page<ContactList> contactLists = client.contactListsApi().find(request);
         assertThat(jsonConverter.serialize(contactLists), equalToIgnoringWhiteSpace(expectedJson));
@@ -118,7 +118,7 @@ public class ContactListsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("limit=1"));
         assertThat(arg.getURI().toString(), containsString("offset=5"));
         assertThat(arg.getURI().toString(), containsString("name=test"));
-        assertThat(arg.getURI().toString(), containsString("fields=id"));
+        assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
     }
 
     @Test
