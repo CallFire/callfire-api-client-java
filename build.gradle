@@ -21,18 +21,28 @@ processResources {
 // artifacts build config
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
-    from sourceSets.main.allSource
+    from {
+        sourceSets.main.allSource
+    }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
-    from javadoc.destinationDir
+    from {
+        javadoc.destinationDir
+    }
 }
 
 task clientFatJar(type: Jar, dependsOn: jar) {
     classifier = 'all'
-    from sourceSets.main.output
-    from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        [
+            sourceSets.main.output,
+            configurations.runtime.collect {
+                it.isDirectory() ? it : zipTree(it)
+            }
+        ]
+    }
 }
 
 tasks.withType(Jar) {
@@ -44,11 +54,14 @@ tasks.withType(Jar) {
             'Implementation-Title': project.name,
             'Implementation-Version': version,
             'Implementation-Build-Number': buildNumber(),
-            'Implementation-Vendor': "Callfire, Inc.",
-            'Implementation-Build-Date': new Date().format("yyyy-MM-dd"),
+            'Implementation-Vendor': 'Callfire, Inc.',
+            'Implementation-Build-Date': new Date().format('yyyy-MM-dd'),
             'Documentation': 'https://developers.callfire.com',
             'Repository': 'https://github.com/CallFire/callfire-api-client-java'
         )
+    }
+    into('META-INF') {
+        from 'LICENSE'
     }
 }
 
