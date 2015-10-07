@@ -1,4 +1,4 @@
-package com.callfire.api.client.api.dncs;
+package com.callfire.api.client.api.contacts;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.common.model.Page;
@@ -18,8 +18,8 @@ import static org.junit.Assert.*;
 
 public class DncApiTest extends AbstractApiTest {
 
-    protected static final String RESPONSES_PATH = "/dncs/dncApi/response/";
-    protected static final String REQUESTS_PATH = "/dncs/dncApi/request/";
+    protected static final String RESPONSES_PATH = "/contacts/dncApi/response/";
+    protected static final String REQUESTS_PATH = "/contacts/dncApi/request/";
 
     @Before
     public void setUp() throws Exception {

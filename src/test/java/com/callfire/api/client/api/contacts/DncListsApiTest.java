@@ -1,4 +1,4 @@
-package com.callfire.api.client.api.dncs;
+package com.callfire.api.client.api.contacts;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.common.model.ListHolder;
@@ -30,8 +30,8 @@ import static org.junit.Assert.*;
 
 public class DncListsApiTest extends AbstractApiTest {
 
-    protected static final String RESPONSES_PATH = "/dncs/dncApi/response/";
-    protected static final String REQUESTS_PATH = "/dncs/dncApi/request/";
+    protected static final String RESPONSES_PATH = "/contacts/dncApi/response/";
+    protected static final String REQUESTS_PATH = "/contacts/dncApi/request/";
     protected static final String EMPTY_TO_NUMBER_MSG = "toNumber cannot be blank";
     protected static final String EMPTY_NUMBER_MSG = "number cannot be blank";
     protected static final String EMPTY_REQ_CONTACT_LIST_ID_MSG = "request.contactListId cannot be null";
