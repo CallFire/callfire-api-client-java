@@ -1,5 +1,4 @@
 
-ddadded`фв
 link:docs/GettingStarted.adoc[Getting Started]
 
 .API examples
