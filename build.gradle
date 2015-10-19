@@ -4,8 +4,13 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.jfrog.bintray" version "1.3.1"
+}
+
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'maven'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -17,6 +22,37 @@ repositories {
 processResources {
     expand(project.properties)
 }
+
+task generatePom << {
+    pom {
+        //noinspection GroovyAssignabilityCheck
+        project {
+            //noinspection GroovyAssignabilityCheck
+            inceptionYear '2015'
+            licenses {
+                license {
+                    name "The MIT License (MIT)"
+                    url "https://opensource.org/licenses/MIT"
+                    distribution "repo"
+                }
+            }
+            developers {
+                developer {
+                    id "vladimir-mhl"
+                    name "Vladimir Mikhailov"
+                    email "vmikhailov@callfire.com"
+                }
+            }
+        }
+    }.writeTo("build/META-INF/maven/${project.group}/${project.name}/pom.xml")
+}
+
+jar {
+    into('META-INF') {
+        from 'build/META-INF'
+    }
+}
+jar.dependsOn generatePom
 
 // artifacts build config
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -51,7 +87,7 @@ tasks.withType(Jar) {
         //noinspection GroovyAssignabilityCheck
         attributes(
             'Manifest-Version': '1.0',
-            'Implementation-Title': project.name,
+            'Implementation-Title': name,
             'Implementation-Version': version,
             'Implementation-Build-Number': buildNumber(),
             'Implementation-Vendor': 'Callfire, Inc.',
@@ -70,7 +106,6 @@ build.dependsOn javadoc
 artifacts {
     archives sourcesJar
     archives javadocJar
-    archives clientFatJar
 }
 
 dependencies {
@@ -86,7 +121,7 @@ dependencies {
         exclude module: 'hamcrest'
         exclude module: 'hamcrest-core'
     }
-    testCompile("org.mockito:mockito-core:1.+") {
+    testCompile("org.mockito:mockito-core:1.10.19") {
         exclude module: 'hamcrest'
         exclude module: 'hamcrest-core'
     }
@@ -99,13 +134,28 @@ idea {
     }
 }
 
-/**
- * Get build number from system properties. Used in Jenkins env
- *
- * @return build number if passed as system property
- */
+bintray {
+    user = System.properties[ 'BINTRAY_USER' ] ?: "user not set"
+    key = System.properties[ 'BINTRAY_KEY' ] ?: "key not set"
+
+    configurations = [ 'archives' ]
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        // userOrg = 'Callfire'
+        name = 'callfire-api-client-java'
+        desc = 'Callfire API java client'
+        websiteUrl = 'https://developers.callfire.com'
+        issueTrackerUrl = 'https://github.com/CallFire/callfire-api-client-java/issues'
+        vcsUrl = 'https://github.com/CallFire/callfire-api-client-java.git'
+        licenses = [ 'MIT' ]
+        labels = [ 'callfire', 'api', 'client' ]
+        publicDownloadNumbers = true
+    }
+}
+
 def buildNumber() {
     String buildNumber = System.properties[ 'BUILD_NUMBER' ] ?: "SNAPSHOT"
-
     "$buildNumber"
 }
