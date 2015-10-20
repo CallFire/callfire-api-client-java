@@ -1,0 +1,58 @@
+= Getting started
+
+== Add dependency
+
+Before start you should add dependency to your Java-based project. For Gradle build system add:
+[source,groovy]
+repositories {
+    jcenter()
+}
+dependencies {
+    compile 'com.callfire:callfire-api-client:1.4.0'
+}
+
+for Maven build add following lines to your pom xml:
+[source,xml]
+<!-- callfire maven repo -->
+<repositories>
+    <repository>
+        <id>callfire-com</id>
+        <name>callfire-com</name>
+        <url>http://dl.bintray.com/callfire-com/maven</url>
+    </repository>
+</repositories>
+<!-- dependency -->
+<dependencies>
+    <dependency>
+        <groupId>com.callfire</groupId>
+        <artifactId>callfire-api-client</artifactId>
+        <version>1.4.0</version>
+    </dependency>
+</dependencies>
+
+after these steps *callfire-api-client* should appear in your project dependencies along with other transitive ones.
+Then you can start using Java client, code sample below will show how to request your account information:
+[source,java]
+public class TestCallfireApi {
+    public static void main(String[] args) {
+        CallfireClient client = new CallfireClient("api_login", "api_password");
+        Account account = client.meApi().getAccount();
+        System.out.println(account);
+    }
+}
+
+Currently API client uses Apache HTTP client and Jackson dependencies, to access them you can call:
+[source,java]
+CallfireClient.getRestApiClient().getHttpClient() returns org.apache.http.client.HttpClient
+CallfireClient.getRestApiClient().getJsonConverter().getMapper() returns com.fasterxml.jackson.databind.ObjectMapper
+
+== Debug & logging
+In case you want to see requests/responses which client sends/receives from Callfire platform you should set *DEBUG*
+level for *com.callfire* package.
+
+If you don't have any logger implementation in classpath you can simply use
+commons-logging SimpleLog which are shipped with Callfire client. See example of usage below:
+[source,java]
+System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
+System.setProperty("org.apache.commons.logging.simplelog.showdatetime", "true");
+System.setProperty("org.apache.commons.logging.simplelog.log.com.callfire", "DEBUG");
