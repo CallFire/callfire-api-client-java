@@ -1,0 +1,43 @@
+= KEYWORD APIs Specification
+
+
+find api
+-------
+TIP: Find keywords for purchase on the CallFire platform. If a keyword appears in the response, it is available for purchase.
+****
+[source,java]
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ List<String> keywords = Arrays.asList(keyWord1(<String>), keyWord1(<String>));
+ List<Keyword> keywords = client.keywordsApi().find(keywords);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter              |Description
+|keywords               |(ArrayList<String>), Keywords to search for.
+|======================
+
+
+
+
+isAvailable api
+--------------
+TIP: Find an individual keyword for purchase on the CallFire platform. Returns boolean for availability.
+****
+[source,java]
+ //"keyword" param is required
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ Boolean available = client.keywordsApi().isAvailable(keyword(<String>));
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|keyword          |(<String>), Keyword to search for.
+|======================
