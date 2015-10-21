@@ -1,14 +1,13 @@
-= TEXT APIs Specification
+= CALL APIs Specification
 
 
 find api
 -------
-TIP: Finds all texts sent or received by the user. Use "campaignId=0" parameter to query for all texts sent through
-the POST /texts API. If no limit is given then the last 100 texts will be returned.
+TIP: Finds all calls sent or received by the user. Use "id=0" for the campaignId parameter to query for all calls sent through the POST /calls API.
 ****
 [source,java]
  //No one parameter is required , you can only use parameters needed for you, others can be missed
- FindTextsRequest request = FindTextsRequest.create()
+ FindCallsRequest request = FindCallsRequest.create()
              .id(ArrayList<Long>)
              .campaignId(<Long>)
              .fromNumber(<String>)
@@ -24,7 +23,7 @@ the POST /texts API. If no limit is given then the last 100 texts will be return
              .fields(<String>)
              .build();
  CallfireClient client = new CallfireClient("api_login", "api_password");
- Page<Text> texts = client.textsApi().find(request);
+ Page<Call> texts = client.callsApi().find(request);
 ****
 
 [NOTE]
@@ -51,15 +50,15 @@ TIP: Use the /calls API to quickly send individual calls. A verified Caller ID a
 ****
 [source,java]
  //Only "recipients" param required
- TextRecipient r1 = new TextRecipient();
+ CallRecipient r1 = new CallRecipient();
  r1.setPhoneNumber(<String>);
- r1.setMessage(<String>);
- TextRecipient r2 = new TextRecipient();
+ r1.setLiveMessage(<String>);
+ CallRecipient r2 = new CallRecipient();
  r2.setPhoneNumber(<String>);
- r2.setMessage(<String>);
- List<TextRecipient> recipients = Arrays.asList(r1, r2);
+ r2.setLiveMessage(<String>);
+ List<CallRecipient> recipients = Arrays.asList(r1, r2);
  CallfireClient client = new CallfireClient("api_login", "api_password");
- List<Text> texts = client.textsApi().send(recipients, campaignId(<Long>), fields(<String>));
+ List<Text> texts = client.callsApi().send(recipients, campaignId(<Long>), fields(<String>));
 ****
 
 [NOTE]
@@ -72,12 +71,12 @@ TIP: Use the /calls API to quickly send individual calls. A verified Caller ID a
 
 get api
 -------
-TIP: Returns a single Text instance for a given text id.
+TIP: Returns a single Call instance for a given call id.
 ****
 [source,java]
  //Only "id" param required
  CallfireClient client = new CallfireClient("api_login", "api_password");
- Text text = client.textsApi().get(id(<Long>));
+ Call call = client.callsApi().get(id(<Long>));
 ****
 
 [NOTE]
