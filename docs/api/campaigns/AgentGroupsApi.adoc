@@ -24,7 +24,7 @@ Example how to create agent group with 2 existing agents:
     AgentGroup agentGroup = new AgentGroup();
     agentGroup.setName("test-group");
     agentGroup.setAgents(Arrays.asList(agent1, agent2));
-    ResourceId groupId = callfireClient.agentGroupsApi().create(agentGroup1);
+    ResourceId groupId = callfireClient.agentGroupsApi().create(agentGroup);
 
 == Get
 Get agent group by ID
