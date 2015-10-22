@@ -30,8 +30,14 @@ for Maven build add following lines to your pom xml:
     </dependency>
 </dependencies>
 
-after these steps *callfire-api-client* should appear in your project dependencies along with other transitive ones.
-Then you can start using Java client, code sample below will show how to request your account information:
+After these steps *callfire-api-client* should appear in your project dependencies along with other transitive ones.
+
+== Overview
+To create client instance just provide API login and password. API credentials should be configured on
+link:https://www.callfire.com/ui/manage/access[Account -> Settings -> API Access] page. Client uses HTTPS connection
+and Basic Authentication.
+
+Example how to get account information using client:
 [source,java]
 public class TestCallfireApi {
     public static void main(String[] args) {
@@ -41,10 +47,58 @@ public class TestCallfireApi {
     }
 }
 
-Currently API client uses Apache HTTP client and Jackson dependencies, to access them you can call:
+.*List of API classes:*
 [source,java]
-CallfireClient.getRestApiClient().getHttpClient() returns org.apache.http.client.HttpClient
-CallfireClient.getRestApiClient().getJsonConverter().getMapper() returns com.fasterxml.jackson.databind.ObjectMapper
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    client.meApi();
+    client.ordersApi();
+    client.keywordsApi();
+    client.keywordLeasesApi();
+    client.numbersApi();
+    client.numberLeasesApi();
+    client.agentsApi();
+    client.agentGroupsApi();
+    client.batchesApi();
+    client.callsApi();
+    client.textsApi();
+    client.campaignSoundsApi();
+    client.ivrBroadcastsApi();
+    client.textBroadcastsApi();
+    client.voiceBroadcastsApi();
+    client.textAutoRepliesApi();
+    client.contactsApi();
+    client.contactListsApi();
+    client.dncApi();
+    client.dncListsApi();
+    client.webhooksApi();
+
+
+== Error handling
+The CallFire Developers API uses standard HTTP response codes for responses. These HTTP codes indicate whether
+ or not an API operation is successful.
+
+Status Code 200 is the desired response code. A standard JSON response will follow.
+
+Codes in the 400s range detail all of the errors a CallFire Developer could encounter while using the API. Bad
+ Request, Rate Limit Reached, and Unauthorized are some of the sorts of responses in the 400s block.
+
+Codes in the 500s range are error responses from the CallFire system. If an error has occured anywhere in the
+ execution of a resource that was not due to user input, a 500 response will be returned with a corresponding
+ JSON error body. In that body will contain a message detailing what went wrong.
+
+.All API methods throw following exceptions (both are RuntimeException):
+ * *CallfireApiException* - in case API cannot be queried for some reason and server returned error
+ * *CallfireClientException* - in case error has occurred in client
+
+*CallfireApiException* has *apiErrorMessage* property with details of occurred error, here is fields listing:
+[source,java]
+    Integer httpStatusCode;
+    Integer internalCode;
+    String message;
+    String developerMessage;
+    String helpLink;
+
+
 
 == Debug & logging
 In case you want to see requests/responses which client sends/receives from Callfire platform you should set *DEBUG*

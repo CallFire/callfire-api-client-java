@@ -12,7 +12,6 @@ Example below shows how to buy a couple keywords:
 OrdersApi.orderKeywords(KeywordPurchaseRequest) will return an order ID.
 
 == Buy a number
-'''
 Example below shows how to buy a specific number:
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -21,7 +20,6 @@ Example below shows how to buy a specific number:
         .build();
     ResourceId resourceId = callfireClient.ordersApi().orderNumbers(request);
 
-'''
 buy a couple local numbers:
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -34,9 +32,8 @@ buy a couple local numbers:
 OrdersApi.orderNumbers(NumberPurchaseRequest) will return an order ID.
 
 == Get particular order
-'''
 Get specific order by ID. You can set optional 2nd argument to return only certain fields to reduce network traffic
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
-    Long orderId = 123456L
+    Long orderId = 123456L;
     NumberOrder order = callfireClient.ordersApi().getOrder(orderId, "id,status");
