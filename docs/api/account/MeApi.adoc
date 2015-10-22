@@ -80,4 +80,4 @@ Example how to get particular API user and limit returned fields to name and ena
 Example how to delete particular API user by ID
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
-    callfireClient.meApi().deleteApiCredentials(123456L, "name,enabled");
+    callfireClient.meApi().deleteApiCredentials(123456L);
