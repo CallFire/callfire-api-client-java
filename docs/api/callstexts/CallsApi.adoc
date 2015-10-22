@@ -1,99 +1,42 @@
-= CALL APIs Specification
+= Calls API
 
 
-find api
--------
-TIP: Finds all calls sent or received by the user. Use "id=0" for the campaignId parameter to query for all calls sent through the POST /calls API.
-****
+=== Find calls
+'''
+Example how to find all calls sent or received by the user. Use "id=0" for the campaignId parameter to query for all
+calls sent through the POST /calls API.
 [source,java]
- //No one parameter is required , you can only use parameters needed for you, others can be missed
+ //No one parameter is required
  FindCallsRequest request = FindCallsRequest.create()
-             .id(ArrayList<Long>)
-             .campaignId(<Long>)
-             .fromNumber(<String>)
-             .toNumber(<String>)
-             .label(<Long>)
-             .states(ArrayList<State>))
-             .results(ArrayList<TextRecord.TextResult>)
-             .inbound(<Boolean>)
-             .intervalBegin(<Date>)
-             .intervalEnd(<Date>)
-             .limit(<Long>)
-             .offset(<Long>)
-             .fields(<String>)
-             .build();
+        .id(Arrays.asList(617067920003L))
+        .campaignId(7373801003L)
+        .fromNumber("12132609784")
+        .toNumber("12132212384")
+        .build();
  CallfireClient client = new CallfireClient("api_login", "api_password");
  Page<Call> texts = client.callsApi().find(request);
-****
-
-[NOTE]
-=====================================================================
-=====================================================================
-[width="40%",frame="topbot",options="header,footer"]
-|======================
-|Parameter        |Description
-|id               |(ArrayList<Long>), text id
-|label            |(<Long>), label of the text message
-|states           |(ArrayList<State>)), Expected text statuses in comma seperated string (READY, SELECTED, CALLBACK, FINISHED, DISABLED, DNC, DUP, INVALID, TIMEOUT, PERIOD_LIMIT).
-|results          |(ArrayList<TextRecord.TextResult>), Expected text results in comma seperated string (SENT, RECEIVED, DNT, TOO_BIG, INTERNAL_ERROR, CARRIER_ERROR, CARRIER_TEMP_ERROR, UNDIALED).
-|inbound          |(<Boolean>), Specify true if inbounds, false if outbounds. Do not specify for both.
-|intervalBegin    |(<Date>), Start of the find interval in Unix time milliseconds.
-|intervalEnd      |(<Date>), End of the find interval in Unix time milliseconds.
-|                 |
-|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
-|offset           |(<Long>), Offset to the start of a given page. The default is 0.
-|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
-|======================
 
 
 
-
-send api
--------
-TIP: Use the /calls API to quickly send individual calls. A verified Caller ID and sufficient credits are required to make a call.
-****
+=== Send call
+'''
+Example how to use the /calls API to quickly send individual calls. A verified Caller ID and sufficient credits
+are required to make a call.
 [source,java]
  //Only "recipients" param required
  CallRecipient r1 = new CallRecipient();
- r1.setPhoneNumber(<String>);
- r1.setLiveMessage(<String>);
- CallRecipient r2 = new CallRecipient();
- r2.setPhoneNumber(<String>);
- r2.setLiveMessage(<String>);
- List<CallRecipient> recipients = Arrays.asList(r1, r2);
+ r1.setPhoneNumber("12132609784");
+ r1.setLiveMessage("Hello");
+ List<CallRecipient> recipients = Arrays.asList(r1);
  CallfireClient client = new CallfireClient("api_login", "api_password");
- List<Text> texts = client.callsApi().send(recipients, campaignId(<Long>), fields(<String>));
-****
-
-[NOTE]
-=====================================================================
-=====================================================================
-[width="40%",frame="topbot",options="header,footer"]
-|======================
-|Parameter        |Description
-|id               |<Long>, text id
-|fields           |<String>, Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
-|======================
+ List<Text> texts = client.callsApi().send(recipients, 7373801003L);
 
 
 
-
-get api
--------
-TIP: Returns a single Call instance for a given call id.
-****
+=== Get call
+'''
+Example how to return a single Call instance for a given call id.
 [source,java]
  //Only "id" param required
  CallfireClient client = new CallfireClient("api_login", "api_password");
- Call call = client.callsApi().get(id(<Long>));
-****
-
-[NOTE]
-=====================================================================
-=====================================================================
-[width="40%",frame="topbot",options="header,footer"]
-|======================
-|Parameter        |Description
-|id               |<Long>, text id
-|fields           |<String>, Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
-|======================
+ Call call = client.callsApi().get(617067920003L);

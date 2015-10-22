@@ -1,0 +1,46 @@
+= Webhooks API
+
+
+=== Find webhooks
+'''
+Example how to get all webhooks for the user. Search for webhooks on name, resource, event, callback URL, or whether they are enabled.
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    FindWebhooksRequest request = FindWebhooksRequest.create()
+                    .limit(1L)
+                    .offset(0L)
+                    .enabled(true)
+                    .resource("resourceName")
+                    .build();
+    Page<Webhook> webhooks = client.webhooksApi().find(request);
+
+
+
+=== Get webhook
+'''
+Example how to get a single Webhook instance for a given webhook id
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    Webhook webhook = client.webhooksApi().get(12345678L, "id,name,created");
+
+
+=== Update webhook
+'''
+Example how to update the information in a currently existing webhook. Most fields are updateable.
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    Webhook webhook = new Webhook();
+    webhook.setId(12345678L);
+    webhook.setName("API hook");
+    webhook.setResource("textCampaign");
+    webhook.setEvents(new HashSet<>(Collections.singletonList("stop")));
+    webhook.setCallback("https://callfire.com/stopTextsOnly");
+    client.webhooksApi().update(webhook);
+
+
+=== Delete webhook
+'''
+Example how to delete a webhook. Will be removed permenantly.
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    client.webhooksApi().delete(12345678L);
