@@ -1,0 +1,194 @@
+= NUMBER LEASES APIs Specification
+
+
+find number leases api
+----------------------
+TIP: Find all number leases for the user. This API is useful for finding all numbers currently owned by an account.
+****
+[source,java]
+ //At least one parameter is required
+ FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
+             .labelName(<String>)
+             .zipcode(<String>)
+             .city(<String>)
+             .prefix(<String>)
+             .rateCenter(<String>)
+             .lata(<String>)
+             .state(<String>)
+             .limit(<Long>)
+             .offset(<Long>)
+             .fields(<String>)
+             .build();
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ Page<NumberLease> leases = client.numberLeasesApi().find(request);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|labelName        |(<String>), Label name
+|zipcode          |(<String>), 5 digit zipcode
+|city             |(<String>), City name
+|state            |(<String>), State name
+|prefix           |(<String>), 4-7 digit prefix
+|lata             |(<String>), Local access and transport area (LATA)
+|rateCenter       |(<String>), Rate center
+|                 |
+|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
+|offset           |(<Long>), Offset to the start of a given page. The default is 0.
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
+|======================
+
+
+
+
+get number lease api
+-------------------
+TIP: Returns a single NumberLease instance for a given number lease.
+****
+[source,java]
+ //Only "number" param required
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ NumberLease lease = client.numberLeasesApi().get(number(<String>), fields(<String>));
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|number           |(<String>), E.164 number sans +
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+|======================
+
+
+
+
+update number lease api
+----------------------
+TIP: Update a number lease instance. Ability to turn off autoRenew and toggle call/text features for a particular number.
+****
+[source,java]
+ NumberLease lease = new NumberLease();
+ lease.setNumber(<String>);
+ lease.setAutoRenew(<Boolean>);
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ client.numberLeasesApi().update(lease);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|lease            |(<NumberLease>), E.164 number sans +
+|number           |(<String>), E.164 number sans +
+|autoRenew        |(<Boolean>), Toggle auto renewal of keyword lease at end of each billing cycle
+|======================
+
+
+
+
+find number leases configs api
+-----------------------------
+TIP: Find all number lease configs for the user.
+****
+[source,java]
+ //At least one parameter is required
+ FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
+             .labelName(<String>)
+             .zipcode(<String>)
+             .city(<String>)
+             .prefix(<String>)
+             .rateCenter(<String>)
+             .lata(<String>)
+             .state(<String>)
+             .limit(<Long>)
+             .offset(<Long>)
+             .fields(<String>)
+             .build();
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ Page<NumberConfig> configs = client.numberLeasesApi().findConfigs(request);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|labelName        |(<String>), Label name
+|zipcode          |(<String>), 5 digit zipcode
+|city             |(<String>), City name
+|state            |(<String>), State name
+|prefix           |(<String>), 4-7 digit prefix
+|lata             |(<String>), Local access and transport area (LATA)
+|rateCenter       |(<String>), Rate center
+|                 |
+|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
+|offset           |(<Long>), Offset to the start of a given page. The default is 0.
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
+|======================
+
+
+
+
+get number leases configs api
+----------------------------
+TIP: Returns a single NumberConfig instance for a given number lease.
+****
+[source,java]
+ //Only "number" param required
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ NumberConfig config = client.numberLeasesApi().getConfig(number(<String>), fields(<String>));
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|number           |(<String>), E.164 number sans +
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+|======================
+
+
+
+
+update number lease configs api
+------------------------------
+TIP: Update a number lease config. Use this API endpoint to add an Inbound IVR or Call Tracking feature to a CallFire phone number.
+****
+[source,java]
+  NumberConfig config = new NumberConfig();
+  config.setNumber(<String>);
+  config.setConfigType(<ConfigType>);
+  CallTrackingConfig callTrackingConfig = new CallTrackingConfig();
+  callTrackingConfig.setScreen(<Boolean>);
+  callTrackingConfig.setRecorded(<Boolean>);
+  callTrackingConfig.setTransferNumbers(Arrays.asList(<String>, <String>));
+  config.setCallTrackingConfig(callTrackingConfig);
+  CallfireClient client = new CallfireClient("api_login", "api_password");
+  client.numberLeasesApi().updateConfig(config);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter            |Description
+|number               |(<String>), E.164 number sans +
+|configType           |(<ConfigType>), Type of config (TRACKING, IVR)
+|callTrackingConfig   |(<callTrackingConfig>)
+|transferNumbers      |(<ArrayList<String>>), List of E.164 numbers
+|screen               |(<Boolean>), Screen incoming calls
+|recorded             |(<Boolean>), Record calls
+|======================
+

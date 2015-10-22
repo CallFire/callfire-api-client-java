@@ -1,6 +1,6 @@
 = Getting started
 
-== Add dependency
+== Installation
 
 Before start you should add dependency to your Java-based project. For Gradle build system add:
 [source,groovy]
@@ -48,7 +48,18 @@ CallfireClient.getRestApiClient().getJsonConverter().getMapper() returns com.fas
 
 == Debug & logging
 In case you want to see requests/responses which client sends/receives from Callfire platform you should set *DEBUG*
-level for *com.callfire* package.
+level for *com.callfire* package, then you'll something like that in your logs:
+[source]
+2015/10/21 19:02:47:355 EEST [DEBUG] RestApiClient - GET request to https://api.callfire.com/v2/me/account with params: []
+2015/10/21 19:02:48:722 EEST [DEBUG] RestApiClient - received entity
+{
+  "id" : 1234567890,
+  "email" : "john@callfire.com",
+  "name" : "test",
+  "firstName" : "John",
+  "lastName" : "Doe",
+  "permissions" : [ "ACCOUNT_HOLDER" ]
+}
 
 If you don't have any logger implementation in classpath you can simply use
 commons-logging SimpleLog which are shipped with Callfire client. See example of usage below:

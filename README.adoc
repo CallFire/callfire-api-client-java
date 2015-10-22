@@ -1,31 +1,38 @@
+= Callfire API v2 REST client
 
-link:docs/GettingStarted.adoc[Getting Started]
+This is Java client for Callfire platform API version 2. It uses Apache HTTP client and Jackson under the hood. See
+link:docs/GettingStarted.adoc[Getting Started] page for setup instructions.
 
-.API examples
-
-* Account
-** link:docs/account/MeApi.adoc[User account API]
-** link:docs/account/OrdersApi.adoc[Account orders]
-* link:docs/callstexts/CallsApi.adoc[Send individual calls]
-* link:docs/callstexts/TextsApi.adoc[Send individual texts]
-* Campaigns
-** link:docs/campaigns/CampaignSoundsApi.adoc[Campaign Sounds]
-** link:docs/account/OrdersApi.adoc[Account orders]
-** Broadcasts
-*** link:docs/campaigns/TextBroadcastsApi.adoc[Text broadcasts]
-*** link:docs/campaigns/IvrBroadcastsApi.adoc[IVR broadcasts]
-*** link:docs/campaigns/VoiceBroadcastsApi.adoc[Voice broadcasts]
-*** link:docs/campaigns/VoiceBroadcastsApi.adoc[Contact batches]
-* Contacts & DNC
-** link:docs/contacts/ContactsApi.adoc[User contacts]
-** link:docs/contacts/ContactListsApi.adoc[Contact lists]
-** link:docs/contacts/DncApi.adoc[Do Not Contact API]
-** link:docs/contacts/DncListsApi.adoc[Do Not Contact lists API]
-* link:docs/keywords/KeywordsApi.adoc[Keywords & keyword leases API]
-* link:docs/numbers/NumbersApi.adoc[Numbers & number leases API]
-* link:docs/webhooks/WebhooksApi.adoc[Webhooks]
-
-.Have a question ?
-* link:https://developers.callfire.com/chat.html[Public chat room]
-* link:http://stackoverflow.com/questions/tagged/callfire[Ask on stackoverflow]
-* link:https://answers.callfire.com/hc/en-us[Call Us]
+.Table of content
+* link:docs/GettingStarted.adoc[Getting Started]
+* API examples
+** Account
+*** link:docs/api/account/MeApi.adoc[User account API]
+*** link:docs/api/account/OrdersApi.adoc[Account orders]
+** link:docs/api/callstexts/CallsApi.adoc[Send individual calls]
+** link:docs/api/callstexts/TextsApi.adoc[Send individual texts]
+** Campaigns
+*** link:docs/api/campaigns/CampaignSoundsApi.adoc[Campaign Sounds]
+*** link:docs/api/campaigns/TextAutoRepliesApi.adoc[Text auto replies]
+*** Broadcasts
+**** link:docs/api/campaigns/TextBroadcastsApi.adoc[Text broadcasts]
+**** link:docs/api/campaigns/IvrBroadcastsApi.adoc[IVR broadcasts]
+**** link:docs/api/campaigns/VoiceBroadcastsApi.adoc[Voice broadcasts]
+**** link:docs/api/campaigns/BatchesApi.adoc[Contact batches]
+*** Cloud Call Center & Agents
+**** link:docs/api/campaigns/AgentsApi.adoc[Agents]
+**** link:docs/api/campaigns/AgentGroupsApi.adoc[Agent groups]
+**** link:docs/api/campaigns/CccApi.adoc[Cloud call center API]
+** Contacts & Do Not Contact (DNC) lists
+*** link:docs/api/contacts/ContactsApi.adoc[User contacts]
+*** link:docs/api/contacts/ContactListsApi.adoc[Contact lists]
+*** link:docs/api/contacts/DncApi.adoc[Do Not Contact API]
+*** link:docs/api/contacts/DncListsApi.adoc[Do Not Contact lists API]
+** link:docs/api/keywords/KeywordsApi.adoc[Keywords & keyword leases API]
+** link:docs/api/numbers/NumbersApi.adoc[Numbers & number leases API]
+** link:docs/api/webhooks/WebhooksApi.adoc[Webhooks]
+* link:https://developers.callfire.com/docs.html[REST endpoints documentation]
+* Have a question ?
+** link:https://developers.callfire.com/chat.html[Public chat room]
+** link:http://stackoverflow.com/questions/tagged/callfire[Ask on stackoverflow]
+** link:https://answers.callfire.com/hc/en-us[Call Us]
