@@ -3,45 +3,40 @@
 == Account specific APIs
 
 === Get account info
-'''
 Example how to get account information like name, surname, email, account permissions
 [source,java]
-    CallfireClient callfireClient = new CallfireClient("api login", "api password");
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Account account = callfireClient.meApi().getAccount();
     System.out.println(account);
 
 === Get billing plan usage info
-'''
 Example how to find billing plan usage for the user. Returns billing plan usage for the current month.
 [source,java]
-    CallfireClient callfireClient = new CallfireClient("api login", "api password");
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     BillingPlanUsage billingPlanUsage = callfireClient.meApi().getBillingPlanUsage();
     System.out.println(billingPlanUsage);
 
 === Get account caller IDs
-'''
 Example how to get a list of verified caller ids. If the number is not shown in the list, then it is not verified,
  and will have to send for a verification code.
 [source,java]
-    CallfireClient callfireClient = new CallfireClient("api login", "api password");
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     List<CallerId> callerIds = callfireClient.meApi().getCallerIds();
     System.out.println(callerIds);
 
 === Send verification code to caller ID
-'''
 Example how to generates and send a verification code to the phone number. The verification code is delivered
  via a phone call. This code needs to be submitted to the verify caller id API endpoint.
 [source,java]
-    CallfireClient callfireClient = new CallfireClient("api login", "api password");
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     String phoneNumber = "12132224444";
     callfireClient.meApi().sendVerificationCode(phoneNumber);
 
 === Verify caller ID
-'''
 You can verify your caller ID with the verification code received from the previous operation, a call to this
  endpoint is required to finish verification.
 [source,java]
-    CallfireClient callfireClient = new CallfireClient("api login", "api password");
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     String phoneNumber = "12132224444";
     CallerIdVerificationRequest request = CallerIdVerificationRequest.create()
         .callerId(phoneNumber)
@@ -56,7 +51,6 @@ You can verify your caller ID with the verification code received from the previ
 
 
 === Create API credentials
-'''
 Example how to create API user
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
@@ -66,7 +60,6 @@ Example how to create API user
     System.out.println(created);
 
 === Find API credentials
-'''
 Example how to get first 2 API users
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
@@ -77,7 +70,6 @@ Example how to get first 2 API users
     System.out.println(credentials);
 
 === Get API credentials
-'''
 Example how to get particular API user and limit returned fields to name and enabled flag
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
@@ -85,8 +77,7 @@ Example how to get particular API user and limit returned fields to name and ena
     System.out.println(credentials);
 
 === Delete API credentials
-'''
 Example how to delete particular API user by ID
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
-    callfireClient.meApi().deleteApiCredentials(123456L, "name,enabled");
+    callfireClient.meApi().deleteApiCredentials(123456L);
