@@ -30,17 +30,21 @@ the POST /texts API. If no limit is given then the last 100 texts will be return
 [NOTE]
 =====================================================================
 =====================================================================
-- id(ArrayList<Long>) : text id
-- label(<Long>) : label of the text message
-- states(ArrayList<State>)) : Expected text statuses in comma seperated string (READY, SELECTED, CALLBACK, FINISHED, DISABLED, DNC, DUP, INVALID, TIMEOUT, PERIOD_LIMIT).
-- results(ArrayList<TextRecord.TextResult>) : Expected text results in comma seperated string (SENT, RECEIVED, DNT, TOO_BIG, INTERNAL_ERROR, CARRIER_ERROR, CARRIER_TEMP_ERROR, UNDIALED).
-- inbound(<Boolean>) : Specify true if inbounds, false if outbounds. Do not specify for both.
-- intervalBegin(<Date>) : Start of the find interval in Unix time milliseconds.
-- intervalEnd(<Date>) : End of the find interval in Unix time milliseconds.
-
-- limit(<Long>) : Maximum number of records to return in a paged list response. The default is 100.
-- offset(<Long>) : Offset to the start of a given page. The default is 0.
-- fields(<String>) : Limit fields returned. E.g. fields=id,name or fields=items(id,name).
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|id               |(ArrayList<Long>), text id
+|label            |(<Long>), label of the text message
+|states           |(ArrayList<State>)), Expected text statuses in comma seperated string (READY, SELECTED, CALLBACK, FINISHED, DISABLED, DNC, DUP, INVALID, TIMEOUT, PERIOD_LIMIT).
+|results          |(ArrayList<TextRecord.TextResult>), Expected text results in comma seperated string (SENT, RECEIVED, DNT, TOO_BIG, INTERNAL_ERROR, CARRIER_ERROR, CARRIER_TEMP_ERROR, UNDIALED).
+|inbound          |(<Boolean>), Specify true if inbounds, false if outbounds. Do not specify for both.
+|intervalBegin    |(<Date>), Start of the find interval in Unix time milliseconds.
+|intervalEnd      |(<Date>), End of the find interval in Unix time milliseconds.
+|                 |
+|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
+|offset           |(<Long>), Offset to the start of a given page. The default is 0.
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
+|======================
 
 
 
@@ -65,8 +69,12 @@ TIP: Use the /calls API to quickly send individual calls. A verified Caller ID a
 [NOTE]
 =====================================================================
 =====================================================================
-- campaignId(<Long>) : Query for texts inside of a particular campaign. (not necessary)
-- fields(<String>) : Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|id               |<Long>, text id
+|fields           |<String>, Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+|======================
 
 
 
@@ -83,6 +91,10 @@ TIP: Returns a single Text instance for a given text id.
 [NOTE]
 =====================================================================
 =====================================================================
-- id(<Long>) : text id
-- fields(<String>) : Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|id               |<Long>, text id
+|fields           |<String>, Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+|======================
 

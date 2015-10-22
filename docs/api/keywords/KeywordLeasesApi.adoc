@@ -1,0 +1,75 @@
+= KEYWORD LEASES APIs Specification
+
+
+find api
+-------
+TIP: Find keywords for purchase on the CallFire platform. If a keyword appears in the response, it is available for purchase.
+****
+[source,java]
+ CommonFindRequest request = CommonFindRequest.create()
+             .limit(<Long>)
+             .offset(<Long>)
+             .fields(<String>)
+             .build();
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ Page<KeywordLease> leases = client.keywordLeasesApi().find(request);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
+|offset           |(<Long>), Offset to the start of a given page. The default is 0.
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
+|======================
+
+
+
+
+get api
+-------
+TIP: Returns a KeywordLease for a given keyword.
+****
+[source,java]
+ //"keyword" param is required
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ KeywordLease keywordLease = client.keywordLeasesApi().get(keyword(<String>), fields(<String>));
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
+|keyword          |(<String>), Keyword text that a lease is desired for.
+|======================
+
+
+
+
+update api
+---------
+TIP: Update a keyword lease. Can only set autoRenew to false at this time.
+****
+[source,java]
+ //"keywordLease" param is required
+ KeywordLease keywordLease = new KeywordLease();
+ keywordLease.setKeyword(<String>);
+ keywordLease.setAutoRenew(Boolean);
+ CallfireClient client = new CallfireClient("api_login", "api_password");
+ client.keywordLeasesApi().update(keywordLease);
+****
+
+[NOTE]
+=====================================================================
+=====================================================================
+[width="40%",frame="topbot",options="header,footer"]
+|======================
+|Parameter        |Description
+|keywordLease     |(<KeywordLease>), Keyword to update lease for.
+|======================
