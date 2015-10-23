@@ -20,7 +20,8 @@ the POST /texts API. If no limit is given then the last 100 texts will be return
 
 === Send text
 '''
-Example how to use the /calls API to quickly send individual calls. A verified Caller ID and sufficient credits are required to make a call.
+Example how to use the /calls API to quickly send individual calls via existing campaign. A verified Caller ID and
+ sufficient credits are required to make a call.
 [source,java]
  //Only "recipients" param required
  TextRecipient r1 = new TextRecipient();
@@ -30,7 +31,7 @@ Example how to use the /calls API to quickly send individual calls. A verified C
  CallfireClient client = new CallfireClient("api_login", "api_password");
  List<Text> texts = client.textsApi().send(recipients, 7415225003L);
 
-
+In case you want to send text via default campaign use *send(List<TextRecipient> recipients)* method.
 
 === Get text
 '''

@@ -1,7 +1,7 @@
 = Agent Groups API
 
 == Find
-Example how to find all agent groups which have *test-group* substring in name and return objects with ID only.
+Example how to find all agent groups which have *test-group* substring in their names and return objects with ID only.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     FindAgentGroupsRequest request = FindAgentGroupsRequest.create()

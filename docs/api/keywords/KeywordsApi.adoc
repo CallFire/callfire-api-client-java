@@ -7,10 +7,8 @@ Example how to find keywords for purchase on the CallFire platform. If a keyword
 it is available for purchase.
 [source,java]
  CallfireClient client = new CallfireClient("api_login", "api_password");
- List<String> keywords = Arrays.asList("test_keyword1", "test_keyword2");
+ List<String> keywords = Arrays.asList("ALPHA", "BETA");
  List<Keyword> keywords = client.keywordsApi().find(keywords);
-
-
 
 === IsAvailable keyword
 '''
@@ -18,4 +16,4 @@ Example how to find an individual keyword for purchase on the CallFire platform.
 [source,java]
  //"keyword" param is required
  CallfireClient client = new CallfireClient("api_login", "api_password");
- Boolean available = client.keywordsApi().isAvailable(test_keyword1);
+ Boolean available = client.keywordsApi().isAvailable("FIRE");

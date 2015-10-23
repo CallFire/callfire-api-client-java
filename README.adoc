@@ -1,9 +1,12 @@
 = Callfire API v2 REST client
 
-This is Java client for Callfire platform API version 2. It uses Apache HTTP client and Jackson under the hood. See
-link:docs/GettingStarted.adoc[Getting Started] page for setup instructions.
+Java client for Callfire platform API version 2. See link:docs/GettingStarted.adoc[Getting Started]
+ page for setup instructions.
 
-.Table of content
+.*Requirements:*
+* Java 7+
+
+.*Table of contents*
 * link:docs/GettingStarted.adoc[Getting Started]
 * API examples
 ** Account
@@ -22,14 +25,14 @@ link:docs/GettingStarted.adoc[Getting Started] page for setup instructions.
 *** Cloud Call Center & Agents
 **** link:docs/api/campaigns/AgentsApi.adoc[Agents]
 **** link:docs/api/campaigns/AgentGroupsApi.adoc[Agent groups]
-**** link:docs/api/campaigns/CccApi.adoc[Cloud call center API]
+**** link:docs/api/campaigns/CccsApi.adoc[Cloud call center API]
 ** Contacts & Do Not Contact (DNC) lists
 *** link:docs/api/contacts/ContactsApi.adoc[User contacts]
 *** link:docs/api/contacts/ContactListsApi.adoc[Contact lists]
 *** link:docs/api/contacts/DncApi.adoc[Do Not Contact API]
 *** link:docs/api/contacts/DncListsApi.adoc[Do Not Contact lists API]
-** link:docs/api/keywords/KeywordsApi.adoc[Keywords & keyword leases API]
-** link:docs/api/numbers/NumbersApi.adoc[Numbers & number leases API]
+** link:docs/api/keywords/KeywordsMain.adoc[Keywords & keyword leases API]
+** link:docs/api/numbers/NumbersMain.adoc[Numbers & number leases API]
 ** link:docs/api/webhooks/WebhooksApi.adoc[Webhooks]
 * link:https://developers.callfire.com/docs.html[REST endpoints documentation]
 * Have a question ?

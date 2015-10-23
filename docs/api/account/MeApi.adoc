@@ -25,7 +25,7 @@ Example how to get a list of verified caller ids. If the number is not shown in 
     System.out.println(callerIds);
 
 === Send verification code to caller ID
-Example how to generates and send a verification code to the phone number. The verification code is delivered
+Example how to send a verification code to the phone number. The verification code is delivered
  via a phone call. This code needs to be submitted to the verify caller id API endpoint.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -56,8 +56,8 @@ Example how to create API user
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
     ApiCredentials credentials = new ApiCredentials();
     credentials.setName("api user");
-    ApiCredentials created = callfireClient.meApi().createApiCredentials(credentials);
-    System.out.println(created);
+    credentials = callfireClient.meApi().createApiCredentials(credentials);
+    System.out.println(credentials);
 
 === Find API credentials
 Example how to get first 2 API users

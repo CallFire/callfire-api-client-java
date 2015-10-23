@@ -2,7 +2,7 @@
 
 == Find campaign sounds
 Find all campaign sounds that were created by the user. These are all of the available sounds to be used in campaigns.
-Example how to find 3 campaign sounds filter by name "sample"
+Example how to find 3 campaign sounds and filter by name "sample"
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     FindSoundsRequest request = FindSoundsRequest.create()

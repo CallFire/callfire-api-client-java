@@ -3,18 +3,16 @@
 
 === Find webhooks
 '''
-Example how to get all webhooks for the user. Search for webhooks on name, resource, event, callback URL, or whether they are enabled.
+Search for webhooks on name, resource, event, callback URL, or whether they are enabled.
+Example how to get first 5 webhooks which are *enabled* and assigned to resource *"textBroadcast"*.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     FindWebhooksRequest request = FindWebhooksRequest.create()
-                    .limit(1L)
-                    .offset(0L)
-                    .enabled(true)
-                    .resource("resourceName")
-                    .build();
+        .limit(5L)
+        .enabled(true)
+        .resource("textBroadcast")
+        .build();
     Page<Webhook> webhooks = client.webhooksApi().find(request);
-
-
 
 === Get webhook
 '''
@@ -26,17 +24,15 @@ Example how to get a single Webhook instance for a given webhook id
 
 === Update webhook
 '''
-Example how to update the information in a currently existing webhook. Most fields are updateable.
+Example how to update the information in a currently existing webhook. Most fields are updatable.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
-    Webhook webhook = new Webhook();
-    webhook.setId(12345678L);
-    webhook.setName("API hook");
-    webhook.setResource("textCampaign");
+    Webhook webhook = client.webhooksApi().get(12345678L);
+    webhook.setName("new webhook");
+    webhook.setResource("voiceBroadcast");
     webhook.setEvents(new HashSet<>(Collections.singletonList("stop")));
-    webhook.setCallback("https://callfire.com/stopTextsOnly");
+    webhook.setCallback("https://yoursite.com/callback");
     client.webhooksApi().update(webhook);
-
 
 === Delete webhook
 '''

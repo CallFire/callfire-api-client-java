@@ -2,7 +2,7 @@
 
 Auto-replies are text message replies sent to a customer when a customer replies to a text message from a campaign. A
 keyword will need to have been purchased before an Auto-Reply can be created. This endpoint contains CRUD operations
-to find, get, create, delete text auto reply.
+to *find, get, create, delete* text auto reply.
 
 == Find operation
 Example how to find all configured auto replies for particular number
