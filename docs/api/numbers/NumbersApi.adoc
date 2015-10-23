@@ -1,111 +1,41 @@
-= NUMBER APIs Specification
+= Numbers API
 
 
-find local numbers api
-----------------------
-TIP: Find numbers in the CallFire local numbers catalog that are available for purchase.
-****
+=== Find local numbers
+'''
+Example how to find numbers in the CallFire local numbers catalog that are available for purchase.
 [source,java]
  //At least one parameter is required
  FindNumbersLocalRequest request = FindNumbersLocalRequest.create()
-             .zipcode(<String>)
-             .city(<String>)
-             .prefix(<String>)
-             .rateCenter(<String>)
-             .lata(<String>)
-             .state(<String>)
-             .limit(<Long>)
-             .offset(<Long>)
-             .fields(<String>)
+             .city("LOS ANGELES")
              .build();
  CallfireClient client = new CallfireClient("api_login", "api_password");
  List<Number> numbers = client.numbersApi().findNumbersLocal(request);
-****
-
-[NOTE]
-=====================================================================
-=====================================================================
-[width="40%",frame="topbot",options="header,footer"]
-|======================
-|Parameter        |Description
-|zipcode          |(<String>), 5 digit zipcode
-|city             |(<String>), City name
-|state            |(<String>), State name
-|prefix           |(<String>), 4-7 digit prefix
-|lata             |(<String>), Local access and transport area (LATA)
-|rateCenter       |(<String>), Rate center
-|                 |
-|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
-|offset           |(<Long>), Offset to the start of a given page. The default is 0.
-|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
-|======================
 
 
 
-find number regions api
-------------------------
-TIP: Find number region information. Use this API to obtain detailed region information that can then be used to query
+=== Find number regions
+'''
+Example how to find number region information. Use this API to obtain detailed region information that can then be used to query
 for more specific phone numbers than a general query.
-****
 [source,java]
  //At least one parameter is required
  FindNumberRegionsRequest request = FindNumberRegionsRequest.create()
-             .zipcode(<String>)
-             .city(<String>)
-             .prefix(<String>)
-             .rateCenter(<String>)
-             .lata(<String>)
-             .state(<String>)
-             .limit(<Long>)
-             .offset(<Long>)
-             .fields(<String>)
+             .city("LOS ANGELES")
              .build();
  CallfireClient client = new CallfireClient("api_login", "api_password");
  Page<Region> regions = client.numbersApi().findNumberRegions(request);
-****
-
-[NOTE]
-=====================================================================
-=====================================================================
-[width="40%",frame="topbot",options="header,footer"]
-|======================
-|Parameter        |Description
-|zipcode          |(<String>), 5 digit zipcode
-|city             |(<String>), City name
-|state            |(<String>), State name
-|prefix           |(<String>), 4-7 digit prefix
-|lata             |(<String>), Local access and transport area (LATA)
-|rateCenter       |(<String>), Rate center
-|                 |
-|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100.
-|offset           |(<Long>), Offset to the start of a given page. The default is 0.
-|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name).
-|======================
 
 
 
-find numbers tollfree api
-------------------------
-TIP: Find numbers in the CallFire tollfree numbers catalog that are available for purchase.
-****
+=== Find numbers tollfree
+'''
+Example how to find numbers in the CallFire tollfree numbers catalog that are available for purchase.
 [source,java]
  //No params required, you can run query only with basic authentification
  CommonFindRequest request = CommonFindRequest.create()
-             .limit(<Long>)
-             .offset(<Long>)
-             .fields(<String>)
+             .limit(1L)
+             .offset(1L)
              .build();
  CallfireClient client = new CallfireClient("api_login", "api_password");
  List<Number> numbers = client.numbersApi().findNumbersTollfree(request);
-****
-
-[NOTE]
-=====================================================================
-=====================================================================
-[width="40%",frame="topbot",options="header,footer"]
-|======================
-|Parameter        |Description
-|limit            |(<Long>), Maximum number of records to return in a paged list response. The default is 100. (not necessary)
-|offset           |(<Long>), Offset to the start of a given page. The default is 0. (not necessary)
-|fields           |(<String>), Limit fields returned. E.g. fields=id,name or fields=items(id,name). (not necessary)
-|======================

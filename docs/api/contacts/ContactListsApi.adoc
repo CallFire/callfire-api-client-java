@@ -1,0 +1,69 @@
+= Contact lists API
+
+
+=== Find contact lists
+'''
+Example how to find contact lists by id, name, number, etc...
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    FindContactListsRequest request = FindContactListsRequest.create()
+                .limit(1L)
+                .offset(1L)
+                .name("listName")
+                .build();
+    Page<ContactList> contactLists = client.contactListsApi().find(request);
+
+
+
+=== Get contact list
+'''
+Example how to get contact list by id
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    ContactList contactList = client.contactListsApi().get(1026694003L);
+
+
+=== Create contact list
+'''
+Example how to create contact list.
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    Contact c1 = new Contact();
+    c1.setHomePhone("16505044730");
+    CreateContactListRequest request = CreateContactListRequest.<Contact>create()
+            .name("listFromContacts")
+            .contacts(asList(c1))
+            .build();
+    ResourceId resourceId = client.contactListsApi().create(request);
+
+
+
+=== Create contact list from csv
+'''
+Example how to upload contact lists from CSV file.
+Create contact list which includes list of contacts by file.
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    File file = new File("/contacts/createContactsList.csv");
+    ResourceId resourceId = client.contactListsApi().createFromCsv("testFile", file);
+
+
+=== Update contact list
+'''
+Example how to update contact list.
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    UpdateContactListRequest request = UpdateContactListRequest.create()
+                    .id(1026694003L)
+                    .name("testListName").
+                    build();
+    client.contactListsApi().update(request);
+
+
+
+=== Delete contact list
+'''
+Example how to delete contact list
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    client.contactListsApi().delete(463633187003L);
