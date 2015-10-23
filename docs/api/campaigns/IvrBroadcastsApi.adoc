@@ -1,0 +1,131 @@
+= IVR broadcasts API
+
+== Find broadcasts
+Find all IVR campaigns created by the user. Can query on label, name, and the current running status of the campaign.
+ Returns a paged list of IVR broadcasts. Example how to find 2 IVR broadcasts which have 'campaign'
+ suffix in their names:
+[source,java]
+    FindIvrBroadcastsRequest request = FindIvrBroadcastsRequest.create()
+        .name("campaign")
+        .limit(2L)
+        .build();
+    Page<IvrBroadcast> broadcasts = client.ivrBroadcastsApi().find(request);
+    System.out.println(broadcasts);
+
+== Create broadcast
+Create an IVR (Interactive Voice Response) campaign using this API. Send an IvrBroadcast object to detail
+ an IVR campaign. By default, Campaigns are STOPPED. To start your campaign on creation, set second argument
+ start=true, or by using the *start* method for the campaign. A campaign can be created with no contacts and
+ bare minimum configuration, but contacts will have to be added further on to use the campaign.
+Example how to create IVR broadcast and then start it.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    IvrBroadcast broadcast = new IvrBroadcast();
+    broadcast.setName("Example API IVR");
+    broadcast.setFromNumber("12135551189");
+    broadcast.setDialplanXml("<dialplan name=\"Root\"><play type=\"tts\" voice=\"female2\" name=\"play_salesVM\">"
+        + "Congratulations! You have successfully configured a CallFire I V R</play></dialplan>");
+    // set recipients
+    Recipient recipient1 = new Recipient();
+    recipient1.setPhoneNumber("12135551100");
+    Recipient recipient2 = new Recipient();
+    recipient2.setPhoneNumber("12135551101");
+    broadcast.setRecipients(Arrays.asList(recipient1, recipient2));
+    // create broadcast
+    ResourceId id = callfireClient.ivrBroadcastsApi().create(broadcast);
+    callfireClient.ivrBroadcastsApi().start(id);
+
+== Get broadcast
+Get IVR broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    IvrBroadcast broadcast = callfireClient.ivrBroadcastsApi().get(123L);
+
+== Update broadcast
+After having created an IVR broadcast campaign, this method lets the user modify the configuration of
+ a IVR broadcast campaign. See example how to add local time restrictions:
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    IvrBroadcast broadcast = callfireClient.ivrBroadcastsApi().get(123L);
+    // time restrictions
+    LocalTimeRestriction restrictions = new LocalTimeRestriction();
+    restrictions.setBeginHour(10);
+    restrictions.setBeginMinute(10);
+    restrictions.setEndHour(22);
+    restrictions.setEndMinute(0);
+    restrictions.setEnabled(true);
+    broadcast.setLocalTimeRestriction(restrictions);
+    // update campaign
+    callfireClient.ivrBroadcastsApi().update(broadcast);
+
+== Start broadcast
+Start IVR broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    callfireClient.ivrBroadcastsApi().start(123L);
+
+== Stop broadcast
+Stop IVR broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    callfireClient.ivrBroadcastsApi().stop(123L);
+
+== Archive broadcast
+Archive IVR broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    callfireClient.ivrBroadcastsApi().archive(123L);
+
+== Get broadcast calls
+Get calls associated with IVR broadcast ordered by date
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    GetByIdRequest request = GetByIdRequest.create()
+        .id(1234L)
+        .build();
+    Page<Call> calls = callfireClient.ivrBroadcastsApi().getCalls(request);
+    System.out.println(calls);
+
+== Add recipients to an IVR broadcast
+Use this method to add recipients to an already created IVR broadcast. Post a list of Recipient objects for
+ them to be immediately added to the IVR broadcast campaign. These contacts do not go through validation process,
+ and will be acted upon as they are added. Recipients may be added as a list of contact ids, or list of numbers.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    Recipient recipient1 = new Recipient();
+    recipient1.setPhoneNumber("12131234567");
+    Recipient recipient2 = new Recipient();
+    recipient2.setPhoneNumber("12131234568");
+    List<Call> calls = callfireClient.ivrBroadcastsApi().addRecipients(id, Arrays.asList(recipient1, recipient2));
+    System.out.println(calls);
+
+== Get all broadcast batches
+This method will enable the user to page through all of the batches for a particular IVR broadcast campaign.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    GetByIdRequest request = GetByIdRequest.create()
+        .id(1234L)
+        .limit(10L)
+        .build();
+    Page<Batch> batches = callfireClient.ivrBroadcastsApi().getBatches(request);
+    System.out.println(batches);
+
+== Add batch to broadcast
+The add batch method allows the user to add additional batches to an already created IVR broadcast campaign.
+The added batch will go through the CallFire validation process, unlike in the recipients version of this API.
+Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a
+contact list id, a list of contact ids, or a list of numbers.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    Recipient recipient1 = new Recipient();
+    recipient1.setPhoneNumber("12131234567");
+    Recipient recipient2 = new Recipient();
+    recipient2.setPhoneNumber("12131234568");
+    AddBatchRequest request = AddBatchRequest.create()
+        .campaignId(id)
+        .name("new_batch")
+        .scrubDuplicates(true)
+        .recipients(Arrays.asList(recipient1, recipient2))
+        .build();
+    ResourceId resourceId = callfireClient.ivrBroadcastsApi().addBatch(request);
+

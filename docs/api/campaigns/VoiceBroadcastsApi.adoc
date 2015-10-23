@@ -1,0 +1,129 @@
+= Voice broadcasts API
+
+== Find broadcasts
+Find all voice campaigns created by the user. Can query on label, name, and the current running status of the campaign.
+ Returns a paged list of voice broadcasts. Example how to find 2 voice broadcasts which have 'campaign'
+ suffix in their names:
+[source,java]
+    FindVoiceBroadcastsRequest request = FindVoiceBroadcastsRequest.create()
+        .name("campaign")
+        .limit(2L)
+        .build();
+    Page<VoiceBroadcast> broadcasts = client.voiceBroadcastsApi().find(request);
+    System.out.println(broadcasts);
+
+== Create broadcast
+Create a voice broadcast campaign using the Voice Broadcast API. Send a VoiceBroadcast in the message body to detail
+ a voice broadcast campaign. A campaign can be created with no contacts and bare minimum configuration, but contacts
+ will have to be added further on to use the campaign. Example how to create voice broadcast and then start it.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    VoiceBroadcast broadcast = new VoiceBroadcast();
+    broadcast.setName("Example VB");
+    broadcast.setFromNumber("12135551189");
+    broadcast.setAnsweringMachineConfig(AnsweringMachineConfig.AM_AND_LIVE);
+    broadcast.setLiveSoundText("Hello! This is a live answer text to speech recording");
+    broadcast.setMachineSoundText("This is an answering machine text to speech recording");
+    // set recipients
+    Recipient recipient1 = new Recipient();
+    recipient1.setPhoneNumber("12135551100");
+    Recipient recipient2 = new Recipient();
+    recipient2.setPhoneNumber("12135551101");
+    broadcast.setRecipients(Arrays.asList(recipient1, recipient2));
+    // create broadcast with 'start' argument = true to start campaign immediately
+    ResourceId id = callfireClient.voiceBroadcastsApi().create(broadcast, true);
+
+== Get broadcast
+Get voice broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    VoiceBroadcast broadcast = callfireClient.voiceBroadcastsApi().get(123L);
+
+== Update broadcast
+After having created an voice broadcast campaign, this method lets the user modify the configuration of
+ a voice broadcast campaign. See example how to add local time restrictions:
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    VoiceBroadcast broadcast = callfireClient.voiceBroadcastsApi().get(123L);
+    // time restrictions
+    LocalTimeRestriction restrictions = new LocalTimeRestriction();
+    restrictions.setBeginHour(10);
+    restrictions.setBeginMinute(10);
+    restrictions.setEndHour(22);
+    restrictions.setEndMinute(0);
+    restrictions.setEnabled(true);
+    broadcast.setLocalTimeRestriction(restrictions);
+    // update campaign
+    callfireClient.voiceBroadcastsApi().update(broadcast);
+
+== Start broadcast
+Start vocie broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    callfireClient.voiceBroadcastsApi().start(123L);
+
+== Stop broadcast
+Stop voice broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    callfireClient.voiceBroadcastsApi().stop(123L);
+
+== Archive broadcast
+Archive voice broadcast by ID
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    callfireClient.voiceBroadcastsApi().archive(123L);
+
+== Get broadcast calls
+Get calls associated with voice broadcast ordered by date
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    GetByIdRequest request = GetByIdRequest.create()
+        .id(1234L)
+        .build();
+    Page<Call> calls = callfireClient.voiceBroadcastsApi().getCalls(request);
+    System.out.println(calls);
+
+== Add recipients to an voice broadcast
+Use this method to add recipients to an already created vocie broadcast. Post a list of Recipient objects for
+ them to be immediately added to the vocie broadcast campaign. These contacts do not go through validation process,
+ and will be acted upon as they are added. Recipients may be added as a list of contact ids, or list of numbers.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    Recipient recipient1 = new Recipient();
+    recipient1.setPhoneNumber("12131234567");
+    Recipient recipient2 = new Recipient();
+    recipient2.setPhoneNumber("12131234568");
+    List<Call> calls = callfireClient.vocieBroadcastsApi().addRecipients(id, Arrays.asList(recipient1, recipient2));
+    System.out.println(calls);
+
+== Get all broadcast batches
+This method will enable the user to page through all of the batches for a particular voice broadcast campaign.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    GetByIdRequest request = GetByIdRequest.create()
+        .id(1234L)
+        .limit(10L)
+        .build();
+    Page<Batch> batches = callfireClient.voiceBroadcastsApi().getBatches(request);
+    System.out.println(batches);
+
+== Add batch to broadcast
+The add batch method allows the user to add additional batches to an already created voice broadcast campaign.
+The added batch will go through the CallFire validation process, unlike in the recipients version of this API.
+Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a
+contact list id, a list of contact ids, or a list of numbers.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    Recipient recipient1 = new Recipient();
+    recipient1.setPhoneNumber("12131234567");
+    Recipient recipient2 = new Recipient();
+    recipient2.setPhoneNumber("12131234568");
+    AddBatchRequest request = AddBatchRequest.create()
+        .campaignId(id)
+        .name("new_batch")
+        .scrubDuplicates(true)
+        .recipients(Arrays.asList(recipient1, recipient2))
+        .build();
+    ResourceId resourceId = callfireClient.voiceBroadcastsApi().addBatch(request);
+
