@@ -13,10 +13,10 @@ Find all IVR campaigns created by the user. Can query on label, name, and the cu
     System.out.println(broadcasts);
 
 == Create broadcast
-Create an IVR (Interactive Voice Response) campaign using this API. Send an IvrBroadcast object to detail
+Create an IVR (Interactive Voice Response) campaign using this method. Send an IvrBroadcast object to detail
  an IVR campaign. By default, Campaigns are STOPPED. To start your campaign on creation, set second argument
- start=true, or by using the *start* method for the campaign. A campaign can be created with no contacts and
- bare minimum configuration, but contacts will have to be added further on to use the campaign.
+ start=true, or by using the *IvrBroadcastsApi#start()* method for the campaign. A campaign can be created with
+ no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.
 Example how to create IVR broadcast and then start it.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -101,6 +101,7 @@ Use this method to add recipients to an already created IVR broadcast. Post a li
 
 == Get all broadcast batches
 This method will enable the user to page through all of the batches for a particular IVR broadcast campaign.
+Example below shows how to get first 10 batches.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     GetByIdRequest request = GetByIdRequest.create()

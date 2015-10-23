@@ -1,6 +1,5 @@
 = Calls API
 
-
 === Find calls
 '''
 Example how to find all calls sent or received by the user. Use "id=0" for the campaignId parameter to query for all
@@ -16,22 +15,27 @@ calls sent through the POST /calls API.
  CallfireClient client = new CallfireClient("api_login", "api_password");
  Page<Call> texts = client.callsApi().find(request);
 
-
-
 === Send call
 '''
-Example how to use the /calls API to quickly send individual calls. A verified Caller ID and sufficient credits
-are required to make a call.
+Example how to use the /calls API to quickly send individual calls via default campaign. A verified Caller ID and
+ sufficient credits are required to make a call.
 [source,java]
+ CallfireClient client = new CallfireClient("api_login", "api_password");
  //Only "recipients" param required
  CallRecipient r1 = new CallRecipient();
  r1.setPhoneNumber("12132609784");
  r1.setLiveMessage("Hello");
  List<CallRecipient> recipients = Arrays.asList(r1);
+ List<Call> calls = client.callsApi().send(recipients);
+
+in case you want to send call via existing campaign provide campaign id as second parameter for send() method,
+ see example below:
+[source,java]
  CallfireClient client = new CallfireClient("api_login", "api_password");
- List<Text> texts = client.callsApi().send(recipients, 7373801003L);
-
-
+ CallRecipient recipient = new CallRecipient();
+ recipient.setPhoneNumber("12132609784");
+ recipient.setLiveMessage("Hello");
+ List<Call> calls = client.callsApi().send(Arrays.asList(recipient), 60000000003L);
 
 === Get call
 '''

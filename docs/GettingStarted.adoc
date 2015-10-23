@@ -32,6 +32,20 @@ for Maven build add following lines to your pom xml:
 
 After these steps *callfire-api-client* should appear in your project dependencies along with other transitive ones.
 
+In case you want to build it yourself:
+[source]
+    git clone https://github.com/CallFire/callfire-api-client-java.git
+    cd callfire-api-client-java
+    gradlew build clientFatJar
+
+it will create 4 jars in *build/libs* directory:
+[source]
+callfire-api-client-1.4.0.jar
+callfire-api-client-1.4.0-all.jar - client jar with all dependencies inside
+callfire-api-client-1.4.0-javadoc.jar
+callfire-api-client-1.4.0-sources.jar
+
+
 == Overview
 To create client instance just provide API login and password. API credentials should be configured on
 link:https://www.callfire.com/ui/manage/access[Account -> Settings -> API Access] page. Client uses HTTPS connection
@@ -102,7 +116,7 @@ Codes in the 500s range are error responses from the CallFire system. If an erro
 
 == Debug & logging
 In case you want to see requests/responses which client sends/receives from Callfire platform you should set *DEBUG*
-level for *com.callfire* package, then you'll something like that in your logs:
+level for *com.callfire* package, then you'll see something like that in your logs:
 [source]
 2015/10/21 19:02:47:355 EEST [DEBUG] RestApiClient - GET request to https://api.callfire.com/v2/me/account with params: []
 2015/10/21 19:02:48:722 EEST [DEBUG] RestApiClient - received entity

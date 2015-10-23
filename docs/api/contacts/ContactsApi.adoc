@@ -23,20 +23,22 @@ and will not show up when quering contacts.
     CallfireClient client = new CallfireClient("api login", "api password");
     Contact contact = client.contactsApi().get(463633187003L);
 
-
 === Create contact
 '''
 Example how to create contacts in the CallFire system. These contacts are not validated on creation.
-They will be validated upon being added to a campaign.
+They will be validated upon being added to a campaign. Example how to create contact with custom fields.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     Contact contact = new Contact();
+    contact.setFirstName("John");
+    contact.setLastName("Doe");
     contact.setHomePhone("16505044730");
+    contact.getProperties().put("age", "30");
+    contact.getProperties().put("customField", "customValue");
     List<Contact> inputContacts = Arrays.asList(contact);
     List<ResourceId> resultResourceIds = client.contactsApi().create(inputContacts);
 
-
-=== Update webhook
+=== Update contact
 '''
 Example how to update contact.
 [source,java]
@@ -45,8 +47,6 @@ Example how to update contact.
     contact.setId(463633187003L);
     contact.setHomePhone("16505044730");
     client.contactsApi().update(contact);
-
-
 
 === Delete contact
 '''

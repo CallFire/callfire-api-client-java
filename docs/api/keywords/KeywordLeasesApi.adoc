@@ -3,34 +3,25 @@
 
 === Find keyword leases
 '''
-Example how to find keywords for purchase on the CallFire platform. If a keyword appears in the response, it is available for purchase.
+Find all owned keyword leases for a user. A keyword lease is the ownership information involving a keyword.
 [source,java]
- CommonFindRequest request = CommonFindRequest.create()
-             .limit(1L)
-             .offset(1L)
-             .build();
- CallfireClient client = new CallfireClient("api_login", "api_password");
- Page<KeywordLease> leases = client.keywordLeasesApi().find(request);
-
-
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    CommonFindRequest request = CommonFindRequest.create().build();
+    Page<KeywordLease> leases = client.keywordLeasesApi().find(request);
 
 === Get keyword lease
 '''
 Example how to return a KeywordLease for a given keyword.
 [source,java]
- //"keyword" param is required
- CallfireClient client = new CallfireClient("api_login", "api_password");
- KeywordLease keywordLease = client.keywordLeasesApi().get("test_keyword1");
-
-
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    KeywordLease keywordLease = client.keywordLeasesApi().get("CALLFIRE");
 
 === Update keyword lease
 '''
 Example how update a keyword lease. Can only set autoRenew to false at this time.
 [source,java]
- //"keywordLease" param is required
- KeywordLease keywordLease = new KeywordLease();
- keywordLease.setKeyword("test_keyword1");
- keywordLease.setAutoRenew(true);
- CallfireClient client = new CallfireClient("api_login", "api_password");
- client.keywordLeasesApi().update(keywordLease);
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    KeywordLease keywordLease = new KeywordLease();
+    keywordLease.setKeyword("CALLFIRE");
+    keywordLease.setAutoRenew(true);
+    client.keywordLeasesApi().update(keywordLease);

@@ -25,28 +25,44 @@ Example how to get contact list by id
 
 === Create contact list
 '''
-Example how to create contact list.
+Contact lists can be created from existing single contacts (use their ids), contact objects and phone numbers.
+Example how to create contact list from plain numbers:
+[source,java]
+    CreateContactListRequest request = CreateContactListRequest.<String>create()
+        .name("listFromNumbers")
+        .contacts(asList("12135678881", "12135678882"))
+        .build();
+    ResourceId resourceId = client.contactListsApi().create(request);
+
+second example shows how to create contact list from existing contacts, what we need is just their ids:
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
-    Contact c1 = new Contact();
-    c1.setHomePhone("16505044730");
-    CreateContactListRequest request = CreateContactListRequest.<Contact>create()
-            .name("listFromContacts")
-            .contacts(asList(c1))
+    CreateContactListRequest request = CreateContactListRequest.<Long>create()
+            .name("listFromExistingContacts")
+            .contacts(Arrays.asList(123L, 456L, 789L))
             .build();
     ResourceId resourceId = client.contactListsApi().create(request);
 
-
+next code sample uses *Contact* object in CreateContactListRequest request
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    Contact contact = new Contact();
+    contact.setFirstName("John");
+    contact.setHomePhone("16505044730");
+    contact.getProperties().put("age", "30");
+    CreateContactListRequest request = CreateContactListRequest.<Contact>create()
+            .name("listFromContacts")
+            .contacts(Arrays.asList(contact))
+            .build();
+    ResourceId resourceId = client.contactListsApi().create(request);
 
 === Create contact list from csv
 '''
-Example how to upload contact lists from CSV file.
-Create contact list which includes list of contacts by file.
+Example how to upload contact lists from CSV file. Max file size is limited to 10 Mb.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
-    File file = new File("/contacts/createContactsList.csv");
-    ResourceId resourceId = client.contactListsApi().createFromCsv("testFile", file);
-
+    File file = new File("/contacts/contacts-list.csv");
+    ResourceId resourceId = client.contactListsApi().createFromCsv("New contact list", file);
 
 === Update contact list
 '''
@@ -54,11 +70,10 @@ Example how to update contact list.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     UpdateContactListRequest request = UpdateContactListRequest.create()
-                    .id(1026694003L)
-                    .name("testListName").
-                    build();
+        .id(1026694003L)
+        .name("sampleListName").
+        build();
     client.contactListsApi().update(request);
-
 
 
 === Delete contact list

@@ -3,16 +3,11 @@
 
 === Find dnc lists
 '''
-Example how to find do not contact (DNC) lists.
+Example how to find all do not contact (DNC) lists.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
-    FindDncListsRequest request = FindDncListsRequest.create()
-                .limit(1L)
-                .offset(1L)
-                .build();
+    FindDncListsRequest request = FindDncListsRequest.create().build();
     Page<DncList> dncList = client.dncListsApi().find(request);
-
-
 
 === Create dnc list
 '''
@@ -20,13 +15,8 @@ Example how to create do not contact (DNC) list.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     DncList dncList = new DncList();
-    dncList.setId(1975140003L);
-    dncList.setCampaignId(123546644L);
-    dncList.setSize(5);
-    dncList.setName("testList");
+    dncList.setName("myDncList");
     ResourceId res = client.dncListsApi().create(dncList);
-
-
 
 === Get universal dnc numbers
 '''
@@ -36,8 +26,6 @@ Example how to search Universal Do Not Contact by number
     CallfireClient client = new CallfireClient("api login", "api password");
     List<UniversalDnc> universalDncNumbers = client.dncListsApi().getUniversalDncNumber("16502572135", "16502572136");
 
-
-
 === Get dnc list
 '''
 Example how to get DNC list by id
@@ -45,8 +33,6 @@ Example how to get DNC list by id
     //toNumber param is required
     CallfireClient client = new CallfireClient("api login", "api password");
     DncList dncList = client.dncListsApi().get(1975140003L);
-
-
 
 === Delete dnc list
 '''
@@ -56,56 +42,55 @@ Example how to delete DNC list
     CallfireClient client = new CallfireClient("api login", "api password");
     client.dncListsApi().delete(1975140003L);
 
-
-
 === Get dnc list items
 '''
-Example how to get DNC list items
+Example how to get second 5 DNC items from list
 Property <b>request.id</b> required
 [source,java]
     //toNumber param is required
     CallfireClient client = new CallfireClient("api login", "api password");
     GetByIdRequest request = GetByIdRequest.create()
-                .limit(1L)
-                .offset(1L)
-                .id(1975140003L)
-                .build();
+        .limit(5L)
+        .offset(5L)
+        .id(1975140003L)
+        .build();
     Page<DoNotContact> dncs = client.dncListsApi().getListItems(request);
-
-
 
 === Add dnc list item
 '''
-Example how to add DNC list items to list
+Example how to add 3 DNC items to list
 [source,java]
-    //toNumber param is required
     CallfireClient client = new CallfireClient("api login", "api password");
-    List<Contact> contacts = new ArrayList<Contact>();
-    Contact cnt = new Contact();
-    cnt.setId(463633187003L);
-    cnt.setHomePhone("16505044730");
-    contacts.add(cnt);
-    AddDncListItemsRequest<Contact> request = AddDncListItemsRequest.<Contact>create()
-        .contactListId(1975140003L)
-        .contacts(contacts)
+    DoNotContact dnc1 = new DoNotContact();
+    dnc1.setNumber("12135543211");
+    dnc1.setText(true);
+    dnc1.setCall(false);
+    DoNotContact dnc2 = new DoNotContact();
+    dnc2.setNumber("12135543212");
+    dnc2.setText(true);
+    dnc2.setCall(false);
+    DoNotContact dnc3 = new DoNotContact();
+    dnc3.setNumber("12135543213");
+    dnc3.setText(true);
+    dnc3.setCall(true);
+    AddDncListItemsRequest request = AddDncListItemsRequest.<DoNotContact>create()
+        .contactListId(dncListId.getId())
+        .contacts(Arrays.asList(dnc1, dnc2, dnc3))
         .build();
+    // add items
     client.dncListsApi().addListItems(request);
-
-
 
 === Remove dnc list item
 '''
-Example how to delete DNC list item
+Example how to delete DNC list item (you should specify list id and phone number to delete)
 [source,java]
     //toNumber param is required
     CallfireClient client = new CallfireClient("api login", "api password");
     client.dncListsApi().removeListItem(1975140003L, "16505044730");
 
-
-
 === Remove dnc list item
 '''
-Example how to delete DNC list items
+Example how to delete DNC list items (you should specify list id and phone numbers to delete)
 [source,java]
     //toNumber param is required
     CallfireClient client = new CallfireClient("api login", "api password");

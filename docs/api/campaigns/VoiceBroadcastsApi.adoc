@@ -15,7 +15,7 @@ Find all voice campaigns created by the user. Can query on label, name, and the 
 == Create broadcast
 Create a voice broadcast campaign using the Voice Broadcast API. Send a VoiceBroadcast in the message body to detail
  a voice broadcast campaign. A campaign can be created with no contacts and bare minimum configuration, but contacts
- will have to be added further on to use the campaign. Example how to create voice broadcast and then start it.
+ will have to be added further on to use the campaign. Example how to create voice broadcast and then start it:
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     VoiceBroadcast broadcast = new VoiceBroadcast();
@@ -85,8 +85,8 @@ Get calls associated with voice broadcast ordered by date
     System.out.println(calls);
 
 == Add recipients to an voice broadcast
-Use this method to add recipients to an already created vocie broadcast. Post a list of Recipient objects for
- them to be immediately added to the vocie broadcast campaign. These contacts do not go through validation process,
+Use this method to add recipients to an already created voice broadcast. Post a list of Recipient objects for
+ them to be immediately added to the voice broadcast campaign. These contacts do not go through validation process,
  and will be acted upon as they are added. Recipients may be added as a list of contact ids, or list of numbers.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
