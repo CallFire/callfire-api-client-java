@@ -5,11 +5,11 @@ Find all text broadcasts created by the user. Can query on label, name, and the 
  the campaign. Returns a paged list of text broadcasts. Example how to find 2 text broadcasts which have 'campaign'
  suffix in their names:
 [source,java]
-    FindTextBroadcastsRequest findRequest = FindTextBroadcastsRequest.create()
+    FindTextBroadcastsRequest request = FindTextBroadcastsRequest.create()
         .name("campaign")
         .limit(2L)
         .build();
-    Page<TextBroadcast> broadcasts = client.textBroadcastsApi().find(findRequest);
+    Page<TextBroadcast> broadcasts = client.textBroadcastsApi().find(request);
     System.out.println(broadcasts);
 
 == Create broadcast
@@ -58,6 +58,8 @@ After having created a text broadcast campaign, this method lets the user modify
     retryConfig.setRetryResults(Arrays.asList(RetryResults.BUSY));
     retryConfig.setRetryPhoneTypes(Arrays.asList(RetryPhoneTypes.HOME_PHONE, RetryPhoneTypes.MOBILE_PHONE));
     broadcast.setRetryConfig(retryConfig);
+    // update campaign
+    callfireClient.textBroadcastsApi().update(broadcast);
 
 == Start broadcast
 Start text broadcast by ID
@@ -81,10 +83,10 @@ Archive text broadcast by ID
 This operation will enable the user to page through all of the texts for a particular text broadcast campaign.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
-    GetByIdRequest getTextsRequest = GetByIdRequest.create()
+    GetByIdRequest request = GetByIdRequest.create()
         .id(1234L)
         .build();
-    Page<Text> texts = callfireClient.textBroadcastsApi().getTexts(getTextsRequest);
+    Page<Text> texts = callfireClient.textBroadcastsApi().getTexts(request);
     System.out.println(texts);
 
 == Add recipients to a text broadcast
