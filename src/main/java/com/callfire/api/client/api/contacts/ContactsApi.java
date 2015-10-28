@@ -1,8 +1,6 @@
 package com.callfire.api.client.api.contacts;
 
-import com.callfire.api.client.CallfireApiException;
-import com.callfire.api.client.CallfireClientException;
-import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.*;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -48,8 +46,13 @@ public class ContactsApi {
      *
      * @param request request object with different fields to filter
      * @return {@link Page} with {@link Contact} objects
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<Contact> find(FindContactsRequest request) {
         return client.get(CONTACTS_PATH, PAGE_OF_CONTACT_TYPE, request);
@@ -61,8 +64,13 @@ public class ContactsApi {
      *
      * @param contacts contacts to create
      * @return list of ids newly created contacts
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<ResourceId> create(List<Contact> contacts) {
         return client.post(CONTACTS_PATH, LIST_OF_RESOURCE_ID_TYPE, contacts).getItems();
@@ -74,8 +82,13 @@ public class ContactsApi {
      *
      * @param id id of contact
      * @return requested contact
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Contact get(Long id) {
         return get(id, null);
@@ -88,8 +101,13 @@ public class ContactsApi {
      * @param id     id of contact
      * @param fields limit fields returned. Example fields=id,name
      * @return requested contact
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Contact get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
@@ -102,8 +120,13 @@ public class ContactsApi {
      * Update contact
      *
      * @param contact contact to update
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void update(Contact contact) {
         Validate.notNull(contact.getId(), "contact.id cannot be null");
@@ -115,8 +138,13 @@ public class ContactsApi {
      * any contact lists and marks the contact as deleted so won't show up in queries anymore.
      *
      * @param id id of contact
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -128,8 +156,13 @@ public class ContactsApi {
      *
      * @param request request to get particular contact's history
      * @return returns a list of calls and texts a contact has been involved with.
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public ContactHistory getHistory(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");

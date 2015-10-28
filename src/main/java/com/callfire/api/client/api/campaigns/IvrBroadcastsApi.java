@@ -1,8 +1,6 @@
 package com.callfire.api.client.api.campaigns;
 
-import com.callfire.api.client.CallfireApiException;
-import com.callfire.api.client.CallfireClientException;
-import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.api.campaigns.model.IvrBroadcast;
@@ -58,8 +56,13 @@ public class IvrBroadcastsApi {
      *
      * @param request finder request with properties to search by
      * @return {@link Page} with {@link IvrBroadcast} objects
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<IvrBroadcast> find(FindIvrBroadcastsRequest request) {
         return client.get(IVR_PATH, PAGE_OF_IVRS_TYPE, request);
@@ -73,8 +76,13 @@ public class IvrBroadcastsApi {
      *
      * @param broadcast ivr broadcast to create
      * @return {@link ResourceId} object with id of created broadcast
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(IvrBroadcast broadcast) {
         return create(broadcast, null);
@@ -89,8 +97,13 @@ public class IvrBroadcastsApi {
      * @param broadcast ivr broadcast to create
      * @param start     if set to true broadcast will starts immediately
      * @return {@link ResourceId} object with id of created broadcast
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(IvrBroadcast broadcast, Boolean start) {
         List<NameValuePair> queryParams = new ArrayList<>(1);
@@ -103,8 +116,13 @@ public class IvrBroadcastsApi {
      *
      * @param id id of broadcast
      * @return {@link IvrBroadcast} object
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public IvrBroadcast get(Long id) {
         return get(id, null);
@@ -116,8 +134,13 @@ public class IvrBroadcastsApi {
      * @param id     id of broadcast
      * @param fields limit fields returned. Example fields=id,message
      * @return {@link IvrBroadcast} object
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public IvrBroadcast get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
@@ -130,8 +153,13 @@ public class IvrBroadcastsApi {
      * Update ivr broadcast
      *
      * @param broadcast broadcast to update
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void update(IvrBroadcast broadcast) {
         Validate.notNull(broadcast.getId(), "broadcast.id cannot be null");
@@ -143,8 +171,13 @@ public class IvrBroadcastsApi {
      *
      * @param request get request
      * @return {@link Page} with {@link Batch} objects
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<Batch> getBatches(GetByIdRequest request) {
         String path = IVR_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
@@ -159,8 +192,13 @@ public class IvrBroadcastsApi {
      *
      * @param request request with contacts
      * @return {@link ResourceId} with id of created {@link Batch}
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId addBatch(AddBatchRequest request) {
         String path = IVR_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
@@ -172,8 +210,13 @@ public class IvrBroadcastsApi {
      *
      * @param request request with properties to filter
      * @return {@link Page} with {@link Call} objects
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<Call> getCalls(GetByIdRequest request) {
         String path = IVR_ITEM_CALLS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
@@ -184,8 +227,13 @@ public class IvrBroadcastsApi {
      * Starts IVR campaign
      *
      * @param id id of campaign
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -196,8 +244,13 @@ public class IvrBroadcastsApi {
      * Stops IVR campaign
      *
      * @param id id of campaign
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void stop(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -208,8 +261,13 @@ public class IvrBroadcastsApi {
      * Archives IVR campaign
      *
      * @param id id of campaign
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void archive(Long id) {
         Validate.notNull(id, "id cannot be null");
@@ -222,8 +280,13 @@ public class IvrBroadcastsApi {
      * @param id         id of ivr broadcast
      * @param recipients recipients to add
      * @return list of {@link Call} to recipients
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Call> addRecipients(Long id, List<Recipient> recipients) {
         return addRecipients(id, recipients, null);
@@ -236,8 +299,13 @@ public class IvrBroadcastsApi {
      * @param recipients recipients to add
      * @param fields     limit fields returned. Example fields=id,message
      * @return list of {@link Call} to recipients
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Call> addRecipients(Long id, List<Recipient> recipients, String fields) {
         Validate.notNull(id, "id cannot be null");

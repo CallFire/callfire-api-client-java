@@ -44,8 +44,6 @@ public class RestApiClient {
     private Authentication authentication;
     private SortedSet<RequestFilter> filters = new TreeSet<>();
 
-    private final String baseApiPath;
-
     /**
      * REST API client constructor. Currently available authentication methods: {@link BasicAuth}
      *
@@ -57,7 +55,6 @@ public class RestApiClient {
         httpClient = HttpClientBuilder.create()
             .setUserAgent(CallfireClient.getClientConfig().getProperty(USER_AGENT_PROPERTY))
             .build();
-        baseApiPath = CallfireClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
     }
 
     /**
@@ -94,8 +91,13 @@ public class RestApiClient {
      * @param type return entity type
      * @param <T>  return entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T get(String path, TypeReference<T> type) {
         return get(path, type, Collections.<NameValuePair>emptyList());
@@ -109,8 +111,13 @@ public class RestApiClient {
      * @param request finder request with query parameters
      * @param <T>     return entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T get(String path, TypeReference<T> type, FindRequest request) {
         List<NameValuePair> queryParams = buildQueryParams(request);
@@ -125,12 +132,17 @@ public class RestApiClient {
      * @param queryParams query parameters
      * @param <T>         return entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T get(String path, TypeReference<T> type, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             LOGGER.debug("GET request to {} with params: {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.get(uri)
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -148,8 +160,13 @@ public class RestApiClient {
      * @param type return entity type
      * @param <T>  return entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T post(String path, TypeReference<T> type) {
         return post(path, type, null);
@@ -163,12 +180,17 @@ public class RestApiClient {
      * @param params request parameters
      * @param <T>    response entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T postFile(String path, TypeReference<T> type, Map<String, ?> params) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
             entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             entityBuilder.addBinaryBody("file", (File) params.get("file"));
@@ -192,8 +214,13 @@ public class RestApiClient {
      * @param payload request payload
      * @param <T>     response entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T post(String path, TypeReference<T> type, Object payload) {
         return post(path, type, payload, Collections.<NameValuePair>emptyList());
@@ -208,12 +235,17 @@ public class RestApiClient {
      * @param queryParams query parameters
      * @param <T>         response entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T post(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -239,8 +271,13 @@ public class RestApiClient {
      * @param payload request payload
      * @param <T>     response entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T put(String path, TypeReference<T> type, Object payload) {
         return put(path, type, payload, Collections.<NameValuePair>emptyList());
@@ -255,12 +292,17 @@ public class RestApiClient {
      * @param queryParams query parameters
      * @param <T>         response entity type
      * @return pojo mapped from json
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T put(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
@@ -278,8 +320,13 @@ public class RestApiClient {
      * Performs DELETE request to specified path
      *
      * @param path request path
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void delete(String path) {
         delete(path, Collections.<NameValuePair>emptyList());
@@ -290,12 +337,17 @@ public class RestApiClient {
      *
      * @param path        request path
      * @param queryParams query parameters
-     * @throws CallfireApiException    in case API cannot be queried for some reason
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void delete(String path, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
             requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -304,6 +356,15 @@ public class RestApiClient {
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
+    }
+
+    /**
+     * Returns base URL path for all Callfire's API 2.0 endpoints
+     *
+     * @return string representation of base URL path
+     */
+    public String getApiBasePath() {
+        return CallfireClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
     }
 
     /**
@@ -320,32 +381,51 @@ public class RestApiClient {
         for (RequestFilter filter : filters) {
             filter.filter(requestBuilder);
         }
-
         HttpUriRequest httpRequest = authentication.apply(requestBuilder.build());
         HttpResponse response = httpClient.execute(httpRequest);
 
         int statusCode = response.getStatusLine().getStatusCode();
-        if (response.getEntity() == null) {
+        HttpEntity httpEntity = response.getEntity();
+        if (httpEntity == null) {
             LOGGER.debug("received http code {} with null entity, returning null", statusCode);
             return null;
         }
-        if (statusCode >= 500) {
-            String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
-            ErrorMessage errorMessage = new ErrorMessage(statusCode, responseText, GENERIC_HELP_LINK);
-            throw new CallfireApiException(errorMessage);
-        } else if (statusCode >= 400) {
-            String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
-            throw new CallfireApiException(jsonConverter.deserialize(responseText, ERROR_MESSAGE_TYPE));
-        }
+        String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
+        verifyResponse(statusCode, stringResponse);
 
         if (type.getType() == InputStream.class) {
-            return (T) response.getEntity().getContent();
+            return (T) httpEntity.getContent();
         }
 
-        String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-        T entity = jsonConverter.deserialize(result, type);
-        logDebugPrettyJson("received entity \n{}", entity);
-        return entity;
+        T model = jsonConverter.deserialize(stringResponse, type);
+        logDebugPrettyJson("received entity \n{}", model);
+        return model;
+    }
+
+    private void verifyResponse(int statusCode, String stringResponse) throws IOException {
+        if (statusCode >= 400) {
+            ErrorMessage message;
+            try {
+                message = jsonConverter.deserialize(stringResponse, ERROR_MESSAGE_TYPE);
+            } catch (CallfireClientException e) {
+                LOGGER.warn("cannot deserialize response entity.", e);
+                message = new ErrorMessage(statusCode, stringResponse, GENERIC_HELP_LINK);
+            }
+            switch (statusCode) {
+                case 400:
+                    throw new BadRequestException(message);
+                case 401:
+                    throw new UnauthorizedException(message);
+                case 403:
+                    throw new AccessForbiddenException(message);
+                case 404:
+                    throw new ResourceNotFoundException(message);
+                case 500:
+                    throw new InternalServerErrorException(message);
+                default:
+                    throw new CallfireApiException(message);
+            }
+        }
     }
 
     // makes extra deserialization to get pretty json string, enable only in case of debugging

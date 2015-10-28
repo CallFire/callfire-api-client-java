@@ -13,7 +13,7 @@ public class CampaignSound extends CallfireModel {
     private Status status;
 
     public enum Status {
-        UPLOAD, RECORDING, ACTIVE, FAILED, ARCHIVED,
+        UPLOAD, RECORDING, ACTIVE, FAILED, ARCHIVED
     }
 
     public Long getId() {

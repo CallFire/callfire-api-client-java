@@ -19,64 +19,43 @@
   "basePath": "/v2",
   "tags": [
     {
-      "name": "keyword-leases"
-    },
-    {
-      "name": "campaigns"
-    },
-    {
-      "name": "campaign-sounds"
-    },
-    {
       "name": "keywords"
-    },
-    {
-      "name": "numbers"
-    },
-    {
-      "name": "number-leases"
-    },
-    {
-      "name": "texts"
-    },
-    {
-      "name": "me"
-    },
-    {
-      "name": "text-auto-reply"
     },
     {
       "name": "contacts"
     },
     {
-      "name": "dncs"
-    },
-    {
-      "name": "campaign-batches"
-    },
-    {
-      "name": "orders"
-    },
-    {
-      "name": "subscriptions"
-    },
-    {
-      "name": "voice-broadcasts"
+      "name": "ivrs"
     },
     {
       "name": "calls"
     },
     {
-      "name": "ivrs"
+      "name": "orders"
+    },
+    {
+      "name": "campaigns"
+    },
+    {
+      "name": "me"
+    },
+    {
+      "name": "voice-broadcasts"
+    },
+    {
+      "name": "text-auto-reply"
     },
     {
       "name": "webhooks"
     },
     {
-      "name": "contacts-lists"
+      "name": "text-broadcasts"
     },
     {
-      "name": "text-broadcasts"
+      "name": "numbers"
+    },
+    {
+      "name": "texts"
     }
   ],
   "schemes": [
@@ -286,7 +265,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/List"
+              "$ref": "#/definitions/JResponse"
             }
           }
         },
@@ -350,8 +329,7 @@
     "/campaigns/batches/{id}": {
       "get": {
         "tags": [
-          "campaigns",
-          "campaign-batches"
+          "campaigns"
         ],
         "summary": "Find a specific batch",
         "description": "Returns a single Batch instance for a given batch id. This API is useful for determining the state of a validating batch.",
@@ -397,8 +375,7 @@
       },
       "put": {
         "tags": [
-          "campaigns",
-          "campaign-batches"
+          "campaigns"
         ],
         "summary": "Update a batch",
         "description": "Update to a single Batch instance. May only change enabled at this time.",
@@ -445,7 +422,6 @@
     "/campaigns/ivrs": {
       "get": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Find IVRs",
@@ -536,7 +512,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Create an IVR",
@@ -594,7 +569,6 @@
     "/campaigns/ivrs/{id}": {
       "get": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Find a specific IVR",
@@ -641,7 +615,6 @@
       },
       "put": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Update an IVR",
@@ -689,7 +662,6 @@
     "/campaigns/ivrs/{id}/archive": {
       "post": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Archive ivr broadcast",
@@ -728,7 +700,6 @@
     "/campaigns/ivrs/{id}/batches": {
       "get": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Find batches in an IVR",
@@ -793,7 +764,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Add batches to an IVR",
@@ -844,7 +814,6 @@
     "/campaigns/ivrs/{id}/calls": {
       "get": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Find calls in an IVR",
@@ -911,7 +880,6 @@
     "/campaigns/ivrs/{id}/recipients": {
       "post": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Add recipients to an IVR",
@@ -972,7 +940,6 @@
     "/campaigns/ivrs/{id}/start": {
       "post": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Start ivr broadcast",
@@ -1011,7 +978,6 @@
     "/campaigns/ivrs/{id}/stop": {
       "post": {
         "tags": [
-          "campaigns",
           "ivrs"
         ],
         "summary": "Stop ivr broadcast",
@@ -1050,8 +1016,7 @@
     "/campaigns/sounds": {
       "get": {
         "tags": [
-          "campaigns",
-          "campaign-sounds"
+          "campaigns"
         ],
         "summary": "Find sounds",
         "description": "Find all campaign sounds that were created by the user. These are all of the available sounds to be used in campaigns.",
@@ -1124,8 +1089,7 @@
     "/campaigns/sounds/calls": {
       "post": {
         "tags": [
-          "campaigns",
-          "campaign-sounds"
+          "campaigns"
         ],
         "summary": "Add sound via call",
         "description": "Use this API to create a sound via phone call. Supply the required phone number in the CallCreateSound object inside of the request, and the user will receive a call shortly after with instructions on how to record a sound over the phone.",
@@ -1175,8 +1139,7 @@
     "/campaigns/sounds/tts": {
       "post": {
         "tags": [
-          "campaigns",
-          "campaign-sounds"
+          "campaigns"
         ],
         "summary": "Add sound via text-to-speech",
         "description": "Use this API to create a sound file via a supplied string of text. Send the required text in the TextToSpeech.message field, and pick a voice in the TextToSpeech.voice field. Available voices are: MALE1, FEMALE1 , FEMALE2, SPANISH1, FRENCHCANADIAN1",
@@ -1226,8 +1189,7 @@
     "/campaigns/sounds/{id}": {
       "get": {
         "tags": [
-          "campaigns",
-          "campaign-sounds"
+          "campaigns"
         ],
         "summary": "Find a specific sound",
         "description": "Returns a single CampaignSound instance for a given campaign sound id. This is the meta data to the sounds only. No audio data is returned from this API.",
@@ -1275,8 +1237,7 @@
     "/campaigns/sounds/{id}.mp3": {
       "get": {
         "tags": [
-          "campaigns",
-          "campaign-sounds"
+          "campaigns"
         ],
         "summary": "Download a MP3 sound",
         "description": "Download the MP3 version of the hosted file. This is an audio data endpoint.",
@@ -1317,8 +1278,7 @@
     "/campaigns/sounds/{id}.wav": {
       "get": {
         "tags": [
-          "campaigns",
-          "campaign-sounds"
+          "campaigns"
         ],
         "summary": "Download a WAV sound",
         "description": "Download the WAV version of the hosted file. This is an audio data endpoint.",
@@ -1359,7 +1319,6 @@
     "/campaigns/text-auto-replys": {
       "get": {
         "tags": [
-          "campaigns",
           "text-auto-reply"
         ],
         "summary": "Find auto replies",
@@ -1431,7 +1390,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "text-auto-reply"
         ],
         "summary": "Create an auto reply",
@@ -1482,7 +1440,6 @@
     "/campaigns/text-auto-replys/{id}": {
       "get": {
         "tags": [
-          "campaigns",
           "text-auto-reply"
         ],
         "summary": "Find a specific auto reply",
@@ -1529,7 +1486,6 @@
       },
       "delete": {
         "tags": [
-          "campaigns",
           "text-auto-reply"
         ],
         "summary": "Delete an auto reply",
@@ -1568,7 +1524,6 @@
     "/campaigns/text-broadcasts": {
       "get": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Find text broadcasts",
@@ -1652,7 +1607,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Create a text broadcast",
@@ -1710,7 +1664,6 @@
     "/campaigns/text-broadcasts/batches/{id}": {
       "get": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Find a specific batch in a text broadcast",
@@ -1757,7 +1710,6 @@
       },
       "put": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Update a specific batch in a text broadcast",
@@ -1805,7 +1757,6 @@
     "/campaigns/text-broadcasts/{id}": {
       "get": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Find a specific text broadcast",
@@ -1852,7 +1803,6 @@
       },
       "put": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Update a text broadcast",
@@ -1900,7 +1850,6 @@
     "/campaigns/text-broadcasts/{id}/archive": {
       "post": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Archive text broadcast",
@@ -1939,7 +1888,6 @@
     "/campaigns/text-broadcasts/{id}/batches": {
       "get": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Find batches in a text broadcast",
@@ -2004,7 +1952,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Add batches to a text broadcast",
@@ -2055,7 +2002,6 @@
     "/campaigns/text-broadcasts/{id}/recipients": {
       "post": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Add recipients to a text broadcast",
@@ -2116,7 +2062,6 @@
     "/campaigns/text-broadcasts/{id}/start": {
       "post": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Start text broadcast",
@@ -2155,7 +2100,6 @@
     "/campaigns/text-broadcasts/{id}/stop": {
       "post": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Stop text broadcast",
@@ -2194,7 +2138,6 @@
     "/campaigns/text-broadcasts/{id}/texts": {
       "get": {
         "tags": [
-          "campaigns",
           "text-broadcasts"
         ],
         "summary": "Find texts in a text broadcast",
@@ -2261,7 +2204,6 @@
     "/campaigns/voice-broadcasts": {
       "get": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Find voice broadcasts",
@@ -2345,7 +2287,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Create a voice broadcast",
@@ -2403,7 +2344,6 @@
     "/campaigns/voice-broadcasts/{id}": {
       "get": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Find a specific voice broadcast",
@@ -2450,7 +2390,6 @@
       },
       "put": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Update a voice broadcast",
@@ -2498,7 +2437,6 @@
     "/campaigns/voice-broadcasts/{id}/archive": {
       "post": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Archive voice broadcast",
@@ -2537,7 +2475,6 @@
     "/campaigns/voice-broadcasts/{id}/batches": {
       "get": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Find batches in a voice broadcast",
@@ -2602,7 +2539,6 @@
       },
       "post": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Add batches to a voice broadcast",
@@ -2653,7 +2589,6 @@
     "/campaigns/voice-broadcasts/{id}/calls": {
       "get": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Find calls in a voice broadcast",
@@ -2720,7 +2655,6 @@
     "/campaigns/voice-broadcasts/{id}/recipients": {
       "post": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Add recipients to a voice broadcast",
@@ -2781,7 +2715,6 @@
     "/campaigns/voice-broadcasts/{id}/start": {
       "post": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Start voice broadcast",
@@ -2820,7 +2753,6 @@
     "/campaigns/voice-broadcasts/{id}/stop": {
       "post": {
         "tags": [
-          "campaigns",
           "voice-broadcasts"
         ],
         "summary": "Stop voice broadcast",
@@ -3011,7 +2943,6 @@
     "/contacts/dncs": {
       "get": {
         "tags": [
-          "dncs",
           "contacts"
         ],
         "summary": "Find DNCs",
@@ -3102,7 +3033,6 @@
       },
       "put": {
         "tags": [
-          "dncs",
           "contacts"
         ],
         "summary": "Update a DNC",
@@ -3142,7 +3072,6 @@
     "/contacts/lists": {
       "get": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Find contact lists",
@@ -3212,7 +3141,6 @@
       },
       "post": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Create contact lists",
@@ -3255,7 +3183,6 @@
     "/contacts/lists/upload": {
       "post": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Create contact list from file",
@@ -3303,7 +3230,6 @@
     "/contacts/lists/{id}": {
       "get": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Find a specific contact list",
@@ -3350,7 +3276,6 @@
       },
       "put": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Update a contact list",
@@ -3396,7 +3321,6 @@
       },
       "delete": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Delete a contact list",
@@ -3435,7 +3359,6 @@
     "/contacts/lists/{id}/items": {
       "get": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Find contacts in a contact list",
@@ -3506,7 +3429,6 @@
       },
       "post": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Add contacts to a contact list",
@@ -3554,7 +3476,6 @@
     "/contacts/lists/{listId}/items": {
       "delete": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Delete contacts from a contact list",
@@ -3605,7 +3526,6 @@
     "/contacts/lists/{listId}/items/{contactId}": {
       "delete": {
         "tags": [
-          "contacts-lists",
           "contacts"
         ],
         "summary": "Delete a contact from a contact list",
@@ -3882,7 +3802,7 @@
     "/keywords/leases": {
       "get": {
         "tags": [
-          "keyword-leases"
+          "keywords"
         ],
         "summary": "Find keyword leases",
         "description": "Find all owned keyword leases for a user. A keyword lease is the ownership information involving a keyword.",
@@ -3940,7 +3860,7 @@
     "/keywords/leases/{keyword}": {
       "get": {
         "tags": [
-          "keyword-leases"
+          "keywords"
         ],
         "summary": "Find a specific lease",
         "description": "Returns a KeywordLease for a given keyword.",
@@ -3985,7 +3905,7 @@
       },
       "put": {
         "tags": [
-          "keyword-leases"
+          "keywords"
         ],
         "summary": "Update a lease",
         "description": "Update a keyword lease. Can only set autoRenew to false at this time.",
@@ -4492,7 +4412,7 @@
     "/numbers/leases": {
       "get": {
         "tags": [
-          "number-leases"
+          "numbers"
         ],
         "summary": "Find leases",
         "description": "Find all number leases for the user. This API is useful for finding all numbers currently owned by an account. Returns a paged list of NumberLease. ",
@@ -4599,7 +4519,7 @@
     "/numbers/leases/configs": {
       "get": {
         "tags": [
-          "number-leases"
+          "numbers"
         ],
         "summary": "Find lease configs",
         "description": "Find all number lease configs for the user. Returns a paged list of NumberConfig.",
@@ -4706,7 +4626,7 @@
     "/numbers/leases/configs/{number}": {
       "get": {
         "tags": [
-          "number-leases"
+          "numbers"
         ],
         "summary": "Find a specific lease config",
         "description": "Returns a single NumberConfig instance for a given number lease.",
@@ -4751,7 +4671,7 @@
       },
       "put": {
         "tags": [
-          "number-leases"
+          "numbers"
         ],
         "summary": "Update a lease config",
         "description": "Update a number lease config. Use this API endpoint to add an Inbound IVR or Call Tracking feature to a CallFire phone number. ",
@@ -4797,7 +4717,7 @@
     "/numbers/leases/{number}": {
       "get": {
         "tags": [
-          "number-leases"
+          "numbers"
         ],
         "summary": "Find a specific lease",
         "description": "Returns a single NumberLease instance for a given number lease. ",
@@ -4842,7 +4762,7 @@
       },
       "put": {
         "tags": [
-          "number-leases"
+          "numbers"
         ],
         "summary": "Update a lease",
         "description": "Update a number lease instance. Ability to turn off autoRenew and toggle call/text features for a particular number.",
@@ -5263,302 +5183,6 @@
         ],
         "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/orders/10\"",
         "x-response": "{\"id\":10,\"status\":\"FINISHED\",\"created\":1443402092000,\"totalCost\":0.0,\"localNumbers\":{\"ordered\":2,\"unitCost\":0.0,\"fulfilled\":[\"13102305724\",\"13102306096\"]}}"
-      }
-    },
-    "/subscriptions": {
-      "get": {
-        "tags": [
-          "subscriptions"
-        ],
-        "summary": "Find subscriptions",
-        "description": "Find subscriptions to notifications for the user. Returns a paged list of Subscription.",
-        "operationId": "findSubscriptions",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Maximum number of records to return in a paged list response. The default is 100.",
-            "required": false,
-            "type": "integer",
-            "default": 1000,
-            "format": "int64"
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "description": "Offset to the start of a given page. The default is 0.",
-            "required": false,
-            "type": "integer",
-            "default": 0,
-            "format": "int64"
-          },
-          {
-            "name": "campaignId",
-            "in": "query",
-            "description": "Campaign id where subscription is set",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "trigger",
-            "in": "query",
-            "description": "Trigger type (UNDEFINED_EVENT, INBOUND_CALL_FINISHED, INBOUND_TEXT_FINISHED, OUTBOUND_CALL_FINISHED, OUTBOUND_TEXT_FINISHED, CAMPAIGN_STARTED, CAMPAIGN_STOPPED, CAMPAIGN_FINISHED)",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "UNDEFINED_EVENT",
-              "INBOUND_CALL_FINISHED",
-              "INBOUND_TEXT_FINISHED",
-              "OUTBOUND_CALL_FINISHED",
-              "OUTBOUND_TEXT_FINISHED",
-              "CAMPAIGN_STARTED",
-              "CAMPAIGN_STOPPED",
-              "CAMPAIGN_FINISHED"
-            ]
-          },
-          {
-            "name": "format",
-            "in": "query",
-            "description": "Format type (JSON, XML, SOAP, EMAIL, LEGACY)",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "JSON",
-              "XML",
-              "SOAP",
-              "EMAIL",
-              "LEGACY"
-            ]
-          },
-          {
-            "name": "fromNumber",
-            "in": "query",
-            "description": "E.164 number where subscrition is from",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "toNumber",
-            "in": "query",
-            "description": "E.164 number where subscription is to",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Page"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/subscriptions\"",
-        "x-response": "{\"items\":[{\"id\":3,\"enabled\":true,\"endpoint\":\"http://www.example.com/endpoint\",\"notificationFormat\":\"JSON\",\"triggerEvent\":\"CAMPAIGN_STARTED\",\"broadcastId\":14},{\"id\":2,\"enabled\":true,\"endpoint\":\"http://localhost/postback/callfire\",\"notificationFormat\":\"JSON\",\"triggerEvent\":\"INBOUND_CALL_FINISHED\"}],\"limit\":1000,\"offset\":0,\"totalCount\":2}"
-      },
-      "post": {
-        "tags": [
-          "subscriptions"
-        ],
-        "summary": "Create a subscription",
-        "description": "Create a subscription to CallFire notifications. ",
-        "operationId": "createSubscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "~",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/JResponse"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X POST -d '{\"enabled\":\"true\",\"endpoint\":\"http://www.example.com/endpoint\",\"notificationFormat\":\"JSON\",\"triggerEvent\":\"CAMPAIGN_STARTED\",\"broadcastId\":\"14\"}' \"https://api.callfire.com/v2/subscriptions\"",
-        "x-response": "{\"id\":3}"
-      }
-    },
-    "/subscriptions/{id}": {
-      "get": {
-        "tags": [
-          "subscriptions"
-        ],
-        "summary": "Find a specific subscription",
-        "description": "Returns a single Subscription instance for a given subscription id",
-        "operationId": "getSubscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of subscription",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/subscriptions/3\"",
-        "x-response": "{\"id\":3,\"enabled\":true,\"endpoint\":\"http://www.example.com/endpoint\",\"notificationFormat\":\"JSON\",\"triggerEvent\":\"CAMPAIGN_STARTED\",\"broadcastId\":14}"
-      },
-      "put": {
-        "tags": [
-          "subscriptions"
-        ],
-        "summary": "Update a subscription",
-        "description": "Update a subscription. Most fields are updatable.",
-        "operationId": "updateSubscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of subscription",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "~",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/Subscription"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X PUT -d '{\"triggerEvent\":\"CAMPAIGN_FINISHED\"}' \"https://api.callfire.com/v2/subscriptions/3\"",
-        "x-response": "200 OK - No Response"
-      },
-      "delete": {
-        "tags": [
-          "subscriptions"
-        ],
-        "summary": "Delete a subscription",
-        "description": "Delete a subscription. ",
-        "operationId": "deleteSubscription",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of subscription",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X DELETE \"https://api.callfire.com/v2/subscriptions/3\"",
-        "x-response": "204 No Content"
       }
     },
     "/texts": {
@@ -6532,9 +6156,9 @@
           "description": "Date formatted in unix time",
           "readOnly": true
         },
-        "callResult": {
+        "result": {
           "type": "string",
-          "description": "Result of call (LA, AM, BUSY, DNC, XFER, NO_ANS, XFER_LEG, INTERNAL_ERROR, CARRIER_ERROR, CARRIER_TEMP_ERROR, UNDIALED, SD, POSTPONED, ABANDONED, SKIPPED)",
+          "description": "~",
           "readOnly": true,
           "enum": [
             "LA",
@@ -6560,6 +6184,70 @@
           "items": {
             "$ref": "#/definitions/Note"
           }
+        },
+        "recordings": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/CallRecording"
+          }
+        }
+      },
+      "description": "~"
+    },
+    "CallRecording": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "callId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "campaignId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "name": {
+          "type": "string",
+          "description": "~"
+        },
+        "created": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "lengthInBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "lengthInSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "hash": {
+          "type": "string",
+          "description": "~"
+        },
+        "mp3Url": {
+          "type": "string",
+          "description": "~"
+        },
+        "state": {
+          "type": "string",
+          "description": "~",
+          "enum": [
+            "RECORDING",
+            "READY",
+            "ERROR"
+          ]
         }
       },
       "description": "~"
@@ -6633,7 +6321,7 @@
         },
         "status": {
           "type": "string",
-          "description": "Status of sound (UPLOAD, RECORDING, ACTIVE, FAILED, ARCHIVED)",
+          "description": "Status of sound (UPLOAD, RECORDING, ACTIVE, FAILED, ARCHIVED, SCRUBBED)",
           "readOnly": true,
           "enum": [
             "UPLOAD",
@@ -6866,6 +6554,13 @@
           "description": "LocalTimeRestriction object",
           "$ref": "#/definitions/LocalTimeRestriction"
         },
+        "schedules": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Schedule"
+          }
+        },
         "retryConfig": {
           "description": "RetryConfig object",
           "$ref": "#/definitions/RetryConfig"
@@ -7008,6 +6703,48 @@
             "type": "object",
             "properties": {}
           }
+        }
+      },
+      "description": "~"
+    },
+    "LocalDate": {
+      "type": "object",
+      "properties": {
+        "year": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "month": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "day": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        }
+      },
+      "description": "~"
+    },
+    "LocalTime": {
+      "type": "object",
+      "properties": {
+        "hour": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "minute": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "second": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
         }
       },
       "description": "~"
@@ -7445,6 +7182,58 @@
       },
       "description": "~"
     },
+    "Schedule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "campaignId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "startDate": {
+          "description": "~",
+          "$ref": "#/definitions/LocalDate"
+        },
+        "startTimeOfDay": {
+          "description": "~",
+          "$ref": "#/definitions/LocalTime"
+        },
+        "stopDate": {
+          "description": "~",
+          "$ref": "#/definitions/LocalDate"
+        },
+        "stopTimeOfDay": {
+          "description": "~",
+          "$ref": "#/definitions/LocalTime"
+        },
+        "timeZone": {
+          "type": "string",
+          "description": "~"
+        },
+        "daysOfWeek": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "type": "string",
+            "enum": [
+              "MONDAY",
+              "TUESDAY",
+              "WEDNESDAY",
+              "THURSDAY",
+              "FRIDAY",
+              "SATURDAY",
+              "SUNDAY"
+            ]
+          }
+        }
+      },
+      "description": "~"
+    },
     "StatusType": {
       "type": "object",
       "properties": {
@@ -7474,69 +7263,6 @@
     },
     "StreamingOutput": {
       "type": "object",
-      "description": "~"
-    },
-    "Subscription": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of subscription"
-        },
-        "enabled": {
-          "type": "boolean",
-          "description": "Is subscription enabled",
-          "default": false
-        },
-        "endpoint": {
-          "type": "string",
-          "description": "URL or email address to be used as endpoint"
-        },
-        "notificationFormat": {
-          "type": "string",
-          "description": "Format for the endpoint response (JSON, XML, SOAP, EMAIL, LEGACY)",
-          "enum": [
-            "JSON",
-            "XML",
-            "SOAP",
-            "EMAIL",
-            "LEGACY"
-          ]
-        },
-        "triggerEvent": {
-          "type": "string",
-          "description": "Event to send notification (UNDEFINED_EVENT, INBOUND_CALL_FINISHED, INBOUND_TEXT_FINISHED, OUTBOUND_CALL_FINISHED, OUTBOUND_TEXT_FINISHED, CAMPAIGN_STARTED, CAMPAIGN_STOPPED, CAMPAIGN_FINISHED)",
-          "enum": [
-            "UNDEFINED_EVENT",
-            "INBOUND_CALL_FINISHED",
-            "INBOUND_TEXT_FINISHED",
-            "OUTBOUND_CALL_FINISHED",
-            "OUTBOUND_TEXT_FINISHED",
-            "CAMPAIGN_STARTED",
-            "CAMPAIGN_STOPPED",
-            "CAMPAIGN_FINISHED"
-          ]
-        },
-        "broadcastId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of broadcast"
-        },
-        "batchId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of batch"
-        },
-        "fromNumber": {
-          "type": "string",
-          "description": "E.164 number or short code"
-        },
-        "toNumber": {
-          "type": "string",
-          "description": "E.164 number or short code:keyword"
-        }
-      },
       "description": "~"
     },
     "Text": {
@@ -7714,6 +7440,13 @@
         "localTimeRestriction": {
           "description": "LocalTimeRestriction object",
           "$ref": "#/definitions/LocalTimeRestriction"
+        },
+        "schedules": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Schedule"
+          }
         },
         "retryConfig": {
           "description": "RetryConfig object",
@@ -7902,6 +7635,13 @@
           "description": "LocalTimeRestriction object",
           "$ref": "#/definitions/LocalTimeRestriction"
         },
+        "schedules": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Schedule"
+          }
+        },
         "retryConfig": {
           "description": "RetryConfig object",
           "$ref": "#/definitions/RetryConfig"
@@ -8046,6 +7786,11 @@
         "enabled": {
           "type": "boolean",
           "description": "Is webhook currently enabled",
+          "default": false
+        },
+        "nonStrictSsl": {
+          "type": "boolean",
+          "description": "~",
           "default": false
         },
         "name": {

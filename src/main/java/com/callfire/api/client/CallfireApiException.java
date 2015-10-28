@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @since 1.0
  */
 public class CallfireApiException extends RuntimeException {
-    private ErrorMessage apiErrorMessage;
+    protected ErrorMessage apiErrorMessage;
 
     public CallfireApiException(ErrorMessage apiErrorMessage) {
         this.apiErrorMessage = apiErrorMessage;

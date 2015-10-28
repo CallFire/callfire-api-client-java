@@ -1,8 +1,6 @@
 package com.callfire.api.client.api.campaigns;
 
-import com.callfire.api.client.CallfireApiException;
-import com.callfire.api.client.CallfireClientException;
-import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.*;
 import com.callfire.api.client.api.campaigns.model.TextAutoReply;
 import com.callfire.api.client.api.campaigns.model.request.FindTextAutoRepliesRequest;
 import com.callfire.api.client.api.common.model.Page;
@@ -43,9 +41,13 @@ public class TextAutoRepliesApi {
      *
      * @param request request object with filtering options
      * @return page with TextAutoReply objects
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
-     * @see FindTextAutoRepliesRequest
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<TextAutoReply> find(FindTextAutoRepliesRequest request) {
         return client.get(TEXT_AUTO_REPLIES_PATH, PAGE_OF_TEXT_AUTO_REPLIES_TYPE, request);
@@ -58,8 +60,13 @@ public class TextAutoRepliesApi {
      *
      * @param textAutoReply auto-reply object to create
      * @return ResourceId object with id of created auto-reply
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(TextAutoReply textAutoReply) {
         return client.post(TEXT_AUTO_REPLIES_PATH, RESOURCE_ID_TYPE, textAutoReply);
@@ -70,8 +77,13 @@ public class TextAutoRepliesApi {
      *
      * @param id id of text auto reply object
      * @return text auto reply object
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public TextAutoReply get(Long id) {
         return get(id, null);
@@ -83,8 +95,13 @@ public class TextAutoRepliesApi {
      * @param id     id of text auto reply object
      * @param fields limit fields returned. Example fields=id,message
      * @return text auto reply object
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public TextAutoReply get(Long id, String fields) {
         Validate.notNull(id, "id cannot be null");
@@ -99,8 +116,13 @@ public class TextAutoRepliesApi {
      * Can not delete a TextAutoReply currently active on a campaign.
      *
      * @param id id of text auto reply
-     * @throws CallfireApiException    in case API cannot be queried for some reason and server returned error
-     * @throws CallfireClientException in case error has occurred in client
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
      */
     public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");

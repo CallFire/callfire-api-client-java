@@ -19,7 +19,7 @@
           "id": 10306,
           "billedAmount": 1.1667,
           "finishTime": 1443373425000,
-          "callResult": "AM"
+          "result": "AM"
         }
       ],
       "finalCallResult": "AM",
@@ -44,7 +44,7 @@
           "id": 10305,
           "billedAmount": 0.0,
           "finishTime": 1443373408000,
-          "callResult": "CARRIER_ERROR"
+          "result": "CARRIER_ERROR"
         }
       ],
       "finalCallResult": "CARRIER_ERROR",

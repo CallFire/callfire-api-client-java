@@ -96,7 +96,12 @@ public class AbstractApiTest {
 
     protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient httpClient, HttpResponse httpResponse,
         String responseJson) throws Exception {
-        when(httpResponse.getStatusLine()).thenReturn(getStatus200_Ok());
+        return mockHttpResponse(httpClient, httpResponse, responseJson, 200);
+    }
+
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient httpClient, HttpResponse httpResponse,
+        String responseJson, Integer responseCode) throws Exception {
+        when(httpResponse.getStatusLine()).thenReturn(getStatusForCode(responseCode));
         if (responseJson != null) {
             when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
         }
@@ -121,7 +126,7 @@ public class AbstractApiTest {
         }
     }
 
-    protected StatusLine getStatus200_Ok() {
-        return new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK");
+    protected StatusLine getStatusForCode(int code) {
+        return new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), code, "OK");
     }
 }
