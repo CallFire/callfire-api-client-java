@@ -8,32 +8,7 @@ Java client for Callfire platform API version 2. See link:docs/GettingStarted.ad
 
 .*Table of contents*
 * link:docs/GettingStarted.adoc[Getting Started]
-* API examples
-** Account
-*** link:docs/api/account/MeApi.adoc[User account API]
-*** link:docs/api/account/OrdersApi.adoc[Account orders]
-** link:docs/api/callstexts/CallsApi.adoc[Send individual calls]
-** link:docs/api/callstexts/TextsApi.adoc[Send individual texts]
-** Campaigns
-*** link:docs/api/campaigns/CampaignSoundsApi.adoc[Campaign Sounds]
-*** link:docs/api/campaigns/TextAutoRepliesApi.adoc[Text auto replies]
-*** Broadcasts
-**** link:docs/api/campaigns/TextBroadcastsApi.adoc[Text broadcasts]
-**** link:docs/api/campaigns/IvrBroadcastsApi.adoc[IVR broadcasts]
-**** link:docs/api/campaigns/VoiceBroadcastsApi.adoc[Voice broadcasts]
-**** link:docs/api/campaigns/BatchesApi.adoc[Contact batches]
-*** Cloud Call Center & Agents
-**** link:docs/api/campaigns/AgentsApi.adoc[Agents]
-**** link:docs/api/campaigns/AgentGroupsApi.adoc[Agent groups]
-**** link:docs/api/campaigns/CccsApi.adoc[Cloud call center API]
-** Contacts & Do Not Contact (DNC) lists
-*** link:docs/api/contacts/ContactsApi.adoc[User contacts]
-*** link:docs/api/contacts/ContactListsApi.adoc[Contact lists]
-*** link:docs/api/contacts/DncApi.adoc[Do Not Contact API]
-*** link:docs/api/contacts/DncListsApi.adoc[Do Not Contact lists API]
-** link:docs/api/keywords/KeywordsMain.adoc[Keywords & keyword leases API]
-** link:docs/api/numbers/NumbersMain.adoc[Numbers & number leases API]
-** link:docs/api/webhooks/WebhooksApi.adoc[Webhooks]
+* link:docs/api/ApiExamples.adoc[API code examples]
 * link:https://developers.callfire.com/docs.html[REST endpoints documentation]
 * Have a question ?
 ** link:https://developers.callfire.com/chat.html[Public chat room]
