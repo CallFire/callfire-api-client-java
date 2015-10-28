@@ -44,8 +44,6 @@ public class RestApiClient {
     private Authentication authentication;
     private SortedSet<RequestFilter> filters = new TreeSet<>();
 
-    private final String baseApiPath;
-
     /**
      * REST API client constructor. Currently available authentication methods: {@link BasicAuth}
      *
@@ -57,7 +55,6 @@ public class RestApiClient {
         httpClient = HttpClientBuilder.create()
             .setUserAgent(CallfireClient.getClientConfig().getProperty(USER_AGENT_PROPERTY))
             .build();
-        baseApiPath = CallfireClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
     }
 
     /**
@@ -130,7 +127,7 @@ public class RestApiClient {
      */
     public <T> T get(String path, TypeReference<T> type, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             LOGGER.debug("GET request to {} with params: {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.get(uri)
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -168,7 +165,7 @@ public class RestApiClient {
      */
     public <T> T postFile(String path, TypeReference<T> type, Map<String, ?> params) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
             entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             entityBuilder.addBinaryBody("file", (File) params.get("file"));
@@ -213,7 +210,7 @@ public class RestApiClient {
      */
     public <T> T post(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -260,7 +257,7 @@ public class RestApiClient {
      */
     public <T> T put(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
@@ -295,7 +292,7 @@ public class RestApiClient {
      */
     public void delete(String path, List<NameValuePair> queryParams) {
         try {
-            String uri = baseApiPath + path;
+            String uri = getApiBasePath() + path;
             LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
             requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
@@ -304,6 +301,15 @@ public class RestApiClient {
         } catch (IOException e) {
             throw new CallfireClientException(e);
         }
+    }
+
+    /**
+     * Returns base URL path for all Callfire's API 2.0 endpoints
+     *
+     * @return string representation of base URL path
+     */
+    public String getApiBasePath() {
+        return CallfireClient.getClientConfig().getProperty(BASE_PATH_PROPERTY);
     }
 
     /**
@@ -320,32 +326,50 @@ public class RestApiClient {
         for (RequestFilter filter : filters) {
             filter.filter(requestBuilder);
         }
-
         HttpUriRequest httpRequest = authentication.apply(requestBuilder.build());
         HttpResponse response = httpClient.execute(httpRequest);
 
         int statusCode = response.getStatusLine().getStatusCode();
-        if (response.getEntity() == null) {
+        HttpEntity httpEntity = response.getEntity();
+        if (httpEntity == null) {
             LOGGER.debug("received http code {} with null entity, returning null", statusCode);
             return null;
         }
-        if (statusCode >= 500) {
-            String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
-            ErrorMessage errorMessage = new ErrorMessage(statusCode, responseText, GENERIC_HELP_LINK);
-            throw new CallfireApiException(errorMessage);
-        } else if (statusCode >= 400) {
-            String responseText = EntityUtils.toString(response.getEntity(), "UTF-8");
-            throw new CallfireApiException(jsonConverter.deserialize(responseText, ERROR_MESSAGE_TYPE));
-        }
+        String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
+        verifyResponse(statusCode, stringResponse);
 
         if (type.getType() == InputStream.class) {
-            return (T) response.getEntity().getContent();
+            return (T) httpEntity.getContent();
         }
 
-        String result = EntityUtils.toString(response.getEntity(), "UTF-8");
-        T entity = jsonConverter.deserialize(result, type);
-        logDebugPrettyJson("received entity \n{}", entity);
-        return entity;
+        T model = jsonConverter.deserialize(stringResponse, type);
+        logDebugPrettyJson("received entity \n{}", model);
+        return model;
+    }
+
+    private void verifyResponse(int statusCode, String stringResponse) throws IOException {
+        if (statusCode >= 400) {
+            ErrorMessage message;
+            try {
+                message = jsonConverter.deserialize(stringResponse, ERROR_MESSAGE_TYPE);
+            } catch (CallfireClientException e) {
+                message = new ErrorMessage(statusCode, stringResponse, GENERIC_HELP_LINK);
+            }
+            switch (statusCode) {
+                case 400:
+                    throw new BadRequestException(message);
+                case 401:
+                    throw new UnauthorizedException(message);
+                case 403:
+                    throw new AccessForbiddenException(message);
+                case 404:
+                    throw new ResourceNotFoundException(message);
+                case 500:
+                    throw new InternalServerErrorException(message);
+                default:
+                    throw new CallfireApiException(message);
+            }
+        }
     }
 
     // makes extra deserialization to get pretty json string, enable only in case of debugging
