@@ -17,7 +17,7 @@
       "id": 10304,
       "billedAmount": 1.1667,
       "finishTime": 1443333972000,
-      "callResult": "LA"
+      "result": "LA"
     }
   ],
   "finalCallResult": "LA",

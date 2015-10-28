@@ -353,6 +353,7 @@ public class RestApiClient {
             try {
                 message = jsonConverter.deserialize(stringResponse, ERROR_MESSAGE_TYPE);
             } catch (CallfireClientException e) {
+                LOGGER.warn("cannot deserialize response entity.", e);
                 message = new ErrorMessage(statusCode, stringResponse, GENERIC_HELP_LINK);
             }
             switch (statusCode) {

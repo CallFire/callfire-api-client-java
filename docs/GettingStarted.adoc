@@ -40,10 +40,10 @@ In case you want to build it yourself:
 
 it will create 4 jars in *build/libs* directory:
 [source]
-callfire-api-client-1.4.0.jar
-callfire-api-client-1.4.0-all.jar - client jar with all dependencies inside
-callfire-api-client-1.4.0-javadoc.jar
-callfire-api-client-1.4.0-sources.jar
+    callfire-api-client-1.4.0.jar
+    callfire-api-client-1.4.0-all.jar - client jar with all dependencies inside
+    callfire-api-client-1.4.0-javadoc.jar
+    callfire-api-client-1.4.0-sources.jar
 
 
 == Overview
@@ -100,9 +100,16 @@ Codes in the 500s range are error responses from the CallFire system. If an erro
  execution of a resource that was not due to user input, a 500 response will be returned with a corresponding
  JSON error body. In that body will contain a message detailing what went wrong.
 
-.All API methods throw following exceptions (both are RuntimeException):
- * *CallfireApiException* - in case API cannot be queried for some reason and server returned error
+.All API methods throw following exceptions (all are RuntimeException):
  * *CallfireClientException* - in case error has occurred in client
+ * *CallfireApiException* - in case API cannot be queried for some reason and server returned error (this is the base
+ exception for API errors, some specific HTTP codes have their own exception):
+ ** *400 - BadRequestException* - The request was formatted improperly
+ ** *401 - UnauthorizedException* - API Key missing or invalid
+ ** *403 - AccessForbiddenException* - Insufficient permissions
+ ** *404 - ResourceNotFoundException* - The resource requested does not exist
+ ** *500 - InternalServerErrorException* - We had an error! Sorry about that.
+ ** other error codes will throw CallfireApiException
 
 *CallfireApiException* has *apiErrorMessage* property with details of occurred error, here is fields listing:
 [source,java]

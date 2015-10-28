@@ -19,7 +19,7 @@
                   "id": 100500,
                   "billedAmount": 100.0,
                   "finishTime": 12345,
-                  "callResult": "NO_ANS",
+                  "result": "NO_ANS",
                   "notes": [
                         {
                           "text": "test",

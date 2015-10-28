@@ -1,6 +1,19 @@
 Callfire API client Changelog
 =============================
 
+Version 1.5.0 - Oct 28 2015
+    - added support of schedules for all campaigns
+    - added 'recordings' property to CallRecord object, so now you can fetch recordings metadata for particular call
+    - improvements in exception handling, now different HTTP response error codes produce different API exceptions
+       -- 400 - throws BadRequestException
+       -- 401 - throws UnauthorizedException
+       -- 403 - throws AccessForbiddenException
+       -- 404 - throws ResourceNotFoundException
+       -- 500 - throws InternalServerErrorException
+       -- other error codes throw CallfireApiException
+
+-----------------------------
+
 Version 1.4.0 - Oct 19 2015
     - removed deprecated subscriptions api
 
