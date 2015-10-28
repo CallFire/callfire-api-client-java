@@ -28,17 +28,27 @@ import static com.callfire.api.client.ClientConstants.CLIENT_CONFIG_FILE;
  * the user of an endpoint. A generated username/password API credential from your
  * account settings is required.
  * </p>
- * <p>
  * <b>Errors:</b> codes in the 400s range detail all of the errors a CallFire Developer could
  * encounter while using the API. Bad Request, Rate Limit Reached, and Unauthorized
  * are some of the sorts of responses in the 400s block. Codes in the 500s range are
  * error responses from the CallFire system. If an error has occurred anywhere in
  * the execution of a resource that was not due to user input, a 500 response
- * will be returned with a corresponding JSON error body.
- * In that body will contain a message detailing what went wrong. In both cases
- * {@link CallfireApiException} will be thrown, if error occurred inside client -
- * {@link CallfireClientException}
- * </p>
+ * will be returned with a corresponding JSON error body. In that body will contain a message
+ * detailing what went wrong.
+ * API client methods throw 2 types of exceptions: API and client itself. API exceptions are mapped to
+ * HTTP response codes:
+ * <ul>
+ * <li>{@link BadRequestException} - 400 - Bad request, the request was formatted improperly.</li>
+ * <li>{@link UnauthorizedException} - 401 - Unauthorized, API Key missing or invalid.</li>
+ * <li>{@link AccessForbiddenException} - 403 - Forbidden, insufficient permissions.</li>
+ * <li>{@link ResourceNotFoundException} - 404 - NOT FOUND, the resource requested does not exist.</li>
+ * <li>{@link InternalServerErrorException} - 500 - Internal Server Error.</li>
+ * <li>{@link CallfireApiException} - other error codes mapped to base exception.</li>
+ * </ul>
+ * Client exceptions:
+ * <ul>
+ * <li>{@link CallfireClientException} - if error occurred inside client</li>
+ * </ul>
  *
  * @author Vladimir Mikhailov (email: vmikhailov@callfire.com)
  * @see <a href="https://developers.callfire.com/docs.html">Callfire API documentation</a>
