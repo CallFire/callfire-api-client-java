@@ -12,7 +12,7 @@ public abstract class CallfireModel implements Serializable {
     /**
      * Override in case you need additional validation of entity state
      *
-     * @throws ModelValidationException
+     * @throws ModelValidationException in case validation is failed
      */
     public void validate() {
     }
