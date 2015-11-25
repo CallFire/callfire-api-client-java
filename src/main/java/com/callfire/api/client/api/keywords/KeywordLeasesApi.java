@@ -4,7 +4,6 @@ import com.callfire.api.client.*;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.keywords.model.KeywordLease;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -12,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /keywords/leases
@@ -23,11 +23,6 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class KeywordLeasesApi {
     private static final String KEYWORD_LEASES_PATH = "/keywords/leases";
     private static final String KEYWORD_LEASES_ITEM_PATH = "/keywords/leases/{}";
-
-    private static final TypeReference<Page<KeywordLease>> PAGE_OF_KEYWORD_LEASES_TYPE = new TypeReference<Page<KeywordLease>>() {
-    };
-    private static final TypeReference<KeywordLease> KEYWORD_LEASE_TYPE = new TypeReference<KeywordLease>() {
-    };
 
     private RestApiClient client;
 
@@ -49,7 +44,7 @@ public class KeywordLeasesApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<KeywordLease> find(CommonFindRequest request) {
-        return client.get(KEYWORD_LEASES_PATH, PAGE_OF_KEYWORD_LEASES_TYPE, request);
+        return client.get(KEYWORD_LEASES_PATH, pageOf(KeywordLease.class), request);
     }
 
     /**
@@ -87,7 +82,8 @@ public class KeywordLeasesApi {
         Validate.notBlank(keyword, "keyword cannot be blank");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(KEYWORD_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, keyword), KEYWORD_LEASE_TYPE, queryParams);
+        String path = KEYWORD_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, keyword);
+        return client.get(path, of(KeywordLease.class), queryParams);
     }
 
     /**
@@ -104,6 +100,6 @@ public class KeywordLeasesApi {
      */
     public void update(KeywordLease lease) {
         Validate.notBlank(lease.getKeyword(), "lease.keyword cannot be blank");
-        client.put(KEYWORD_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, lease.getKeyword()), VOID_TYPE, lease);
+        client.put(KEYWORD_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, lease.getKeyword()), null, lease);
     }
 }

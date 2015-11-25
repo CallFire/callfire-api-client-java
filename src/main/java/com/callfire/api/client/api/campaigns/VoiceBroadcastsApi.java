@@ -10,7 +10,6 @@ import com.callfire.api.client.api.campaigns.model.request.FindVoiceBroadcastsRe
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -18,11 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.*;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.api.callstexts.CallsApi.LIST_OF_CALLS_TYPE;
-import static com.callfire.api.client.api.callstexts.CallsApi.PAGE_OF_CALLS_TYPE;
-import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYPE;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /campaigns/voice-broadcasts
@@ -38,10 +34,6 @@ public class VoiceBroadcastsApi {
     private static final String VB_ITEM_STOP_PATH = "/campaigns/voice-broadcasts/{}/stop";
     private static final String VB_ITEM_ARCHIVE_PATH = "/campaigns/voice-broadcasts/{}/archive";
     private static final String VB_ITEM_RECIPIENTS_PATH = "/campaigns/voice-broadcasts/{}/recipients";
-    private static final TypeReference<VoiceBroadcast> VB_TYPE = new TypeReference<VoiceBroadcast>() {
-    };
-    private static final TypeReference<Page<VoiceBroadcast>> PAGE_OF_VBS_TYPE = new TypeReference<Page<VoiceBroadcast>>() {
-    };
 
     private RestApiClient client;
 
@@ -64,7 +56,7 @@ public class VoiceBroadcastsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<VoiceBroadcast> find(FindVoiceBroadcastsRequest request) {
-        return client.get(VB_PATH, PAGE_OF_VBS_TYPE, request);
+        return client.get(VB_PATH, pageOf(VoiceBroadcast.class), request);
     }
 
     /**
@@ -104,7 +96,7 @@ public class VoiceBroadcastsApi {
     public ResourceId create(VoiceBroadcast broadcast, Boolean start) {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("start", start, queryParams);
-        return client.post(VB_PATH, RESOURCE_ID_TYPE, broadcast, queryParams);
+        return client.post(VB_PATH, of(ResourceId.class), broadcast, queryParams);
     }
 
     /**
@@ -142,7 +134,7 @@ public class VoiceBroadcastsApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(VB_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), VB_TYPE, queryParams);
+        return client.get(VB_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), of(VoiceBroadcast.class), queryParams);
     }
 
     /**
@@ -159,7 +151,7 @@ public class VoiceBroadcastsApi {
      */
     public void update(VoiceBroadcast broadcast) {
         Validate.notNull(broadcast.getId(), "broadcast.id cannot be null");
-        client.put(VB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), VOID_TYPE, broadcast);
+        client.put(VB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), null, broadcast);
     }
 
     /**
@@ -177,7 +169,7 @@ public class VoiceBroadcastsApi {
      */
     public Page<Batch> getBatches(GetByIdRequest request) {
         String path = VB_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, PAGE_OF_BATCH_TYPE, request);
+        return client.get(path, pageOf(Batch.class), request);
     }
 
     /**
@@ -199,7 +191,7 @@ public class VoiceBroadcastsApi {
      */
     public ResourceId addBatch(AddBatchRequest request) {
         String path = VB_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
-        return client.post(path, RESOURCE_ID_TYPE, request);
+        return client.post(path, of(ResourceId.class), request);
     }
 
     /**
@@ -218,7 +210,7 @@ public class VoiceBroadcastsApi {
      */
     public Page<Call> getCalls(GetByIdRequest request) {
         String path = VB_ITEM_CALLS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, PAGE_OF_CALLS_TYPE, request);
+        return client.get(path, pageOf(Call.class), request);
     }
 
     /**
@@ -235,7 +227,7 @@ public class VoiceBroadcastsApi {
      */
     public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(VB_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(VB_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -252,7 +244,7 @@ public class VoiceBroadcastsApi {
      */
     public void stop(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(VB_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(VB_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -269,7 +261,7 @@ public class VoiceBroadcastsApi {
      */
     public void archive(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(VB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(VB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -316,6 +308,6 @@ public class VoiceBroadcastsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = VB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_CALLS_TYPE, recipients, queryParams).getItems();
+        return client.post(path, listHolderOf(Call.class), recipients, queryParams).getItems();
     }
 }

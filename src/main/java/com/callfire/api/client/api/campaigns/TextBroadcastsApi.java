@@ -11,7 +11,6 @@ import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -22,12 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.*;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.api.callstexts.TextsApi.LIST_OF_TEXTS_TYPE;
-import static com.callfire.api.client.api.callstexts.TextsApi.PAGE_OF_TEXTS_TYPE;
-import static com.callfire.api.client.api.campaigns.BatchesApi.BATCH_TYPE;
-import static com.callfire.api.client.api.campaigns.BatchesApi.PAGE_OF_BATCH_TYPE;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /campaigns/text-broadcasts
@@ -45,10 +40,6 @@ public class TextBroadcastsApi {
     private static final String TB_ITEM_ARCHIVE_PATH = "/campaigns/text-broadcasts/{}/archive";
     private static final String TB_ITEM_RECIPIENTS_PATH = "/campaigns/text-broadcasts/{}/recipients";
     private static final String TB_ITEM_RECIPIENTS_FILE_PATH = "/campaigns/text-broadcasts/{}/recipients-file";
-    private static final TypeReference<TextBroadcast> TB_TYPE = new TypeReference<TextBroadcast>() {
-    };
-    private static final TypeReference<Page<TextBroadcast>> PAGE_OF_TBS_TYPE = new TypeReference<Page<TextBroadcast>>() {
-    };
 
     private RestApiClient client;
 
@@ -71,7 +62,7 @@ public class TextBroadcastsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<TextBroadcast> find(FindBroadcastsRequest request) {
-        return client.get(TB_PATH, PAGE_OF_TBS_TYPE, request);
+        return client.get(TB_PATH, pageOf(TextBroadcast.class), request);
     }
 
     /**
@@ -111,7 +102,7 @@ public class TextBroadcastsApi {
     public ResourceId create(TextBroadcast broadcast, Boolean start) {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("start", start, queryParams);
-        return client.post(TB_PATH, RESOURCE_ID_TYPE, broadcast, queryParams);
+        return client.post(TB_PATH, of(ResourceId.class), broadcast, queryParams);
     }
 
     /**
@@ -149,7 +140,7 @@ public class TextBroadcastsApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(TB_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), TB_TYPE, queryParams);
+        return client.get(TB_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), of(TextBroadcast.class), queryParams);
     }
 
     /**
@@ -166,7 +157,7 @@ public class TextBroadcastsApi {
      */
     public void update(TextBroadcast broadcast) {
         Validate.notNull(broadcast.getId(), "broadcast.id cannot be null");
-        client.put(TB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), VOID_TYPE, broadcast);
+        client.put(TB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), null, broadcast);
     }
 
     /**
@@ -183,7 +174,7 @@ public class TextBroadcastsApi {
      */
     public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(TB_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(TB_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -200,7 +191,7 @@ public class TextBroadcastsApi {
      */
     public void stop(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(TB_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(TB_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -217,7 +208,7 @@ public class TextBroadcastsApi {
      */
     public void archive(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(TB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(TB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -235,7 +226,7 @@ public class TextBroadcastsApi {
      */
     public Batch getBatch(GetByIdRequest request) {
         String path = TB_BATCHES_ITEM_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, BATCH_TYPE, request);
+        return client.get(path, of(Batch.class), request);
     }
 
     /**
@@ -252,7 +243,7 @@ public class TextBroadcastsApi {
      */
     public void updateBatch(Batch batch) {
         Validate.notNull(batch.getId(), "batch.id cannot be null");
-        client.put(TB_BATCHES_ITEM_PATH.replaceFirst(PLACEHOLDER, batch.getId().toString()), VOID_TYPE, batch);
+        client.put(TB_BATCHES_ITEM_PATH.replaceFirst(PLACEHOLDER, batch.getId().toString()), null, batch);
     }
 
     /**
@@ -270,7 +261,7 @@ public class TextBroadcastsApi {
      */
     public Page<Batch> getBatches(GetByIdRequest request) {
         String path = TB_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, PAGE_OF_BATCH_TYPE, request);
+        return client.get(path, pageOf(Batch.class), request);
     }
 
     /**
@@ -292,7 +283,7 @@ public class TextBroadcastsApi {
      */
     public ResourceId addBatch(AddBatchRequest request) {
         String path = TB_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
-        return client.post(path, RESOURCE_ID_TYPE, request);
+        return client.post(path, of(ResourceId.class), request);
     }
 
     /**
@@ -311,7 +302,7 @@ public class TextBroadcastsApi {
      */
     public Page<Text> getTexts(GetByIdRequest request) {
         String path = TB_ITEM_TEXTS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, PAGE_OF_TEXTS_TYPE, request);
+        return client.get(path, pageOf(Text.class), request);
     }
 
     /**
@@ -358,7 +349,7 @@ public class TextBroadcastsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.post(path, LIST_OF_TEXTS_TYPE, recipients, queryParams).getItems();
+        return client.post(path, listHolderOf(Text.class), recipients, queryParams).getItems();
     }
 
     /**
@@ -382,6 +373,6 @@ public class TextBroadcastsApi {
         Map<String, Object> params = new HashMap<>(1);
         params.put("file", file);
         String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.postFile(path, LIST_OF_RESOURCE_ID_TYPE, params).getItems();
+        return client.postFile(path, listHolderOf(ResourceId.class), params).getItems();
     }
 }

@@ -5,7 +5,6 @@ import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.webhooks.model.Webhook;
 import com.callfire.api.client.api.webhooks.model.request.FindWebhooksRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -14,9 +13,9 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
-import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /webhooks
@@ -26,10 +25,6 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class WebhooksApi {
     private static final String WEBHOOKS_PATH = "/webhooks";
     private static final String WEBHOOKS_ITEM_PATH = "/webhooks/{}";
-    private static final TypeReference<Webhook> WEBHOOK_TYPE = new TypeReference<Webhook>() {
-    };
-    private static final TypeReference<Page<Webhook>> PAGE_OF_WEBHOOKS_TYPE = new TypeReference<Page<Webhook>>() {
-    };
 
     private RestApiClient client;
 
@@ -52,7 +47,7 @@ public class WebhooksApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<Webhook> find(FindWebhooksRequest request) {
-        return client.get(WEBHOOKS_PATH, PAGE_OF_WEBHOOKS_TYPE, request);
+        return client.get(WEBHOOKS_PATH, pageOf(Webhook.class), request);
     }
 
     /**
@@ -91,7 +86,7 @@ public class WebhooksApi {
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
         String path = WEBHOOKS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, WEBHOOK_TYPE, queryParams);
+        return client.get(path, of(Webhook.class), queryParams);
     }
 
     /**
@@ -111,7 +106,7 @@ public class WebhooksApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(Webhook webhook) {
-        return client.post(WEBHOOKS_PATH, RESOURCE_ID_TYPE, webhook);
+        return client.post(WEBHOOKS_PATH, of(ResourceId.class), webhook);
     }
 
     /**
@@ -128,8 +123,7 @@ public class WebhooksApi {
      */
     public void update(Webhook webhook) {
         Validate.notNull(webhook.getId(), "webhook.id cannot be null");
-        client.put(WEBHOOKS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(webhook.getId())),
-            VOID_TYPE, webhook);
+        client.put(WEBHOOKS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(webhook.getId())), null, webhook);
     }
 
     /**

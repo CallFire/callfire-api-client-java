@@ -7,7 +7,7 @@
   "createdAt": 1443408255000,
   "updatedAt": 1443408255000,
   "events": [
-    "stop",
-    "start"
+    "start",
+    "stop"
   ]
 }

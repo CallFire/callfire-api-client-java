@@ -2,8 +2,6 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.common.model.Page;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -12,6 +10,7 @@ import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
 
 /**
  * Represents rest endpoint /campaigns/batches
@@ -20,10 +19,6 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
  */
 public class BatchesApi {
     private static final String BATCH_PATH = "/campaigns/batches/{}";
-    public static final TypeReference<Batch> BATCH_TYPE = new TypeReference<Batch>() {
-    };
-    public static final TypeReference<Page<Batch>> PAGE_OF_BATCH_TYPE = new TypeReference<Page<Batch>>() {
-    };
 
     private RestApiClient client;
 
@@ -68,7 +63,7 @@ public class BatchesApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(BATCH_PATH.replaceFirst(PLACEHOLDER, id.toString()), BATCH_TYPE, queryParams);
+        return client.get(BATCH_PATH.replaceFirst(PLACEHOLDER, id.toString()), of(Batch.class), queryParams);
     }
 
     /**
@@ -85,6 +80,6 @@ public class BatchesApi {
      */
     public void update(Batch batch) {
         Validate.notNull(batch.getId(), "batch.id cannot be null");
-        client.put(BATCH_PATH.replaceFirst(PLACEHOLDER, batch.getId().toString()), BATCH_TYPE, batch);
+        client.put(BATCH_PATH.replaceFirst(PLACEHOLDER, batch.getId().toString()), null, batch);
     }
 }

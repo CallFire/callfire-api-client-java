@@ -4,9 +4,7 @@ import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.CallRecipient;
 import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
-import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -15,6 +13,7 @@ import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /calls
@@ -28,12 +27,6 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class CallsApi {
     private static final String CALLS_PATH = "/calls";
     private static final String CALLS_ITEM_PATH = "/calls/{}";
-    private static final TypeReference<Call> CALL_TYPE = new TypeReference<Call>() {
-    };
-    public static final TypeReference<Page<Call>> PAGE_OF_CALLS_TYPE = new TypeReference<Page<Call>>() {
-    };
-    public static final TypeReference<ListHolder<Call>> LIST_OF_CALLS_TYPE = new TypeReference<ListHolder<Call>>() {
-    };
 
     private RestApiClient client;
 
@@ -58,7 +51,7 @@ public class CallsApi {
      * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
      */
     public Page<Call> find(FindCallsRequest request) {
-        return client.get(CALLS_PATH, PAGE_OF_CALLS_TYPE, request);
+        return client.get(CALLS_PATH, pageOf(Call.class), request);
     }
 
     /**
@@ -97,7 +90,7 @@ public class CallsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = CALLS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, CALL_TYPE, queryParams);
+        return client.get(path, of(Call.class), queryParams);
     }
 
     /**
@@ -140,6 +133,6 @@ public class CallsApi {
         List<NameValuePair> queryParams = new ArrayList<>(2);
         addQueryParamIfSet("campaignId", campaignId, queryParams);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.post(CALLS_PATH, LIST_OF_CALLS_TYPE, recipients, queryParams).getItems();
+        return client.post(CALLS_PATH, listHolderOf(Call.class), recipients, queryParams).getItems();
     }
 }

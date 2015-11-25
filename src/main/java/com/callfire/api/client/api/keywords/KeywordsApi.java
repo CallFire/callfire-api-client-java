@@ -1,9 +1,7 @@
 package com.callfire.api.client.api.keywords;
 
 import com.callfire.api.client.*;
-import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.keywords.model.Keyword;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -11,8 +9,9 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.callfire.api.client.ClientConstants.Type.BOOLEAN_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.of;
 
 /**
  * Represents rest endpoint /keywords
@@ -22,8 +21,6 @@ import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 public class KeywordsApi {
     private static final String KEYWORDS_PATH = "/keywords";
     private static final String KEYWORD_AVAILABLE_PATH = "/keywords/{}/available";
-    private static final TypeReference<ListHolder<Keyword>> KEYWORDS_LIST_TYPE = new TypeReference<ListHolder<Keyword>>() {
-    };
 
     private RestApiClient client;
 
@@ -50,7 +47,7 @@ public class KeywordsApi {
         for (String keyword : keywords) {
             queryParams.add(new BasicNameValuePair("keywords", keyword));
         }
-        return client.get(KEYWORDS_PATH, KEYWORDS_LIST_TYPE, queryParams).getItems();
+        return client.get(KEYWORDS_PATH, listHolderOf(Keyword.class), queryParams).getItems();
     }
 
     /**
@@ -68,6 +65,6 @@ public class KeywordsApi {
      */
     public Boolean isAvailable(String keyword) {
         Validate.notBlank(keyword, "keyword cannot be blank");
-        return client.get(KEYWORD_AVAILABLE_PATH.replaceFirst(PLACEHOLDER, keyword), BOOLEAN_TYPE);
+        return client.get(KEYWORD_AVAILABLE_PATH.replaceFirst(PLACEHOLDER, keyword), of(Boolean.class));
     }
 }

@@ -4,9 +4,7 @@ import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.callstexts.model.request.FindTextsRequest;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
-import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -15,6 +13,7 @@ import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /texts
@@ -27,12 +26,6 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class TextsApi {
     private static final String TEXTS_PATH = "/texts";
     private static final String TEXTS_ITEM_PATH = "/texts/{}";
-    private static final TypeReference<Text> TEXT_TYPE = new TypeReference<Text>() {
-    };
-    public static final TypeReference<ListHolder<Text>> LIST_OF_TEXTS_TYPE = new TypeReference<ListHolder<Text>>() {
-    };
-    public static final TypeReference<Page<Text>> PAGE_OF_TEXTS_TYPE = new TypeReference<Page<Text>>() {
-    };
 
     private RestApiClient client;
 
@@ -57,7 +50,7 @@ public class TextsApi {
      * @see <a href="https://developers.callfire.com/results-responses-errors.html">text states and results</a>
      */
     public Page<Text> find(FindTextsRequest request) {
-        return client.get(TEXTS_PATH, PAGE_OF_TEXTS_TYPE, request);
+        return client.get(TEXTS_PATH, pageOf(Text.class), request);
     }
 
     /**
@@ -96,7 +89,7 @@ public class TextsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = TEXTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, TEXT_TYPE, queryParams);
+        return client.get(path, of(Text.class), queryParams);
     }
 
     /**
@@ -139,6 +132,6 @@ public class TextsApi {
         List<NameValuePair> queryParams = new ArrayList<>(2);
         addQueryParamIfSet("campaignId", campaignId, queryParams);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.post(TEXTS_PATH, LIST_OF_TEXTS_TYPE, recipients, queryParams).getItems();
+        return client.post(TEXTS_PATH, listHolderOf(Text.class), recipients, queryParams).getItems();
     }
 }

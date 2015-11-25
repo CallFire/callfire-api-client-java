@@ -1,11 +1,10 @@
 package com.callfire.api.client.api.account;
 
 import com.callfire.api.client.*;
+import com.callfire.api.client.api.account.model.NumberOrder;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.keywords.model.request.KeywordPurchaseRequest;
-import com.callfire.api.client.api.account.model.NumberOrder;
 import com.callfire.api.client.api.numbers.model.request.NumberPurchaseRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -13,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
 
 /**
  * Represents rest endpoint /orders
@@ -23,9 +22,6 @@ public class OrdersApi {
     private static final String ORDERS_KEYWORDS = "/orders/keywords";
     private static final String ORDERS_NUMBERS = "/orders/numbers";
     private static final String ORDERS_GET_ORDER = "/orders/{}";
-
-    private static final TypeReference<NumberOrder> NUMBER_ORDER_TYPE = new TypeReference<NumberOrder>() {
-    };
 
     private RestApiClient client;
 
@@ -48,7 +44,7 @@ public class OrdersApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId orderKeywords(KeywordPurchaseRequest request) {
-        return client.post(ORDERS_KEYWORDS, RESOURCE_ID_TYPE, request);
+        return client.post(ORDERS_KEYWORDS, of(ResourceId.class), request);
     }
 
     /**
@@ -68,7 +64,7 @@ public class OrdersApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId orderNumbers(NumberPurchaseRequest request) {
-        return client.post(ORDERS_NUMBERS, RESOURCE_ID_TYPE, request);
+        return client.post(ORDERS_NUMBERS, of(ResourceId.class), request);
     }
 
     /**
@@ -106,6 +102,7 @@ public class OrdersApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, id.toString()), NUMBER_ORDER_TYPE, queryParams);
+        String path = ORDERS_GET_ORDER.replaceFirst(PLACEHOLDER, id.toString());
+        return client.get(path, of(NumberOrder.class), queryParams);
     }
 }

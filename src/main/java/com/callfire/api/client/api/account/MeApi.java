@@ -6,10 +6,8 @@ import com.callfire.api.client.api.account.model.ApiCredentials;
 import com.callfire.api.client.api.account.model.BillingPlanUsage;
 import com.callfire.api.client.api.account.model.CallerId;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
-import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -17,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.*;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /me
@@ -33,16 +31,6 @@ public class MeApi {
     private static final String ME_CALLERIDS_PATH = "/me/callerids";
     private static final String ME_CALLERIDS_CODE_PATH = "/me/callerids/{}";
     private static final String ME_CALLERIDS_VERIFY_PATH = "/me/callerids/{}/verification-code";
-    private static final TypeReference<Account> ACCOUNT_TYPE = new TypeReference<Account>() {
-    };
-    private static final TypeReference<ApiCredentials> API_CREDS_TYPE = new TypeReference<ApiCredentials>() {
-    };
-    private static final TypeReference<Page<ApiCredentials>> API_CREDS_PAGE_TYPE = new TypeReference<Page<ApiCredentials>>() {
-    };
-    private static final TypeReference<BillingPlanUsage> BILLING_PLAN_USAGE_TYPE = new TypeReference<BillingPlanUsage>() {
-    };
-    private static final TypeReference<ListHolder<CallerId>> LIST_OF_CALLERID_TYPE = new TypeReference<ListHolder<CallerId>>() {
-    };
 
     private RestApiClient client;
 
@@ -64,7 +52,7 @@ public class MeApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Account getAccount() {
-        return client.get(ME_ACCOUNT_PATH, ACCOUNT_TYPE);
+        return client.get(ME_ACCOUNT_PATH, of(Account.class));
     }
 
     /**
@@ -81,7 +69,7 @@ public class MeApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public BillingPlanUsage getBillingPlanUsage() {
-        return client.get(ME_BILLING_PATH, BILLING_PLAN_USAGE_TYPE);
+        return client.get(ME_BILLING_PATH, of(BillingPlanUsage.class));
     }
 
     /**
@@ -99,7 +87,7 @@ public class MeApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<CallerId> getCallerIds() {
-        return client.get(ME_CALLERIDS_PATH, LIST_OF_CALLERID_TYPE).getItems();
+        return client.get(ME_CALLERIDS_PATH, listHolderOf(CallerId.class)).getItems();
     }
 
     /**
@@ -119,7 +107,7 @@ public class MeApi {
      */
     public void sendVerificationCode(String callerid) {
         Validate.notBlank(callerid, "callerid cannot be blank");
-        client.post(ME_CALLERIDS_CODE_PATH.replaceFirst(PLACEHOLDER, callerid), VOID_TYPE);
+        client.post(ME_CALLERIDS_CODE_PATH.replaceFirst(PLACEHOLDER, callerid), null);
     }
 
     /**
@@ -139,7 +127,7 @@ public class MeApi {
     public Boolean verifyCallerId(CallerIdVerificationRequest request) {
         Validate.notBlank(request.getCallerId(), "callerid cannot be blank");
         String path = ME_CALLERIDS_VERIFY_PATH.replaceFirst(PLACEHOLDER, request.getCallerId());
-        return client.post(path, BOOLEAN_TYPE, request);
+        return client.post(path, of(Boolean.class), request);
     }
 
     /**
@@ -159,7 +147,7 @@ public class MeApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ApiCredentials createApiCredentials(ApiCredentials credentials) {
-        return client.post(ME_API_CREDS_PATH, API_CREDS_TYPE, credentials);
+        return client.post(ME_API_CREDS_PATH, of(ApiCredentials.class), credentials);
     }
 
     /**
@@ -177,7 +165,7 @@ public class MeApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<ApiCredentials> findApiCredentials(CommonFindRequest request) {
-        return client.get(ME_API_CREDS_PATH, API_CREDS_PAGE_TYPE, request);
+        return client.get(ME_API_CREDS_PATH, pageOf(ApiCredentials.class), request);
     }
 
     /**
@@ -217,7 +205,8 @@ public class MeApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(ME_API_CREDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), API_CREDS_TYPE, queryParams);
+        String path = ME_API_CREDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
+        return client.get(path, of(ApiCredentials.class), queryParams);
     }
 
     /**

@@ -9,8 +9,8 @@
       "createdAt": 1443408255000,
       "updatedAt": 1443408255000,
       "events": [
-        "stop",
-        "start"
+        "start",
+        "stop"
       ]
     },
     {
@@ -22,8 +22,8 @@
       "createdAt": 1443408445000,
       "updatedAt": 1443408445000,
       "events": [
-        "stop",
-        "start"
+        "start",
+        "stop"
       ]
     }
   ],

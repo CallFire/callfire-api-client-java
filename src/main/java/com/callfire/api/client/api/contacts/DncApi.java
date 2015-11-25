@@ -4,9 +4,8 @@ import com.callfire.api.client.*;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.contacts.model.DoNotContact;
 import com.callfire.api.client.api.contacts.model.request.FindDncContactsRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /contacts/do-not-calls
@@ -15,8 +14,6 @@ import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
  */
 public class DncApi {
     private static final String DNC_PATH = "/contacts/dncs";
-    public static final TypeReference<Page<DoNotContact>> PAGE_OF_DNC_TYPE = new TypeReference<Page<DoNotContact>>() {
-    };
 
     private RestApiClient client;
 
@@ -39,7 +36,7 @@ public class DncApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<DoNotContact> find(FindDncContactsRequest request) {
-        return client.get(DNC_PATH, PAGE_OF_DNC_TYPE, request);
+        return client.get(DNC_PATH, pageOf(DoNotContact.class), request);
     }
 
     /**
@@ -55,6 +52,6 @@ public class DncApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public void update(DoNotContact dnc) {
-        client.put(DNC_PATH, VOID_TYPE, dnc);
+        client.put(DNC_PATH, null, dnc);
     }
 }

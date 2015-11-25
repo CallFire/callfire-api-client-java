@@ -1,12 +1,11 @@
 package com.callfire.api.client.api.numbers;
 
 import com.callfire.api.client.*;
+import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.numbers.model.NumberConfig;
 import com.callfire.api.client.api.numbers.model.NumberLease;
-import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -14,8 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /numbers/leases
@@ -27,15 +27,6 @@ public class NumberLeasesApi {
     private static final String NUMBER_LEASES_ITEM_PATH = "/numbers/leases/{}";
     private static final String NUMBER_CONFIGS_PATH = "/numbers/leases/configs";
     private static final String NUMBER_CONFIGS_ITEM_PATH = "/numbers/leases/configs/{}";
-
-    private static final TypeReference<Page<NumberLease>> PAGE_OF_NUMBER_LEASES_TYPE = new TypeReference<Page<NumberLease>>() {
-    };
-    private static final TypeReference<Page<NumberConfig>> PAGE_OF_NUMBER_CONFIGS_TYPE = new TypeReference<Page<NumberConfig>>() {
-    };
-    private static final TypeReference<NumberLease> NUMBER_LEASE_TYPE = new TypeReference<NumberLease>() {
-    };
-    private static final TypeReference<NumberConfig> NUMBER_CONFIG_TYPE = new TypeReference<NumberConfig>() {
-    };
 
     private RestApiClient client;
 
@@ -58,7 +49,7 @@ public class NumberLeasesApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<NumberLease> find(FindNumberLeasesRequest request) {
-        return client.get(NUMBER_LEASES_PATH, PAGE_OF_NUMBER_LEASES_TYPE, request);
+        return client.get(NUMBER_LEASES_PATH, pageOf(NumberLease.class), request);
     }
 
     /**
@@ -96,7 +87,8 @@ public class NumberLeasesApi {
         Validate.notBlank(number, "number cannot be blank");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(NUMBER_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, number), NUMBER_LEASE_TYPE, queryParams);
+        String path = NUMBER_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, number);
+        return client.get(path, of(NumberLease.class), queryParams);
     }
 
     /**
@@ -113,7 +105,7 @@ public class NumberLeasesApi {
      */
     public void update(NumberLease lease) {
         Validate.notBlank(lease.getNumber(), "lease.number cannot be blank");
-        client.put(NUMBER_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, lease.getNumber()), VOID_TYPE, lease);
+        client.put(NUMBER_LEASES_ITEM_PATH.replaceFirst(PLACEHOLDER, lease.getNumber()), null, lease);
     }
 
     /**
@@ -130,7 +122,7 @@ public class NumberLeasesApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<NumberConfig> findConfigs(FindNumberLeaseConfigsRequest request) {
-        return client.get(NUMBER_CONFIGS_PATH, PAGE_OF_NUMBER_CONFIGS_TYPE, request);
+        return client.get(NUMBER_CONFIGS_PATH, pageOf(NumberConfig.class), request);
     }
 
     /**
@@ -168,7 +160,8 @@ public class NumberLeasesApi {
         Validate.notBlank(number, "number cannot be blank");
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(NUMBER_CONFIGS_ITEM_PATH.replaceFirst(PLACEHOLDER, number), NUMBER_CONFIG_TYPE, queryParams);
+        String path = NUMBER_CONFIGS_ITEM_PATH.replaceFirst(PLACEHOLDER, number);
+        return client.get(path, of(NumberConfig.class), queryParams);
     }
 
     /**
@@ -185,7 +178,7 @@ public class NumberLeasesApi {
      */
     public void updateConfig(NumberConfig config) {
         Validate.notBlank(config.getNumber(), "config.number cannot be blank");
-        client.put(NUMBER_CONFIGS_ITEM_PATH.replaceFirst(PLACEHOLDER, config.getNumber()), VOID_TYPE, config);
+        client.put(NUMBER_CONFIGS_ITEM_PATH.replaceFirst(PLACEHOLDER, config.getNumber()), null, config);
     }
 
 }

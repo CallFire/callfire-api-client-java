@@ -5,9 +5,7 @@ import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Webhook extends CallfireModel {
     private Long id;
@@ -20,7 +18,7 @@ public class Webhook extends CallfireModel {
     private String secret;
     private Date createdAt;
     private Date updatedAt;
-    private Set<ResourceEvent> events = new HashSet<>();
+    private SortedSet<ResourceEvent> events = new TreeSet<>();
 
     public Long getId() {
         return id;
@@ -102,11 +100,11 @@ public class Webhook extends CallfireModel {
         this.updatedAt = updatedAt;
     }
 
-    public Set<ResourceEvent> getEvents() {
+    public SortedSet<ResourceEvent> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<ResourceEvent> events) {
+    public void setEvents(SortedSet<ResourceEvent> events) {
         this.events = events;
     }
 
