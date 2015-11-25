@@ -34,7 +34,6 @@ Example how to create text broadcast and then start it. Broadcast will send mess
     recipient2.setPhoneNumber("12131234568");
     broadcast.setRecipients(Arrays.asList(recipient1, recipient2))
     broadcast.setLocalTimeRestriction(restrictions);
-    broadcast.setRecipients(makeTextRecipients());
     broadcast.setBigMessageStrategy(BigMessageStrategy.SEND_MULTIPLE);
     broadcast.setMessage("test_msg");
     // create broadcast
