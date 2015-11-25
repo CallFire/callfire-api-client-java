@@ -1,13 +1,12 @@
 package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.*;
-import com.callfire.api.client.api.campaigns.model.TextToSpeech;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.campaigns.model.CallCreateSound;
 import com.callfire.api.client.api.campaigns.model.CampaignSound;
+import com.callfire.api.client.api.campaigns.model.TextToSpeech;
 import com.callfire.api.client.api.campaigns.model.request.FindSoundsRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -18,10 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.callfire.api.client.ClientConstants.Type.INPUT_STREAM_TYPE;
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /campaigns/sounds
@@ -34,11 +33,6 @@ public class CampaignSoundsApi {
     private static final String SOUNDS_CALLS_PATH = "/campaigns/sounds/calls";
     private static final String SOUNDS_FILES_PATH = "/campaigns/sounds/files";
     private static final String SOUNDS_TTS_PATH = "/campaigns/sounds/tts";
-
-    private static final TypeReference<CampaignSound> CALL_SOUND_TYPE = new TypeReference<CampaignSound>() {
-    };
-    public static final TypeReference<Page<CampaignSound>> PAGE_OF_SOUNDS_TYPE = new TypeReference<Page<CampaignSound>>() {
-    };
 
     private RestApiClient client;
 
@@ -61,7 +55,7 @@ public class CampaignSoundsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<CampaignSound> find(FindSoundsRequest request) {
-        return client.get(SOUNDS_PATH, PAGE_OF_SOUNDS_TYPE, request);
+        return client.get(SOUNDS_PATH, pageOf(CampaignSound.class), request);
     }
 
     /**
@@ -102,7 +96,7 @@ public class CampaignSoundsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, CALL_SOUND_TYPE, queryParams);
+        return client.get(path, of(CampaignSound.class), queryParams);
     }
 
     /**
@@ -121,7 +115,7 @@ public class CampaignSoundsApi {
     public InputStream getMp3(Long id) {
         Validate.notNull(id, "id cannot be null");
         String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".mp3";
-        return client.get(path, INPUT_STREAM_TYPE);
+        return client.get(path, of(InputStream.class));
     }
 
     /**
@@ -140,7 +134,7 @@ public class CampaignSoundsApi {
     public InputStream getWav(Long id) {
         Validate.notNull(id, "id cannot be null");
         String path = SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()) + ".wav";
-        return client.get(path, INPUT_STREAM_TYPE);
+        return client.get(path, of(InputStream.class));
     }
 
     /**
@@ -159,7 +153,7 @@ public class CampaignSoundsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId recordViaPhone(CallCreateSound callCreateSound) {
-        return client.post(SOUNDS_CALLS_PATH, RESOURCE_ID_TYPE, callCreateSound);
+        return client.post(SOUNDS_CALLS_PATH, of(ResourceId.class), callCreateSound);
     }
 
     /**
@@ -197,7 +191,7 @@ public class CampaignSoundsApi {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
-        return client.postFile(SOUNDS_FILES_PATH, RESOURCE_ID_TYPE, params);
+        return client.postFile(SOUNDS_FILES_PATH, of(ResourceId.class), params);
     }
 
     /**
@@ -214,6 +208,6 @@ public class CampaignSoundsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId createFromTts(TextToSpeech textToSpeech) {
-        return client.post(SOUNDS_TTS_PATH, RESOURCE_ID_TYPE, textToSpeech);
+        return client.post(SOUNDS_TTS_PATH, of(ResourceId.class), textToSpeech);
     }
 }

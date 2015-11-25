@@ -2,10 +2,9 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.campaigns.model.AgentGroup;
+import com.callfire.api.client.api.campaigns.model.request.FindAgentGroupsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.campaigns.model.request.FindAgentGroupsRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -13,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
-import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /campaigns/cccs/agent-groups
@@ -26,12 +25,6 @@ import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 public class AgentGroupsApi {
     private static final String AGENT_GROUPS_PATH = "/campaigns/cccs/agent-groups";
     private static final String AGENT_GROUPS_ITEM_PATH = "/campaigns/cccs/agent-groups/{}";
-    private static final TypeReference<Page<AgentGroup>> PAGE_OF_AGENT_GROUPS_TYPE = new TypeReference<Page<AgentGroup>>() {
-    };
-    public static final TypeReference<AgentGroup> AGENT_GROUP_TYPE = new TypeReference<AgentGroup>() {
-    };
-    public static final TypeReference<List<AgentGroup>> LIST_OF_AGENT_GROUP_TYPE = new TypeReference<List<AgentGroup>>() {
-    };
 
     private RestApiClient client;
 
@@ -55,7 +48,7 @@ public class AgentGroupsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<AgentGroup> find(FindAgentGroupsRequest request) {
-        return client.get(AGENT_GROUPS_PATH, PAGE_OF_AGENT_GROUPS_TYPE, request);
+        return client.get(AGENT_GROUPS_PATH, pageOf(AgentGroup.class), request);
     }
 
     /**
@@ -73,7 +66,7 @@ public class AgentGroupsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(AgentGroup agentGroup) {
-        return client.post(AGENT_GROUPS_PATH, RESOURCE_ID_TYPE, agentGroup);
+        return client.post(AGENT_GROUPS_PATH, of(ResourceId.class), agentGroup);
     }
 
     /**
@@ -114,7 +107,7 @@ public class AgentGroupsApi {
         List<NameValuePair> queryParams = new ArrayList<>();
         addQueryParamIfSet("fields", fields, queryParams);
         String path = AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, AGENT_GROUP_TYPE, queryParams);
+        return client.get(path, of(AgentGroup.class), queryParams);
     }
 
     /**
@@ -132,8 +125,8 @@ public class AgentGroupsApi {
      */
     public void update(AgentGroup agentGroup) {
         Validate.notNull(agentGroup.getId(), "id cannot be null");
-        client.put(AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(agentGroup.getId())),
-            STRING_TYPE, agentGroup);
+        String path = AGENT_GROUPS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(agentGroup.getId()));
+        client.put(path, null, agentGroup);
     }
 
     /**

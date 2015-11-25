@@ -1,23 +1,24 @@
 package com.callfire.api.client.api.webhooks.model;
 
+import com.callfire.api.client.ModelValidationException;
 import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 public class Webhook extends CallfireModel {
     private Long id;
     private Boolean enabled;
     private String name;
-    private String resource;
+    private ResourceType resource;
     private Boolean nonStrictSsl;
     private String fields;
     private String callback;
     private String secret;
     private Date createdAt;
     private Date updatedAt;
-    private Set<String> events;
+    private SortedSet<ResourceEvent> events = new TreeSet<>();
 
     public Long getId() {
         return id;
@@ -43,11 +44,11 @@ public class Webhook extends CallfireModel {
         this.name = name;
     }
 
-    public String getResource() {
+    public ResourceType getResource() {
         return resource;
     }
 
-    public void setResource(String resource) {
+    public void setResource(ResourceType resource) {
         this.resource = resource;
     }
 
@@ -99,12 +100,24 @@ public class Webhook extends CallfireModel {
         this.updatedAt = updatedAt;
     }
 
-    public Set<String> getEvents() {
+    public SortedSet<ResourceEvent> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<String> events) {
+    public void setEvents(SortedSet<ResourceEvent> events) {
         this.events = events;
+    }
+
+    @Override
+    public void validate() {
+        if (resource != null) {
+            for (ResourceEvent event : events) {
+                if (!resource.getSupportedEvents().contains(event)) {
+                    throw new ModelValidationException("Event [" + event + "] is unsupported for " +
+                        resource + " resource, supported events are: " + resource.getSupportedEvents());
+                }
+            }
+        }
     }
 
     @Override

@@ -6,8 +6,10 @@ import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactList;
-import com.callfire.api.client.api.contacts.model.request.*;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.callfire.api.client.api.contacts.model.request.AddContactListItemsRequest;
+import com.callfire.api.client.api.contacts.model.request.CreateContactListRequest;
+import com.callfire.api.client.api.contacts.model.request.FindContactListsRequest;
+import com.callfire.api.client.api.contacts.model.request.UpdateContactListRequest;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -18,10 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
-import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.api.contacts.ContactsApi.PAGE_OF_CONTACT_TYPE;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /contacts/lists
@@ -34,10 +35,6 @@ public class ContactListsApi {
     private static final String LISTS_UPLOAD_PATH = "/contacts/lists/upload";
     private static final String LISTS_ITEMS_PATH = "/contacts/lists/{}/items";
     private static final String LISTS_ITEMS_CONTACT_PATH = "/contacts/lists/{}/items/{}";
-    private static final TypeReference<Page<ContactList>> PAGE_OF_CONTACT_LIST_TYPE = new TypeReference<Page<ContactList>>() {
-    };
-    private static final TypeReference<ContactList> CONTACT_LIST_TYPE = new TypeReference<ContactList>() {
-    };
 
     private RestApiClient client;
 
@@ -59,7 +56,7 @@ public class ContactListsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<ContactList> find(FindContactListsRequest request) {
-        return client.get(LISTS_PATH, PAGE_OF_CONTACT_LIST_TYPE, request);
+        return client.get(LISTS_PATH, pageOf(ContactList.class), request);
     }
 
     /**
@@ -108,7 +105,7 @@ public class ContactListsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(CreateContactListRequest request) {
-        return client.post(LISTS_PATH, RESOURCE_ID_TYPE, request);
+        return client.post(LISTS_PATH, of(ResourceId.class), request);
     }
 
     /**
@@ -130,7 +127,7 @@ public class ContactListsApi {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
-        return client.postFile(LISTS_UPLOAD_PATH, RESOURCE_ID_TYPE, params);
+        return client.postFile(LISTS_UPLOAD_PATH, of(ResourceId.class), params);
     }
 
     /**
@@ -168,7 +165,7 @@ public class ContactListsApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), CONTACT_LIST_TYPE, queryParams);
+        return client.get(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), of(ContactList.class), queryParams);
     }
 
     /**
@@ -185,7 +182,7 @@ public class ContactListsApi {
      */
     public void update(UpdateContactListRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
-        client.put(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, request.getId().toString()), VOID_TYPE, request);
+        client.put(LISTS_ITEM_PATH.replaceFirst(PLACEHOLDER, request.getId().toString()), null, request);
     }
 
     /**
@@ -221,7 +218,7 @@ public class ContactListsApi {
     public Page<Contact> getListItems(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = LISTS_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, PAGE_OF_CONTACT_TYPE, request);
+        return client.get(path, pageOf(Contact.class), request);
     }
 
     /**
@@ -239,7 +236,7 @@ public class ContactListsApi {
     public void addListItems(AddContactListItemsRequest request) {
         Validate.notNull(request.getContactListId(), "request.contactListId cannot be null");
         String path = LISTS_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getContactListId().toString());
-        client.post(path, VOID_TYPE, request);
+        client.post(path, null, request);
     }
 
     /**

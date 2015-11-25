@@ -8,7 +8,6 @@ import com.callfire.api.client.api.campaigns.model.request.AgentInviteRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindCccBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -17,10 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.*;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.api.campaigns.AgentGroupsApi.LIST_OF_AGENT_GROUP_TYPE;
-import static com.callfire.api.client.api.campaigns.AgentsApi.LIST_OF_AGENT_TYPE;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /campaigns/cccs
@@ -39,10 +36,6 @@ public class CccsApi {
     private static final String CCC_ITEM_START_PATH = "/campaigns/cccs/{}/start";
     private static final String CCC_ITEM_STOP_PATH = "/campaigns/cccs/{}/stop";
     private static final String CCC_ITEM_ARCHIVE_PATH = "/campaigns/cccs/{}/archive";
-    private static final TypeReference<CccCampaign> CCC_TYPE = new TypeReference<CccCampaign>() {
-    };
-    private static final TypeReference<Page<CccCampaign>> PAGE_OF_CCCS_TYPE = new TypeReference<Page<CccCampaign>>() {
-    };
 
     private RestApiClient client;
 
@@ -64,7 +57,7 @@ public class CccsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<CccCampaign> find(FindCccBroadcastsRequest request) {
-        return client.get(CCC_PATH, PAGE_OF_CCCS_TYPE, request);
+        return client.get(CCC_PATH, pageOf(CccCampaign.class), request);
     }
 
     /**
@@ -81,7 +74,7 @@ public class CccsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(CccCampaign campaign) {
-        return client.post(CCC_PATH, RESOURCE_ID_TYPE, campaign);
+        return client.post(CCC_PATH, of(ResourceId.class), campaign);
     }
 
     /**
@@ -119,7 +112,7 @@ public class CccsApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(CCC_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), CCC_TYPE, queryParams);
+        return client.get(CCC_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()), of(CccCampaign.class), queryParams);
     }
 
     /**
@@ -156,7 +149,7 @@ public class CccsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("sendEmail", sendEmail, queryParams);
         String path = CCC_ITEM_PATH.replaceFirst(PLACEHOLDER, campaign.getId().toString());
-        client.put(path, VOID_TYPE, campaign, queryParams);
+        client.put(path, null, campaign, queryParams);
     }
 
     /**
@@ -190,7 +183,7 @@ public class CccsApi {
      */
     public void start(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(CCC_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(CCC_ITEM_START_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -207,7 +200,7 @@ public class CccsApi {
      */
     public void stop(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(CCC_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(CCC_ITEM_STOP_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -224,7 +217,7 @@ public class CccsApi {
      */
     public void archive(Long id) {
         Validate.notNull(id, "id cannot be null");
-        client.post(CCC_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), VOID_TYPE, null);
+        client.post(CCC_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
     }
 
     /**
@@ -263,7 +256,7 @@ public class CccsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = CCC_ITEM_AGENTS_PATH.replaceFirst(PLACEHOLDER, campaignId.toString());
-        return client.get(path, LIST_OF_AGENT_TYPE, queryParams);
+        return client.get(path, listOf(Agent.class), queryParams);
     }
 
     /**
@@ -282,7 +275,7 @@ public class CccsApi {
     public String getAgentInviteUri(Long campaignId) {
         Validate.notNull(campaignId, "campaignId cannot be null");
         String path = CCC_ITEM_INVITE_URI_PATH.replaceFirst(PLACEHOLDER, campaignId.toString());
-        return client.get(path, STRING_TYPE);
+        return client.get(path, of(String.class));
     }
 
     /**
@@ -361,7 +354,7 @@ public class CccsApi {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         String path = CCC_ITEM_AGENT_GROUPS_PATH.replaceFirst(PLACEHOLDER, campaignId.toString());
-        return client.get(path, LIST_OF_AGENT_GROUP_TYPE, queryParams);
+        return client.get(path, listOf(AgentGroup.class), queryParams);
     }
 
     /**
@@ -380,7 +373,7 @@ public class CccsApi {
     public void addAgentGroups(Long campaignId, List<Long> agentGroupIds) {
         Validate.notNull(campaignId, "campaignId cannot be null");
         String path = CCC_ITEM_AGENT_GROUPS_PATH.replaceFirst(PLACEHOLDER, campaignId.toString());
-        client.post(path, VOID_TYPE, agentGroupIds);
+        client.post(path, null, agentGroupIds);
     }
 
     /**

@@ -145,7 +145,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testUpdateBatch() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
 
         Batch batch = new Batch();
         batch.setId(11L);

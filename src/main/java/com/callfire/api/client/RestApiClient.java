@@ -25,9 +25,8 @@ import java.io.InputStream;
 import java.util.*;
 
 import static com.callfire.api.client.ClientConstants.*;
-import static com.callfire.api.client.ClientConstants.Type.ERROR_MESSAGE_TYPE;
-import static com.callfire.api.client.ClientConstants.Type.STRING_TYPE;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
+import static com.callfire.api.client.ModelType.of;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
@@ -250,6 +249,7 @@ public class RestApiClient {
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
             if (payload != null) {
+                validatePayload(payload);
                 String stringPayload = jsonConverter.serialize(payload);
                 requestBuilder.setEntity(EntityBuilder.create().setText(stringPayload).build());
                 logDebugPrettyJson("POST request to {} entity \n{}", uri, payload);
@@ -303,6 +303,7 @@ public class RestApiClient {
     public <T> T put(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
             String uri = getApiBasePath() + path;
+            validatePayload(payload);
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
@@ -351,7 +352,7 @@ public class RestApiClient {
             LOGGER.debug("DELETE request to {} with params {}", uri, queryParams);
             RequestBuilder requestBuilder = RequestBuilder.delete(uri);
             requestBuilder.addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
-            doRequest(requestBuilder, STRING_TYPE);
+            doRequest(requestBuilder, null);
             LOGGER.debug("delete executed");
         } catch (IOException e) {
             throw new CallfireClientException(e);
@@ -387,18 +388,23 @@ public class RestApiClient {
         int statusCode = response.getStatusLine().getStatusCode();
         HttpEntity httpEntity = response.getEntity();
         if (httpEntity == null) {
-            LOGGER.debug("received http code {} with null entity, returning null", statusCode);
+            LOGGER.debug("received http code: {} with null entity, returning null", statusCode);
             return null;
         }
         String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
         verifyResponse(statusCode, stringResponse);
 
+        if (type == null) {
+            LOGGER.debug("received response with code: {} and payload: {}, but expected type is null, returning null",
+                statusCode, stringResponse);
+            return null;
+        }
         if (type.getType() == InputStream.class) {
             return (T) httpEntity.getContent();
         }
 
         T model = jsonConverter.deserialize(stringResponse, type);
-        logDebugPrettyJson("received entity \n{}", model);
+        logDebugPrettyJson("received response with code: {} and entity \n{}", statusCode, model);
         return model;
     }
 
@@ -406,7 +412,7 @@ public class RestApiClient {
         if (statusCode >= 400) {
             ErrorMessage message;
             try {
-                message = jsonConverter.deserialize(stringResponse, ERROR_MESSAGE_TYPE);
+                message = jsonConverter.deserialize(stringResponse, of(ErrorMessage.class));
             } catch (CallfireClientException e) {
                 LOGGER.warn("cannot deserialize response entity.", e);
                 message = new ErrorMessage(statusCode, stringResponse, GENERIC_HELP_LINK);
@@ -425,6 +431,12 @@ public class RestApiClient {
                 default:
                     throw new CallfireApiException(message);
             }
+        }
+    }
+
+    private void validatePayload(Object payload) {
+        if (payload != null && payload instanceof CallfireModel) {
+            ((CallfireModel) payload).validate();
         }
     }
 

@@ -1,23 +1,40 @@
 package com.callfire.api.client.api.webhooks;
 
+import com.callfire.api.client.ModelValidationException;
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.webhooks.model.ResourceType;
 import com.callfire.api.client.api.webhooks.model.Webhook;
 import com.callfire.api.client.api.webhooks.model.request.FindWebhooksRequest;
 import org.apache.http.client.methods.*;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.Collections;
-import java.util.HashSet;
-
-import static java.util.Arrays.asList;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.TEXT_BROADCAST;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class WebhooksApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/webhooks/webhooksApi";
+
+    @Test
+    public void testWebhookValidate() throws Exception {
+        Webhook webhook = new Webhook();
+        webhook.setId(1L);
+        webhook.setResource(ResourceType.VOICE_BROADCAST);
+        webhook.getEvents().add(ResourceEvent.STARTED);
+        webhook.getEvents().add(ResourceEvent.FINISHED);
+        webhook.getEvents().add(ResourceEvent.UNKNOWN);
+        ex.expect(ModelValidationException.class);
+        ex.expectMessage("Event [unknown] is unsupported for voiceCampaign resource, " +
+            "supported events are: [");
+        client.webhooksApi().update(webhook);
+
+        webhook.getEvents().remove(ResourceEvent.UNKNOWN);
+        client.webhooksApi().update(webhook);
+    }
 
     @Test
     public void testCreate() throws Exception {
@@ -27,8 +44,9 @@ public class WebhooksApiTest extends AbstractApiTest {
 
         Webhook webhook = new Webhook();
         webhook.setName("API hook");
-        webhook.setResource("textCampaign");
-        webhook.setEvents(new HashSet<>(asList("start", "stop")));
+        webhook.setResource(TEXT_BROADCAST);
+        webhook.getEvents().add(ResourceEvent.STOPPED);
+        webhook.getEvents().add(ResourceEvent.STARTED);
         webhook.setCallback("http://cool.site.xyz/webhook");
         ResourceId id = client.webhooksApi().create(webhook);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
@@ -47,7 +65,8 @@ public class WebhooksApiTest extends AbstractApiTest {
             .limit(5L)
             .offset(0L)
             .enabled(false)
-            .resource("resource")
+            .resource(ResourceType.IVR_BROADCAST)
+            .event(ResourceEvent.FINISHED)
             .build();
         Page<Webhook> webhooks = client.webhooksApi().find(request);
         assertThat(jsonConverter.serialize(webhooks), equalToIgnoringWhiteSpace(expectedJson));
@@ -55,7 +74,8 @@ public class WebhooksApiTest extends AbstractApiTest {
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
-        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "resource=resource", "enabled=false");
+        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "resource=ivrCampaign", "enabled=false",
+            "event=finish");
     }
 
     @Test
@@ -91,8 +111,8 @@ public class WebhooksApiTest extends AbstractApiTest {
         Webhook webhook = new Webhook();
         webhook.setId(11L);
         webhook.setName("API hook");
-        webhook.setResource("textCampaign");
-        webhook.setEvents(new HashSet<>(Collections.singletonList("stop")));
+        webhook.setResource(TEXT_BROADCAST);
+        webhook.getEvents().add(ResourceEvent.STOPPED);
         webhook.setCallback("https://callfire.com/stopTextsOnly");
         client.webhooksApi().update(webhook);
 

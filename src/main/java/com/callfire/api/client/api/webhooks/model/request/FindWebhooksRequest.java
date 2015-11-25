@@ -1,6 +1,8 @@
 package com.callfire.api.client.api.webhooks.model.request;
 
 import com.callfire.api.client.api.common.model.request.FindRequest;
+import com.callfire.api.client.api.webhooks.model.ResourceType;
+import com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -11,8 +13,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class FindWebhooksRequest extends FindRequest {
     private String name;
-    private String resource;
-    private String event;
+    private ResourceType resource;
+    private ResourceEvent event;
     private String callback;
     private Boolean enabled;
 
@@ -42,7 +44,7 @@ public class FindWebhooksRequest extends FindRequest {
      *
      * @return name of resource
      */
-    public String getResource() {
+    public ResourceType getResource() {
         return resource;
     }
 
@@ -51,7 +53,7 @@ public class FindWebhooksRequest extends FindRequest {
      *
      * @return name of event
      */
-    public String getEvent() {
+    public ResourceEvent getEvent() {
         return event;
     }
 
@@ -110,7 +112,7 @@ public class FindWebhooksRequest extends FindRequest {
          * @param resource name of resource
          * @return builder self reference
          */
-        public Builder resource(String resource) {
+        public Builder resource(ResourceType resource) {
             request.resource = resource;
             return this;
         }
@@ -121,7 +123,7 @@ public class FindWebhooksRequest extends FindRequest {
          * @param event name of event
          * @return builder self reference
          */
-        public Builder event(String event) {
+        public Builder event(ResourceEvent event) {
             request.event = event;
             return this;
         }

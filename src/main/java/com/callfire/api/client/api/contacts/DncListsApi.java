@@ -1,7 +1,6 @@
 package com.callfire.api.client.api.contacts;
 
 import com.callfire.api.client.*;
-import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -10,7 +9,6 @@ import com.callfire.api.client.api.contacts.model.DoNotContact;
 import com.callfire.api.client.api.contacts.model.UniversalDnc;
 import com.callfire.api.client.api.contacts.model.request.AddDncListItemsRequest;
 import com.callfire.api.client.api.contacts.model.request.FindDncListsRequest;
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
@@ -18,9 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientConstants.Type.RESOURCE_ID_TYPE;
-import static com.callfire.api.client.ClientConstants.Type.VOID_TYPE;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /contacts/dncs/lists
@@ -33,12 +30,6 @@ public class DncListsApi {
     private static final String DNC_LISTS_LIST_PATH = "/contacts/dncs/lists/{}";
     private static final String DNC_LISTS_LIST_ITEMS_PATH = "/contacts/dncs/lists/{}/items";
     private static final String DNC_LISTS_LIST_ITEMS_NUMBER_PATH = "/contacts/dncs/lists/{}/items/{}";
-    private static final TypeReference<Page<DncList>> PAGE_OF_DNC_LIST_TYPE = new TypeReference<Page<DncList>>() {
-    };
-    private static final TypeReference<DncList> DNC_LIST_TYPE = new TypeReference<DncList>() {
-    };
-    private static final TypeReference<ListHolder<UniversalDnc>> LIST_UNIVERSAL_DNC_TYPE = new TypeReference<ListHolder<UniversalDnc>>() {
-    };
 
     private RestApiClient client;
 
@@ -60,7 +51,7 @@ public class DncListsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public Page<DncList> find(FindDncListsRequest request) {
-        return client.get(DNC_LISTS_PATH, PAGE_OF_DNC_LIST_TYPE, request);
+        return client.get(DNC_LISTS_PATH, pageOf(DncList.class), request);
     }
 
     /**
@@ -77,7 +68,7 @@ public class DncListsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId create(DncList dncList) {
-        return client.post(DNC_LISTS_PATH, RESOURCE_ID_TYPE, dncList);
+        return client.post(DNC_LISTS_PATH, of(ResourceId.class), dncList);
     }
 
     /**
@@ -118,7 +109,7 @@ public class DncListsApi {
         List<NameValuePair> queryParams = new ArrayList<>(2);
         addQueryParamIfSet("fromNumber", fromNumber, queryParams);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(path, LIST_UNIVERSAL_DNC_TYPE, queryParams).getItems();
+        return client.get(path, listHolderOf(UniversalDnc.class), queryParams).getItems();
     }
 
     /**
@@ -156,7 +147,7 @@ public class DncListsApi {
         Validate.notNull(id, "id cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
-        return client.get(DNC_LISTS_LIST_PATH.replaceFirst(PLACEHOLDER, id.toString()), DNC_LIST_TYPE, queryParams);
+        return client.get(DNC_LISTS_LIST_PATH.replaceFirst(PLACEHOLDER, id.toString()), of(DncList.class), queryParams);
     }
 
     /**
@@ -193,7 +184,7 @@ public class DncListsApi {
     public Page<DoNotContact> getListItems(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = DNC_LISTS_LIST_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, DncApi.PAGE_OF_DNC_TYPE, request);
+        return client.get(path, pageOf(DoNotContact.class), request);
     }
 
     /**
@@ -211,7 +202,7 @@ public class DncListsApi {
     public void addListItems(AddDncListItemsRequest request) {
         Validate.notNull(request.getContactListId(), "request.contactListId cannot be null");
         String path = DNC_LISTS_LIST_ITEMS_PATH.replaceFirst(PLACEHOLDER, request.getContactListId().toString());
-        client.post(path, VOID_TYPE, request.getContacts());
+        client.post(path, null, request.getContacts());
     }
 
     /**

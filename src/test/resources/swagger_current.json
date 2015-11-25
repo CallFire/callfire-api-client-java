@@ -19,43 +19,43 @@
   "basePath": "/v2",
   "tags": [
     {
-      "name": "keywords"
-    },
-    {
       "name": "contacts"
-    },
-    {
-      "name": "ivrs"
-    },
-    {
-      "name": "calls"
-    },
-    {
-      "name": "orders"
-    },
-    {
-      "name": "campaigns"
-    },
-    {
-      "name": "me"
-    },
-    {
-      "name": "voice-broadcasts"
     },
     {
       "name": "text-auto-reply"
     },
     {
-      "name": "webhooks"
+      "name": "keywords"
     },
     {
       "name": "text-broadcasts"
+    },
+    {
+      "name": "calls"
     },
     {
       "name": "numbers"
     },
     {
       "name": "texts"
+    },
+    {
+      "name": "campaigns"
+    },
+    {
+      "name": "voice-broadcasts"
+    },
+    {
+      "name": "webhooks"
+    },
+    {
+      "name": "ivrs"
+    },
+    {
+      "name": "orders"
+    },
+    {
+      "name": "me"
     }
   ],
   "schemes": [
@@ -265,7 +265,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/JResponse"
+              "$ref": "#/definitions/List"
             }
           }
         },
@@ -1659,99 +1659,6 @@
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Example API SMS\",\"fromNumber\":\"19206596476\",\"recipients\":[{\"phoneNumber\":\"13233832214\"},{\"phoneNumber\":\"13233832214\"}],\"message\":\"Hello World!\"}' \"https://api.callfire.com/v2/campaigns/text-broadcasts\"",
         "x-response": "{\"id\":13}"
-      }
-    },
-    "/campaigns/text-broadcasts/batches/{id}": {
-      "get": {
-        "tags": [
-          "text-broadcasts"
-        ],
-        "summary": "Find a specific batch in a text broadcast",
-        "description": "Returns a single Batch instance for a given text broadcast batch id.",
-        "operationId": "getTextBroadcastBatch",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of text broadcast batch",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "fields",
-            "in": "query",
-            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Batch"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/campaigns/text-broadcasts/batches/9\"",
-        "x-response": "{\"id\":9,\"name\":\"API 13\",\"status\":\"ACTIVE\",\"broadcastId\":13,\"created\":1443380774000,\"size\":2,\"remaining\":2,\"enabled\":true}"
-      },
-      "put": {
-        "tags": [
-          "text-broadcasts"
-        ],
-        "summary": "Update a specific batch in a text broadcast",
-        "description": "Update a text broadcast batch. Can only change enabled at this time.",
-        "operationId": "updateTextBroadcastBatch",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Id of text broadcast batch.",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "~",
-            "required": false,
-            "schema": {
-              "$ref": "#/definitions/Batch"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X PUT -d '{\"enabled\":\"false\"}' \"https://api.callfire.com/v2/campaigns/text-broadcasts/batches/9\"",
-        "x-response": "200 OK - No Response"
       }
     },
     "/campaigns/text-broadcasts/{id}": {

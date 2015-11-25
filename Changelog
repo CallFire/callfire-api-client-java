@@ -1,6 +1,9 @@
 Callfire API client Changelog
 =============================
 
+Version 1.6.0 - Nov 25 2015
+    - updated Webhook object, added validation of events
+
 Version 1.5.0 - Oct 28 2015
     - added support of schedules for all campaigns
     - added 'recordings' property to CallRecord object, so now you can fetch recordings metadata for particular call
