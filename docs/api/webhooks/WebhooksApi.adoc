@@ -21,6 +21,18 @@ Example how to get a single Webhook instance for a given webhook id
     CallfireClient client = new CallfireClient("api login", "api password");
     Webhook webhook = client.webhooksApi().get(12345678L, "id,name,created");
 
+=== Create webhook
+'''
+Example how to create a webhook for voice campaign. Callfire will query your callback URL with http POST request when
+any campaign has STARTED or FINISHED
+[source,java]
+    CallfireClient client = new CallfireClient("api login", "api password");
+    webhook.setName("new webhook");
+    webhook.setResource(ResourceType.VOICE_BROADCAST);
+    webhook.getEvents().add(ResourceEvent.STARTED);
+    webhook.getEvents().add(ResourceEvent.FINISHED);
+    webhook.setCallback("https://yoursite.com/callback");
+    Long id = client.webhooksApi().create(webhook);
 
 === Update webhook
 '''
@@ -29,8 +41,9 @@ Example how to update the information in a currently existing webhook. Most fiel
     CallfireClient client = new CallfireClient("api login", "api password");
     Webhook webhook = client.webhooksApi().get(12345678L);
     webhook.setName("new webhook");
-    webhook.setResource("voiceBroadcast");
-    webhook.setEvents(new HashSet<>(Collections.singletonList("stop")));
+    webhook.setResource(ResourceType.VOICE_BROADCAST);
+    webhook.getEvents().add(ResourceEvent.STARTED);
+    webhook.getEvents().add(ResourceEvent.FINISHED);
     webhook.setCallback("https://yoursite.com/callback");
     client.webhooksApi().update(webhook);
 

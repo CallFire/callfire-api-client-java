@@ -250,6 +250,7 @@ public class RestApiClient {
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
             if (payload != null) {
+                validatePayload(payload);
                 String stringPayload = jsonConverter.serialize(payload);
                 requestBuilder.setEntity(EntityBuilder.create().setText(stringPayload).build());
                 logDebugPrettyJson("POST request to {} entity \n{}", uri, payload);
@@ -303,6 +304,7 @@ public class RestApiClient {
     public <T> T put(String path, TypeReference<T> type, Object payload, List<NameValuePair> queryParams) {
         try {
             String uri = getApiBasePath() + path;
+            validatePayload(payload);
             HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
@@ -425,6 +427,12 @@ public class RestApiClient {
                 default:
                     throw new CallfireApiException(message);
             }
+        }
+    }
+
+    private void validatePayload(Object payload) {
+        if (payload != null && payload instanceof CallfireModel) {
+            ((CallfireModel) payload).validate();
         }
     }
 
