@@ -69,6 +69,9 @@ public class AbstractApiTest {
 
     protected String getJsonPayload(String path) {
         try {
+            if (!path.startsWith(BASE_PATH)) {
+                path = BASE_PATH + path;
+            }
             StringBuilder result = new StringBuilder();
             for (String line : Files.readAllLines(Paths.get(this.getClass().getResource(path).toURI()))) {
                 line = StringUtils.trim(line);
@@ -87,6 +90,21 @@ public class AbstractApiTest {
             return EntityUtils.toString(entityRequest.getEntity());
         }
         return null;
+    }
+
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse()
+        throws Exception {
+        return mockHttpResponse(mockHttpClient, mockHttpResponse, null);
+    }
+
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(String responseJson)
+        throws Exception {
+        return mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+    }
+
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(String responseJson, Integer responseCode)
+        throws Exception {
+        return mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson, responseCode);
     }
 
     protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient mockHttpClient, HttpResponse mockHttpResponse)

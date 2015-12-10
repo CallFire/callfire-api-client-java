@@ -3,6 +3,7 @@ package com.callfire.api.client;
 import com.callfire.api.client.api.account.MeApi;
 import com.callfire.api.client.api.account.OrdersApi;
 import com.callfire.api.client.api.callstexts.CallsApi;
+import com.callfire.api.client.api.callstexts.MediaApi;
 import com.callfire.api.client.api.callstexts.TextsApi;
 import com.callfire.api.client.api.campaigns.*;
 import com.callfire.api.client.api.contacts.ContactListsApi;
@@ -84,6 +85,7 @@ public class CallfireClient {
     // calls & texts
     private CallsApi callsApi;
     private TextsApi textsApi;
+    private MediaApi mediaApi;
     // account
     private MeApi meApi;
     private OrdersApi ordersApi;
@@ -219,6 +221,19 @@ public class CallfireClient {
             textsApi = new TextsApi(restApiClient);
         }
         return textsApi;
+    }
+
+    /**
+     * Get /media endpoint
+     *
+     * @return endpoint object
+     * @see MediaApi
+     */
+    public MediaApi mediaApi() {
+        if (mediaApi == null) {
+            mediaApi = new MediaApi(restApiClient);
+        }
+        return mediaApi;
     }
 
     /**
