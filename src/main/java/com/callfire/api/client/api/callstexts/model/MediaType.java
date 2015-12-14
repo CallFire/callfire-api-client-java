@@ -6,34 +6,45 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 
 public enum MediaType {
-    JPEG("jpeg"),
-    PNG("png"),
-    BMP("bmp"),
-    GIF("gif"),
-    WAV("wav"),
-    MP3("mp3"),
-    M4A("m4a"),
-    MP4("mp4"),
-    UNKNOWN("unknown");
+    JPEG("jpeg", "image/jpeg"),
+    PNG("png", "image/png"),
+    BMP("bmp", "image/bmp"),
+    GIF("gif", "image/gif"),
+    MP4("mp4", "video/mp4"),
+    M4A("m4a", "audio/mp4"),
+    MP3("mp3", "audio/mpeg"),
+    WAV("wav", "audio/x-wav"),
+    UNKNOWN("unknown", "application/octet-stream");
 
     private String type;
+    private String mimeType;
 
-    MediaType(String property) {
-        this.type = property;
+    MediaType(String type, String mimeType) {
+        this.type = type;
+        this.mimeType = mimeType;
     }
 
     @JsonCreator
-    public static MediaType fromValue(String type) {
+    public static MediaType fromMime(String mimeType) {
         for (MediaType t : values()) {
-            if (Objects.equals(String.valueOf(t.type), type)) {
+            if (Objects.equals(String.valueOf(t.mimeType), mimeType)) {
                 return t;
             }
         }
-        throw new IllegalArgumentException("there is no type for MediaType: " + type);
+        throw new IllegalArgumentException("there is no type for MediaType: " + mimeType);
+    }
+
+    public String getType() {
+        return type;
     }
 
     @JsonValue
-    public String toValue() {
-        return type;
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    @Override
+    public String toString() {
+        return mimeType;
     }
 }

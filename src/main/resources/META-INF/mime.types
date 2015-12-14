@@ -1,0 +1,9 @@
+type=image/jpeg     exts=jpeg,jpg,jpe,jfif,pjpeg,pjp
+type=image/png      exts=png
+type=image/bmp      exts=bmp
+type=image/gif      exts=gif
+
+type=video/mp4      exts=mp4
+type=audio/mp4      exts=mp4a,m4a
+type=audio/mpeg     exts=mp3
+type=audio/x-wav    exts=wav

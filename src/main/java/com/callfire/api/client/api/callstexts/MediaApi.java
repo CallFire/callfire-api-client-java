@@ -135,7 +135,7 @@ public class MediaApi {
         Validate.notNull(id, "id cannot be null");
         Validate.notNull(type, "type cannot be null");
         String path = type == MediaType.UNKNOWN ? MEDIA_FILE_PATH.replaceFirst(PLACEHOLDER, id.toString())
-            : MEDIA_ITEM_ID_PATH.replaceFirst(PLACEHOLDER, id.toString()).replaceFirst(PLACEHOLDER, type.toValue());
+            : MEDIA_ITEM_ID_PATH.replaceFirst(PLACEHOLDER, id.toString()).replaceFirst(PLACEHOLDER, type.getType());
         return client.get(path, of(InputStream.class));
     }
 
@@ -155,7 +155,7 @@ public class MediaApi {
     public InputStream getData(String key, MediaType type) {
         Validate.notBlank(key, "key cannot be blank");
         Validate.notNull(type, "type cannot be null");
-        String path = MEDIA_ITEM_KEY_PATH.replaceFirst(PLACEHOLDER, key).replaceFirst(PLACEHOLDER, type.toValue());
+        String path = MEDIA_ITEM_KEY_PATH.replaceFirst(PLACEHOLDER, key).replaceFirst(PLACEHOLDER, type.getType());
         return client.get(path, of(InputStream.class));
     }
 }

@@ -6,9 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
+import javax.activation.MimetypesFileTypeMap;
+
+import static org.junit.Assert.assertEquals;
+
 public class RestApiClientTest extends AbstractApiTest {
     private RestApiClient client = new RestApiClient(new BasicAuth("1", "2"));
-    private String expectedJson = getJsonPayload(BASE_PATH + "/common/sampleErrorMessage.json");
+    private String expectedJson = getJsonPayload("/common/sampleErrorMessage.json");
 
     @Before
     public void setUp() throws Exception {
@@ -50,5 +54,17 @@ public class RestApiClientTest extends AbstractApiTest {
     public void testExpectCallfireApiExceptionInOtherCodeReturned() throws Exception {
         mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson, 499);
         client.delete("/");
+    }
+
+    @Test
+    public void testMimeTypes() throws Exception {
+        assertEquals("image/jpeg", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/1.jpeg"));
+        assertEquals("image/png", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/2.png"));
+        assertEquals("image/bmp", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/3.bmp"));
+        assertEquals("image/gif", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/4.gif"));
+        assertEquals("video/mp4", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/5.mp4"));
+        assertEquals("audio/mp4", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/6.m4a"));
+        assertEquals("audio/mpeg", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/7.mp3"));
+        assertEquals("audio/x-wav", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/8.wav"));
     }
 }
