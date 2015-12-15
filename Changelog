@@ -1,6 +1,12 @@
 Callfire API client Changelog
 =============================
 
+Version 1.7.0 - Dec 15 2015
+    - added CallBroadcastsApi which replaced VoiceBroadcastsApi, in future it will be merged with IVR broadcasts API.
+    - deprecated VoiceBroadcastsApi and VoiceBroadcast classes, use CallBroadcast instead
+    - added API to fetch text/call broadcast statistics
+    - added MediaApi class for accessing /media endpoint
+
 Version 1.6.0 - Nov 25 2015
     - updated Webhook object, added validation of events
 
