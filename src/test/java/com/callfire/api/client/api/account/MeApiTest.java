@@ -28,7 +28,7 @@ public class MeApiTest extends AbstractApiTest {
     @Test
     public void testGetAccount() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getAccount.json");
-        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        mockHttpResponse(expectedJson);
 
         Account account = client.meApi().getAccount();
         assertThat(jsonConverter.serialize(account), equalToIgnoringWhiteSpace(expectedJson));
@@ -37,7 +37,7 @@ public class MeApiTest extends AbstractApiTest {
     @Test
     public void testGetBillingPlanUsage() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getBillingPlanUsage.json");
-        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        mockHttpResponse(expectedJson);
 
         BillingPlanUsage billingPlanUsage = client.meApi().getBillingPlanUsage();
         assertThat(jsonConverter.serialize(billingPlanUsage), equalToIgnoringWhiteSpace(expectedJson));
@@ -46,7 +46,7 @@ public class MeApiTest extends AbstractApiTest {
     @Test
     public void testGetCallerIds() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getCallerIds.json");
-        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        mockHttpResponse(expectedJson);
 
         List<CallerId> callerIds = client.meApi().getCallerIds();
         assertThat(jsonConverter.serialize(new ListHolder<>(callerIds)), equalToIgnoringWhiteSpace(expectedJson));
@@ -54,7 +54,7 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testSendVerificationCode() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
         String callerId = "1234567890";
 
         client.meApi().sendVerificationCode(callerId);
@@ -68,7 +68,7 @@ public class MeApiTest extends AbstractApiTest {
     @Test
     public void testVerifyCallerId() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/verifyCallerId.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         CallerIdVerificationRequest request = CallerIdVerificationRequest.create()
             .callerId("1234567890")
@@ -90,7 +90,7 @@ public class MeApiTest extends AbstractApiTest {
     public void testCreateApiCredentials() throws Exception {
         String responseJson = getJsonPayload(BASE_PATH + "/account/meApi/response/createApiCredentials.json");
         String requestJson = getJsonPayload(BASE_PATH + "/account/meApi/request/createApiCredentials.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         ApiCredentials credentials = new ApiCredentials("api_20_account");
         ApiCredentials apiCredentials = client.meApi().createApiCredentials(credentials);
@@ -104,7 +104,7 @@ public class MeApiTest extends AbstractApiTest {
     @Test
     public void testFindApiCredentials() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/findApiCredentials.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         CommonFindRequest request = CommonFindRequest.create()
             .limit(1L)
@@ -123,7 +123,7 @@ public class MeApiTest extends AbstractApiTest {
     @Test
     public void testGetApiCredentials() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getApiCredentials.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         ApiCredentials apiCredentials = client.meApi().getApiCredentials(11L, FIELDS);
         assertThat(jsonConverter.serialize(apiCredentials), equalToIgnoringWhiteSpace(expectedJson));
@@ -140,7 +140,7 @@ public class MeApiTest extends AbstractApiTest {
 
     @Test
     public void testDeleteApiCredentials() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.meApi().deleteApiCredentials(11L);
 

@@ -22,7 +22,7 @@ public class AgentGroupsApiTest extends AbstractApiTest {
     public void testCreate() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/createWebhook.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         AgentGroup group = new AgentGroup();
         group.setName("API hook");
@@ -37,7 +37,7 @@ public class AgentGroupsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhooks.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindAgentGroupsRequest request = FindAgentGroupsRequest.create()
             .limit(5L)
@@ -57,7 +57,7 @@ public class AgentGroupsApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         AgentGroup group = client.agentGroupsApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(group), equalToIgnoringWhiteSpace(expectedJson));
@@ -82,7 +82,7 @@ public class AgentGroupsApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         AgentGroup group = new AgentGroup();
         group.setId(11L);
@@ -105,7 +105,7 @@ public class AgentGroupsApiTest extends AbstractApiTest {
 
     @Test
     public void testDelete() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.agentGroupsApi().delete(11L);
 

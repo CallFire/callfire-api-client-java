@@ -24,7 +24,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findNumberLeases.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
             .limit(5L)
@@ -44,7 +44,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getNumberLease.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         NumberLease lease = client.numberLeasesApi().get("12345678901", FIELDS);
         assertThat(jsonConverter.serialize(lease), equalToIgnoringWhiteSpace(expectedJson));
@@ -69,7 +69,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateNumberLease.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         NumberLease lease = new NumberLease();
         lease.setNumber("12345678901");
@@ -92,7 +92,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     @Test
     public void testFindConfigs() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findNumberLeaseConfigs.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
             .limit(5L)
@@ -112,7 +112,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     @Test
     public void testGetConfig() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getNumberLeaseConfig.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         NumberConfig config = client.numberLeasesApi().getConfig("12345678901", FIELDS);
         assertThat(jsonConverter.serialize(config), equalToIgnoringWhiteSpace(expectedJson));
@@ -141,7 +141,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     @Test
     public void testUpdateConfig() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateNumberLeaseConfig.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         NumberConfig config = new NumberConfig();
         config.setNumber("12345678901");

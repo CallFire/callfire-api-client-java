@@ -26,7 +26,7 @@ public class CallsApiTest extends AbstractApiTest {
     public void testSendCalls() throws Exception {
         String requestJson = getJsonPayload(JSON_PATH + "/request/sendCalls.json");
         String responseJson = getJsonPayload(JSON_PATH + "/response/sendCalls.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         CallRecipient r1 = new CallRecipient();
         r1.setPhoneNumber("12135551100");
@@ -52,7 +52,7 @@ public class CallsApiTest extends AbstractApiTest {
     @Test
     public void testFindCalls() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findCalls.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindCallsRequest request = FindCallsRequest.create()
             .limit(5L)
@@ -77,7 +77,7 @@ public class CallsApiTest extends AbstractApiTest {
     @Test
     public void testGetCall() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getCall.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         Call call = client.callsApi().get(1L);
         HttpUriRequest arg = captor.getValue();

@@ -5,11 +5,21 @@ import com.callfire.api.client.api.campaigns.model.Voice;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class CallRecipient extends Recipient {
+    /** If dialplanXml != null then IVR Broadcast. */
+    private String dialplanXml;
     private String liveMessage;
     private Long liveMessageSoundId;
     private String machineMessage;
     private Long machineMessageSoundId;
     private Voice voice;
+
+    public String getDialplanXml() {
+        return dialplanXml;
+    }
+
+    public void setDialplanXml(String dialplanXml) {
+        this.dialplanXml = dialplanXml;
+    }
 
     public String getLiveMessage() {
         return liveMessage;
@@ -55,6 +65,7 @@ public class CallRecipient extends Recipient {
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
+            .append("dialplanXml", dialplanXml)
             .append("liveMessage", liveMessage)
             .append("liveMessageSoundId", liveMessageSoundId)
             .append("machineMessage", machineMessage)

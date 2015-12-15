@@ -40,7 +40,7 @@ public class WebhooksApiTest extends AbstractApiTest {
     public void testCreate() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/createWebhook.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Webhook webhook = new Webhook();
         webhook.setName("API hook");
@@ -59,7 +59,7 @@ public class WebhooksApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhooks.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindWebhooksRequest request = FindWebhooksRequest.create()
             .limit(5L)
@@ -81,7 +81,7 @@ public class WebhooksApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         Webhook webhook = client.webhooksApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(webhook), equalToIgnoringWhiteSpace(expectedJson));
@@ -106,7 +106,7 @@ public class WebhooksApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         Webhook webhook = new Webhook();
         webhook.setId(11L);
@@ -132,7 +132,7 @@ public class WebhooksApiTest extends AbstractApiTest {
 
     @Test
     public void testDelete() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.webhooksApi().delete(11L);
 

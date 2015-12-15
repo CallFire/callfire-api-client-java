@@ -23,7 +23,7 @@ public class NumbersApiTest extends AbstractApiTest {
     @Test
     public void testFindNumbersLocal() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findNumbersLocal.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindNumbersLocalRequest request = FindNumbersLocalRequest.create()
             .limit(1L)
@@ -43,7 +43,7 @@ public class NumbersApiTest extends AbstractApiTest {
     @Test
     public void testFindNumberRegions() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findNumberRegions.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindNumberRegionsRequest request = FindNumberRegionsRequest.create()
             .limit(1L)
@@ -63,7 +63,7 @@ public class NumbersApiTest extends AbstractApiTest {
     @Test
     public void testFindNumbersTollfree() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findNumbersTollfree.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         CommonFindRequest request = CommonFindRequest.create()
             .limit(1L)

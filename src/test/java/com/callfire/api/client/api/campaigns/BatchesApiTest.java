@@ -17,7 +17,7 @@ public class BatchesApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         Batch batch = client.batchesApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(batch), equalToIgnoringWhiteSpace(expectedJson));
@@ -42,7 +42,7 @@ public class BatchesApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         Batch batch = new Batch();
         batch.setId(11L);

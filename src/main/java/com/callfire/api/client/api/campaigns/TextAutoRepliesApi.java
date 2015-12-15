@@ -18,13 +18,13 @@ import static com.callfire.api.client.ModelType.of;
 import static com.callfire.api.client.ModelType.pageOf;
 
 /**
- * Represents rest endpoint /campaigns/text-auto-replys
+ * Represents rest endpoint /texts/auto-replys
  *
  * @since 1.0
  */
 public class TextAutoRepliesApi {
-    private static final String TEXT_AUTO_REPLIES_PATH = "/campaigns/text-auto-replys";
-    private static final String TEXT_AUTO_REPLIES_ITEM_PATH = "/campaigns/text-auto-replys/{}";
+    private static final String TEXT_AUTO_REPLIES_PATH = "/texts/auto-replys";
+    private static final String TEXT_AUTO_REPLIES_ITEM_PATH = "/texts/auto-replys/{}";
 
     private RestApiClient client;
 

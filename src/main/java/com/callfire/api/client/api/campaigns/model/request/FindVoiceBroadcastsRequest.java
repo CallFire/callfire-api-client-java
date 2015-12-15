@@ -2,7 +2,10 @@ package com.callfire.api.client.api.campaigns.model.request;
 
 /**
  * Request object for searching voice broadcasts
+ *
+ * @deprecated use com.callfire.api.client.api.campaigns.model.request.FindCallBroadcastsRequest
  */
+@Deprecated
 public class FindVoiceBroadcastsRequest extends FindBroadcastsRequest {
 
     private FindVoiceBroadcastsRequest() {

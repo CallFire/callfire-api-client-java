@@ -19,7 +19,7 @@ public class KeywordLeasesApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findKeywordLeases.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         CommonFindRequest request = CommonFindRequest.create()
             .limit(5L)
@@ -37,7 +37,7 @@ public class KeywordLeasesApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getKeywordLease.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         KeywordLease keywordLease = client.keywordLeasesApi().get("CALLFIRE", FIELDS);
         assertThat(jsonConverter.serialize(keywordLease), equalToIgnoringWhiteSpace(expectedJson));
@@ -62,7 +62,7 @@ public class KeywordLeasesApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateKeywordLease.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         KeywordLease keywordLease = new KeywordLease();
         keywordLease.setKeyword("TEST");

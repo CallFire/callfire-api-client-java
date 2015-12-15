@@ -38,7 +38,7 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "findContacts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindContactsRequest request = FindContactsRequest.create()
             .limit(1L)
@@ -57,13 +57,14 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testCreate() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "createContact.json");
-        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        mockHttpResponse(expectedJson);
 
         Contact contact = new Contact();
         contact.setHomePhone("231554254");
         List<Contact> inputContacts = Arrays.asList(contact);
         List<ResourceId> resultResourceIds = client.contactsApi().create(inputContacts);
-        assertThat(jsonConverter.serialize(new ListHolder<>(resultResourceIds)), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(jsonConverter.serialize(new ListHolder<>(resultResourceIds)),
+            equalToIgnoringWhiteSpace(expectedJson));
     }
 
     @Test
@@ -76,7 +77,7 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testGetById() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactById.json");
-        mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        mockHttpResponse(expectedJson);
 
         Contact contact = client.contactsApi().get(TEST_ID);
         assertThat(jsonConverter.serialize(contact), equalToIgnoringWhiteSpace(expectedJson));
@@ -85,7 +86,7 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testGetByIdAndFields() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactById.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         Contact contact = client.contactsApi().get(TEST_ID, FIELDS);
         assertThat(jsonConverter.serialize(contact), equalToIgnoringWhiteSpace(expectedJson));
@@ -105,7 +106,7 @@ public class ContactsApiTest extends AbstractApiTest {
 
     @Test
     public void testUpdate() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         Contact contact = new Contact();
         contact.setId(TEST_ID);
@@ -116,7 +117,6 @@ public class ContactsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("/" + TEST_ID));
     }
 
-
     @Test
     public void testDeleteByNullId() throws Exception {
         ex.expectMessage(EMPTY_ID_MSG);
@@ -126,7 +126,7 @@ public class ContactsApiTest extends AbstractApiTest {
 
     @Test
     public void testDelete() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.contactsApi().delete(TEST_ID);
 
@@ -146,7 +146,7 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testGetContactHistory() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactHistory.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .id(TEST_ID)

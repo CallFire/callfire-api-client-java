@@ -2,37 +2,25 @@ package com.callfire.api.client.api.campaigns.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * VoiceBroadcast
- *
- * @deprecated use {@link CallBroadcast} instead
+ * Sounds for a CallBroadcast.
  */
-@Deprecated
-public class VoiceBroadcast extends RetriableBroadcast {
-    private List<Recipient> recipients = new ArrayList<>();
+public class CallBroadcastSounds {
     private String liveSoundText;
-    private AnsweringMachineConfig answeringMachineConfig;
     private Voice liveSoundTextVoice;
     private Long liveSoundId;
     private String machineSoundText;
-
     private Voice machineSoundTextVoice;
     private Long machineSoundId;
     private String transferSoundText;
-
     private Voice transferSoundTextVoice;
     private Long transferSoundId;
     private String transferDigit;
     private String transferNumber;
     private String dncSoundText;
-
     private Voice dncSoundTextVoice;
     private Long dncSoundId;
     private String dncDigit;
-    private Integer maxActiveTransfers;
 
     public String getLiveSoundText() {
         return liveSoundText;
@@ -40,22 +28,6 @@ public class VoiceBroadcast extends RetriableBroadcast {
 
     public void setLiveSoundText(String liveSoundText) {
         this.liveSoundText = liveSoundText;
-    }
-
-    public List<Recipient> getRecipients() {
-        return recipients;
-    }
-
-    public void setRecipients(List<Recipient> recipients) {
-        this.recipients = recipients;
-    }
-
-    public AnsweringMachineConfig getAnsweringMachineConfig() {
-        return answeringMachineConfig;
-    }
-
-    public void setAnsweringMachineConfig(AnsweringMachineConfig answeringMachineConfig) {
-        this.answeringMachineConfig = answeringMachineConfig;
     }
 
     public Voice getLiveSoundTextVoice() {
@@ -170,21 +142,10 @@ public class VoiceBroadcast extends RetriableBroadcast {
         this.dncDigit = dncDigit;
     }
 
-    public Integer getMaxActiveTransfers() {
-        return maxActiveTransfers;
-    }
-
-    public void setMaxActiveTransfers(Integer maxActiveTransfers) {
-        this.maxActiveTransfers = maxActiveTransfers;
-    }
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .appendSuper(super.toString())
             .append("liveSoundText", liveSoundText)
-            .append("recipients", recipients)
-            .append("answeringMachineConfig", answeringMachineConfig)
             .append("liveSoundTextVoice", liveSoundTextVoice)
             .append("liveSoundId", liveSoundId)
             .append("machineSoundText", machineSoundText)
@@ -199,7 +160,6 @@ public class VoiceBroadcast extends RetriableBroadcast {
             .append("dncSoundTextVoice", dncSoundTextVoice)
             .append("dncSoundId", dncSoundId)
             .append("dncDigit", dncDigit)
-            .append("maxActiveTransfers", maxActiveTransfers)
             .toString();
     }
 }

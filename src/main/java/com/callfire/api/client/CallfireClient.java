@@ -74,6 +74,7 @@ public class CallfireClient {
     private CccsApi cccsApi;
     private IvrBroadcastsApi ivrBroadcastsApi;
     private VoiceBroadcastsApi voiceBroadcastsApi;
+    private CallBroadcastsApi callBroadcastsApi;
     private TextBroadcastsApi textBroadcastsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
     // keywords
@@ -163,7 +164,7 @@ public class CallfireClient {
     }
 
     /**
-     * Get /campaigns/text-broadcasts api endpoint
+     * Get /texts/text-broadcasts api endpoint
      *
      * @return endpoint object
      */
@@ -175,10 +176,24 @@ public class CallfireClient {
     }
 
     /**
-     * Get /campaigns/voice-broadcasts api endpoint
+     * Get /calls/broadcasts api endpoint
      *
      * @return endpoint object
      */
+    public CallBroadcastsApi callBroadcastsApi() {
+        if (callBroadcastsApi == null) {
+            callBroadcastsApi = new CallBroadcastsApi(restApiClient);
+        }
+        return callBroadcastsApi;
+    }
+
+    /**
+     * Get /campaigns/voice-broadcasts api endpoint
+     *
+     * @deprecated use callBroadcastsApi()
+     * @return endpoint object
+     */
+    @Deprecated
     public VoiceBroadcastsApi voiceBroadcastsApi() {
         if (voiceBroadcastsApi == null) {
             voiceBroadcastsApi = new VoiceBroadcastsApi(restApiClient);

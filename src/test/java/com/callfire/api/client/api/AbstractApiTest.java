@@ -4,7 +4,6 @@ import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.JsonConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
@@ -92,40 +91,27 @@ public class AbstractApiTest {
         return null;
     }
 
-    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse()
-        throws Exception {
-        return mockHttpResponse(mockHttpClient, mockHttpResponse, null);
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse() throws Exception {
+        return mockHttpResponse(null, 200);
     }
 
-    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(String responseJson)
-        throws Exception {
-        return mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(String responseJson) throws Exception {
+        return mockHttpResponse(responseJson, 200);
+    }
+
+    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(Integer responseCode) throws Exception {
+        return mockHttpResponse(null, responseCode);
     }
 
     protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(String responseJson, Integer responseCode)
         throws Exception {
-        return mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson, responseCode);
-    }
-
-    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient mockHttpClient, HttpResponse mockHttpResponse)
-        throws Exception {
-        return mockHttpResponse(mockHttpClient, mockHttpResponse, null);
-    }
-
-    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient httpClient, HttpResponse httpResponse,
-        String responseJson) throws Exception {
-        return mockHttpResponse(httpClient, httpResponse, responseJson, 200);
-    }
-
-    protected ArgumentCaptor<HttpUriRequest> mockHttpResponse(HttpClient httpClient, HttpResponse httpResponse,
-        String responseJson, Integer responseCode) throws Exception {
-        when(httpResponse.getStatusLine()).thenReturn(getStatusForCode(responseCode));
+        when(mockHttpResponse.getStatusLine()).thenReturn(getStatusForCode(responseCode));
         if (responseJson != null) {
-            when(httpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
+            when(mockHttpResponse.getEntity()).thenReturn(EntityBuilder.create().setText(responseJson).build());
         }
 
         ArgumentCaptor<HttpUriRequest> captor = ArgumentCaptor.forClass(HttpUriRequest.class);
-        doReturn(httpResponse).when(httpClient).execute(captor.capture());
+        doReturn(mockHttpResponse).when(mockHttpClient).execute(captor.capture());
 
         return captor;
     }

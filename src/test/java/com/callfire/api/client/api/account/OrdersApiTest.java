@@ -22,7 +22,7 @@ public class OrdersApiTest extends AbstractApiTest {
     public void testOrderKeywords() throws Exception {
         String requestJson = getJsonPayload(BASE_PATH + "/account/ordersApi/request/orderKeywords.json");
         String responseJson = getJsonPayload(BASE_PATH + "/account/ordersApi/response/orderKeywords.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         KeywordPurchaseRequest request = KeywordPurchaseRequest.create()
             .keywords(asList("KW1", "KW2"))
@@ -40,7 +40,7 @@ public class OrdersApiTest extends AbstractApiTest {
     public void testOrderNumbers() throws Exception {
         String requestJson = getJsonPayload(BASE_PATH + "/account/ordersApi/request/orderNumbers.json");
         String responseJson = getJsonPayload(BASE_PATH + "/account/ordersApi/response/orderNumbers.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         NumberPurchaseRequest request = NumberPurchaseRequest.create()
             .localCount(2)
@@ -58,7 +58,7 @@ public class OrdersApiTest extends AbstractApiTest {
     @Test
     public void testGetOrder() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + "/account/ordersApi/response/getOrder.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         NumberOrder numberOrder = client.ordersApi().getOrder(1L);
         HttpUriRequest arg = captor.getValue();
