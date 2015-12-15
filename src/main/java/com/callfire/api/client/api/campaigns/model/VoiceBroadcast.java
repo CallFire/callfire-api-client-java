@@ -5,7 +5,13 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VoiceBroadcast extends Broadcast {
+/**
+ * VoiceBroadcast
+ *
+ * @deprecated use {@link CallBroadcast} instead
+ */
+@Deprecated
+public class VoiceBroadcast extends RetriableBroadcast {
     private List<Recipient> recipients = new ArrayList<>();
     private String liveSoundText;
     private AnsweringMachineConfig answeringMachineConfig;
@@ -27,10 +33,6 @@ public class VoiceBroadcast extends Broadcast {
     private Long dncSoundId;
     private String dncDigit;
     private Integer maxActiveTransfers;
-
-    public enum AnsweringMachineConfig {
-        AM_ONLY, AM_AND_LIVE, LIVE_WITH_AMD, LIVE_IMMEDIATE
-    }
 
     public String getLiveSoundText() {
         return liveSoundText;

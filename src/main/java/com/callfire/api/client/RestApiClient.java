@@ -14,11 +14,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -192,7 +194,9 @@ public class RestApiClient {
             String uri = getApiBasePath() + path;
             MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
             entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-            entityBuilder.addBinaryBody("file", (File) params.get("file"));
+            File file = (File) params.get("file");
+            String mimeType = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file.getName());
+            entityBuilder.addBinaryBody("file", file, ContentType.create(mimeType), file.getName());
             if (params.get("name") != null) {
                 entityBuilder.addTextBody("name", (String) params.get("name"));
             }
@@ -391,26 +395,26 @@ public class RestApiClient {
             LOGGER.debug("received http code: {} with null entity, returning null", statusCode);
             return null;
         }
-        String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
-        verifyResponse(statusCode, stringResponse);
+        verifyResponse(statusCode, httpEntity);
 
         if (type == null) {
             LOGGER.debug("received response with code: {} and payload: {}, but expected type is null, returning null",
-                statusCode, stringResponse);
+                statusCode, EntityUtils.toString(httpEntity, "UTF-8"));
             return null;
         }
         if (type.getType() == InputStream.class) {
             return (T) httpEntity.getContent();
         }
 
-        T model = jsonConverter.deserialize(stringResponse, type);
+        T model = jsonConverter.deserialize(EntityUtils.toString(httpEntity, "UTF-8"), type);
         logDebugPrettyJson("received response with code: {} and entity \n{}", statusCode, model);
         return model;
     }
 
-    private void verifyResponse(int statusCode, String stringResponse) throws IOException {
+    private void verifyResponse(int statusCode, HttpEntity httpEntity) throws IOException {
         if (statusCode >= 400) {
             ErrorMessage message;
+            String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
             try {
                 message = jsonConverter.deserialize(stringResponse, of(ErrorMessage.class));
             } catch (CallfireClientException e) {

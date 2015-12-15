@@ -46,7 +46,7 @@ public class DncListsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "findDncLists.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindDncListsRequest request = FindDncListsRequest.create()
             .limit(1L)
@@ -72,7 +72,7 @@ public class DncListsApiTest extends AbstractApiTest {
     public void testCreate() throws Exception {
         String requestJson = getJsonPayload(BASE_PATH + REQUESTS_PATH + "createDncList.json");
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "createDncList.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         DncList dncList = new DncList();
         dncList.setId(TEST_ID);
@@ -87,7 +87,6 @@ public class DncListsApiTest extends AbstractApiTest {
         assertThat(jsonConverter.serialize(res), equalToIgnoringWhiteSpace(expectedJson));
     }
 
-
     @Test
     public void getUniversalDncNumbersByNullToNumber() throws Exception {
         ex.expectMessage(EMPTY_TO_NUMBER_MSG);
@@ -99,10 +98,12 @@ public class DncListsApiTest extends AbstractApiTest {
     @Test
     public void getUniversalDncNumbers() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getUniversalDncNumbers.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        List<UniversalDnc> universalDncNumbers = client.dncListsApi().getUniversalDncNumber(TEST_ID.toString(), TEST_ID.toString(), FIELDS);
-        assertThat(jsonConverter.serialize(new ListHolder<>(universalDncNumbers)), equalToIgnoringWhiteSpace(expectedJson));
+        List<UniversalDnc> universalDncNumbers = client.dncListsApi()
+            .getUniversalDncNumber(TEST_ID.toString(), TEST_ID.toString(), FIELDS);
+        assertThat(jsonConverter.serialize(new ListHolder<>(universalDncNumbers)),
+            equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
@@ -121,7 +122,7 @@ public class DncListsApiTest extends AbstractApiTest {
     @Test
     public void testGetDnc() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getDncList.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         DncList dncList = client.dncListsApi().get(TEST_ID, FIELDS);
         assertThat(jsonConverter.serialize(dncList), equalToIgnoringWhiteSpace(expectedJson));
@@ -141,7 +142,7 @@ public class DncListsApiTest extends AbstractApiTest {
 
     @Test
     public void testDeleteDncById() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.dncListsApi().delete(TEST_ID);
 
@@ -161,7 +162,7 @@ public class DncListsApiTest extends AbstractApiTest {
     @Test
     public void testGetDncItems() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "findDncList.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .limit(1L)
@@ -191,7 +192,7 @@ public class DncListsApiTest extends AbstractApiTest {
     @Test
     public void testAddDncItems() throws Exception {
         String requestJson = getJsonPayload(BASE_PATH + REQUESTS_PATH + "addDncItems.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         List<Contact> contacts = new ArrayList<Contact>();
         Contact cnt = new Contact();
@@ -218,7 +219,6 @@ public class DncListsApiTest extends AbstractApiTest {
         client.dncListsApi().removeListItem(null, "test");
     }
 
-
     @Test
     public void testRemoveListItemByNullNumber() throws Exception {
         ex.expectMessage(EMPTY_NUMBER_MSG);
@@ -229,7 +229,7 @@ public class DncListsApiTest extends AbstractApiTest {
 
     @Test
     public void testRemoveListItem() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.dncListsApi().removeListItem(TEST_ID, "123456");
 
@@ -249,7 +249,7 @@ public class DncListsApiTest extends AbstractApiTest {
 
     @Test
     public void testRemoveListItems() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.dncListsApi().removeListItems(TEST_ID, Arrays.asList("123456", "123457"));
 
@@ -259,6 +259,5 @@ public class DncListsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("/" + TEST_ID));
         assertThat(arg.getURI().toString(), containsString("number=123456&number=123457"));
     }
-
 
 }

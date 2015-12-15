@@ -1,5 +1,6 @@
 package com.callfire.api.client.api.campaigns.model;
 
+import com.callfire.api.client.api.callstexts.model.Media;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ public class TextBroadcast extends Broadcast {
     private String message;
     private BigMessageStrategy bigMessageStrategy;
     private List<TextRecipient> recipients = new ArrayList<>();
+    private List<Media> media = new ArrayList<>();
 
     public enum BigMessageStrategy {
         SEND_MULTIPLE, DO_NOT_SEND, TRIM
@@ -26,8 +28,7 @@ public class TextBroadcast extends Broadcast {
         return bigMessageStrategy;
     }
 
-    public void setBigMessageStrategy(
-        BigMessageStrategy bigMessageStrategy) {
+    public void setBigMessageStrategy(BigMessageStrategy bigMessageStrategy) {
         this.bigMessageStrategy = bigMessageStrategy;
     }
 
@@ -39,6 +40,14 @@ public class TextBroadcast extends Broadcast {
         this.recipients = recipients;
     }
 
+    public List<Media> getMedia() {
+        return media;
+    }
+
+    public void setMedia(List<Media> media) {
+        this.media = media;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -46,6 +55,7 @@ public class TextBroadcast extends Broadcast {
             .append("message", message)
             .append("bigMessageStrategy", bigMessageStrategy)
             .append("recipients", recipients)
+            .append("media", media)
             .toString();
     }
 }

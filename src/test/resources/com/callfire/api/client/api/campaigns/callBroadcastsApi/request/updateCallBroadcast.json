@@ -1,0 +1,9 @@
+{
+  "id": 11,
+  "name": "Example API VB updated",
+  "sounds": {
+    "liveSoundText": "Hello! This is an updated VB config tts",
+    "machineSoundId": 1258704003
+  },
+  "answeringMachineConfig": "LIVE_IMMEDIATE"
+}

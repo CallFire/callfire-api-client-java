@@ -2,12 +2,9 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.callstexts.model.Call;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.Recipient;
-import com.callfire.api.client.api.campaigns.model.VoiceBroadcast;
-import com.callfire.api.client.api.campaigns.model.VoiceBroadcast.AnsweringMachineConfig;
+import com.callfire.api.client.api.campaigns.model.*;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindVoiceBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindCallBroadcastsRequest;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
@@ -18,30 +15,32 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-public class VoiceBroadcastsApiTest extends AbstractApiTest {
-    private static final String JSON_PATH = BASE_PATH + "/campaigns/voiceBroadcastsApi";
+public class CallBroadcastsApiTest extends AbstractApiTest {
+    private static final String JSON_PATH = "/campaigns/callBroadcastsApi";
 
     @Test
     public void testFind() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/response/findVoiceBroadcasts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findCallBroadcasts.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        FindVoiceBroadcastsRequest request = FindVoiceBroadcastsRequest.create()
+        FindCallBroadcastsRequest request = FindCallBroadcastsRequest.create()
             .limit(5L)
             .name("name")
             .label("label")
             .running(true)
             .build();
-        Page<VoiceBroadcast> broadcasts = client.voiceBroadcastsApi().find(request);
-        assertThat(jsonConverter.serialize(broadcasts), equalToIgnoringWhiteSpace(expectedJson));
+        Page<CallBroadcast> broadcasts = client.callBroadcastsApi().find(request);
+        JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(broadcasts), true);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
@@ -51,42 +50,44 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testCreate() throws Exception {
-        String responseJson = getJsonPayload(JSON_PATH + "/response/createVoiceBroadcast.json");
-        String requestJson = getJsonPayload(JSON_PATH + "/request/createVoiceBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        String responseJson = getJsonPayload(JSON_PATH + "/response/createCallBroadcast.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/createCallBroadcast.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
-        VoiceBroadcast voiceBroadcast = new VoiceBroadcast();
-        voiceBroadcast.setName("Example API VB");
-        voiceBroadcast.setFromNumber("12135551189");
-        voiceBroadcast.setAnsweringMachineConfig(AnsweringMachineConfig.AM_AND_LIVE);
-        voiceBroadcast.setLiveSoundText("Hello! This is a live answer text to speech recording");
-        voiceBroadcast.setMachineSoundText("This is an answering machine text to speech recording");
+        CallBroadcast callBroadcast = new CallBroadcast();
+        callBroadcast.setName("Example API VB");
+        callBroadcast.setFromNumber("12135551189");
+        callBroadcast.setAnsweringMachineConfig(AnsweringMachineConfig.AM_AND_LIVE);
+        CallBroadcastSounds sounds = new CallBroadcastSounds();
+        sounds.setLiveSoundText("Hello! This is a live answer text to speech recording");
+        sounds.setMachineSoundText("This is an answering machine text to speech recording");
+        callBroadcast.setSounds(sounds);
         Recipient r1 = new Recipient();
         r1.setPhoneNumber("2135551133");
-        voiceBroadcast.setRecipients(Collections.singletonList(r1));
-        ResourceId id = client.voiceBroadcastsApi().create(voiceBroadcast, true);
+        callBroadcast.setRecipients(Collections.singletonList(r1));
+        ResourceId id = client.callBroadcastsApi().create(callBroadcast, true);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
-        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        JSONAssert.assertEquals(requestJson, extractHttpEntity(arg), true);
         assertThat(arg.getURI().toString(), containsString("start=true"));
     }
 
     @Test
     public void testGet() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/response/getVoiceBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/getCallBroadcast.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        VoiceBroadcast VoiceBroadcast = client.voiceBroadcastsApi().get(11L, FIELDS);
-        assertThat(jsonConverter.serialize(VoiceBroadcast), equalToIgnoringWhiteSpace(expectedJson));
+        CallBroadcast callBroadcast = client.callBroadcastsApi().get(11L, FIELDS);
+        JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(callBroadcast), true);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
 
-        client.voiceBroadcastsApi().get(11L);
+        client.callBroadcastsApi().get(11L);
         assertEquals(2, captor.getAllValues().size());
         assertThat(captor.getAllValues().get(1).getURI().toString(), not(containsString("fields")));
     }
@@ -95,24 +96,27 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
     public void testGetNullId() throws Exception {
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
-        client.voiceBroadcastsApi().get(null);
+        client.callBroadcastsApi().get(null);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/request/updateVoiceBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        String expectedJson = getJsonPayload(JSON_PATH + "/request/updateCallBroadcast.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
-        VoiceBroadcast voiceBroadcast = new VoiceBroadcast();
-        voiceBroadcast.setId(11L);
-        voiceBroadcast.setName("Example API VB updated");
-        voiceBroadcast.setLiveSoundText("Hello! This is an updated VB config tts");
-        voiceBroadcast.setAnsweringMachineConfig(AnsweringMachineConfig.LIVE_IMMEDIATE);
-        client.voiceBroadcastsApi().update(voiceBroadcast);
+        CallBroadcast callBroadcast = new CallBroadcast();
+        callBroadcast.setId(11L);
+        callBroadcast.setName("Example API VB updated");
+        CallBroadcastSounds sounds = new CallBroadcastSounds();
+        sounds.setMachineSoundId(1258704003L);
+        sounds.setLiveSoundText("Hello! This is an updated VB config tts");
+        callBroadcast.setSounds(sounds);
+        callBroadcast.setAnsweringMachineConfig(AnsweringMachineConfig.LIVE_IMMEDIATE);
+        client.callBroadcastsApi().update(callBroadcast);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPut.METHOD_NAME, arg.getMethod());
-        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(expectedJson));
+        JSONAssert.assertEquals(expectedJson, extractHttpEntity(arg), true);
         assertThat(arg.getURI().toString(), containsString("/11"));
     }
 
@@ -120,20 +124,20 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
     public void testUpdateNullId() throws Exception {
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
-        client.voiceBroadcastsApi().update(new VoiceBroadcast());
+        client.callBroadcastsApi().update(new CallBroadcast());
     }
 
     @Test
     public void testGetBatches() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatches.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
             .fields(FIELDS)
             .id(11L)
             .build();
-        Page<Batch> batches = client.voiceBroadcastsApi().getBatches(request);
+        Page<Batch> batches = client.callBroadcastsApi().getBatches(request);
         assertThat(jsonConverter.serialize(batches), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -145,10 +149,40 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
     }
 
     @Test
+    public void getStats() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/getStats.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        CallBroadcastStats stats = client.callBroadcastsApi().getStats(11L);
+        JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(stats), true);
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("/11/stats"));
+
+        Date begin = new Date();
+        Date end = new Date();
+        client.callBroadcastsApi().getStats(11L, FIELDS, begin, end);
+        assertThat(arg.getURI().toString(), containsString("/11/stats"));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString("/11/stats"));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString(ENCODED_FIELDS));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString("begin=" + begin.getTime()));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString("end=" + end.getTime()));
+    }
+
+    @Test
+    public void getStatsNullId() throws Exception {
+        ex.expectMessage("id cannot be null");
+        ex.expect(NullPointerException.class);
+        client.textBroadcastsApi().getStats(null);
+    }
+
+    @Test
     public void testAddBatch() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/addBatch.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/addBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Recipient r1 = new Recipient();
         r1.setPhoneNumber("12135551100");
@@ -159,7 +193,7 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
             .name("batch name")
             .recipients(asList(r1, r2))
             .build();
-        ResourceId id = client.voiceBroadcastsApi().addBatch(request);
+        ResourceId id = client.callBroadcastsApi().addBatch(request);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -171,14 +205,14 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGetCalls() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getCalls.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
             .fields(FIELDS)
             .id(11L)
             .build();
-        Page<Call> calls = client.voiceBroadcastsApi().getCalls(request);
+        Page<Call> calls = client.callBroadcastsApi().getCalls(request);
         assertThat(jsonConverter.serialize(calls), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -191,12 +225,12 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testStart() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
-        client.voiceBroadcastsApi().start(null);
-        client.voiceBroadcastsApi().start(10L);
+        client.callBroadcastsApi().start(null);
+        client.callBroadcastsApi().start(10L);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
@@ -205,12 +239,12 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testStop() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
-        client.voiceBroadcastsApi().stop(null);
-        client.voiceBroadcastsApi().stop(10L);
+        client.callBroadcastsApi().stop(null);
+        client.callBroadcastsApi().stop(10L);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
@@ -219,12 +253,12 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testArchive() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
-        client.voiceBroadcastsApi().archive(null);
-        client.voiceBroadcastsApi().archive(10L);
+        client.callBroadcastsApi().archive(null);
+        client.callBroadcastsApi().archive(10L);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
@@ -235,13 +269,13 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
     public void testAddRecipients() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/addRecipients.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/addRecipients.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Recipient r1 = new Recipient();
         r1.setPhoneNumber("12135551100");
         Recipient r2 = new Recipient();
         r2.setPhoneNumber("12135551101");
-        List<Call> calls = client.voiceBroadcastsApi().addRecipients(15L, asList(r1, r2));
+        List<Call> calls = client.callBroadcastsApi().addRecipients(15L, asList(r1, r2));
         assertThat(jsonConverter.serialize(new ListHolder<>(calls)), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -250,7 +284,7 @@ public class VoiceBroadcastsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("/15"));
         assertThat(arg.getURI().toString(), not(containsString(ENCODED_FIELDS)));
 
-        client.voiceBroadcastsApi().addRecipients(15L, asList(r1, r2), FIELDS);
+        client.callBroadcastsApi().addRecipients(15L, asList(r1, r2), FIELDS);
         assertUriContainsQueryParams(captor.getAllValues().get(1).getURI(), ENCODED_FIELDS);
     }
 }

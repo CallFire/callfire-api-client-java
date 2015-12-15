@@ -23,7 +23,7 @@ public class AgentsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhooks.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindAgentsRequest request = FindAgentsRequest.create()
             .limit(5L)
@@ -43,7 +43,7 @@ public class AgentsApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         Agent agent = client.agentsApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(agent), equalToIgnoringWhiteSpace(expectedJson));
@@ -68,7 +68,7 @@ public class AgentsApiTest extends AbstractApiTest {
     @Test
     public void testFindSessions() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhooks.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindAgentSessionsRequest request = FindAgentSessionsRequest.create()
             .limit(5L)
@@ -88,7 +88,7 @@ public class AgentsApiTest extends AbstractApiTest {
     @Test
     public void testGetSession() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getWebhook.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         AgentSession agentSession = client.agentsApi().getSession(11L);
         assertThat(jsonConverter.serialize(agentSession), equalToIgnoringWhiteSpace(expectedJson));

@@ -22,7 +22,7 @@ public class TextAutoRepliesApiTest extends AbstractApiTest {
     public void testCreate() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/createTextAutoReply.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createTextAutoReply.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         TextAutoReply textAutoReply = new TextAutoReply();
         textAutoReply.setKeyword("CALLFIRE");
@@ -39,7 +39,7 @@ public class TextAutoRepliesApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findTextAutoReplies.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.create()
             .limit(5L)
@@ -59,7 +59,7 @@ public class TextAutoRepliesApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getTextAutoReply.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         TextAutoReply textAutoReply = client.textAutoRepliesApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(textAutoReply), equalToIgnoringWhiteSpace(expectedJson));
@@ -83,7 +83,7 @@ public class TextAutoRepliesApiTest extends AbstractApiTest {
 
     @Test
     public void testDelete() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         client.textAutoRepliesApi().delete(11L);
 

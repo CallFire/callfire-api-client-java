@@ -2,10 +2,7 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.Recipient;
-import com.callfire.api.client.api.campaigns.model.TextBroadcast;
-import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import com.callfire.api.client.api.campaigns.model.*;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
 import com.callfire.api.client.api.common.model.ListHolder;
@@ -18,7 +15,9 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.skyscreamer.jsonassert.JSONAssert;
 
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -26,12 +25,12 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class TextBroadcastsApiTest extends AbstractApiTest {
-    private static final String JSON_PATH = BASE_PATH + "/campaigns/textBroadcastsApi";
+    private static final String JSON_PATH = "/campaigns/textBroadcastsApi";
 
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findTextBroadcasts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindTextBroadcastsRequest request = FindTextBroadcastsRequest.create()
             .limit(5L)
@@ -40,7 +39,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
             .running(true)
             .build();
         Page<TextBroadcast> broadcasts = client.textBroadcastsApi().find(request);
-        assertThat(jsonConverter.serialize(broadcasts), equalToIgnoringWhiteSpace(expectedJson));
+        JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(broadcasts), true);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
@@ -52,7 +51,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     public void testCreate() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/createTextBroadcast.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createTextBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         TextBroadcast textBroadcast = new TextBroadcast();
         textBroadcast.setName("Example API SMS");
@@ -75,10 +74,10 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getTextBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        TextBroadcast TextBroadcast = client.textBroadcastsApi().get(11L, FIELDS);
-        assertThat(jsonConverter.serialize(TextBroadcast), equalToIgnoringWhiteSpace(expectedJson));
+        TextBroadcast textBroadcast = client.textBroadcastsApi().get(11L, FIELDS);
+        JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(textBroadcast), true);
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
@@ -100,7 +99,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateTextBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         TextBroadcast textBroadcast = new TextBroadcast();
         textBroadcast.setId(11L);
@@ -124,7 +123,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGetBatch() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
@@ -145,7 +144,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testUpdateBatch() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         Batch batch = new Batch();
         batch.setId(11L);
@@ -161,7 +160,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGetBatches() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatches.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
@@ -183,7 +182,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     public void testAddBatch() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/addBatch.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/addBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Recipient r1 = new Recipient();
         r1.setPhoneNumber("12135551122");
@@ -207,7 +206,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGetTexts() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getTexts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
@@ -226,8 +225,37 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     }
 
     @Test
+    public void getStats() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/getStats.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        TextBroadcastStats stats = client.textBroadcastsApi().getStats(11L);
+        JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(stats), true);
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("/11/stats"));
+
+        Date begin = new Date();
+        Date end = new Date();
+        client.textBroadcastsApi().getStats(11L, FIELDS, begin, end);
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString("/11/stats"));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString(ENCODED_FIELDS));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString("begin=" + begin.getTime()));
+        assertThat(captor.getAllValues().get(1).getURI().toString(), containsString("end=" + end.getTime()));
+    }
+
+    @Test
+    public void getStatsNullId() throws Exception {
+        ex.expectMessage("id cannot be null");
+        ex.expect(NullPointerException.class);
+        client.textBroadcastsApi().getStats(null);
+    }
+
+    @Test
     public void testStart() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
@@ -241,7 +269,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testStop() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
@@ -255,7 +283,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testArchive() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
@@ -271,7 +299,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     public void testAddRecipients() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/addRecipients.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/addRecipients.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         TextRecipient r1 = new TextRecipient();
         r1.setPhoneNumber("12135551100");

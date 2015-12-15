@@ -11,7 +11,7 @@ import org.mockito.ArgumentCaptor;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
 import static org.junit.Assert.*;
 
 public class KeywordsApiTest extends AbstractApiTest {
@@ -20,7 +20,7 @@ public class KeywordsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findKeywords.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         List<Keyword> keywords = client.keywordsApi().find(asList("CALLFIRE", "TEST"));
         assertThat(jsonConverter.serialize(new ListHolder<>(keywords)), equalToIgnoringWhiteSpace(expectedJson));
@@ -33,7 +33,7 @@ public class KeywordsApiTest extends AbstractApiTest {
 
     @Test
     public void testIsAvailable() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, "true");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse("true");
 
         Boolean available = client.keywordsApi().isAvailable("TEST");
         assertTrue(available);

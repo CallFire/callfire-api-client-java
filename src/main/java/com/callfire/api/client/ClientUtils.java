@@ -31,7 +31,12 @@ public final class ClientUtils {
      */
     public static void addQueryParamIfSet(String name, Object value, List<NameValuePair> queryParams) {
         if (name != null && value != null && queryParams != null) {
-            queryParams.add(new BasicNameValuePair(name, Objects.toString(value)));
+            if (value instanceof Date) {
+                Date date = (Date) value;
+                queryParams.add(new BasicNameValuePair(name, String.valueOf(date.getTime())));
+            } else {
+                queryParams.add(new BasicNameValuePair(name, Objects.toString(value)));
+            }
         }
     }
 

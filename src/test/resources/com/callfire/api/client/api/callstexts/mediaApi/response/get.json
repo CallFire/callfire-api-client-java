@@ -1,0 +1,9 @@
+{
+  "id": 61,
+  "accountId": 1000,
+  "name": "My super mp3 file",
+  "created": 1443378307000,
+  "lengthInBytes": 305,
+  "mediaType": "audio/mpeg",
+  "publicUrl": "http://file-storage.com/media.mp3"
+}

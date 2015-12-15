@@ -11,7 +11,10 @@ import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -28,7 +31,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findIvrBroadcasts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindIvrBroadcastsRequest request = FindIvrBroadcastsRequest.create()
             .limit(5L)
@@ -49,7 +52,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     public void testCreate() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/createIvrBroadcast.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createIvrBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         IvrBroadcast ivrBroadcast = new IvrBroadcast();
         ivrBroadcast.setName("Example API IVR");
@@ -73,7 +76,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getIvrBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         IvrBroadcast ivrBroadcast = client.ivrBroadcastsApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(ivrBroadcast), equalToIgnoringWhiteSpace(expectedJson));
@@ -98,7 +101,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/request/updateIvrBroadcast.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         IvrBroadcast ivrBroadcast = new IvrBroadcast();
         ivrBroadcast.setId(11L);
@@ -124,7 +127,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGetBatches() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatches.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
@@ -146,7 +149,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     public void testAddBatch() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/addBatch.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/addBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Recipient r = new Recipient();
         r.setPhoneNumber("12135551100");
@@ -168,7 +171,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     @Test
     public void testGetCalls() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getCalls.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
             .offset(0L)
@@ -188,7 +191,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testStart() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
@@ -202,7 +205,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testStop() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
@@ -216,7 +219,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
 
     @Test
     public void testArchive() throws Exception {
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
@@ -232,7 +235,7 @@ public class IvrBroadcastsApiTest extends AbstractApiTest {
     public void testAddRecipients() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/addRecipients.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/addRecipients.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Recipient r1 = new Recipient();
         r1.setPhoneNumber("12135551101");

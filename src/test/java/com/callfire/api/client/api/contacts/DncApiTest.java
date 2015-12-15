@@ -30,7 +30,7 @@ public class DncApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "findDncList.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindDncContactsRequest request = FindDncContactsRequest.create()
             .limit(1L)
@@ -61,7 +61,7 @@ public class DncApiTest extends AbstractApiTest {
     @Test
     public void testUpdate() throws Exception {
         String requestJson = getJsonPayload(BASE_PATH + REQUESTS_PATH + "updateDnc.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         DoNotContact dnc = new DoNotContact();
         dnc.setCall(true);

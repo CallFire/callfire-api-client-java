@@ -3,9 +3,7 @@ package com.callfire.api.client.api.campaigns;
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.TextBroadcast;
-import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import com.callfire.api.client.api.campaigns.model.*;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
@@ -15,31 +13,29 @@ import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 import static com.callfire.api.client.ModelType.*;
 
 /**
- * Represents rest endpoint /campaigns/text-broadcasts
+ * Represents rest endpoint /texts/broadcasts
  *
  * @since 1.0
  */
 public class TextBroadcastsApi {
-    private static final String TB_PATH = "/campaigns/text-broadcasts";
-    private static final String TB_BATCHES_ITEM_PATH = "/campaigns/text-broadcasts/batches/{}";
-    private static final String TB_ITEM_PATH = "/campaigns/text-broadcasts/{}";
-    private static final String TB_ITEM_BATCHES_PATH = "/campaigns/text-broadcasts/{}/batches";
-    private static final String TB_ITEM_TEXTS_PATH = "/campaigns/text-broadcasts/{}/texts";
-    private static final String TB_ITEM_START_PATH = "/campaigns/text-broadcasts/{}/start";
-    private static final String TB_ITEM_STOP_PATH = "/campaigns/text-broadcasts/{}/stop";
-    private static final String TB_ITEM_ARCHIVE_PATH = "/campaigns/text-broadcasts/{}/archive";
-    private static final String TB_ITEM_RECIPIENTS_PATH = "/campaigns/text-broadcasts/{}/recipients";
-    private static final String TB_ITEM_RECIPIENTS_FILE_PATH = "/campaigns/text-broadcasts/{}/recipients-file";
+    private static final String TB_PATH = "/texts/broadcasts";
+    private static final String TB_BATCHES_ITEM_PATH = "/texts/broadcasts/batches/{}";
+    private static final String TB_ITEM_PATH = "/texts/broadcasts/{}";
+    private static final String TB_ITEM_BATCHES_PATH = "/texts/broadcasts/{}/batches";
+    private static final String TB_ITEM_TEXTS_PATH = "/texts/broadcasts/{}/texts";
+    private static final String TB_ITEM_START_PATH = "/texts/broadcasts/{}/start";
+    private static final String TB_ITEM_STOP_PATH = "/texts/broadcasts/{}/stop";
+    private static final String TB_ITEM_ARCHIVE_PATH = "/texts/broadcasts/{}/archive";
+    private static final String TB_ITEM_STATS_PATH = "/texts/broadcasts/{}/stats";
+    private static final String TB_ITEM_RECIPIENTS_PATH = "/texts/broadcasts/{}/recipients";
+    private static final String TB_ITEM_RECIPIENTS_FILE_PATH = "/texts/broadcasts/{}/recipients-file";
 
     private RestApiClient client;
 
@@ -303,6 +299,49 @@ public class TextBroadcastsApi {
     public Page<Text> getTexts(GetByIdRequest request) {
         String path = TB_ITEM_TEXTS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, pageOf(Text.class), request);
+    }
+
+    /**
+     * Get statistics on text broadcast
+     *
+     * @param id text broadcast id
+     * @return {@link Page} with {@link Call} objects
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public TextBroadcastStats getStats(Long id) {
+        return getStats(id, null, null, null);
+    }
+
+    /**
+     * Get statistics on text broadcast
+     *
+     * @param id     text broadcast id
+     * @param fields limit fields returned. Example fields=id,message
+     * @param begin  begin date to filter
+     * @param end    end date to filter
+     * @return {@link Page} with {@link Call} objects
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public TextBroadcastStats getStats(Long id, String fields, Date begin, Date end) {
+        Validate.notNull(id, "id cannot be null");
+        List<NameValuePair> queryParams = new ArrayList<>(3);
+        addQueryParamIfSet("fields", fields, queryParams);
+        addQueryParamIfSet("begin", begin, queryParams);
+        addQueryParamIfSet("end", end, queryParams);
+        String path = TB_ITEM_STATS_PATH.replaceFirst(PLACEHOLDER, id.toString());
+        return client.get(path, of(TextBroadcastStats.class), queryParams);
     }
 
     /**

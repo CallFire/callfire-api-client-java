@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IvrBroadcast extends Broadcast {
+public class IvrBroadcast extends RetriableBroadcast {
     private Boolean inbound;
     private String dialplanXml;
     private List<Recipient> recipients = new ArrayList<>();

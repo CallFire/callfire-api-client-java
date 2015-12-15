@@ -24,7 +24,9 @@ import static com.callfire.api.client.ModelType.*;
  * Represents rest endpoint /campaigns/voice-broadcasts
  *
  * @since 1.0
+ * @deprecated use newer com.callfire.api.client.api.campaigns.CallBroadcastsApi
  */
+@Deprecated
 public class VoiceBroadcastsApi {
     private static final String VB_PATH = "/campaigns/voice-broadcasts";
     private static final String VB_ITEM_PATH = "/campaigns/voice-broadcasts/{}";

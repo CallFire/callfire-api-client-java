@@ -20,13 +20,12 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class TextsApiTest extends AbstractApiTest {
-    private static final String JSON_PATH = BASE_PATH + "/callstexts/textsApi";
 
     @Test
     public void testSendTexts() throws Exception {
-        String requestJson = getJsonPayload(JSON_PATH + "/request/sendTexts.json");
-        String responseJson = getJsonPayload(JSON_PATH + "/response/sendTexts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        String requestJson = getJsonPayload("/callstexts/textsApi/request/sendTexts.json");
+        String responseJson = getJsonPayload("/callstexts/textsApi/response/sendTexts.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         TextRecipient r1 = new TextRecipient();
         r1.setPhoneNumber("12135551100");
@@ -51,8 +50,8 @@ public class TextsApiTest extends AbstractApiTest {
 
     @Test
     public void testFindTexts() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/response/findTexts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        String expectedJson = getJsonPayload("/callstexts/textsApi/response/findTexts.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindTextsRequest request = FindTextsRequest.create()
             .limit(5L)
@@ -75,9 +74,9 @@ public class TextsApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetText() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/response/getText.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+    public void getText() throws Exception {
+        String expectedJson = getJsonPayload("/callstexts/textsApi/response/getText.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         Text text = client.textsApi().get(1L);
         HttpUriRequest arg = captor.getValue();

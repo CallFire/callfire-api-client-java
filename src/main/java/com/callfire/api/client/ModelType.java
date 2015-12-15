@@ -1,8 +1,7 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.api.account.model.*;
-import com.callfire.api.client.api.callstexts.model.Call;
-import com.callfire.api.client.api.callstexts.model.Text;
+import com.callfire.api.client.api.callstexts.model.*;
 import com.callfire.api.client.api.campaigns.model.*;
 import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.ListHolder;
@@ -58,6 +57,10 @@ public final class ModelType {
         SIMPLE_TYPES.put(Agent.class, new TypeReference<Agent>() {});
         SIMPLE_TYPES.put(AgentSession.class, new TypeReference<AgentSession>() {});
         SIMPLE_TYPES.put(Batch.class, new TypeReference<Batch>() {});
+        SIMPLE_TYPES.put(Media.class, new TypeReference<Media>() {});
+        SIMPLE_TYPES.put(CallBroadcast.class, new TypeReference<CallBroadcast>() {});
+        SIMPLE_TYPES.put(CallBroadcastStats.class, new TypeReference<CallBroadcastStats>() {});
+        SIMPLE_TYPES.put(TextBroadcastStats.class, new TypeReference<TextBroadcastStats>() {});
         SIMPLE_TYPES.put(CampaignSound.class, new TypeReference<CampaignSound>() {});
         SIMPLE_TYPES.put(TextAutoReply.class, new TypeReference<TextAutoReply>() {});
         SIMPLE_TYPES.put(CccCampaign.class, new TypeReference<CccCampaign>() {});
@@ -96,6 +99,7 @@ public final class ModelType {
         PAGEABLE_TYPES.put(TextAutoReply.class, new TypeReference<Page<TextAutoReply>>() {});
         PAGEABLE_TYPES.put(CccCampaign.class, new TypeReference<Page<CccCampaign>>() {});
         PAGEABLE_TYPES.put(IvrBroadcast.class, new TypeReference<Page<IvrBroadcast>>() {});
+        PAGEABLE_TYPES.put(CallBroadcast.class, new TypeReference<Page<CallBroadcast>>() {});
         PAGEABLE_TYPES.put(TextBroadcast.class, new TypeReference<Page<TextBroadcast>>() {});
         PAGEABLE_TYPES.put(VoiceBroadcast.class, new TypeReference<Page<VoiceBroadcast>>() {});
         PAGEABLE_TYPES.put(Batch.class, new TypeReference<Page<Batch>>() {});

@@ -15,7 +15,6 @@ public abstract class Broadcast extends CallfireModel {
     private String fromNumber;
     private LocalTimeRestriction localTimeRestriction;
     private List<Schedule> schedules;
-    private RetryConfig retryConfig;
     private Integer maxActive;
     private List<String> labels = new ArrayList<>();
 
@@ -63,14 +62,6 @@ public abstract class Broadcast extends CallfireModel {
         this.localTimeRestriction = localTimeRestriction;
     }
 
-    public RetryConfig getRetryConfig() {
-        return retryConfig;
-    }
-
-    public void setRetryConfig(RetryConfig retryConfig) {
-        this.retryConfig = retryConfig;
-    }
-
     public Integer getMaxActive() {
         return maxActive;
     }
@@ -106,7 +97,6 @@ public abstract class Broadcast extends CallfireModel {
             .append("fromNumber", fromNumber)
             .append("localTimeRestriction", localTimeRestriction)
             .append("schedules", schedules)
-            .append("retryConfig", retryConfig)
             .append("maxActive", maxActive)
             .append("labels", labels)
             .toString();

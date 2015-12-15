@@ -25,7 +25,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     @Test
     public void testFind() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findCampaignSounds.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindSoundsRequest request = FindSoundsRequest.create()
             .limit(5L)
@@ -45,7 +45,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getCampaignSound.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, expectedJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         CampaignSound campaignSound = client.campaignSoundsApi().get(11L, FIELDS);
         assertThat(jsonConverter.serialize(campaignSound), equalToIgnoringWhiteSpace(expectedJson));
@@ -85,7 +85,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     @SuppressWarnings("ConstantConditions")
     public void testUpload() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
         File file = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
 
         ResourceId id = client.campaignSoundsApi().upload(file, "fname");
@@ -98,7 +98,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     public void testRecordViaPhone() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/recordViaPhone.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         CallCreateSound callCreateSound = new CallCreateSound();
         callCreateSound.setName("My sound file");
@@ -115,7 +115,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     public void testCreateFromTts() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createFromTts.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(mockHttpClient, mockHttpResponse, responseJson);
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         TextToSpeech textToSpeech = new TextToSpeech();
         textToSpeech.setVoice(Voice.MALE1);
