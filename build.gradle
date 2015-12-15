@@ -117,6 +117,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.5'
     compile 'org.apache.commons:commons-lang3:3.4'
 
+    testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile('junit:junit:4.12') {
         exclude module: 'hamcrest'
         exclude module: 'hamcrest-core'
