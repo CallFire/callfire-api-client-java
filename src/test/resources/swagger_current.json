@@ -19,10 +19,22 @@
   "basePath": "/v2",
   "tags": [
     {
+      "name": "text-auto-replys"
+    },
+    {
       "name": "contacts"
     },
     {
-      "name": "text-auto-reply"
+      "name": "calls"
+    },
+    {
+      "name": "texts"
+    },
+    {
+      "name": "ivrs"
+    },
+    {
+      "name": "campaigns"
     },
     {
       "name": "keywords"
@@ -31,31 +43,16 @@
       "name": "text-broadcasts"
     },
     {
-      "name": "calls"
+      "name": "me"
     },
     {
       "name": "numbers"
     },
     {
-      "name": "texts"
-    },
-    {
-      "name": "campaigns"
-    },
-    {
-      "name": "voice-broadcasts"
-    },
-    {
-      "name": "webhooks"
-    },
-    {
-      "name": "ivrs"
-    },
-    {
       "name": "orders"
     },
     {
-      "name": "me"
+      "name": "webhooks"
     }
   ],
   "schemes": [
@@ -83,14 +80,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -225,14 +214,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -435,14 +416,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "fields",
             "in": "query",
             "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
@@ -524,14 +497,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "start",
             "in": "query",
@@ -1029,14 +994,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "limit",
             "in": "query",
             "description": "Maximum number of records to return in a paged list response. The default is 100.",
@@ -1102,14 +1059,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "in": "body",
             "name": "body",
             "description": "~",
@@ -1151,14 +1100,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "in": "body",
             "name": "body",
@@ -1316,10 +1257,10 @@
         "x-response": "wav file"
       }
     },
-    "/campaigns/text-auto-replys": {
+    "/texts/auto-replys": {
       "get": {
         "tags": [
-          "text-auto-reply"
+          "text-auto-replys"
         ],
         "summary": "Find auto replies",
         "description": "Find all text autoreplies created by the user. Returns a paged list of TextAutoReply.",
@@ -1331,14 +1272,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -1390,7 +1323,7 @@
       },
       "post": {
         "tags": [
-          "text-auto-reply"
+          "text-auto-replys"
         ],
         "summary": "Create an auto reply",
         "description": "Auto-replies are text message replies sent to a customer when a customer\n replies to a text message from a campaign. A keyword will need to have been purchased \n before an Auto-Reply can be created.",
@@ -1402,14 +1335,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "in": "body",
             "name": "body",
@@ -1437,10 +1362,10 @@
         "x-response": "{\"id\":15}"
       }
     },
-    "/campaigns/text-auto-replys/{id}": {
+    "/texts/auto-replys/{id}": {
       "get": {
         "tags": [
-          "text-auto-reply"
+          "text-auto-replys"
         ],
         "summary": "Find a specific auto reply",
         "description": "Returns a single TextAutoReply for a given text auto reply id",
@@ -1486,7 +1411,7 @@
       },
       "delete": {
         "tags": [
-          "text-auto-reply"
+          "text-auto-replys"
         ],
         "summary": "Delete an auto reply",
         "description": "Deletes a text auto reply and removes the configuration. Can not delete a TextAutoReply currently active on a campaign.",
@@ -1521,7 +1446,7 @@
         "x-response": "204 No Content"
       }
     },
-    "/campaigns/text-broadcasts": {
+    "/texts/broadcasts": {
       "get": {
         "tags": [
           "text-broadcasts"
@@ -1536,14 +1461,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -1620,14 +1537,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "start",
             "in": "query",
             "description": "If true then start campaign immediately.",
@@ -1661,7 +1570,7 @@
         "x-response": "{\"id\":13}"
       }
     },
-    "/campaigns/text-broadcasts/{id}": {
+    "/texts/broadcasts/{id}": {
       "get": {
         "tags": [
           "text-broadcasts"
@@ -1754,7 +1663,7 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/campaigns/text-broadcasts/{id}/archive": {
+    "/texts/broadcasts/{id}/archive": {
       "post": {
         "tags": [
           "text-broadcasts"
@@ -1792,7 +1701,7 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/campaigns/text-broadcasts/{id}/batches": {
+    "/texts/broadcasts/{id}/batches": {
       "get": {
         "tags": [
           "text-broadcasts"
@@ -1906,7 +1815,7 @@
         "x-response": "{\"id\":10}"
       }
     },
-    "/campaigns/text-broadcasts/{id}/recipients": {
+    "/texts/broadcasts/{id}/recipients": {
       "post": {
         "tags": [
           "text-broadcasts"
@@ -1966,7 +1875,7 @@
         "x-response": "{\"items\":[{\"id\":13405,\"fromNumber\":\"12135551100\",\"toNumber\":\"12135551123\",\"state\":\"READY\",\"campaignId\":13,\"batchId\":11,\"contact\":{\"id\":4101,\"homePhone\":\"12135551123\"},\"inbound\":false,\"created\":1443382358000,\"modified\":1443382358000,\"message\":\"a new test message\"}]}"
       }
     },
-    "/campaigns/text-broadcasts/{id}/start": {
+    "/texts/broadcasts/{id}/start": {
       "post": {
         "tags": [
           "text-broadcasts"
@@ -2004,7 +1913,71 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/campaigns/text-broadcasts/{id}/stop": {
+    "/texts/broadcasts/{id}/stats": {
+      "get": {
+        "tags": [
+          "text-broadcasts"
+        ],
+        "summary": "Get statistics on text broadcast",
+        "description": "",
+        "operationId": "getTextBroadcastStats",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/TextBroadcastStatsDto"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/texts/broadcasts/{id}/stop": {
       "post": {
         "tags": [
           "text-broadcasts"
@@ -2042,7 +2015,7 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/campaigns/text-broadcasts/{id}/texts": {
+    "/texts/broadcasts/{id}/texts": {
       "get": {
         "tags": [
           "text-broadcasts"
@@ -2108,14 +2081,14 @@
         "x-response": "{\"items\":[{\"id\":13405,\"fromNumber\":\"12135551100\",\"toNumber\":\"12135551123\",\"state\":\"READY\",\"campaignId\":13,\"batchId\":11,\"contact\":{\"id\":4101,\"homePhone\":\"12135551123\"},\"inbound\":false,\"created\":1443382358000,\"modified\":1443382358000,\"message\":\"a new test message\"},{\"id\":13404,\"fromNumber\":\"12135551100\",\"toNumber\":\"12135551122\",\"state\":\"READY\",\"campaignId\":13,\"batchId\":10,\"contact\":{\"id\":4099,\"homePhone\":\"12135551122\"},\"inbound\":false,\"created\":1443382248000,\"modified\":1443382248000,\"message\":\"a new test message\"},{\"id\":13403,\"fromNumber\":\"12135551100\",\"toNumber\":\"13233832214\",\"state\":\"READY\",\"campaignId\":13,\"batchId\":9,\"contact\":{\"id\":4100,\"homePhone\":\"13233832214\"},\"inbound\":false,\"created\":1443380774000,\"modified\":1443380774000,\"message\":\"a new test message\"},{\"id\":13402,\"fromNumber\":\"12135551100\",\"toNumber\":\"13233832214\",\"state\":\"READY\",\"campaignId\":13,\"batchId\":9,\"contact\":{\"id\":4100,\"homePhone\":\"13233832214\"},\"inbound\":false,\"created\":1443380774000,\"modified\":1443380774000,\"message\":\"a new test message\"}],\"limit\":100,\"offset\":0,\"totalCount\":4}"
       }
     },
-    "/campaigns/voice-broadcasts": {
+    "/calls/broadcasts": {
       "get": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Find voice broadcasts",
-        "description": "Find all voice broadcasts created by the user. Can query on label, name, and the current running status of the campaign. Returns a paged list of voice broadcasts.",
-        "operationId": "findVoiceBroadcasts",
+        "summary": "Find call broadcasts",
+        "description": "",
+        "operationId": "findCallBroadcasts",
         "consumes": [
           "application/json"
         ],
@@ -2123,14 +2096,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -2157,21 +2122,21 @@
           {
             "name": "label",
             "in": "query",
-            "description": "Label of voice broadcast",
+            "description": "~",
             "required": false,
             "type": "string"
           },
           {
             "name": "name",
             "in": "query",
-            "description": "Name of voice broadcast",
+            "description": "~",
             "required": false,
             "type": "string"
           },
           {
             "name": "running",
             "in": "query",
-            "description": "Specify if the campaigns should be running or not",
+            "description": "~",
             "required": false,
             "type": "boolean"
           }
@@ -2189,16 +2154,16 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password \"https://api.callfire.com/v2/campaigns/voice-broadcasts?name=Example+API+VB\"",
-        "x-response": "{\"items\":[{\"id\":14,\"name\":\"Example API VB\",\"status\":\"STOPPED\",\"lastModified\":1443382636000,\"fromNumber\":\"12135551189\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"answeringMachineConfig\":\"AM_AND_LIVE\",\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"liveSoundId\":64,\"machineSoundText\":\"This is an answering machine text to speech recording\",\"machineSoundId\":65}],\"totalCount\":1}"
+        "x-request-cURL": null,
+        "x-response": null
       },
       "post": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Create a voice broadcast",
-        "description": "Create a voice broadcast campaign using the Voice Broadcast API. Send a VoiceBroadcast in the message body to detail a voice broadcast campaign. A campaign can be created with no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.",
-        "operationId": "createVoiceBroadcast",
+        "summary": "Create a call broadcast",
+        "description": "",
+        "operationId": "createCallBroadcast",
         "consumes": [
           "application/json"
         ],
@@ -2207,17 +2172,9 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "start",
             "in": "query",
-            "description": "Specify whether to immediately start this campaign (not required)",
+            "description": "~",
             "required": false,
             "type": "boolean"
           },
@@ -2227,7 +2184,7 @@
             "description": "~",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/VoiceBroadcast"
+              "$ref": "#/definitions/CallBroadcast"
             }
           }
         ],
@@ -2244,18 +2201,18 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Example API VB\",\"fromNumber\":\"12135551189\",\"recipients\":[{\"phoneNumber\":\"2135551133\"}],\"answeringMachineConfig\":\"AM_AND_LIVE\",\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"machineSoundText\":\"This is an answering machine text to speech recording\"}' \"https://api.callfire.com/v2/campaigns/voice-broadcasts\"",
-        "x-response": "{\"id\":14}"
+        "x-request-cURL": null,
+        "x-response": null
       }
     },
-    "/campaigns/voice-broadcasts/{id}": {
+    "/calls/broadcasts/{id}": {
       "get": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Find a specific voice broadcast",
-        "description": "Returns a single VoiceBroadcast instance for a given voice broadcast campaign id",
-        "operationId": "getVoiceBroadcast",
+        "summary": "Find a specific call broadcast",
+        "description": "",
+        "operationId": "getCallBroadcast",
         "consumes": [
           "application/json"
         ],
@@ -2266,7 +2223,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "Id of VoiceBroadcast",
+            "description": "~",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -2283,7 +2240,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/VoiceBroadcast"
+              "$ref": "#/definitions/CallBroadcast"
             }
           }
         },
@@ -2292,16 +2249,16 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password \"https://api.callfire.com/v2/campaigns/voice-broadcasts/14\"",
-        "x-response": "{\"id\":14,\"name\":\"Example API VB\",\"status\":\"STOPPED\",\"lastModified\":1443382636000,\"fromNumber\":\"12135551189\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"answeringMachineConfig\":\"AM_AND_LIVE\",\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"liveSoundId\":64,\"machineSoundText\":\"This is an answering machine text to speech recording\",\"machineSoundId\":65}"
+        "x-request-cURL": null,
+        "x-response": null
       },
       "put": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Update a voice broadcast",
-        "description": "After having created a voice broadcast campaign, this PUT lets the user modify the configuration of a voice broadcast campaign. See VoiceBroadcast for more information on what can/can't be updated on this API.",
-        "operationId": "updateVoiceBroadcast",
+        "summary": "Update a call broadcast",
+        "description": "",
+        "operationId": "updateCallBroadcast",
         "consumes": [
           "application/json"
         ],
@@ -2312,7 +2269,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The id of the voice broadcast",
+            "description": "~",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -2323,7 +2280,7 @@
             "description": "~",
             "required": false,
             "schema": {
-              "$ref": "#/definitions/VoiceBroadcast"
+              "$ref": "#/definitions/CallBroadcast"
             }
           }
         ],
@@ -2337,14 +2294,14 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X PUT -d '{\"name\":\"Example API VB updated\",\"answeringMachineConfig\":\"LIVE_IMMEDIATE\",\"liveSoundText\":\"Hello! This is an updated VB config tts\"}' \"https://api.callfire.com/v2/campaigns/voice-broadcasts/14\"",
-        "x-response": "200 OK - No Response"
+        "x-request-cURL": null,
+        "x-response": null
       }
     },
-    "/campaigns/voice-broadcasts/{id}/archive": {
+    "/calls/broadcasts/{id}/archive": {
       "post": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
         "summary": "Archive voice broadcast",
         "description": "Archive a voice broadcast",
@@ -2379,14 +2336,14 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/campaigns/voice-broadcasts/{id}/batches": {
+    "/calls/broadcasts/{id}/batches": {
       "get": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Find batches in a voice broadcast",
-        "description": "This endpoint will enable the user to page through all of the batches for a particular voice broadcast campaign.",
-        "operationId": "getVoiceBroadcastBatches",
+        "summary": "Find batches in a call broadcast",
+        "description": "",
+        "operationId": "getCallBroadcastBatches",
         "consumes": [
           "application/json"
         ],
@@ -2397,7 +2354,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The id of the voice broadcast",
+            "description": "~",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -2441,16 +2398,16 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/campaigns/voice-broadcasts/14/batches\"",
-        "x-response": "{\"items\":[{\"id\":12,\"name\":\"API 14\",\"status\":\"ACTIVE\",\"broadcastId\":14,\"created\":1443382635000,\"size\":1,\"remaining\":1,\"enabled\":true},{\"id\":13,\"name\":\"batch name\",\"status\":\"ACTIVE\",\"broadcastId\":14,\"created\":1443383158000,\"size\":2,\"remaining\":2,\"enabled\":true}],\"limit\":100,\"offset\":0}"
+        "x-request-cURL": null,
+        "x-response": null
       },
       "post": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Add batches to a voice broadcast",
-        "description": "The add batch API allows the user to add additional batches to an already created voice broadcast campaign. The added batch will go through the CallFire validation process, unlike in the recipients version of this API. Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a contact list id, a list of contact ids, or a list of numbers.",
-        "operationId": "addVoiceBroadcastBatch",
+        "summary": "Add batches to a call broadcast",
+        "description": "",
+        "operationId": "addCallBroadcastBatch",
         "consumes": [
           "application/json"
         ],
@@ -2461,7 +2418,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The id of the voice broadcast",
+            "description": "~",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -2489,18 +2446,18 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"batch name\",\"recipients\":[{\"phoneNumber\":\"12135551100\"},{\"phoneNumber\":\"12135551101\"}]}' \"https://api.callfire.com/v2/campaigns/voice-broadcasts/14/batches\"",
-        "x-response": "{\"id\":13}"
+        "x-request-cURL": null,
+        "x-response": null
       }
     },
-    "/campaigns/voice-broadcasts/{id}/calls": {
+    "/calls/broadcasts/{id}/calls": {
       "get": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Find calls in a voice broadcast",
-        "description": "This endpoint will enable the user to page through all of the calls for a particular voice broadcast campaign.",
-        "operationId": "getVoiceBroadcastCalls",
+        "summary": "Find calls in a call broadcast",
+        "description": "",
+        "operationId": "getCallBroadcastCalls",
         "consumes": [
           "application/json"
         ],
@@ -2511,7 +2468,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The id of the voice broadcast",
+            "description": "~",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -2555,18 +2512,18 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/campaigns/voice-broadcasts/14/calls\"",
-        "x-response": "{\"items\":[{\"id\":13408,\"fromNumber\":\"12135551189\",\"toNumber\":\"12135551101\",\"state\":\"READY\",\"campaignId\":14,\"batchId\":13,\"contact\":{\"id\":4097,\"homePhone\":\"12135551101\"},\"inbound\":false,\"created\":1443383158000,\"modified\":1443383158000,\"agentCall\":false},{\"id\":13407,\"fromNumber\":\"12135551189\",\"toNumber\":\"12135551100\",\"state\":\"READY\",\"campaignId\":14,\"batchId\":13,\"contact\":{\"id\":4096,\"homePhone\":\"12135551100\"},\"inbound\":false,\"created\":1443383158000,\"modified\":1443383158000,\"agentCall\":false},{\"id\":13406,\"fromNumber\":\"12135551189\",\"toNumber\":\"12135551133\",\"state\":\"READY\",\"campaignId\":14,\"batchId\":12,\"contact\":{\"id\":4102,\"homePhone\":\"2135551133\"},\"inbound\":false,\"created\":1443382636000,\"modified\":1443382636000,\"agentCall\":false}],\"limit\":100,\"offset\":0,\"totalCount\":3}"
+        "x-request-cURL": null,
+        "x-response": null
       }
     },
-    "/campaigns/voice-broadcasts/{id}/recipients": {
+    "/calls/broadcasts/{id}/recipients": {
       "post": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
-        "summary": "Add recipients to a voice broadcast",
-        "description": "Use this API to add recipients to an already created voice broadcast. Post a list of Recipient objects for them to be immediately added to the voice broadcast campaign. These contacts do not go through validation process, and will be acted upon as they are added. Recipients may be added as a list of contact ids, or list of numbers.",
-        "operationId": "addVoiceBroadcastRecipients",
+        "summary": "Add recipients to a call broadcast",
+        "description": "",
+        "operationId": "addCallBroadcastRecipients",
         "consumes": [
           "application/json"
         ],
@@ -2577,7 +2534,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "The id of the voice broadcast to update",
+            "description": "~",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -2615,14 +2572,14 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '[{\"phoneNumber\":\"12135551100\"},{\"phoneNumber\":\"12135551101\"}]' \"https://api.callfire.com/v2/campaigns/voice-broadcasts/14/recipients\"",
-        "x-response": "{\"items\":[{\"id\":13410,\"fromNumber\":\"12135551189\",\"toNumber\":\"12135551100\",\"state\":\"READY\",\"campaignId\":14,\"batchId\":12,\"contact\":{\"id\":4096,\"homePhone\":\"12135551100\"},\"inbound\":false,\"created\":1443383295000,\"modified\":1443383295000,\"agentCall\":false},{\"id\":13411,\"fromNumber\":\"12135551189\",\"toNumber\":\"12135551101\",\"state\":\"READY\",\"campaignId\":14,\"batchId\":12,\"contact\":{\"id\":4097,\"homePhone\":\"12135551101\"},\"inbound\":false,\"created\":1443383295000,\"modified\":1443383295000,\"agentCall\":false}]}"
+        "x-request-cURL": null,
+        "x-response": null
       }
     },
-    "/campaigns/voice-broadcasts/{id}/start": {
+    "/calls/broadcasts/{id}/start": {
       "post": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
         "summary": "Start voice broadcast",
         "description": "Start a voice broadcast",
@@ -2657,10 +2614,74 @@
         "x-response": "200 OK - No Response"
       }
     },
-    "/campaigns/voice-broadcasts/{id}/stop": {
+    "/calls/broadcasts/{id}/stats": {
+      "get": {
+        "tags": [
+          "calls"
+        ],
+        "summary": "Get statistics on call broadcast",
+        "description": "",
+        "operationId": "getCallBroadcastStats",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/CallBroadcastStats"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/calls/broadcasts/{id}/stop": {
       "post": {
         "tags": [
-          "voice-broadcasts"
+          "calls"
         ],
         "summary": "Stop voice broadcast",
         "description": "Stop a voice broadcast",
@@ -2710,14 +2731,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -2991,14 +3004,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -3283,14 +3288,6 @@
             "in": "path",
             "description": "Id of contact list",
             "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
             "type": "integer",
             "format": "int64"
           },
@@ -3909,16 +3906,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -3951,14 +3939,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "name": "fields",
             "in": "query",
@@ -4013,14 +3993,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "in": "body",
             "name": "body",
@@ -4146,16 +4118,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -4187,16 +4150,7 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -4235,14 +4189,6 @@
             "description": "E.164 number without the '+' that needs to be verified",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
           }
         ],
         "responses": {
@@ -4282,14 +4228,6 @@
             "type": "string"
           },
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "in": "body",
             "name": "body",
             "description": "~",
@@ -4314,6 +4252,797 @@
         ],
         "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X POST -d '{\"verificationCode\":\"1234\"}' \"https://api.callfire.com/v2/me/callerids/12135551175/verification-code\"",
         "x-response": "true"
+      }
+    },
+    "/media": {
+      "post": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Create media",
+        "description": "",
+        "operationId": "createMedia",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "~",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "~",
+            "required": false,
+            "type": "ref"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "~",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/JResponse"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.bmp": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a BMP media",
+        "description": "",
+        "operationId": "getMediaDataBmpByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/x-bmp"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.gif": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a GIF media",
+        "description": "",
+        "operationId": "getMediaDataGifByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/gif"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.jpeg": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a JPEG media",
+        "description": "",
+        "operationId": "getMediaDataJpegByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/jpeg"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.m4a": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a M4A media",
+        "description": "",
+        "operationId": "getMediaDataM4aByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "audio/mp4"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.mp3": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a MP3 media",
+        "description": "",
+        "operationId": "getMediaDataMp3ByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "audio/mp3"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.mp4": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a MP4 media",
+        "description": "",
+        "operationId": "getMediaDataMp4ByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "video/mp4"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.png": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a PNG media",
+        "description": "",
+        "operationId": "getMediaDataPngByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/png"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/public/{key}.wav": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a WAV media",
+        "description": "",
+        "operationId": "getMediaDataWavByKey",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "audio/wav"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Get a specific media",
+        "description": "",
+        "operationId": "getMedia",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Media"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.bmp": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a BMP media",
+        "description": "",
+        "operationId": "getMediaDataBmp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/x-bmp"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.gif": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a GIF media",
+        "description": "",
+        "operationId": "getMediaDataGif",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/gif"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.jpeg": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a JPEG media",
+        "description": "",
+        "operationId": "getMediaDataJpeg",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/jpeg"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.m4a": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a M4A media",
+        "description": "",
+        "operationId": "getMediaDataM4a",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "audio/mp4"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.mp3": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a MP3 media",
+        "description": "",
+        "operationId": "getMediaDataMp3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "audio/mp3"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.mp4": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a MP4 media",
+        "description": "",
+        "operationId": "getMediaDataMp4",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "video/mp4"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.png": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a PNG media",
+        "description": "",
+        "operationId": "getMediaDataPng",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "image/png"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}.wav": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a WAV media",
+        "description": "",
+        "operationId": "getMediaDataWav",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "audio/w-wav"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
+      }
+    },
+    "/media/{id}/file": {
+      "get": {
+        "tags": [
+          "texts"
+        ],
+        "summary": "Download a MP3 media",
+        "description": "",
+        "operationId": "getMediaDataBinary",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/binary"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "~",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/InputStream"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": null,
+        "x-response": null
       }
     },
     "/numbers/leases": {
@@ -5108,14 +5837,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "fields",
             "in": "query",
             "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
@@ -5250,14 +5971,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "fields",
             "in": "query",
             "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
@@ -5366,14 +6079,6 @@
         ],
         "parameters": [
           {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
             "name": "fields",
             "in": "query",
             "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
@@ -5464,14 +6169,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "accountId",
-            "in": "query",
-            "description": "~",
-            "required": false,
-            "type": "integer",
-            "format": "int64"
-          },
           {
             "in": "body",
             "name": "body",
@@ -5978,6 +6675,311 @@
       },
       "description": "~"
     },
+    "CallBroadcast": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "name": {
+          "type": "string",
+          "description": "~"
+        },
+        "status": {
+          "type": "string",
+          "description": "~",
+          "readOnly": true,
+          "enum": [
+            "TEST",
+            "SETUP",
+            "START_PENDING",
+            "RUNNING",
+            "STOPPED",
+            "FINISHED",
+            "ARCHIVED"
+          ]
+        },
+        "lastModified": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~",
+          "readOnly": true
+        },
+        "fromNumber": {
+          "type": "string",
+          "description": "~"
+        },
+        "localTimeRestriction": {
+          "description": "~",
+          "$ref": "#/definitions/LocalTimeRestriction"
+        },
+        "schedules": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Schedule"
+          }
+        },
+        "retryConfig": {
+          "description": "~",
+          "$ref": "#/definitions/RetryConfig"
+        },
+        "maxActive": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "labels": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recipients": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Recipient"
+          }
+        },
+        "dialplanXml": {
+          "type": "string",
+          "description": "~"
+        },
+        "sounds": {
+          "description": "~",
+          "$ref": "#/definitions/CallBroadcastSounds"
+        },
+        "answeringMachineConfig": {
+          "type": "string",
+          "description": "~",
+          "enum": [
+            "AM_ONLY",
+            "AM_AND_LIVE",
+            "LIVE_WITH_AMD",
+            "LIVE_IMMEDIATE"
+          ]
+        },
+        "maxActiveTransfers": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        }
+      },
+      "description": "~"
+    },
+    "CallBroadcastSounds": {
+      "type": "object",
+      "properties": {
+        "liveSoundText": {
+          "type": "string",
+          "description": "~"
+        },
+        "liveSoundTextVoice": {
+          "type": "string",
+          "description": "~",
+          "enum": [
+            "MALE1",
+            "FEMALE1",
+            "FEMALE2",
+            "SPANISH1",
+            "FRENCHCANADIAN1"
+          ]
+        },
+        "liveSoundId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "machineSoundText": {
+          "type": "string",
+          "description": "~"
+        },
+        "machineSoundTextVoice": {
+          "type": "string",
+          "description": "~",
+          "enum": [
+            "MALE1",
+            "FEMALE1",
+            "FEMALE2",
+            "SPANISH1",
+            "FRENCHCANADIAN1"
+          ]
+        },
+        "machineSoundId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "transferSoundText": {
+          "type": "string",
+          "description": "~"
+        },
+        "transferSoundTextVoice": {
+          "type": "string",
+          "description": "~",
+          "enum": [
+            "MALE1",
+            "FEMALE1",
+            "FEMALE2",
+            "SPANISH1",
+            "FRENCHCANADIAN1"
+          ]
+        },
+        "transferSoundId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "transferDigit": {
+          "type": "string",
+          "description": "~"
+        },
+        "transferNumber": {
+          "type": "string",
+          "description": "~"
+        },
+        "dncSoundText": {
+          "type": "string",
+          "description": "~"
+        },
+        "dncSoundTextVoice": {
+          "type": "string",
+          "description": "~",
+          "enum": [
+            "MALE1",
+            "FEMALE1",
+            "FEMALE2",
+            "SPANISH1",
+            "FRENCHCANADIAN1"
+          ]
+        },
+        "dncSoundId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "dncDigit": {
+          "type": "string",
+          "description": "~"
+        }
+      },
+      "description": "~"
+    },
+    "CallBroadcastStats": {
+      "type": "object",
+      "properties": {
+        "totalOutboundCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "remainingOutboundCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "billedAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "~"
+        },
+        "callsAttempted": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "callsPlaced": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "callsDuration": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "billedDuration": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "responseRatePercent": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "callsRemaining": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "callsAwaitingRedial": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "callsLiveAnswer": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "answeringMachineCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "busyCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "dialedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "doNotCallCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "errorCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "liveCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "miscCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "noAnswerCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "transferCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        }
+      },
+      "description": "~"
+    },
     "CallCreateSound": {
       "type": "object",
       "properties": {
@@ -6010,6 +7012,10 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "dialplanXml": {
+          "type": "string",
+          "description": "~"
         },
         "liveMessage": {
           "type": "string",
@@ -6421,6 +7427,10 @@
       },
       "description": "~"
     },
+    "InputStream": {
+      "type": "object",
+      "description": "~"
+    },
     "IvrBroadcast": {
       "type": "object",
       "properties": {
@@ -6525,11 +7535,6 @@
           "description": "~",
           "properties": {}
         },
-        "status": {
-          "type": "integer",
-          "format": "int32",
-          "description": "~"
-        },
         "metadata": {
           "type": "object",
           "description": "~",
@@ -6540,6 +7545,11 @@
               "properties": {}
             }
           }
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
         },
         "type": {
           "description": "~",
@@ -6683,6 +7693,44 @@
           "type": "integer",
           "format": "int32",
           "description": "Minutes to end restriction"
+        }
+      },
+      "description": "~"
+    },
+    "Media": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "accountId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "name": {
+          "type": "string",
+          "description": "~"
+        },
+        "created": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "lengthInBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "mediaType": {
+          "type": "string",
+          "description": "~"
+        },
+        "publicUrl": {
+          "type": "string",
+          "description": "~"
         }
       },
       "description": "~"
@@ -7277,6 +8325,13 @@
           "items": {
             "$ref": "#/definitions/TextRecord"
           }
+        },
+        "media": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Media"
+          }
         }
       },
       "description": "~"
@@ -7390,6 +8445,64 @@
             "DO_NOT_SEND",
             "TRIM"
           ]
+        },
+        "media": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Media"
+          }
+        }
+      },
+      "description": "~"
+    },
+    "TextBroadcastStatsDto": {
+      "type": "object",
+      "properties": {
+        "totalOutboundCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "remainingOutboundCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "billedAmount": {
+          "type": "number",
+          "format": "double",
+          "description": "~"
+        },
+        "sentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "unsentCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "recievedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "doNotTextCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "tooBigCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
+        },
+        "errorCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "~"
         }
       },
       "description": "~"
@@ -7416,6 +8529,13 @@
         "message": {
           "type": "string",
           "description": "Text message"
+        },
+        "media": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/Media"
+          }
         }
       },
       "description": "~"
@@ -7498,186 +8618,6 @@
         "name": {
           "type": "string",
           "description": "Name of list"
-        }
-      },
-      "description": "~"
-    },
-    "VoiceBroadcast": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of broadcast"
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of broadcast"
-        },
-        "status": {
-          "type": "string",
-          "description": "Status of broadcast *read only*",
-          "readOnly": true,
-          "enum": [
-            "TEST",
-            "SETUP",
-            "START_PENDING",
-            "RUNNING",
-            "STOPPED",
-            "FINISHED",
-            "ARCHIVED"
-          ]
-        },
-        "lastModified": {
-          "type": "integer",
-          "format": "int64",
-          "description": "DateTime formatted in unix time *read only*",
-          "readOnly": true
-        },
-        "fromNumber": {
-          "type": "string",
-          "description": "E.164 number"
-        },
-        "localTimeRestriction": {
-          "description": "LocalTimeRestriction object",
-          "$ref": "#/definitions/LocalTimeRestriction"
-        },
-        "schedules": {
-          "type": "array",
-          "description": "~",
-          "items": {
-            "$ref": "#/definitions/Schedule"
-          }
-        },
-        "retryConfig": {
-          "description": "RetryConfig object",
-          "$ref": "#/definitions/RetryConfig"
-        },
-        "maxActive": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Max number of active calls"
-        },
-        "labels": {
-          "type": "array",
-          "description": "Labels of broadcast",
-          "items": {
-            "type": "string"
-          }
-        },
-        "recipients": {
-          "type": "array",
-          "description": "Recipients of broadcast",
-          "items": {
-            "$ref": "#/definitions/Recipient"
-          }
-        },
-        "answeringMachineConfig": {
-          "type": "string",
-          "description": "AnsweringMachineConfig object",
-          "enum": [
-            "AM_ONLY",
-            "AM_AND_LIVE",
-            "LIVE_WITH_AMD",
-            "LIVE_IMMEDIATE"
-          ]
-        },
-        "liveSoundText": {
-          "type": "string",
-          "description": "Text to be used to turn into sound"
-        },
-        "liveSoundTextVoice": {
-          "type": "string",
-          "description": "The voice to be used (MALE1, FEMALE1 , FEMALE2, SPANISH1, FRENCHCANADIAN1)",
-          "enum": [
-            "MALE1",
-            "FEMALE1",
-            "FEMALE2",
-            "SPANISH1",
-            "FRENCHCANADIAN1"
-          ]
-        },
-        "liveSoundId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of sound file"
-        },
-        "machineSoundText": {
-          "type": "string",
-          "description": "Text to be used to turn into sound"
-        },
-        "machineSoundTextVoice": {
-          "type": "string",
-          "description": "The voice to be used (MALE1, FEMALE1 , FEMALE2, SPANISH1, FRENCHCANADIAN1)",
-          "enum": [
-            "MALE1",
-            "FEMALE1",
-            "FEMALE2",
-            "SPANISH1",
-            "FRENCHCANADIAN1"
-          ]
-        },
-        "machineSoundId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of sound file"
-        },
-        "transferSoundText": {
-          "type": "string",
-          "description": "Text to be used to turn into sound"
-        },
-        "transferSoundTextVoice": {
-          "type": "string",
-          "description": "The voice to be used (MALE1, FEMALE1 , FEMALE2, SPANISH1, FRENCHCANADIAN1)",
-          "enum": [
-            "MALE1",
-            "FEMALE1",
-            "FEMALE2",
-            "SPANISH1",
-            "FRENCHCANADIAN1"
-          ]
-        },
-        "transferSoundId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of sound file"
-        },
-        "transferDigit": {
-          "type": "string",
-          "description": "Digit pressed to initiate transfer"
-        },
-        "transferNumber": {
-          "type": "string",
-          "description": "E.164 number to transfer call to"
-        },
-        "dncSoundText": {
-          "type": "string",
-          "description": "Text to be used to turn into sound"
-        },
-        "dncSoundTextVoice": {
-          "type": "string",
-          "description": "The voice to be used (MALE1, FEMALE1 , FEMALE2, SPANISH1, FRENCHCANADIAN1)",
-          "enum": [
-            "MALE1",
-            "FEMALE1",
-            "FEMALE2",
-            "SPANISH1",
-            "FRENCHCANADIAN1"
-          ]
-        },
-        "dncSoundId": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Id of sound file"
-        },
-        "dncDigit": {
-          "type": "string",
-          "description": "Digit pressed to be placed on DNC list"
-        },
-        "maxActiveTransfers": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Max number of active transfers"
         }
       },
       "description": "~"
