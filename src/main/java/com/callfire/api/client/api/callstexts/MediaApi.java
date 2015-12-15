@@ -121,7 +121,8 @@ public class MediaApi {
      * Returns media file's data as stream, in case there is no appropriate MediaType for your media file pass
      * MediaType.UNKNOWN
      *
-     * @param id id of media file
+     * @param id   id of media file
+     * @param type media type: jpeg, png, gif, mp3, mp4, wav
      * @return file data as binary stream
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
@@ -142,7 +143,8 @@ public class MediaApi {
     /**
      * Returns media file's data as stream
      *
-     * @param key key of media file
+     * @param key  key of media file
+     * @param type media type: jpeg, png, gif, mp3, mp4, wav
      * @return file data as binary stream
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
