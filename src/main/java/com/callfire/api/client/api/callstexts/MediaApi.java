@@ -23,7 +23,7 @@ import static com.callfire.api.client.ModelType.of;
  * Use the /media API to upload and download different types of media files: images, videos, music, etc.
  * <br>
  *
- * @since 2.0
+ * @since 1.7
  */
 public class MediaApi {
     private static final String MEDIA_PATH = "/media";
@@ -39,7 +39,7 @@ public class MediaApi {
     }
 
     /**
-     * Upload media file to account
+     * Upload media file into account
      *
      * @param file file to upload
      * @return ResourceId object with sound id
@@ -56,7 +56,7 @@ public class MediaApi {
     }
 
     /**
-     * Upload media file to account
+     * Upload media file into account
      *
      * @param file file to upload
      * @param name name for file uploaded

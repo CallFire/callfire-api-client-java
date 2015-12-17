@@ -25,7 +25,7 @@ import static com.callfire.api.client.ModelType.*;
 /**
  * Represents rest endpoint /calls/broadcasts
  *
- * @since 1.8
+ * @since 1.7
  */
 public class CallBroadcastsApi {
     private static final String CB_PATH = "/calls/broadcasts";
