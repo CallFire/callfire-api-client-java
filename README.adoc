@@ -6,6 +6,11 @@ Java client for Callfire platform API version 2. See link:docs/GettingStarted.ad
 .*Requirements:*
 * Java 7+
 
+.*Dependencies:*
+* Fasterxml Jackson 2.6.1
+* Apache HttpClient 4.5
+* Apache commons-lang3 3.4
+
 .*Table of contents*
 * link:docs/GettingStarted.adoc[Getting Started]
 * link:docs/api/ApiExamples.adoc[API code examples]
