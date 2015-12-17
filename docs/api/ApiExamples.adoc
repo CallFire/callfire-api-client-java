@@ -5,6 +5,7 @@
 ** link:account/OrdersApi.adoc[Account orders]
 * link:callstexts/CallsApi.adoc[Send individual calls]
 * link:callstexts/TextsApi.adoc[Send individual texts]
+** link:callstexts/MediaApi.adoc[Manage media files]
 * Campaigns
 ** link:campaigns/CampaignSoundsApi.adoc[Campaign Sounds]
 ** link:campaigns/TextAutoRepliesApi.adoc[Text auto replies]

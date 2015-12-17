@@ -8,7 +8,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.callfire:callfire-api-client:1.5.0'
+    compile 'com.callfire:callfire-api-client:X.Y.Z'
 }
 
 for Maven build add following lines to your pom xml:
@@ -26,10 +26,11 @@ for Maven build add following lines to your pom xml:
     <dependency>
         <groupId>com.callfire</groupId>
         <artifactId>callfire-api-client</artifactId>
-        <version>1.5.0</version>
+        <version>X.Y.Z</version>
     </dependency>
 </dependencies>
 
+where X.Y.Z - current available version, you can find it on link:https://github.com/CallFire/callfire-api-client-java/releases[releases page]
 After these steps *callfire-api-client* should appear in your project dependencies along with other transitive ones.
 
 In case you want to build it yourself:
@@ -40,10 +41,10 @@ In case you want to build it yourself:
 
 it will create 4 jars in *build/libs* directory:
 [source]
-    callfire-api-client-1.5.0.jar
-    callfire-api-client-1.5.0-all.jar - client jar with all dependencies inside
-    callfire-api-client-1.5.0-javadoc.jar
-    callfire-api-client-1.5.0-sources.jar
+    callfire-api-client-X.Y.Z.jar - only client classes without dependencies
+    callfire-api-client-X.Y.Z-all.jar - client jar with all dependencies inside
+    callfire-api-client-X.Y.Z-javadoc.jar
+    callfire-api-client-X.Y.Z-sources.jar
 
 
 == Overview
@@ -75,10 +76,11 @@ public class TestCallfireApi {
     client.batchesApi();
     client.callsApi();
     client.textsApi();
+    client.mediaApi();
     client.campaignSoundsApi();
     client.ivrBroadcastsApi();
+    client.callBroadcastsApi();
     client.textBroadcastsApi();
-    client.voiceBroadcastsApi();
     client.textAutoRepliesApi();
     client.contactsApi();
     client.contactListsApi();
