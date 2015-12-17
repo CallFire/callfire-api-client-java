@@ -10,9 +10,9 @@
 ** link:campaigns/CampaignSoundsApi.adoc[Campaign Sounds]
 ** link:campaigns/TextAutoRepliesApi.adoc[Text auto replies]
 ** Broadcasts
+*** link:campaigns/CallBroadcastsApi.adoc[Call broadcasts]
 *** link:campaigns/TextBroadcastsApi.adoc[Text broadcasts]
 *** link:campaigns/IvrBroadcastsApi.adoc[IVR broadcasts]
-*** link:campaigns/VoiceBroadcastsApi.adoc[Voice broadcasts]
 *** link:campaigns/BatchesApi.adoc[Contact batches]
 ** Cloud Call Center & Agents
 *** link:campaigns/AgentsApi.adoc[Agents]

@@ -47,16 +47,11 @@ Get text broadcast by ID
 
 == Update broadcast
 After having created a text broadcast campaign, this method lets the user modify the configuration of
- a text broadcast campaign. See example how to add retry logic to campaign in case mobile or home phone is busy:
+ a text broadcast campaign. See example how to update name of campaign:
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     TextBroadcast broadcast = callfireClient.textBroadcastsApi().get(123L);
-    RetryConfig retryConfig = new RetryConfig();
-    retryConfig.setMaxAttempts(2);
-    retryConfig.setMinutesBetweenAttempts(1);
-    retryConfig.setRetryResults(Arrays.asList(RetryResults.BUSY));
-    retryConfig.setRetryPhoneTypes(Arrays.asList(RetryPhoneTypes.HOME_PHONE, RetryPhoneTypes.MOBILE_PHONE));
-    broadcast.setRetryConfig(retryConfig);
+    broadcast.setName("New name");
     // update campaign
     callfireClient.textBroadcastsApi().update(broadcast);
 
@@ -87,6 +82,16 @@ This operation will enable the user to page through all of the texts for a parti
         .build();
     Page<Text> texts = callfireClient.textBroadcastsApi().getTexts(request);
     System.out.println(texts);
+
+== Get broadcast stats
+Get broadcast statistics
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    Date end = new Date();
+    Date begin = DateUtils.addDays(end, -5);
+    String fields = "callsAttempted,callsPlaced,callsDuration";
+    TextBroadcastStats stats = api.getStats(8624192003L, fields, begin, end);
+    System.out.println(stats);
 
 == Add recipients to a text broadcast
 Use this method to add recipients to an already created text broadcast. Post a list of Recipient objects for
