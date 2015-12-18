@@ -308,7 +308,7 @@ public class TextBroadcastsApi {
      * Get statistics on text broadcast
      *
      * @param id text broadcast id
-     * @return {@link Page} with {@link Call} objects
+     * @return broadcast stats object
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -328,7 +328,7 @@ public class TextBroadcastsApi {
      * @param fields limit fields returned. Example fields=id,message
      * @param begin  begin date to filter
      * @param end    end date to filter
-     * @return {@link Page} with {@link Call} objects
+     * @return broadcast stats object
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
@@ -377,7 +377,7 @@ public class TextBroadcastsApi {
      * @param id         id of text broadcast
      * @param recipients recipients to add
      * @param fields     limit fields returned. E.g. fields=id,name or fields=items(id,name)
-     * @return list of {@link ResourceId} with recipient ids
+     * @return Text objects which were sent to recipients
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
      * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
