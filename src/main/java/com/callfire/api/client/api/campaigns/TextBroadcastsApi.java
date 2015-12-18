@@ -3,9 +3,12 @@ package com.callfire.api.client.api.campaigns;
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.TextBroadcast;
+import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -57,7 +60,7 @@ public class TextBroadcastsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public Page<TextBroadcast> find(FindBroadcastsRequest request) {
+    public Page<TextBroadcast> find(FindTextBroadcastsRequest request) {
         return client.get(TB_PATH, pageOf(TextBroadcast.class), request);
     }
 
