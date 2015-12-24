@@ -1,46 +1,47 @@
 = Calls API
 
+
 === Find calls
 '''
 Example how to find all calls sent or received by the user. Use "id=0" for the campaignId parameter to query for all
-calls sent through the POST /calls API.
+ calls sent through the POST /calls API.
 [source,java]
- //No one parameter is required
- FindCallsRequest request = FindCallsRequest.create()
+    //No one parameter is required
+    FindCallsRequest request = FindCallsRequest.create()
         .id(Arrays.asList(617067920003L))
         .campaignId(7373801003L)
         .fromNumber("12132609784")
         .toNumber("12132212384")
         .build();
- CallfireClient client = new CallfireClient("api_login", "api_password");
- Page<Call> texts = client.callsApi().find(request);
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    Page<Call> calls = client.callsApi().find(request);
 
 === Send call
 '''
 Example how to use the /calls API to quickly send individual calls via default campaign. A verified Caller ID and
  sufficient credits are required to make a call.
 [source,java]
- CallfireClient client = new CallfireClient("api_login", "api_password");
- //Only "recipients" param required
- CallRecipient r1 = new CallRecipient();
- r1.setPhoneNumber("12132609784");
- r1.setLiveMessage("Hello");
- List<CallRecipient> recipients = Arrays.asList(r1);
- List<Call> calls = client.callsApi().send(recipients);
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    //Only "recipients" param required
+    CallRecipient r1 = new CallRecipient();
+    r1.setPhoneNumber("12132609784");
+    r1.setLiveMessage("Hello");
+    List<CallRecipient> recipients = Arrays.asList(r1);
+    List<Call> calls = client.callsApi().send(recipients);
 
-in case you want to send call via existing campaign provide campaign id as second parameter for send() method,
+In case you want to send call via existing campaign provide campaign id as second parameter for send() method,
  see example below:
 [source,java]
- CallfireClient client = new CallfireClient("api_login", "api_password");
- CallRecipient recipient = new CallRecipient();
- recipient.setPhoneNumber("12132609784");
- recipient.setLiveMessage("Hello");
- List<Call> calls = client.callsApi().send(Arrays.asList(recipient), 60000000003L);
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    CallRecipient recipient = new CallRecipient();
+    recipient.setPhoneNumber("12132609784");
+    recipient.setLiveMessage("Hello");
+    List<Call> calls = client.callsApi().send(Arrays.asList(recipient), 60000000003L);
 
 === Get call
 '''
 Example how to return a single Call instance for a given call id.
 [source,java]
- //Only "id" param required
- CallfireClient client = new CallfireClient("api_login", "api_password");
- Call call = client.callsApi().get(617067920003L);
+    //Only "id" param required
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    Call call = client.callsApi().get(617067920003L);

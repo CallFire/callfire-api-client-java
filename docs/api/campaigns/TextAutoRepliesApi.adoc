@@ -1,11 +1,12 @@
 = Text auto replies API
 
+
 Auto-replies are text message replies sent to a customer when a customer replies to a text message from a campaign. A
 keyword will need to have been purchased before an Auto-Reply can be created. This endpoint contains CRUD operations
 to *find, get, create, delete* text auto reply.
 
-== Find operation
-Example how to find all configured auto replies for particular number
+=== Find operation
+Example how to find all configured auto replies for particular number.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.create()
@@ -14,14 +15,14 @@ Example how to find all configured auto replies for particular number
     Page<TextAutoReply> textAutoReplies = callfireClient.textAutoRepliesApi().find(request);
     System.out.println(textAutoReplies);
 
-find all configured auto replies in account
+Find all configured auto replies in account:
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     FindTextAutoRepliesRequest request = FindTextAutoRepliesRequest.create().build();
     Page<TextAutoReply> textAutoReplies = callfireClient.textAutoRepliesApi().find(request);
     System.out.println(textAutoReplies);
 
-== Create operation
+=== Create operation
 Example how to configure auto reply for particular number and text with "vacation" word.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -32,15 +33,15 @@ Example how to configure auto reply for particular number and text with "vacatio
     ResourceId resourceId = callfireClient.textAutoRepliesApi().create(textAutoReply);
     System.out.println(textAutoReplies);
 
-== Get operation
-Get particular auto reply by ID
+=== Get operation
+Get particular auto reply by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     TextAutoReply textAutoReply = callfireClient.textAutoRepliesApi().get(12345L);
     System.out.println(textAutoReply);
 
-== Delete operation
-Delete particular auto reply by ID
+=== Delete operation
+Delete particular auto reply by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.textAutoRepliesApi().delete(12345L);

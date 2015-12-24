@@ -7,26 +7,23 @@ Example how to find contact lists by id, name, number, etc...
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     FindContactListsRequest request = FindContactListsRequest.create()
-                .limit(1L)
-                .offset(1L)
-                .name("listName")
-                .build();
+        .limit(1L)
+        .offset(1L)
+        .name("listName")
+        .build();
     Page<ContactList> contactLists = client.contactListsApi().find(request);
-
-
 
 === Get contact list
 '''
-Example how to get contact list by id
+Example how to get contact list by id.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     ContactList contactList = client.contactListsApi().get(1026694003L);
 
-
 === Create contact list
 '''
 Contact lists can be created from existing single contacts (use their ids), contact objects and phone numbers.
-Example how to create contact list from plain numbers:
+ Example how to create contact list from plain numbers:
 [source,java]
     CreateContactListRequest request = CreateContactListRequest.<String>create()
         .name("listFromNumbers")
@@ -34,16 +31,16 @@ Example how to create contact list from plain numbers:
         .build();
     ResourceId resourceId = client.contactListsApi().create(request);
 
-second example shows how to create contact list from existing contacts, what we need is just their ids:
+Second example shows how to create contact list from existing contacts, what we need is just their ids:
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     CreateContactListRequest request = CreateContactListRequest.<Long>create()
-            .name("listFromExistingContacts")
-            .contacts(Arrays.asList(123L, 456L, 789L))
-            .build();
+        .name("listFromExistingContacts")
+        .contacts(Arrays.asList(123L, 456L, 789L))
+        .build();
     ResourceId resourceId = client.contactListsApi().create(request);
 
-next code sample uses *Contact* object in CreateContactListRequest request
+Next code sample uses *Contact* object in CreateContactListRequest request:
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     Contact contact = new Contact();
@@ -51,9 +48,9 @@ next code sample uses *Contact* object in CreateContactListRequest request
     contact.setHomePhone("16505044730");
     contact.getProperties().put("age", "30");
     CreateContactListRequest request = CreateContactListRequest.<Contact>create()
-            .name("listFromContacts")
-            .contacts(Arrays.asList(contact))
-            .build();
+        .name("listFromContacts")
+        .contacts(Arrays.asList(contact))
+        .build();
     ResourceId resourceId = client.contactListsApi().create(request);
 
 === Create contact list from csv
@@ -75,10 +72,9 @@ Example how to update contact list.
         build();
     client.contactListsApi().update(request);
 
-
 === Delete contact list
 '''
-Example how to delete contact list
+Example how to delete contact list.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     client.contactListsApi().delete(463633187003L);

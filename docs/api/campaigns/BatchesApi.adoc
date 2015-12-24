@@ -1,14 +1,15 @@
 = Campaign batches API
 
-== Get operation
+
+=== Get operation
 Returns a single Batch instance for a given batch id. This API is useful for determining the state of
-a validating batch.
+ a validating batch.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Batch batch = callfireClient.batchesApi().get(1234L);
     System.out.println(batch);
 
-== Update operation
+=== Update operation
 Update a single Batch instance. May only change enabled at this time.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");

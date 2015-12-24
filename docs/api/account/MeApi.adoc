@@ -3,7 +3,7 @@
 == Account specific APIs
 
 === Get account info
-Example how to get account information like name, surname, email, account permissions
+Example how to get account information like name, surname, email, account permissions.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Account account = callfireClient.meApi().getAccount();
@@ -51,7 +51,7 @@ You can verify your caller ID with the verification code received from the previ
 
 
 === Create API credentials
-Example how to create API user
+Example how to create API user.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
     ApiCredentials credentials = new ApiCredentials();
@@ -60,7 +60,7 @@ Example how to create API user
     System.out.println(credentials);
 
 === Find API credentials
-Example how to get first 2 API users
+Example how to get first 2 API users.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
     CommonFindRequest request = CommonFindRequest.create()
@@ -70,14 +70,14 @@ Example how to get first 2 API users
     System.out.println(credentials);
 
 === Get API credentials
-Example how to get particular API user and limit returned fields to name and enabled flag
+Example how to get particular API user and limit returned fields to name and enabled flag.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
     ApiCredentials credentials = callfireClient.meApi().getApiCredentials(123456L, "name,enabled");
     System.out.println(credentials);
 
 === Delete API credentials
-Example how to delete particular API user by ID
+Example how to delete particular API user by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("account_login", "account_password");
     callfireClient.meApi().deleteApiCredentials(123456L);
