@@ -152,10 +152,12 @@ public class CallfireClient {
     }
 
     /**
-     * Get /campaigns/cccs api endpoint
+     * Get /campaigns/ivrs api endpoint
      *
      * @return endpoint object
+     * @deprecated use callBroadcastsApi() instead
      */
+    @Deprecated
     public IvrBroadcastsApi ivrBroadcastsApi() {
         if (ivrBroadcastsApi == null) {
             ivrBroadcastsApi = new IvrBroadcastsApi(restApiClient);

@@ -5,6 +5,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @deprecated use com.callfire.api.client.api.campaigns.model.CallBroadcast instead. This class will be removed soon.
+ */
+@Deprecated
 public class IvrBroadcast extends RetriableBroadcast {
     private Boolean inbound;
     private String dialplanXml;
