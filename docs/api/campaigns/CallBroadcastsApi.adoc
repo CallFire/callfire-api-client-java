@@ -1,6 +1,7 @@
 = Call broadcasts API
 
-== Find broadcasts
+
+=== Find broadcasts
 Find all call campaigns created by the user. Can query on label, name, and the current running status of the campaign.
  Returns a paged list of call broadcasts. Example how to find 2 call broadcasts which have 'campaign'
  suffix in their names:
@@ -12,10 +13,11 @@ Find all call campaigns created by the user. Can query on label, name, and the c
     Page<CallBroadcast> broadcasts = client.callBroadcastsApi().find(request);
     System.out.println(broadcasts);
 
-== Create broadcast
+=== Create broadcast
 Create a call broadcast campaign using the Call Broadcast API. Send a CallBroadcast in the message body to detail
  a call broadcast campaign. A campaign can be created with no contacts and bare minimum configuration, but contacts
- will have to be added further on to use the campaign. Example how to create call broadcast and then start it:
+ will have to be added further on to use the campaign.
+ Example how to create call broadcast and then start it:
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     CallBroadcast broadcast = new CallBroadcast();
@@ -37,15 +39,15 @@ Create a call broadcast campaign using the Call Broadcast API. Send a CallBroadc
     // create broadcast with 'start' argument = true to start campaign immediately
     ResourceId id = callfireClient.callBroadcastsApi().create(broadcast, true);
 
-== Get broadcast
-Get call broadcast by ID
+=== Get broadcast
+Get call broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     CallBroadcast broadcast = callfireClient.callBroadcastsApi().get(123L);
 
-== Update broadcast
+=== Update broadcast
 After having created an call broadcast campaign, this method lets the user modify the configuration of
- a call broadcast campaign. See example how to add local time restrictions:
+ a call broadcast campaign. See example how to add local time restrictions.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     CallBroadcast broadcast = callfireClient.callBroadcastsApi().get(123L);
@@ -61,25 +63,25 @@ After having created an call broadcast campaign, this method lets the user modif
     callfireClient.callBroadcastsApi().update(broadcast);
 
 == Start broadcast
-Start call broadcast by ID
+Start call broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.callBroadcastsApi().start(123L);
 
 == Stop broadcast
-Stop call broadcast by ID
+Stop call broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.callBroadcastsApi().stop(123L);
 
 == Archive broadcast
-Archive call broadcast by ID
+Archive call broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.callBroadcastsApi().archive(123L);
 
 == Get broadcast calls
-Get calls associated with call broadcast ordered by date
+Get calls associated with call broadcast ordered by date.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     GetByIdRequest request = GetByIdRequest.create()
@@ -89,7 +91,7 @@ Get calls associated with call broadcast ordered by date
     System.out.println(calls);
 
 == Get broadcast stats
-Get broadcast statistics
+Get broadcast statistics.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Date end = new Date();
@@ -124,9 +126,9 @@ This method will enable the user to page through all of the batches for a partic
 
 == Add batch to broadcast
 The add batch method allows the user to add additional batches to an already created call broadcast campaign.
-The added batch will go through the CallFire validation process, unlike in the recipients version of this API.
-Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a
-contact list id, a list of contact ids, or a list of numbers.
+ The added batch will go through the CallFire validation process, unlike in the recipients version of this API.
+ Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a
+ contact list id, a list of contact ids, or a list of numbers.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Recipient recipient1 = new Recipient();

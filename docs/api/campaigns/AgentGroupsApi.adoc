@@ -1,6 +1,7 @@
 = Agent Groups API
 
-== Find
+
+=== Find
 Example how to find all agent groups which have *test-group* substring in their names and return objects with ID only.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -13,8 +14,8 @@ Example how to find all agent groups which have *test-group* substring in their 
     Page<AgentGroup> agentGroupPage = callfireClient.agentGroupsApi().find(request);
     System.out.println(agentGroupPage);
 
-== Create
-Example how to create agent group with 2 existing agents:
+=== Create
+Example how to create agent group with 2 existing agents.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Agent agent1 = new Agent();
@@ -26,15 +27,15 @@ Example how to create agent group with 2 existing agents:
     agentGroup.setAgents(Arrays.asList(agent1, agent2));
     ResourceId groupId = callfireClient.agentGroupsApi().create(agentGroup);
 
-== Get
-Get agent group by ID
+=== Get
+Get agent group by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     AgentGroup agentGroup = callfireClient.agentGroupsApi().get(123L);
     System.out.println(agentGroup);
 
-== Update
-How to change group name and add new agent:
+=== Update
+How to change group name and add new agent.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     AgentGroup agentGroup = callfireClient.agentGroupsApi().get(123L);
@@ -44,8 +45,8 @@ How to change group name and add new agent:
     agentGroup.setAgents(Arrays.asList(newAgent));
     callfireClient.agentGroupsApi().update(agentGroup);
 
-== Delete
-Delete particular agent group by ID
+=== Delete
+Delete particular agent group by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.agentGroupsApi().delete(123L);

@@ -1,8 +1,9 @@
 = Media API
 
+
 === Upload media file into account
 '''
-Example how to upload MP3 file into account
+Example how to upload MP3 file into account.
 [source,java]
     CallfireClient client = new CallfireClient("api_login", "api_password");
     File file = new File("/path/to/file/media.mp3");
@@ -12,7 +13,7 @@ Example how to upload MP3 file into account
 === Get media file metadata
 '''
 Example how to return a single Media instance for a given media file id. This is the metadata
-for the media only. No content data is returned from this API.
+ for the media only. No content data is returned from this API.
 [source,java]
     CallfireClient client = new CallfireClient("api_login", "api_password");
     // you can specify what fields should be returned in second argument
@@ -20,11 +21,11 @@ for the media only. No content data is returned from this API.
 
 === Get media file content
 '''
-Example how to return media file's data as a stream
+Example how to return media file's data as a stream.
 [source,java]
     CallfireClient client = new CallfireClient("api_login", "api_password");
     InputStream is1 = client.mediaApi().getData(617067920003L, MediaType.MP3);
     // or you can get file by hash
     InputStream is2 = client.mediaApi().getData("450cffe3c128377a790df0059fb82fd6", MediaType.MP3);
 
-we support different types of media files: JPEG, PNG, BMP, GIF, MP4, M4A, MP3, WAV
+We support different types of media files: JPEG, PNG, BMP, GIF, MP4, M4A, MP3, WAV.

@@ -4,16 +4,16 @@
 === Find keyword
 '''
 Example how to find keywords for purchase on the CallFire platform. If a keyword appears in the response,
-it is available for purchase.
+ it is available for purchase.
 [source,java]
- CallfireClient client = new CallfireClient("api_login", "api_password");
- List<String> keywords = Arrays.asList("ALPHA", "BETA");
- List<Keyword> keywords = client.keywordsApi().find(keywords);
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    List<String> keywords = Arrays.asList("ALPHA", "BETA");
+    List<Keyword> keywords = client.keywordsApi().find(keywords);
 
 === IsAvailable keyword
 '''
 Example how to find an individual keyword for purchase on the CallFire platform. Returns boolean for availability.
 [source,java]
- //"keyword" param is required
- CallfireClient client = new CallfireClient("api_login", "api_password");
- Boolean available = client.keywordsApi().isAvailable("FIRE");
+    //"keyword" param is required
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    Boolean available = client.keywordsApi().isAvailable("FIRE");
