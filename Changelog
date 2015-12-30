@@ -1,6 +1,11 @@
 Callfire API client Changelog
 =============================
 
+Version 1.7.1 - Dec 31 2015
+    - added Subscriptions API back because Webhooks feature currently in beta
+    - IvrBroadcast and related classes are now deprecated, use CallBroadcast instead
+    - bugfixes
+
 Version 1.7.0 - Dec 15 2015
     - added CallBroadcastsApi which replaced VoiceBroadcastsApi, in future it will be merged with IVR broadcasts API.
     - deprecated VoiceBroadcastsApi and VoiceBroadcast classes, use CallBroadcast instead
