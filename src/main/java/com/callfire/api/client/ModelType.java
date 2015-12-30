@@ -14,6 +14,7 @@ import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.NumberConfig;
 import com.callfire.api.client.api.numbers.model.NumberLease;
 import com.callfire.api.client.api.numbers.model.Region;
+import com.callfire.api.client.api.webhooks.model.Subscription;
 import com.callfire.api.client.api.webhooks.model.Webhook;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -77,6 +78,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(NumberLease.class, new TypeReference<NumberLease>() {});
         SIMPLE_TYPES.put(NumberConfig.class, new TypeReference<NumberConfig>() {});
         SIMPLE_TYPES.put(KeywordLease.class, new TypeReference<KeywordLease>() {});
+        SIMPLE_TYPES.put(Subscription.class, new TypeReference<Subscription>() {});
         SIMPLE_TYPES.put(Webhook.class, new TypeReference<Webhook>() {});
         // @formatter:on
     }
@@ -113,6 +115,7 @@ public final class ModelType {
         PAGEABLE_TYPES.put(KeywordLease.class, new TypeReference<Page<KeywordLease>>() {});
         PAGEABLE_TYPES.put(NumberLease.class, new TypeReference<Page<NumberLease>>() {});
         PAGEABLE_TYPES.put(NumberConfig.class, new TypeReference<Page<NumberConfig>>() {});
+        PAGEABLE_TYPES.put(Subscription.class, new TypeReference<Page<Subscription>>() {});
         PAGEABLE_TYPES.put(Webhook.class, new TypeReference<Page<Webhook>>() {});
         // @formatter:on
     }
