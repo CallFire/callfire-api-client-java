@@ -1,9 +1,10 @@
 = Text broadcasts API
 
-== Find broadcasts
+
+=== Find broadcasts
 Find all text broadcasts created by the user. Can query on label, name, and the current running status of
  the campaign. Returns a paged list of text broadcasts. Example how to find 2 text broadcasts which have 'campaign'
- suffix in their names:
+ suffix in their names.
 [source,java]
     FindTextBroadcastsRequest request = FindTextBroadcastsRequest.create()
         .name("campaign")
@@ -12,7 +13,7 @@ Find all text broadcasts created by the user. Can query on label, name, and the 
     Page<TextBroadcast> broadcasts = client.textBroadcastsApi().find(request);
     System.out.println(broadcasts);
 
-== Create broadcast
+=== Create broadcast
 Example how to create text broadcast and then start it. Broadcast will send messages within allowed
  hours (10:10 - 22:00) to 2 recipients.
 [source,java]
@@ -39,15 +40,15 @@ Example how to create text broadcast and then start it. Broadcast will send mess
     // create broadcast
     ResourceId id = callfireClient.textBroadcastsApi().create(broadcast, true);
 
-== Get broadcast
-Get text broadcast by ID
+=== Get broadcast
+Get text broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     TextBroadcast broadcast = callfireClient.textBroadcastsApi().get(123L);
 
-== Update broadcast
+=== Update broadcast
 After having created a text broadcast campaign, this method lets the user modify the configuration of
- a text broadcast campaign. See example how to update name of campaign:
+ a text broadcast campaign. See example how to update name of campaign.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     TextBroadcast broadcast = callfireClient.textBroadcastsApi().get(123L);
@@ -55,25 +56,25 @@ After having created a text broadcast campaign, this method lets the user modify
     // update campaign
     callfireClient.textBroadcastsApi().update(broadcast);
 
-== Start broadcast
-Start text broadcast by ID
+=== Start broadcast
+Start text broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.textBroadcastsApi().start(123L);
 
-== Stop broadcast
+=== Stop broadcast
 Stop text broadcast by ID
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.textBroadcastsApi().stop(123L);
 
-== Archive broadcast
-Archive text broadcast by ID
+=== Archive broadcast
+Archive text broadcast by ID.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     callfireClient.textBroadcastsApi().archive(123L);
 
-== Get broadcast texts
+=== Get broadcast texts
 This operation will enable the user to page through all of the texts for a particular text broadcast campaign.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -83,8 +84,8 @@ This operation will enable the user to page through all of the texts for a parti
     Page<Text> texts = callfireClient.textBroadcastsApi().getTexts(request);
     System.out.println(texts);
 
-== Get broadcast stats
-Get broadcast statistics
+=== Get broadcast stats
+Get broadcast statistics.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Date end = new Date();
@@ -93,7 +94,7 @@ Get broadcast statistics
     TextBroadcastStats stats = api.getStats(8624192003L, fields, begin, end);
     System.out.println(stats);
 
-== Add recipients to a text broadcast
+=== Add recipients to a text broadcast
 Use this method to add recipients to an already created text broadcast. Post a list of Recipient objects for
  them to be immediately added to the text broadcast campaign. These contacts do not go through validation process,
  and will be acted upon as they are added. Recipients may be added as a list of contact ids, or list of numbers.
@@ -106,7 +107,7 @@ Use this method to add recipients to an already created text broadcast. Post a l
     List<Text> texts = callfireClient.textBroadcastsApi().addRecipients(id, Arrays.asList(recipient1, recipient2));
     System.out.println(texts);
 
-== Get a specific broadcast batch
+=== Get a specific broadcast batch
 Returns a single Batch instance for a given text broadcast batch id.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -114,7 +115,7 @@ Returns a single Batch instance for a given text broadcast batch id.
     Batch batch = callfireClient.textBroadcastsApi().getBatch(request);
     System.out.println(batch);
 
-== Get all broadcast batches
+=== Get all broadcast batches
 This method will enable the user to page through all of the batches for a particular text broadcast campaign.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -125,7 +126,7 @@ This method will enable the user to page through all of the batches for a partic
     Page<Batch> batches = callfireClient.textBroadcastsApi().getBatches(request);
     System.out.println(batches);
 
-== Update a specific broadcast batch
+=== Update a specific broadcast batch
 Update a text broadcast batch. Can only change enabled at this time.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
@@ -134,11 +135,11 @@ Update a text broadcast batch. Can only change enabled at this time.
     batch.setEnabled(false);
     callfireClient.textBroadcastsApi().updateBatch(batch);
 
-== Add batch to broadcast
+=== Add batch to broadcast
 The add batch method allows the user to add additional batches to an already created text broadcast campaign.
-The added batch will go through the CallFire validation process, unlike in the recipients version of this API.
-Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a
-contact list id, a list of contact ids, or a list of numbers.
+ The added batch will go through the CallFire validation process, unlike in the recipients version of this API.
+ Because of this, use the scrubDuplicates flag to remove duplicates from your batch. Batches may be added as a
+ contact list id, a list of contact ids, or a list of numbers.
 [source,java]
     CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
     Recipient recipient1 = new Recipient();

@@ -7,13 +7,11 @@ Example how to find contacts by id, contact list, or on any property name.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     FindContactsRequest request = FindContactsRequest.create()
-                .limit(1L)
-                .offset(5L)
-                .id(Arrays.asList(463633187003L, 466225637003L))
-                .build();
+        .limit(1L)
+        .offset(5L)
+        .id(Arrays.asList(463633187003L, 466225637003L))
+        .build();
     Page<Contact> contacts = client.contactsApi().find(request);
-
-
 
 === Get contact
 '''
@@ -51,7 +49,7 @@ Example how to update contact.
 === Delete contact
 '''
 Example how to delete contact by id. This does not actually delete the contact, it just removes the contact from
-any contact lists and marks the contact as deleted so won't show up in queries anymore.
+ any contact lists and marks the contact as deleted so won't show up in queries anymore.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     client.contactsApi().delete(463633187003L);

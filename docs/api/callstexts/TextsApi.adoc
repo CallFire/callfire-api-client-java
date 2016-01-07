@@ -4,32 +4,30 @@
 === Find text
 '''
 Example how to find all texts sent or received by the user. Use "campaignId=0" parameter to query for all texts sent through
-the POST /texts API. If no limit is given then the last 100 texts will be returned.
+ the POST /texts API. If no limit is given then the last 100 texts will be returned.
 [source,java]
- //No one parameter is required
- FindTextsRequest request = FindTextsRequest.create()
-                 .id(Arrays.asList(600537356003L))
-                 .campaignId(7415225003L)
-                 .fromNumber("16502572135")
-                 .toNumber("16505044730")
-                 .build();
- CallfireClient client = new CallfireClient("api_login", "api_password");
- Page<Text> texts = client.textsApi().find(request);
-
-
+    //No one parameter is required
+    FindTextsRequest request = FindTextsRequest.create()
+        .id(Arrays.asList(600537356003L))
+        .campaignId(7415225003L)
+        .fromNumber("16502572135")
+        .toNumber("16505044730")
+        .build();
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    Page<Text> texts = client.textsApi().find(request);
 
 === Send text
 '''
-Example how to use the /calls API to quickly send individual calls via existing campaign. A verified Caller ID and
- sufficient credits are required to make a call.
+Example how to use the /texts API to quickly send individual texts via existing campaign. A verified Caller ID and
+ sufficient credits are required to send a text.
 [source,java]
- //Only "recipients" param required
- TextRecipient r1 = new TextRecipient();
- r1.setPhoneNumber("16502572135");
- r1.setMessage("Hello");
- List<TextRecipient> recipients = Arrays.asList(r1);
- CallfireClient client = new CallfireClient("api_login", "api_password");
- List<Text> texts = client.textsApi().send(recipients, 7415225003L);
+    //Only "recipients" param required
+    TextRecipient r1 = new TextRecipient();
+    r1.setPhoneNumber("16502572135");
+    r1.setMessage("Hello");
+    List<TextRecipient> recipients = Arrays.asList(r1);
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    List<Text> texts = client.textsApi().send(recipients, 7415225003L);
 
 In case you want to send text via default campaign use *send(List<TextRecipient> recipients)* method.
 
@@ -37,7 +35,7 @@ In case you want to send text via default campaign use *send(List<TextRecipient>
 '''
 Example how to return a single Text instance for a given text id.
 [source,java]
- //Only "id" param required
- CallfireClient client = new CallfireClient("api_login", "api_password");
- Text text = client.textsApi().get(600537356003L);
+    //Only "id" param required
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    Text text = client.textsApi().get(600537356003L);
 

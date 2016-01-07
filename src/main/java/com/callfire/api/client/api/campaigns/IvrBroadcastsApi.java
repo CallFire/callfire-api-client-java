@@ -24,7 +24,9 @@ import static com.callfire.api.client.ModelType.*;
  * Represents rest endpoint /campaigns/ivrs
  *
  * @since 1.0
+ * @deprecated use com.callfire.api.client.api.campaigns.model.CallBroadcast instead
  */
+@Deprecated
 public class IvrBroadcastsApi {
     private static final String IVR_PATH = "/campaigns/ivrs";
     private static final String IVR_ITEM_PATH = "/campaigns/ivrs/{}";

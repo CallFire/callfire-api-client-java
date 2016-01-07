@@ -12,8 +12,6 @@ Example how to find numbers in the CallFire local numbers catalog that are avail
         .build();
     List<Number> numbers = client.numbersApi().findNumbersLocal(request);
 
-
-
 === Find number regions
 '''
 Use this API to obtain detailed region information that can then be used to query for more specific phone numbers

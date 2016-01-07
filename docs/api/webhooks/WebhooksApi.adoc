@@ -4,7 +4,7 @@
 === Find webhooks
 '''
 Search for webhooks on name, resource, event, callback URL, or whether they are enabled.
-Example how to get first 5 webhooks which are *enabled* and assigned to resource *"textBroadcast"*.
+ Example how to get first 5 webhooks which are *enabled* and assigned to resource *"textBroadcast"*.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     FindWebhooksRequest request = FindWebhooksRequest.create()
@@ -16,7 +16,7 @@ Example how to get first 5 webhooks which are *enabled* and assigned to resource
 
 === Get webhook
 '''
-Example how to get a single Webhook instance for a given webhook id
+Example how to get a single Webhook instance for a given webhook id.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     Webhook webhook = client.webhooksApi().get(12345678L, "id,name,created");
@@ -24,7 +24,7 @@ Example how to get a single Webhook instance for a given webhook id
 === Create webhook
 '''
 Example how to create a webhook for voice campaign. Callfire will query your callback URL with http POST request when
-any campaign has STARTED or FINISHED
+ any campaign has STARTED or FINISHED.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     webhook.setName("new webhook");

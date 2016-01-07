@@ -1,9 +1,10 @@
 = DNCs API
 
+
 === Find dncs
 '''
 Example how to find all Do Not Contact (DNC) objects created by the user.
-These DoNotContact entries only affect calls/texts/campaigns on this account.
+ These DoNotContact entries only affect calls/texts/campaigns on this account.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     FindDncContactsRequest request = FindDncContactsRequest.create().build();
