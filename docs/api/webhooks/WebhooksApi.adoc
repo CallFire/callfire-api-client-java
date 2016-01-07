@@ -27,6 +27,7 @@ Example how to create a webhook for voice campaign. Callfire will query your cal
  any campaign has STARTED or FINISHED.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
+    Webhook webhook = new Webhook();
     webhook.setName("new webhook");
     webhook.setResource(ResourceType.VOICE_BROADCAST);
     webhook.getEvents().add(ResourceEvent.STARTED);
@@ -49,7 +50,7 @@ Example how to update the information in a currently existing webhook. Most fiel
 
 === Delete webhook
 '''
-Example how to delete a webhook. Will be removed permenantly.
+Example how to delete a webhook. Will be removed permanently.
 [source,java]
     CallfireClient client = new CallfireClient("api login", "api password");
     client.webhooksApi().delete(12345678L);
