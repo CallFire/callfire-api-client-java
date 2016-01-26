@@ -276,7 +276,7 @@ public class ContactListsApi {
     public void removeListItems(Long contactListId, List<Long> contactIds) {
         Validate.notNull(contactListId, "contactListId cannot be null");
         List<NameValuePair> queryParams = new ArrayList<>(1);
-        addQueryParamIfSet("id", contactIds, queryParams);
+        addQueryParamIfSet("contactId", contactIds, queryParams);
         String path = LISTS_ITEMS_PATH.replaceFirst(PLACEHOLDER, contactListId.toString());
         client.delete(path, queryParams);
     }

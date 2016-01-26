@@ -59,6 +59,7 @@ public class CallsApiTest extends AbstractApiTest {
             .offset(0L)
             .states(asList(State.CALLBACK, State.DISABLED))
             .id(asList(1L, 2L, 3L))
+            .batchId(100L)
             .build();
         Page<Call> calls = client.callsApi().find(request);
         assertThat(jsonConverter.serialize(calls), equalToIgnoringWhiteSpace(expectedJson));
@@ -72,6 +73,7 @@ public class CallsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("id=1"));
         assertThat(arg.getURI().toString(), containsString("id=2"));
         assertThat(arg.getURI().toString(), containsString("id=3"));
+        assertThat(arg.getURI().toString(), containsString("batchId=100"));
     }
 
     @Test

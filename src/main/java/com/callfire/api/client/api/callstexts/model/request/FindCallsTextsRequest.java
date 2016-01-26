@@ -11,6 +11,7 @@ import java.util.List;
  */
 public abstract class FindCallsTextsRequest extends FindRequest {
     protected Long campaignId;
+    protected Long batchId;
     protected String fromNumber;
     protected String toNumber;
     protected String label;
@@ -27,6 +28,15 @@ public abstract class FindCallsTextsRequest extends FindRequest {
      */
     public Long getCampaignId() {
         return campaignId;
+    }
+
+    /**
+     * Get id of contact batch
+     *
+     * @return id of contact batch
+     */
+    public Long getBatchId() {
+        return batchId;
     }
 
     /**
@@ -97,6 +107,7 @@ public abstract class FindCallsTextsRequest extends FindRequest {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("campaignId", campaignId)
+            .append("batchId", batchId)
             .append("fromNumber", fromNumber)
             .append("toNumber", toNumber)
             .append("label", label)
@@ -148,6 +159,17 @@ public abstract class FindCallsTextsRequest extends FindRequest {
          */
         public B campaignId(Long campaignId) {
             request.campaignId = campaignId;
+            return (B) this;
+        }
+
+        /**
+         * Query for calls/texts which were created with particular contact batch.
+         *
+         * @param batchId id of contact batch
+         * @return builder self reference
+         */
+        public B batchId(Long batchId) {
+            request.batchId = batchId;
             return (B) this;
         }
 

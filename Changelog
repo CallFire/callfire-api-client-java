@@ -1,6 +1,10 @@
 Callfire API client Changelog
 =============================
 
+Version 1.7.2 - Jan 27 2016
+    - added find by batchId parameter to FindCalls & FindTexts requests.
+    - fixed NumberApi.findNumbersLocal and NumberApi.findNumbersTollfree methods to accept an updated server responses
+
 Version 1.7.1 - Dec 31 2015
     - added Subscriptions API back because Webhooks feature currently in beta
     - IvrBroadcast and related classes are now deprecated, use CallBroadcast instead

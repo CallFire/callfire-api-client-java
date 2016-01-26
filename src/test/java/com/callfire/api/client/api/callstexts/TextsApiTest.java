@@ -58,6 +58,7 @@ public class TextsApiTest extends AbstractApiTest {
             .offset(0L)
             .states(asList(State.CALLBACK, State.DISABLED))
             .id(asList(1L, 2L, 3L))
+            .batchId(100L)
             .build();
         Page<Text> texts = client.textsApi().find(request);
         assertThat(jsonConverter.serialize(texts), equalToIgnoringWhiteSpace(expectedJson));
@@ -66,11 +67,13 @@ public class TextsApiTest extends AbstractApiTest {
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString("limit=5"));
+        assertThat(arg.getURI().toString(), containsString("limit=5"));
         assertThat(arg.getURI().toString(), containsString("offset=0"));
         assertThat(arg.getURI().toString(), containsString("states=" + encode("CALLBACK,DISABLED")));
         assertThat(arg.getURI().toString(), containsString("id=1"));
         assertThat(arg.getURI().toString(), containsString("id=2"));
         assertThat(arg.getURI().toString(), containsString("id=3"));
+        assertThat(arg.getURI().toString(), containsString("batchId=100"));
     }
 
     @Test

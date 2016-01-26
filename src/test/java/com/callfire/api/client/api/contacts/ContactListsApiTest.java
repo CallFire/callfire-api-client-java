@@ -314,6 +314,6 @@ public class ContactListsApiTest extends AbstractApiTest {
         assertEquals(HttpDelete.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString("/" + TEST_ID));
-        assertThat(arg.getURI().toString(), containsString("id=123456"));
+        assertThat(arg.getURI().toString(), containsString("contactId=123456"));
     }
 }

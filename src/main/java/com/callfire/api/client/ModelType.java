@@ -1,7 +1,9 @@
 package com.callfire.api.client;
 
 import com.callfire.api.client.api.account.model.*;
-import com.callfire.api.client.api.callstexts.model.*;
+import com.callfire.api.client.api.callstexts.model.Call;
+import com.callfire.api.client.api.callstexts.model.Media;
+import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.model.*;
 import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.ListHolder;
@@ -85,7 +87,6 @@ public final class ModelType {
 
     private static void initListTypes() {
         // @formatter:off
-        LIST_TYPES.put(Number.class, new TypeReference<List<Number>>() {});
         LIST_TYPES.put(AgentGroup.class, new TypeReference<List<AgentGroup>>() {});
         LIST_TYPES.put(Agent.class, new TypeReference<List<Agent>>() {});
         // @formatter:on
@@ -128,6 +129,7 @@ public final class ModelType {
         LISTHOLDER_TYPES.put(Text.class, new TypeReference<ListHolder<Text>>() {});
         LISTHOLDER_TYPES.put(UniversalDnc.class, new TypeReference<ListHolder<UniversalDnc>>() {});
         LISTHOLDER_TYPES.put(Keyword.class, new TypeReference<ListHolder<Keyword>>() {});
+        LISTHOLDER_TYPES.put(Number.class, new TypeReference<ListHolder<Number>>() {});
         // @formatter:on
     }
 
