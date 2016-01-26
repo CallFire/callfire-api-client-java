@@ -10,7 +10,7 @@ import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest
 
 import java.util.List;
 
-import static com.callfire.api.client.ModelType.listOf;
+import static com.callfire.api.client.ModelType.listHolderOf;
 import static com.callfire.api.client.ModelType.pageOf;
 
 /**
@@ -43,7 +43,7 @@ public class NumbersApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Number> findNumbersLocal(FindNumbersLocalRequest request) {
-        return client.get(NUMBERS_LOCAL_PATH, listOf(Number.class), request);
+        return client.get(NUMBERS_LOCAL_PATH, listHolderOf(Number.class), request).getItems();
     }
 
     /**
@@ -78,6 +78,6 @@ public class NumbersApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Number> findNumbersTollfree(CommonFindRequest request) {
-        return client.get(NUMBERS_TOLLFREE_PATH, listOf(Number.class), request);
+        return client.get(NUMBERS_TOLLFREE_PATH, listHolderOf(Number.class), request).getItems();
     }
 }

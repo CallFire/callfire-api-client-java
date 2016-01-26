@@ -1,6 +1,7 @@
 package com.callfire.api.client.api.numbers;
 
 import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.numbers.model.Number;
@@ -32,7 +33,7 @@ public class NumbersApiTest extends AbstractApiTest {
             .state("LA")
             .build();
         List<Number> numbers = client.numbersApi().findNumbersLocal(request);
-        assertThat(jsonConverter.serialize(numbers), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(jsonConverter.serialize(new ListHolder<>(numbers)), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
@@ -70,7 +71,7 @@ public class NumbersApiTest extends AbstractApiTest {
             .offset(2L)
             .build();
         List<Number> numbers = client.numbersApi().findNumbersTollfree(request);
-        assertThat(jsonConverter.serialize(numbers), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(jsonConverter.serialize(new ListHolder<>(numbers)), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
