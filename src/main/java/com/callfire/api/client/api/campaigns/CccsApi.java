@@ -4,6 +4,7 @@ import com.callfire.api.client.*;
 import com.callfire.api.client.api.campaigns.model.Agent;
 import com.callfire.api.client.api.campaigns.model.AgentGroup;
 import com.callfire.api.client.api.campaigns.model.CccCampaign;
+import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
 import com.callfire.api.client.api.campaigns.model.request.AgentInviteRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindCccBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
@@ -36,6 +37,7 @@ public class CccsApi {
     private static final String CCC_ITEM_START_PATH = "/campaigns/cccs/{}/start";
     private static final String CCC_ITEM_STOP_PATH = "/campaigns/cccs/{}/stop";
     private static final String CCC_ITEM_ARCHIVE_PATH = "/campaigns/cccs/{}/archive";
+    private static final String CCC_ITEM_ADD_BATCH_PATH = "/campaigns/cccs/{}/batches";
 
     private RestApiClient client;
 
@@ -396,4 +398,23 @@ public class CccsApi {
             .replaceFirst(PLACEHOLDER, agentGroupId.toString());
         client.delete(path);
     }
+
+    /**
+     * Add contact batch to particular CCC campaign
+     *
+     * @param addBatchRequest the batch contains contacts to be dialled by ccc agent and campaign id
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public void addContactsBatch(AddBatchRequest addBatchRequest) {
+        Validate.notNull(addBatchRequest.getCampaignId(), "campaignId cannot be null");
+        String path = CCC_ITEM_ADD_BATCH_PATH.replaceFirst(PLACEHOLDER, addBatchRequest.getCampaignId().toString());
+        client.post(path, null, addBatchRequest);
+    }
+
 }
