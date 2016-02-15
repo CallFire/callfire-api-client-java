@@ -49,6 +49,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(Void.class, new TypeReference<Void>() {});
         SIMPLE_TYPES.put(String.class, new TypeReference<String>() {});
         SIMPLE_TYPES.put(Boolean.class, new TypeReference<Boolean>() {});
+        SIMPLE_TYPES.put(Long.class, new TypeReference<Long>() {});
         SIMPLE_TYPES.put(InputStream.class, new TypeReference<InputStream>() {});
 
         SIMPLE_TYPES.put(ResourceId.class, new TypeReference<ResourceId>() {});
@@ -58,6 +59,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(NumberOrder.class, new TypeReference<NumberOrder>() {});
         SIMPLE_TYPES.put(AgentGroup.class, new TypeReference<AgentGroup>() {});
         SIMPLE_TYPES.put(Agent.class, new TypeReference<Agent>() {});
+        SIMPLE_TYPES.put(AgentCallDetails.class, new TypeReference<AgentCallDetails>() {});
         SIMPLE_TYPES.put(AgentSession.class, new TypeReference<AgentSession>() {});
         SIMPLE_TYPES.put(Batch.class, new TypeReference<Batch>() {});
         SIMPLE_TYPES.put(Media.class, new TypeReference<Media>() {});
