@@ -121,6 +121,21 @@ Codes in the 500s range are error responses from the CallFire system. If an erro
     String developerMessage;
     String helpLink;
 
+== Configuration
+=== Proxy
+
+Starting from version 1.7.3 users have possibility to make API calls go through proxy, here is an example how to configure it:
+[source,java]
+        CallfireClient.getClientConfig().put(ClientConstants.PROXY_ADDRESS_PROPERTY, "localhost:3128");
+        CallfireClient.getClientConfig().put(ClientConstants.PROXY_CREDENTIALS_PROPERTY, "proxyuser:proxypass");
+        // now create client
+        CallfireClient client = new CallfireClient("api_user", "api_pass");
+        System.out.println("Account" + client.meApi().getAccount());
+
+*IMPORTANT.* You must add proxy address property and proxy credentials (if needed) before client instantiation!
+
+Proxy address port is optional, 8080 is used by default.
+
 
 
 == Debug & logging

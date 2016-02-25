@@ -1584,6 +1584,7 @@
             "description": "Maximum number of records to return in a paged list response. The default is 100.",
             "required": false,
             "type": "integer",
+            "default": 100,
             "format": "int64"
           },
           {
@@ -1592,6 +1593,7 @@
             "description": "Offset to the start of a given page. The default is 0.",
             "required": false,
             "type": "integer",
+            "default": 0,
             "format": "int64"
           },
           {
@@ -3105,23 +3107,30 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST \"https://api.callfire.com/v2/media\"",
+        "x-request-cURL": "curl -u username:password -X POST -F 'file=@test2.png;type=image/png;' \"https://api.callfire.com/v2/media\"",
         "x-response": "{\"id\":1234}"
       }
     },
-    "/media/public/{key}.bmp": {
+    "/media/public/{key}.{extension}": {
       "get": {
         "tags": [
           "media"
         ],
-        "summary": "Download a BMP media",
-        "description": "Download a BMP media",
-        "operationId": "getMediaDataBmpByKey",
+        "summary": "Download media by extension",
+        "description": "Download a media file of type (bmp, gif, jpg, m4a, mp3, mp4, png, wav)",
+        "operationId": "getMediaDataByKey",
         "consumes": [
           "application/json"
         ],
         "produces": [
-          "image/x-bmp"
+          "image/jpeg",
+          "image/png",
+          "image/x-bmp",
+          "image/gif",
+          "video/mp4",
+          "audio/wav",
+          "audio/mp3",
+          "audio/m4a"
         ],
         "parameters": [
           {
@@ -3130,162 +3139,9 @@
             "description": "~",
             "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
+          },
           {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.bmp\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.gif": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a GIF media",
-        "description": "Download a GIF media",
-        "operationId": "getMediaDataGifByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/gif"
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.gif\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.jpeg": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a JPEG media",
-        "description": "Download a JPEG media",
-        "operationId": "getMediaDataJpegByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/jpeg"
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.jpeg\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.m4a": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a M4A media",
-        "description": "Download a M4A media",
-        "operationId": "getMediaDataM4aByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "audio/mp4"
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.m4a\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.mp3": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a MP3 media",
-        "description": "Download a MP3 media",
-        "operationId": "getMediaDataMp3ByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "audio/mp3"
-        ],
-        "parameters": [
-          {
-            "name": "key",
+            "name": "extension",
             "in": "path",
             "description": "~",
             "required": true,
@@ -3306,126 +3162,6 @@
           }
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.mp3\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.mp4": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a MP4 media",
-        "description": "Download a MP4 media",
-        "operationId": "getMediaDataMp4ByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "video/mp4"
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.mp4\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.png": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a PNG media",
-        "description": "Download a PNG media",
-        "operationId": "getMediaDataPngByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/png"
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.png\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/public/{key}.wav": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a WAV media",
-        "description": "Download a WAV media",
-        "operationId": "getMediaDataWavByKey",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "audio/wav"
-        ],
-        "parameters": [
-          {
-            "name": "key",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/public/ahashkey123.wav\"",
         "x-response": "200 OK - InputStream"
       }
     },
@@ -3477,19 +3213,26 @@
         "x-response": "{\"id\":1234,\"accountId\":54321,\"name\":\"hello\",\"created\":1443382635000,\"lengthInBytes\":123456,\"mediaType\":\"MP3\",\"publicUrl\":\"https://www.callfire.com/v2/media/public/ahashkey123.mp3\"}"
       }
     },
-    "/media/{id}.bmp": {
+    "/media/{id}.{extension}": {
       "get": {
         "tags": [
           "media"
         ],
-        "summary": "Download a BMP media",
-        "description": "Download a BMP media",
-        "operationId": "getMediaDataBmp",
+        "summary": "Download media by extension",
+        "description": "Download a media file of type (bmp, gif, jpg, m4a, mp3, mp4, png, wav)",
+        "operationId": "getMediaData",
         "consumes": [
           "application/json"
         ],
         "produces": [
-          "image/x-bmp"
+          "image/jpeg",
+          "image/png",
+          "image/x-bmp",
+          "image/gif",
+          "video/mp4",
+          "audio/wav",
+          "audio/mp3",
+          "audio/m4a"
         ],
         "parameters": [
           {
@@ -3499,170 +3242,13 @@
             "required": true,
             "type": "integer",
             "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
+          },
           {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.bmp\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.gif": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a GIF media",
-        "description": "Download a GIF media",
-        "operationId": "getMediaDataGif",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/gif"
-        ],
-        "parameters": [
-          {
-            "name": "id",
+            "name": "extension",
             "in": "path",
             "description": "~",
             "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.gif\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.jpeg": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a JPEG media",
-        "description": "Download a JPEG media",
-        "operationId": "getMediaDataJpeg",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/jpeg"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.jpeg\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.m4a": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a M4A media",
-        "description": "Download a M4A media",
-        "operationId": "getMediaDataM4a",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "audio/mp4"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.m4a\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.mp3": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a MP3 media",
-        "description": "Download a MP3 media",
-        "operationId": "getMediaDataMp3",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "audio/mp3"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "responses": {
@@ -3679,129 +3265,6 @@
           }
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.mp3\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.mp4": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a MP4 media",
-        "description": "Download a MP4 media",
-        "operationId": "getMediaDataMp4",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "video/mp4"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.mp4\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.png": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a PNG media",
-        "description": "Download a PNG media",
-        "operationId": "getMediaDataPng",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "image/png"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.png\"",
-        "x-response": "200 OK - InputStream"
-      }
-    },
-    "/media/{id}.wav": {
-      "get": {
-        "tags": [
-          "media"
-        ],
-        "summary": "Download a WAV media",
-        "description": "Download a WAV media",
-        "operationId": "getMediaDataWav",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "audio/w-wav"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "~",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "file"
-            }
-          }
-        },
-        "security": [
-          {
-            "basicAuth": []
-          }
-        ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/media/2011.wav\"",
         "x-response": "200 OK - InputStream"
       }
     },
