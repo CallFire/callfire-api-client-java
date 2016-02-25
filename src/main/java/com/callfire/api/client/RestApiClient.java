@@ -7,9 +7,14 @@ import com.callfire.api.client.auth.Authentication;
 import com.callfire.api.client.auth.BasicAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -17,7 +22,9 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.util.EntityUtils;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -29,6 +36,9 @@ import java.util.*;
 import static com.callfire.api.client.ClientConstants.*;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static com.callfire.api.client.ModelType.of;
+import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.math.NumberUtils.toInt;
 import static org.apache.http.HttpHeaders.CONTENT_TYPE;
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 
@@ -53,9 +63,7 @@ public class RestApiClient {
     public RestApiClient(Authentication authentication) {
         this.authentication = authentication;
         jsonConverter = new JsonConverter();
-        httpClient = HttpClientBuilder.create()
-            .setUserAgent(CallfireClient.getClientConfig().getProperty(USER_AGENT_PROPERTY))
-            .build();
+        httpClient = buildHttpClient();
     }
 
     /**
@@ -456,5 +464,36 @@ public class RestApiClient {
             }
             LOGGER.debug(message, params);
         }
+    }
+
+    private HttpClient buildHttpClient() {
+        HttpClientBuilder builder = HttpClientBuilder.create();
+        builder.setUserAgent(CallfireClient.getClientConfig().getProperty(USER_AGENT_PROPERTY));
+        String proxyAddress = CallfireClient.getClientConfig().getProperty(PROXY_ADDRESS_PROPERTY);
+        String proxyCredentials = CallfireClient.getClientConfig().getProperty(PROXY_CREDENTIALS_PROPERTY);
+
+        if (isNotBlank(proxyAddress)) {
+            LOGGER.debug("Configuring proxy host for client: {} auth: {}", proxyAddress, proxyCredentials);
+            String[] parsedAddress = proxyAddress.split(":");
+            String[] parsedCredentials = StringUtils.split(defaultString(proxyCredentials), ":");
+            HttpHost proxy = new HttpHost(parsedAddress[0],
+                parsedAddress.length > 1 ? toInt(parsedAddress[1], DEFAULT_PROXY_PORT) : DEFAULT_PROXY_PORT);
+            if (isNotBlank(proxyCredentials)) {
+                if (parsedCredentials.length > 1) {
+                    CredentialsProvider provider = new BasicCredentialsProvider();
+                    provider.setCredentials(
+                        new AuthScope(proxy),
+                        new UsernamePasswordCredentials(parsedCredentials[0], parsedCredentials[1])
+                    );
+                    builder.setDefaultCredentialsProvider(provider);
+                } else {
+                    LOGGER.warn("Proxy credentials have wrong format, must be username:password");
+                }
+            }
+
+            builder.setRoutePlanner(new DefaultProxyRoutePlanner(proxy));
+        }
+
+        return builder.build();
     }
 }

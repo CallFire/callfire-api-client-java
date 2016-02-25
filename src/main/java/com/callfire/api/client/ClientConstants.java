@@ -8,6 +8,11 @@ package com.callfire.api.client;
 public interface ClientConstants {
     String BASE_PATH_PROPERTY = "com.callfire.api.client.path";
     String USER_AGENT_PROPERTY = "com.callfire.api.client.version";
+    String PROXY_ADDRESS_PROPERTY = "com.callfire.api.client.proxy.address";
+    String PROXY_CREDENTIALS_PROPERTY = "com.callfire.api.client.proxy.credentials";
+
+	int DEFAULT_PROXY_PORT = 8080;
+
     String CLIENT_CONFIG_FILE = "/com/callfire/api/client/callfire.properties";
 
     String PLACEHOLDER = "\\{\\}";
