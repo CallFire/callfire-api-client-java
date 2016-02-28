@@ -147,7 +147,7 @@ public class CallfireClient {
      *
      * @return endpoint object
      */
-    private CccsApi cccsApi() {
+    public CccsApi cccsApi() {
         if (cccsApi == null) {
             cccsApi = new CccsApi(restApiClient);
         }
