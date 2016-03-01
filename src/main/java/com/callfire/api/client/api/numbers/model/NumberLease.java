@@ -11,6 +11,7 @@ public class NumberLease extends Number {
     private Boolean autoRenew;
     private LeaseStatus status;
     private FeatureStatus callFeatureStatus;
+
     private FeatureStatus textFeatureStatus;
 
     public enum FeatureStatus {
@@ -49,8 +50,16 @@ public class NumberLease extends Number {
         return callFeatureStatus;
     }
 
+    public void setCallFeatureStatus(FeatureStatus callFeatureStatus) {
+        this.callFeatureStatus = callFeatureStatus;
+    }
+
     public FeatureStatus getTextFeatureStatus() {
         return textFeatureStatus;
+    }
+
+    public void setTextFeatureStatus(FeatureStatus textFeatureStatus) {
+        this.textFeatureStatus = textFeatureStatus;
     }
 
     @Override
