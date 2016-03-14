@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.x - 2016
+    - fixed uploading mp3 issue
+
 Version 1.7.3 - Feb 25 2016
     - added proxy with basic authorization support, see out docs how to configure it
 

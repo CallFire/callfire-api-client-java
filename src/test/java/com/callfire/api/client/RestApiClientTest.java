@@ -63,8 +63,8 @@ public class RestApiClientTest extends AbstractApiTest {
         assertEquals("image/bmp", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/3.bmp"));
         assertEquals("image/gif", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/4.gif"));
         assertEquals("video/mp4", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/5.mp4"));
-        assertEquals("audio/mp4", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/6.m4a"));
-        assertEquals("audio/mpeg", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/7.mp3"));
+        assertEquals("audio/m4a", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/6.m4a"));
+        assertEquals("audio/mp3", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/7.mp3"));
         assertEquals("audio/x-wav", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/8.wav"));
     }
 }
