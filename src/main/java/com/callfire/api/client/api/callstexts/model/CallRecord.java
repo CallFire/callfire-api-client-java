@@ -10,6 +10,7 @@ public class CallRecord extends ActionRecord {
     private CallResult result;
     private List<Note> notes = new ArrayList<>();
     private List<CallRecording> recordings = new ArrayList<>();
+    private List<QuestionResponse> questionResponses = new ArrayList<>();
 
     public enum CallResult {
         LA, AM, BUSY, DNC, XFER, NO_ANS, XFER_LEG, INTERNAL_ERROR, CARRIER_ERROR, CARRIER_TEMP_ERROR, UNDIALED, SD,
@@ -32,6 +33,10 @@ public class CallRecord extends ActionRecord {
         return recordings;
     }
 
+    public List<QuestionResponse> getQuestionResponses() {
+        return questionResponses;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -39,6 +44,7 @@ public class CallRecord extends ActionRecord {
             .append("result", result)
             .append("notes", notes)
             .append("recordings", recordings)
+            .append("questionResponses", questionResponses)
             .toString();
     }
 }
