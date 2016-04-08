@@ -121,43 +121,6 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetBatch() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
-
-        GetByIdRequest request = GetByIdRequest.create()
-            .offset(0L)
-            .fields(FIELDS)
-            .id(11L)
-            .build();
-        Batch batch = client.textBroadcastsApi().getBatch(request);
-        assertThat(jsonConverter.serialize(batch), equalToIgnoringWhiteSpace(expectedJson));
-
-        HttpUriRequest arg = captor.getValue();
-        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
-        assertNull(extractHttpEntity(arg));
-        assertThat(arg.getURI().toString(), containsString("/11"));
-        assertThat(arg.getURI().toString(), not(containsString("id=")));
-        assertUriContainsQueryParams(arg.getURI(), "offset=0", ENCODED_FIELDS);
-    }
-
-    @Test
-    public void testUpdateBatch() throws Exception {
-        String expectedJson = getJsonPayload(JSON_PATH + "/request/updateBatch.json");
-        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
-
-        Batch batch = new Batch();
-        batch.setId(11L);
-        batch.setEnabled(true);
-        client.textBroadcastsApi().updateBatch(batch);
-
-        HttpUriRequest arg = captor.getValue();
-        assertEquals(HttpPut.METHOD_NAME, arg.getMethod());
-        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(expectedJson));
-        assertThat(arg.getURI().toString(), containsString("/11"));
-    }
-
-    @Test
     public void testGetBatches() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getBatches.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
