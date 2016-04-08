@@ -29,7 +29,6 @@ import static com.callfire.api.client.ModelType.*;
  */
 public class TextBroadcastsApi {
     private static final String TB_PATH = "/texts/broadcasts";
-    private static final String TB_BATCHES_ITEM_PATH = "/texts/broadcasts/batches/{}";
     private static final String TB_ITEM_PATH = "/texts/broadcasts/{}";
     private static final String TB_ITEM_BATCHES_PATH = "/texts/broadcasts/{}/batches";
     private static final String TB_ITEM_TEXTS_PATH = "/texts/broadcasts/{}/texts";
@@ -208,41 +207,6 @@ public class TextBroadcastsApi {
     public void archive(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.post(TB_ITEM_ARCHIVE_PATH.replaceFirst(PLACEHOLDER, id.toString()), null, null);
-    }
-
-    /**
-     * Get text broadcast batch. Retrieve batch associated with text campaign
-     *
-     * @param request get request
-     * @return {@link Page} with {@link Batch} objects
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
-     * @throws CallfireClientException      in case error has occurred in client.
-     */
-    public Batch getBatch(GetByIdRequest request) {
-        String path = TB_BATCHES_ITEM_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
-        return client.get(path, of(Batch.class), request);
-    }
-
-    /**
-     * Update text broadcast batch
-     *
-     * @param batch batch to update
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
-     * @throws CallfireClientException      in case error has occurred in client.
-     */
-    public void updateBatch(Batch batch) {
-        Validate.notNull(batch.getId(), "batch.id cannot be null");
-        client.put(TB_BATCHES_ITEM_PATH.replaceFirst(PLACEHOLDER, batch.getId().toString()), null, batch);
     }
 
     /**

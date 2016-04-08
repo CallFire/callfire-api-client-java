@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.5 - Apr 8 2016
+    - removed get/update batches from TextBroadcastsApi
+
 Version 1.7.4 - Mar 14 2016
     - fixed uploading mp3 issue
 
