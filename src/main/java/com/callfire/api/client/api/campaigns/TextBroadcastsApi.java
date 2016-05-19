@@ -1,6 +1,13 @@
 package com.callfire.api.client.api.campaigns;
 
-import com.callfire.api.client.*;
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.model.Batch;
@@ -8,6 +15,7 @@ import com.callfire.api.client.api.campaigns.model.TextBroadcast;
 import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
@@ -16,11 +24,17 @@ import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.*;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /texts/broadcasts
@@ -250,7 +264,8 @@ public class TextBroadcastsApi {
     }
 
     /**
-     * Get text broadcast texts.
+     * @deprecated this method will be removed soon, please use findTexts() instead
+     *
      * Get texts associated with text broadcast ordered by date
      *
      * @param request request with properties to filter
@@ -263,7 +278,26 @@ public class TextBroadcastsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
+    @Deprecated
     public Page<Text> getTexts(GetByIdRequest request) {
+        String path = TB_ITEM_TEXTS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
+        return client.get(path, pageOf(Text.class), request);
+    }
+
+    /**
+     * Get texts associated with text broadcast ordered by date
+     *
+     * @param request request with properties to filter
+     * @return {@link Page} with {@link Call} objects
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public Page<Text> findTexts(FindBroadcastTextsRequest request) {
         String path = TB_ITEM_TEXTS_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, pageOf(Text.class), request);
     }

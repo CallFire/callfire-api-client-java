@@ -2,8 +2,13 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.Recipient;
+import com.callfire.api.client.api.campaigns.model.TextBroadcast;
+import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
@@ -21,8 +26,12 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 public class TextBroadcastsApiTest extends AbstractApiTest {
     private static final String JSON_PATH = "/campaigns/textBroadcastsApi";
@@ -167,16 +176,17 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetTexts() throws Exception {
+    public void testFindTexts() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getTexts.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        GetByIdRequest request = GetByIdRequest.create()
+        FindBroadcastTextsRequest request = FindBroadcastTextsRequest.create()
             .offset(0L)
             .fields(FIELDS)
             .id(11L)
+            .batchId(10L)
             .build();
-        Page<Text> texts = client.textBroadcastsApi().getTexts(request);
+        Page<Text> texts = client.textBroadcastsApi().findTexts(request);
         assertThat(jsonConverter.serialize(texts), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -184,7 +194,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString("/11/texts"));
         assertThat(arg.getURI().toString(), not(containsString("id=")));
-        assertUriContainsQueryParams(arg.getURI(), "offset=0", ENCODED_FIELDS);
+        assertUriContainsQueryParams(arg.getURI(), "offset=0", "batchId=10", ENCODED_FIELDS);
     }
 
     @Test
