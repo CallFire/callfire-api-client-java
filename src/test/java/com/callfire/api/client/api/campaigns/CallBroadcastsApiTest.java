@@ -2,8 +2,14 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.callstexts.model.Call;
-import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.AnsweringMachineConfig;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.CallBroadcast;
+import com.callfire.api.client.api.campaigns.model.CallBroadcastSounds;
+import com.callfire.api.client.api.campaigns.model.CallBroadcastStats;
+import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastCallsRequest;
 import com.callfire.api.client.api.campaigns.model.request.FindCallBroadcastsRequest;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
@@ -22,8 +28,12 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 public class CallBroadcastsApiTest extends AbstractApiTest {
     private static final String JSON_PATH = "/campaigns/callBroadcastsApi";
@@ -205,16 +215,17 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetCalls() throws Exception {
+    public void testFindCalls() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getCalls.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        GetByIdRequest request = GetByIdRequest.create()
+        FindBroadcastCallsRequest request = FindBroadcastCallsRequest.create()
             .offset(0L)
             .fields(FIELDS)
+            .batchId(10L)
             .id(11L)
             .build();
-        Page<Call> calls = client.callBroadcastsApi().getCalls(request);
+        Page<Call> calls = client.callBroadcastsApi().findCalls(request);
         assertThat(jsonConverter.serialize(calls), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -222,7 +233,7 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         assertNull(extractHttpEntity(arg));
         assertThat(arg.getURI().toString(), containsString("/11/calls"));
         assertThat(arg.getURI().toString(), not(containsString("id=")));
-        assertUriContainsQueryParams(arg.getURI(), "offset=0", ENCODED_FIELDS);
+        assertUriContainsQueryParams(arg.getURI(), "offset=0", "batchId=10", ENCODED_FIELDS);
     }
 
     @Test
