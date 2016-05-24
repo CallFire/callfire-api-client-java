@@ -24,5 +24,6 @@
     "liveSoundId": 1385807003,
     "machineSoundId": 1258704003
   },
-  "answeringMachineConfig": "LIVE_WITH_AMD"
+  "answeringMachineConfig": "LIVE_WITH_AMD",
+  "resumeNextDay": false
 }

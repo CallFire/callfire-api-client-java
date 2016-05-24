@@ -108,7 +108,7 @@ public class TextsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Text> send(List<TextRecipient> recipients) {
-        return send(recipients, null, null);
+        return send(recipients, null, null, null);
     }
 
     /**
@@ -129,9 +129,32 @@ public class TextsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Text> send(List<TextRecipient> recipients, Long campaignId, String fields) {
+        return send(recipients, campaignId, fields, null);
+    }
+
+    /**
+     * Send texts to recipients through existing campaign, if null default campaign will be used
+     * Use the /texts API to quickly send individual texts. A verified Caller ID and sufficient
+     * credits are required to make a call.
+     *
+     * @param recipients text recipients
+     * @param campaignId id of outbound campaign
+     * @param fields     limit fields returned. Example items(id,name,fromNumber)
+     * @param defaultMessage default message to send to recipients
+     * @return list of {@link Text}
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public List<Text> send(List<TextRecipient> recipients, Long campaignId, String fields, String defaultMessage) {
         List<NameValuePair> queryParams = new ArrayList<>(2);
         addQueryParamIfSet("campaignId", campaignId, queryParams);
         addQueryParamIfSet("fields", fields, queryParams);
+        addQueryParamIfSet("defaultMessage", defaultMessage, queryParams);
         return client.post(TEXTS_PATH, listHolderOf(Text.class), recipients, queryParams).getItems();
     }
 }

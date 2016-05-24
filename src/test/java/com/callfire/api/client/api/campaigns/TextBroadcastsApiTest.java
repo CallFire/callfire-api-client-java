@@ -62,6 +62,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         TextRecipient r2 = new TextRecipient();
         r2.setPhoneNumber("13233832215");
         textBroadcast.setRecipients(asList(r1, r2));
+        textBroadcast.setResumeNextDay(false);
         ResourceId id = client.textBroadcastsApi().create(textBroadcast, true);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
@@ -105,6 +106,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         textBroadcast.setId(11L);
         textBroadcast.setName("Example API SMS updated");
         textBroadcast.setMessage("a new test message");
+        textBroadcast.setResumeNextDay(false);
         client.textBroadcastsApi().update(textBroadcast);
 
         HttpUriRequest arg = captor.getValue();

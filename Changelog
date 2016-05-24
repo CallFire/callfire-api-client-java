@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.6 - May 24 2016
+    - synchronized client with last api version
+
 Version 1.7.5 - Apr 8 2016
     - removed get/update batches from TextBroadcastsApi
 

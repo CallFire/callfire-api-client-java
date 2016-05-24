@@ -112,6 +112,41 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     }
 
     @Test
+    public void testRecordViaPhoneExtendedWithParams() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSoundExtended.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/recordViaPhone.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        CallCreateSound callCreateSound = new CallCreateSound();
+        callCreateSound.setName("My sound file");
+        callCreateSound.setToNumber("12135551122");
+        CampaignSound sound = client.campaignSoundsApi().recordViaPhoneExtended(callCreateSound, "id,name,status");
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertUriContainsQueryParams(arg.getURI(), "fields=id%2Cname%2Cstatus");
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+    }
+
+    @Test
+    public void testRecordViaPhoneExtendedWithoutParams() throws Exception {
+        String   responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/recordViaPhone.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        CallCreateSound callCreateSound = new CallCreateSound();
+        callCreateSound.setName("My sound file");
+        callCreateSound.setToNumber("12135551122");
+        CampaignSound sound = client.campaignSoundsApi().recordViaPhoneExtended(callCreateSound);
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+    }
+
+    @Test
     public void testCreateFromTts() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createFromTts.json");
@@ -119,7 +154,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
 
         TextToSpeech textToSpeech = new TextToSpeech();
         textToSpeech.setVoice(Voice.MALE1);
-        textToSpeech.setMessage("This is a TTS sound");
+        textToSpeech.setMessage("My sound file");
         ResourceId id = client.campaignSoundsApi().createFromTts(textToSpeech);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
@@ -128,4 +163,38 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
     }
 
+    @Test
+    public void testCreateFromTtsExtendedWithoutParameters() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/createFromTts.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        TextToSpeech textToSpeech = new TextToSpeech();
+        textToSpeech.setVoice(Voice.MALE1);
+        textToSpeech.setMessage("My sound file");
+        CampaignSound sound = client.campaignSoundsApi().createFromTtsExtended(textToSpeech);
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+    }
+
+    @Test
+    public void testCreateFromTtsExtendedWithParams() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSoundExtended.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/createFromTts.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        TextToSpeech textToSpeech = new TextToSpeech();
+        textToSpeech.setVoice(Voice.MALE1);
+        textToSpeech.setMessage("My sound file");
+        CampaignSound sound = client.campaignSoundsApi().createFromTtsExtended(textToSpeech, FIELDS);
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertUriContainsQueryParams(arg.getURI(), ENCODED_FIELDS);
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+    }
 }

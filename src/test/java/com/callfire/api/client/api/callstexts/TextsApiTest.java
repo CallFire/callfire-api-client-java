@@ -46,6 +46,13 @@ public class TextsApiTest extends AbstractApiTest {
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
         assertThat(arg.getURI().toString(), containsString("campaignId=100"));
+
+        texts = client.textsApi().send(asList(r1, r2), 100L, FIELDS, "testMessage");
+        arg = captor.getValue();
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
+        assertThat(arg.getURI().toString(), containsString("campaignId=100"));
+        assertThat(arg.getURI().toString(), containsString("defaultMessage=testMessage"));
     }
 
     @Test

@@ -232,6 +232,50 @@
             "format": "int64"
           },
           {
+            "name": "defaultLiveMessage",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "defaultMachineMessage",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "defaultLiveMessageSoundId",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "defaultMachineMessageSoundId",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "defaultVoice",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "MALE1",
+              "FEMALE1",
+              "FEMALE2",
+              "SPANISH1",
+              "FRENCHCANADIAN1"
+            ]
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "Array of CallRecipient objects",
@@ -335,7 +379,7 @@
           }
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/calls/broadcasts?name=Example+API+Call+Broadcast\"",
-        "x-response": "{\"items\":[{\"id\":14,\"name\":\"Example API VB\",\"status\":\"STOPPED\",\"lastModified\":1443382636000,\"fromNumber\":\"12135551189\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"answeringMachineConfig\":\"AM_AND_LIVE\",\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"liveSoundId\":64,\"machineSoundText\":\"This is an answering machine text to speech recording\",\"machineSoundId\":65}],\"totalCount\":1}"
+        "x-response": "{\"items\":[{\"id\":14,\"name\":\"Example API VB\",\"status\":\"STOPPED\",\"lastModified\":1443382636000,\"fromNumber\":\"12135551189\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"resumeNextDay\":true,\"answeringMachineConfig\":\"AM_AND_LIVE\",\"sounds\":{\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"liveSoundId\":64,\"machineSoundText\":\"This is an answering machine text to speech recording\",\"machineSoundId\":65}}],\"totalCount\":1}"
       },
       "post": {
         "tags": [
@@ -381,7 +425,7 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Example API Call Broadcast\",\"fromNumber\":\"12135551189\",\"recipients\":[{\"phoneNumber\":\"2135551133\"}],\"answeringMachineConfig\":\"AM_AND_LIVE\",\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"machineSoundText\":\"This is an answering machine text to speech recording\"}' \"https://api.callfire.com/v2/calls/broadcasts\"",
+        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Example API Call Broadcast\",\"fromNumber\":\"12135551189\",\"recipients\":[{\"phoneNumber\":\"2135551133\"}],\"answeringMachineConfig\":\"AM_AND_LIVE\",\"sounds\":{\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"machineSoundText\":\"This is an answering machine text to speech recording\"},\"resumeNextDay\":\"true\"}' \"https://api.callfire.com/v2/calls/broadcasts\"",
         "x-response": "{\"id\":15}"
       }
     },
@@ -430,7 +474,7 @@
           }
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/calls/broadcasts/15\"",
-        "x-response": "{\"id\":14,\"name\":\"Example API VB\",\"status\":\"STOPPED\",\"lastModified\":1443382636000,\"fromNumber\":\"12135551189\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"answeringMachineConfig\":\"AM_AND_LIVE\",\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"liveSoundId\":64,\"machineSoundText\":\"This is an answering machine text to speech recording\",\"machineSoundId\":65}"
+        "x-response": "{\"id\":11,\"name\":\"Example API Call Broadcast\",\"status\":\"STOPPED\",\"lastModified\":1455240858000,\"fromNumber\":\"12135551189\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"resumeNextDay\":true,\"sounds\":{\"liveSoundText\":\"Hello! This is a live answer text to speech recording\",\"liveSoundId\":75,\"machineSoundText\":\"This is an answering machine text to speech recording\",\"machineSoundId\":76},\"answeringMachineConfig\":\"AM_AND_LIVE\"}"
       },
       "put": {
         "tags": [
@@ -474,7 +518,7 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X PUT -d '{\"name\":\"Example API Call Broadcast updated\",\"answeringMachineConfig\":\"LIVE_IMMEDIATE\",\"liveSoundText\":\"Hello! This is an updated Call Broadcast config tts\"}' \"https://api.callfire.com/v2/calls/broadcasts/15\"",
+        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X PUT -d '{\"name\":\"Example API Call Broadcast updated\",\"answeringMachineConfig\":\"LIVE_IMMEDIATE\",\"sounds\":{\"liveSoundText\":\"Hello! This is an updated Call Broadcast config tts\"}}' \"https://api.callfire.com/v2/calls/broadcasts/15\"",
         "x-response": "200 OK - No Response"
       }
     },
@@ -650,6 +694,14 @@
             "in": "path",
             "description": "The id of the voice broadcast",
             "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "batchId",
+            "in": "query",
+            "description": "~",
+            "required": false,
             "type": "integer",
             "format": "int64"
           },
@@ -1358,6 +1410,13 @@
         ],
         "parameters": [
           {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "callCreateSound",
@@ -1371,7 +1430,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/ResourceId"
+              "$ref": "#/definitions/CampaignSound"
             }
           }
         },
@@ -1400,6 +1459,13 @@
         ],
         "parameters": [
           {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "textToSpeech",
@@ -1413,7 +1479,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/ResourceId"
+              "$ref": "#/definitions/CampaignSound"
             }
           }
         },
@@ -2490,7 +2556,7 @@
           "keywords"
         ],
         "summary": "Find keywords",
-        "description": "Find keywords for purchase on the CallFire platform. If a keyword appears in the response, it is available for purchase. Repeat the \"keyword\" query parameter for multiple searches in one request.",
+        "description": "Find keywords for purchase on the CallFire platform. If a keyword appears in the response, it is available for purchase. Repeat the \"keywords\" query parameter (at least one is required to see any data) for multiple searches in one request.",
         "operationId": "findKeywords",
         "consumes": [
           "application/json"
@@ -4250,6 +4316,13 @@
             "format": "int64"
           },
           {
+            "name": "defaultMessage",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "body",
             "description": "textRecipients",
@@ -4542,7 +4615,7 @@
           }
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/texts/broadcasts\"",
-        "x-response": "{\"items\":[{\"id\":3,\"name\":\"Outbound SMS Broadcast\",\"status\":\"FINISHED\",\"lastModified\":1443333295000,\"fromNumber\":\"67076\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"message\":\"This is a text broadcast\",\"bigMessageStrategy\":\"DO_NOT_SEND\"},{\"id\":13,\"name\":\"Example API SMS\",\"status\":\"STOPPED\",\"lastModified\":1443380774000,\"fromNumber\":\"12135551100\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"message\":\"Hello World!\"}],\"totalCount\":2}"
+        "x-response": "{\"items\":[{\"id\":3,\"name\":\"Outbound SMS Broadcast\",\"status\":\"FINISHED\",\"lastModified\":1443333295000,\"fromNumber\":\"67076\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"message\":\"This is a text broadcast\",\"bigMessageStrategy\":\"DO_NOT_SEND\",\"resumeNextDay\":true},{\"id\":13,\"name\":\"Example API SMS\",\"status\":\"STOPPED\",\"lastModified\":1443380774000,\"fromNumber\":\"12135551100\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"message\":\"Hello World!\",\"resumeNextDay\":true}],\"totalCount\":2}"
       },
       "post": {
         "tags": [
@@ -4588,7 +4661,7 @@
             "basicAuth": []
           }
         ],
-        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Example API SMS\",\"fromNumber\":\"19206596476\",\"recipients\":[{\"phoneNumber\":\"13233832214\"},{\"phoneNumber\":\"13233832214\"}],\"message\":\"Hello World!\"}' \"https://api.callfire.com/v2/texts/broadcasts\"",
+        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X POST -d '{\"name\":\"Example API SMS\",\"fromNumber\":\"19206596476\",\"recipients\":[{\"phoneNumber\":\"13233832214\"},{\"phoneNumber\":\"13233832214\"}],\"message\":\"Hello World!\",\"resumeNextDay\":\"true\"}' \"https://api.callfire.com/v2/texts/broadcasts\"",
         "x-response": "{\"id\":13}"
       }
     },
@@ -4637,7 +4710,7 @@
           }
         ],
         "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/texts/broadcasts/13\"",
-        "x-response": "{\"id\":13,\"name\":\"Example API SMS\",\"status\":\"STOPPED\",\"lastModified\":1443380774000,\"fromNumber\":\"12135551100\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"message\":\"Hello World!\"}"
+        "x-response": "{\"id\":13,\"name\":\"Example API SMS\",\"status\":\"STOPPED\",\"lastModified\":1443380774000,\"fromNumber\":\"12135551100\",\"localTimeRestriction\":{\"enabled\":false},\"retryConfig\":{\"maxAttempts\":1,\"minutesBetweenAttempts\":60,\"retryPhoneTypes\":[\"FIRST_NUMBER\"]},\"message\":\"Hello World!\",\"resumeNextDay\":true}"
       },
       "put": {
         "tags": [
@@ -5061,6 +5134,14 @@
             "format": "int64"
           },
           {
+            "name": "batchId",
+            "in": "query",
+            "description": "~",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
             "name": "fields",
             "in": "query",
             "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
@@ -5149,6 +5230,93 @@
         ],
         "x-request-cURL": "curl -u \"username:password\" -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/texts/13405\"",
         "x-response": "{\"id\":13413,\"fromNumber\":\"67076\",\"toNumber\":\"12135551100\",\"state\":\"FINISHED\",\"campaignId\":20,\"batchId\":14,\"contact\":{\"id\":4096,\"homePhone\":\"12135551100\"},\"inbound\":false,\"created\":1443403042000,\"modified\":1443403045000,\"message\":\"Hello World!\",\"finalTextResult\":\"DNT\",\"records\":[{\"id\":10310,\"billedAmount\":0.0,\"finishTime\":1443403043000,\"message\":\"Hello World!\",\"textResult\":\"DNT\"}]}"
+      }
+    },
+    "/webhooks/resources": {
+      "get": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Find webhook resources",
+        "description": "Find webhook resources. Available resources include 'CccCampaign': ['started', 'stopped', 'finished'], 'CallBroadcast': ['started', 'stopped', 'finished'], 'TextBroadcast': ['started', 'stopped', 'finished'], 'OutboundCall': ['finished'], 'InboundCall': ['finished'], 'OutboundText': ['finished'], 'InboundText': ['finished']",
+        "operationId": "findWebhookResources",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ItemList"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/webhooks/resources\"",
+        "x-response": "{\"items\":[{\"resource\":\"TextBroadcast\",\"events\":[\"stop\",\"start\"]},{\"resource\":\"CallBroadcast\",\"events\":[\"stop\",\"start\"]}],\"limit\":1000,\"offset\":0,\"totalCount\":2}"
+      }
+    },
+    "/webhooks/resources/{resource}": {
+      "get": {
+        "tags": [
+          "webhooks"
+        ],
+        "summary": "Find specific webhook resource",
+        "description": "Returns a single WebhookResource instance for a given webhookResource name",
+        "operationId": "getWebhookResource",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "path",
+            "description": "Name of webhook resource",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "Limit fields returned. E.g. fields=id,name or fields=items(id,name)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/WebhookResource"
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ],
+        "x-request-cURL": "curl -u username:password -H \"Content-Type:application/json\" -X GET \"https://api.callfire.com/v2/webhooks/resources/text-broadcast\"",
+        "x-response": "{\"resource\":\"TextBroadcast\",\"events\":[\"stop\",\"start\"]}"
       }
     }
   },
@@ -5602,6 +5770,11 @@
             "type": "string"
           }
         },
+        "resumeNextDay": {
+          "type": "boolean",
+          "description": "~",
+          "default": false
+        },
         "recipients": {
           "type": "array",
           "description": "Recipients of broadcast",
@@ -5960,6 +6133,23 @@
           "format": "int64",
           "description": "~"
         },
+        "transferMessage": {
+          "type": "string",
+          "description": "~"
+        },
+        "transferMessageSoundId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "~"
+        },
+        "transferDigit": {
+          "type": "string",
+          "description": "~"
+        },
+        "transferNumber": {
+          "type": "string",
+          "description": "~"
+        },
         "voice": {
           "type": "string",
           "description": "~",
@@ -6037,6 +6227,13 @@
           "description": "~",
           "items": {
             "$ref": "#/definitions/CallRecording"
+          }
+        },
+        "questionResponses": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "$ref": "#/definitions/QuestionResponse"
           }
         }
       },
@@ -6206,6 +6403,12 @@
             "FAILED",
             "ARCHIVED"
           ]
+        },
+        "duplicate": {
+          "type": "boolean",
+          "description": "~",
+          "readOnly": true,
+          "default": false
         }
       },
       "description": "~"
@@ -6489,6 +6692,19 @@
           "type": "integer",
           "format": "int64",
           "description": "~"
+        }
+      },
+      "description": "~"
+    },
+    "ItemList": {
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "~",
+          "items": {
+            "type": "object",
+            "properties": {}
+          }
         }
       },
       "description": "~"
@@ -7028,6 +7244,19 @@
       },
       "description": "~"
     },
+    "QuestionResponse": {
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "~"
+        },
+        "response": {
+          "type": "string",
+          "description": "~"
+        }
+      },
+      "description": "~"
+    },
     "Recipient": {
       "properties": {
         "phoneNumber": {
@@ -7446,6 +7675,11 @@
             "type": "string"
           }
         },
+        "resumeNextDay": {
+          "type": "boolean",
+          "description": "~",
+          "default": false
+        },
         "recipients": {
           "type": "array",
           "description": "List of TextRecipient objects",
@@ -7698,6 +7932,22 @@
         "name": {
           "type": "string",
           "description": "Name of list"
+        }
+      },
+      "description": "~"
+    },
+    "WebhookResource": {
+      "properties": {
+        "resource": {
+          "type": "string",
+          "description": "Name of webhook resource"
+        },
+        "supportedEvents": {
+          "type": "array",
+          "description": "List of event names support by webhook resouce",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "description": "~"

@@ -10,5 +10,6 @@
     "liveSoundText": "Hello! This is a live answer text to speech recording",
     "machineSoundText": "This is an answering machine text to speech recording"
   },
-  "answeringMachineConfig": "AM_AND_LIVE"
+  "answeringMachineConfig": "AM_AND_LIVE",
+  "resumeNextDay": false
 }

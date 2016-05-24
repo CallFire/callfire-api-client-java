@@ -11,6 +11,7 @@ public class CampaignSound extends CallfireModel {
     private Date created;
     private Integer lengthInSeconds;
     private Status status;
+    private Boolean duplicate;
 
     public enum Status {
         UPLOAD, RECORDING, ACTIVE, FAILED, ARCHIVED
@@ -44,6 +45,10 @@ public class CampaignSound extends CallfireModel {
         return status;
     }
 
+    public Boolean getDuplicate() {
+        return duplicate;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -53,6 +58,7 @@ public class CampaignSound extends CallfireModel {
             .append("created", created)
             .append("lengthInSeconds", lengthInSeconds)
             .append("status", status)
+            .append("duplicate", duplicate)
             .toString();
     }
 }

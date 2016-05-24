@@ -58,6 +58,7 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         callBroadcast.setName("Example API VB");
         callBroadcast.setFromNumber("12135551189");
         callBroadcast.setAnsweringMachineConfig(AnsweringMachineConfig.AM_AND_LIVE);
+        callBroadcast.setResumeNextDay(false);
         CallBroadcastSounds sounds = new CallBroadcastSounds();
         sounds.setLiveSoundText("Hello! This is a live answer text to speech recording");
         sounds.setMachineSoundText("This is an answering machine text to speech recording");
@@ -107,6 +108,7 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         CallBroadcast callBroadcast = new CallBroadcast();
         callBroadcast.setId(11L);
         callBroadcast.setName("Example API VB updated");
+        callBroadcast.setResumeNextDay(false);
         CallBroadcastSounds sounds = new CallBroadcastSounds();
         sounds.setMachineSoundId(1258704003L);
         sounds.setLiveSoundText("Hello! This is an updated VB config tts");

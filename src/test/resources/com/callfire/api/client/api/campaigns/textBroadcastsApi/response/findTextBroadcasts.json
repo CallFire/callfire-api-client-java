@@ -10,7 +10,8 @@
         "enabled": false
       },
       "message": "This is a text broadcast",
-      "bigMessageStrategy": "DO_NOT_SEND"
+      "bigMessageStrategy": "DO_NOT_SEND",
+      "resumeNextDay": false
     },
     {
       "id": 13,
@@ -21,7 +22,8 @@
       "localTimeRestriction": {
         "enabled": false
       },
-      "message": "Hello World!"
+      "message": "Hello World!",
+      "resumeNextDay": false
     }
   ],
   "totalCount": 2
