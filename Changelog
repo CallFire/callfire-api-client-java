@@ -1,7 +1,17 @@
 Callfire API client Changelog
 =============================
 Version 1.7.6 - May 24 2016
-    - synchronized client with last api version
+    - defaultLiveMessage, defaultMachineMessage, defaultLiveMessageSoundId, defaultMachineMessageSoundId, defaultVoice params added to send calls api
+    - added batch id filter parameter for get broadcast calls/texts
+    - added fields filter parameter for add sound via call, returns CampaignSound object
+    - added fields filter parameter for add sound via text-to-speech, returns CampaignSound object
+    - defaultMessage parameter added to send texts function
+    - added findWebhookResource and findWebhookResources methods to use new webhooks apis
+    - resumeNextDay parameter added to CallBroadcast object
+    - transferMessage, transferMessageSoundId, transferDigit, transferNumber params added to CallRecipient object for sending calls and texts
+    - added questionResponses parameter to CallRecord object
+    - added duplicate parameter to CampaignSound object
+    - get call recordings api functions implemented in CallsApi
 
 Version 1.7.5 - Apr 8 2016
     - removed get/update batches from TextBroadcastsApi

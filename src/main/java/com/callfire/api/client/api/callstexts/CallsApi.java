@@ -4,8 +4,8 @@ import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.CallRecipient;
 import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
+import com.callfire.api.client.api.callstexts.model.request.SendCallsRequest;
 import com.callfire.api.client.api.campaigns.model.CallRecording;
-import com.callfire.api.client.api.campaigns.model.Voice;
 import com.callfire.api.client.api.common.model.Page;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -16,6 +16,7 @@ import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static com.callfire.api.client.ModelType.*;
 
 /**
@@ -117,7 +118,7 @@ public class CallsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Call> send(List<CallRecipient> recipients) {
-        return send(recipients, null, null, null, null, null, null, null);
+        return send(recipients, null, null);
     }
 
     /**
@@ -138,7 +139,10 @@ public class CallsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Call> send(List<CallRecipient> recipients, Long campaignId, String fields) {
-        return send(recipients, campaignId, fields, null, null, null, null, null);
+        List<NameValuePair> queryParams = new ArrayList<>(2);
+        addQueryParamIfSet("campaignId", campaignId, queryParams);
+        addQueryParamIfSet("fields", fields, queryParams);
+        return client.post(CALLS_PATH, listHolderOf(Call.class), recipients, queryParams).getItems();
     }
 
     /**
@@ -146,14 +150,7 @@ public class CallsApi {
      * Use the API to quickly send individual calls.
      * A verified Caller ID and sufficient credits are required to make a call.
      *
-     * @param recipients call recipients
-     * @param campaignId specify a campaignId to send calls quickly on a previously created campaign
-     * @param fields     fields returned. E.g. fields=id,name or fields=items(id,name)
-     * @param defaultLiveMessage     specify live message to use in case when recipient is missing that param
-     * @param defaultMachineMessage     specify machine message to use in case when recipient is missing that param
-     * @param defaultLiveMessageSoundId     specify live message sound id to use in case when recipient is missing that param
-     * @param defaultMachineMessageSoundId     specify machine message sound id to use in case when recipient is missing that param
-     * @param defaultVoice     specify voice to use in case when recipient is missing that param
+     * @param request {@link SendCallsRequest} request with parameters (campaignId, defaultLiveMessage, defaultMachineMessage etc)
      * @return list of {@link Call}
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
@@ -163,19 +160,10 @@ public class CallsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public List<Call> send(List<CallRecipient> recipients, Long campaignId, String fields, String defaultLiveMessage, String defaultMachineMessage, Long defaultLiveMessageSoundId, Long defaultMachineMessageSoundId, Voice defaultVoice) {
-        List<NameValuePair> queryParams = new ArrayList<>(7);
-        addQueryParamIfSet("campaignId", campaignId, queryParams);
-        addQueryParamIfSet("fields", fields, queryParams);
-        addQueryParamIfSet("defaultLiveMessage", defaultLiveMessage, queryParams);
-        addQueryParamIfSet("defaultMachineMessage", defaultMachineMessage, queryParams);
-        addQueryParamIfSet("defaultLiveMessageSoundId", defaultLiveMessageSoundId, queryParams);
-        addQueryParamIfSet("defaultMachineMessageSoundId", defaultMachineMessageSoundId, queryParams);
-        addQueryParamIfSet("defaultVoice", defaultVoice != null ? defaultVoice.toString() : null, queryParams);
-
-        return client.post(CALLS_PATH, listHolderOf(Call.class), recipients, queryParams).getItems();
+    public List<Call> send(SendCallsRequest request) {
+        List<NameValuePair> queryParams = buildQueryParams(request);
+        return client.post(CALLS_PATH, listHolderOf(Call.class), request.getRecipients(), queryParams).getItems();
     }
-
 
     /**
      * Returns call recordings for a call

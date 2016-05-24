@@ -194,8 +194,8 @@ public class WebhooksApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public WebhookResource findSpecificWebhookResource(ResourceType resource) {
-        return findSpecificWebhookResource(resource, null);
+    public WebhookResource findWebhookResource(ResourceType resource) {
+        return findWebhookResource(resource, null);
     }
 
     /**
@@ -212,7 +212,7 @@ public class WebhooksApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public WebhookResource findSpecificWebhookResource(ResourceType resource, String fields) {
+    public WebhookResource findWebhookResource(ResourceType resource, String fields) {
         List<NameValuePair> queryParams = new ArrayList<>(1);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.get(WEBHOOKS_RESOURCE_PATH.replaceFirst(PLACEHOLDER, Objects.toString(resource)), of(WebhookResource.class), queryParams);

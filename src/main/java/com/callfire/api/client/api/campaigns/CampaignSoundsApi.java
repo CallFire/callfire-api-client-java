@@ -171,8 +171,8 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public CampaignSound recordViaPhoneExtended(CallCreateSound callCreateSound) {
-        return recordViaPhoneExtended(callCreateSound, null);
+    public CampaignSound recordViaPhoneAndGetSoundDetails(CallCreateSound callCreateSound) {
+        return recordViaPhoneAndGetSoundDetails(callCreateSound, null);
     }
 
     /**
@@ -191,7 +191,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public CampaignSound recordViaPhoneExtended(CallCreateSound callCreateSound, String fields) {
+    public CampaignSound recordViaPhoneAndGetSoundDetails(CallCreateSound callCreateSound, String fields) {
         List<NameValuePair> queryParams = new ArrayList<>(7);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.post(SOUNDS_CALLS_PATH, of(CampaignSound.class), callCreateSound, queryParams);
@@ -248,8 +248,8 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public CampaignSound extendedUpload(File file) {
-        return extendedUpload(file, null);
+    public CampaignSound uploadAndGetSoundDetails(File file) {
+        return uploadAndGetSoundDetails(file, null);
     }
 
     /**
@@ -266,7 +266,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public CampaignSound extendedUpload(File file, String name) {
+    public CampaignSound uploadAndGetSoundDetails(File file, String name) {
         Map<String, Object> params = new HashMap<>(2);
         params.put("file", file);
         params.put("name", name);
@@ -303,8 +303,8 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public CampaignSound createFromTtsExtended(TextToSpeech textToSpeech) {
-        return createFromTtsExtended(textToSpeech, null);
+    public CampaignSound createFromTtsAndGetSoundDetails(TextToSpeech textToSpeech) {
+        return createFromTtsAndGetSoundDetails(textToSpeech, null);
     }
 
     /**
@@ -321,7 +321,7 @@ public class CampaignSoundsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public CampaignSound createFromTtsExtended(TextToSpeech textToSpeech, String fields) {
+    public CampaignSound createFromTtsAndGetSoundDetails(TextToSpeech textToSpeech, String fields) {
         List<NameValuePair> queryParams = new ArrayList<>(7);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.post(SOUNDS_TTS_PATH, of(CampaignSound.class), textToSpeech, queryParams);

@@ -120,7 +120,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         CallCreateSound callCreateSound = new CallCreateSound();
         callCreateSound.setName("My sound file");
         callCreateSound.setToNumber("12135551122");
-        CampaignSound sound = client.campaignSoundsApi().recordViaPhoneExtended(callCreateSound, "id,name,status");
+        CampaignSound sound = client.campaignSoundsApi().recordViaPhoneAndGetSoundDetails(callCreateSound, "id,name,status");
         assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -138,7 +138,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         CallCreateSound callCreateSound = new CallCreateSound();
         callCreateSound.setName("My sound file");
         callCreateSound.setToNumber("12135551122");
-        CampaignSound sound = client.campaignSoundsApi().recordViaPhoneExtended(callCreateSound);
+        CampaignSound sound = client.campaignSoundsApi().recordViaPhoneAndGetSoundDetails(callCreateSound);
         assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -172,7 +172,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         TextToSpeech textToSpeech = new TextToSpeech();
         textToSpeech.setVoice(Voice.MALE1);
         textToSpeech.setMessage("My sound file");
-        CampaignSound sound = client.campaignSoundsApi().createFromTtsExtended(textToSpeech);
+        CampaignSound sound = client.campaignSoundsApi().createFromTtsAndGetSoundDetails(textToSpeech);
         assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -189,7 +189,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         TextToSpeech textToSpeech = new TextToSpeech();
         textToSpeech.setVoice(Voice.MALE1);
         textToSpeech.setMessage("My sound file");
-        CampaignSound sound = client.campaignSoundsApi().createFromTtsExtended(textToSpeech, FIELDS);
+        CampaignSound sound = client.campaignSoundsApi().createFromTtsAndGetSoundDetails(textToSpeech, FIELDS);
         assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();

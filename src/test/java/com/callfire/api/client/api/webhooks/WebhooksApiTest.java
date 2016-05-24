@@ -185,7 +185,7 @@ public class WebhooksApiTest extends AbstractApiTest {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findSpecificWebhookResource.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        WebhookResource webhookResources = client.webhooksApi().findSpecificWebhookResource(ResourceType.CALL_BROADCAST);
+        WebhookResource webhookResources = client.webhooksApi().findWebhookResource(ResourceType.CALL_BROADCAST);
         assertThat(jsonConverter.serialize(webhookResources), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();
@@ -198,7 +198,7 @@ public class WebhooksApiTest extends AbstractApiTest {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/findSpecificWebhookResource.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
-        WebhookResource webhookResources = client.webhooksApi().findSpecificWebhookResource(ResourceType.CALL_BROADCAST, FIELDS);
+        WebhookResource webhookResources = client.webhooksApi().findWebhookResource(ResourceType.CALL_BROADCAST, FIELDS);
         assertThat(jsonConverter.serialize(webhookResources), equalToIgnoringWhiteSpace(expectedJson));
 
         HttpUriRequest arg = captor.getValue();

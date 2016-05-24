@@ -5,6 +5,7 @@ import com.callfire.api.client.api.callstexts.model.Action.State;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.CallRecipient;
 import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
+import com.callfire.api.client.api.callstexts.model.request.SendCallsRequest;
 import com.callfire.api.client.api.campaigns.model.CallRecording;
 import com.callfire.api.client.api.campaigns.model.Voice;
 import com.callfire.api.client.api.common.model.ListHolder;
@@ -47,9 +48,38 @@ public class CallsApiTest extends AbstractApiTest {
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
         assertThat(arg.getURI().toString(), not(containsString(ENCODED_FIELDS)));
+    }
 
-        calls = client.callsApi().send(asList(r1, r2), 100L, FIELDS, "defaultLiveMessage", "defaultMachineMessage", 123L, 321L, Voice.FEMALE1);
-        arg = captor.getValue();
+    @Test
+    public void testSendCallsUsingRequest() throws Exception {
+        String requestJson = getJsonPayload(JSON_PATH + "/request/sendCalls.json");
+        String responseJson = getJsonPayload(JSON_PATH + "/response/sendCalls.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        CallRecipient r1 = new CallRecipient();
+        r1.setPhoneNumber("12135551100");
+        r1.setLiveMessage("Why hello there!");
+        r1.setTransferDigit("1");
+        r1.setTransferMessage("testMessage");
+        r1.setTransferNumber("12135551101");
+        CallRecipient r2 = new CallRecipient();
+        r2.setPhoneNumber("12135551101");
+        r2.setLiveMessage("And hello to you too.");
+        SendCallsRequest request = SendCallsRequest.create()
+            .recipients(asList(r1, r2))
+            .campaignId(100L)
+            .defaultLiveMessage("defaultLiveMessage")
+            .defaultMachineMessage("defaultMachineMessage")
+            .defaultLiveMessageSoundId(123L)
+            .defaultMachineMessageSoundId(321L)
+            .defaultVoice(Voice.FEMALE1)
+            .fields(FIELDS)
+            .build();
+        List<Call> calls = client.callsApi().send(request);
+        assertThat(jsonConverter.serialize(new ListHolder<>(calls)), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
         assertThat(arg.getURI().toString(), containsString("campaignId=100"));
