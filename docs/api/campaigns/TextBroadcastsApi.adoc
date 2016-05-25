@@ -37,6 +37,7 @@ Example how to create text broadcast and then start it. Broadcast will send mess
     broadcast.setLocalTimeRestriction(restrictions);
     broadcast.setBigMessageStrategy(BigMessageStrategy.SEND_MULTIPLE);
     broadcast.setMessage("test_msg");
+    broadcast.setResumeNextDay(true);
     // create broadcast
     ResourceId id = callfireClient.textBroadcastsApi().create(broadcast, true);
 
@@ -83,6 +84,15 @@ This operation will enable the user to page through all of the texts for a parti
         .build();
     Page<Text> texts = callfireClient.textBroadcastsApi().getTexts(request);
     System.out.println(texts);
+
+If you want to get texts filtered by batch id please use code like:
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    FindBroadcastTextsRequest getCallsRequest = FindBroadcastTextsRequest.create()
+        .id(1234L)
+        .batchId(134324312L)
+        .build();
+    Page<Text> texts = callfireClient.textBroadcastsApi().findTexts(getCallsRequest);
 
 === Get broadcast stats
 Get broadcast statistics.

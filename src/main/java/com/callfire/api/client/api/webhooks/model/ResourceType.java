@@ -10,10 +10,13 @@ import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEv
 import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.STOPPED;
 
 public enum ResourceType {
-    VOICE_BROADCAST("voiceCampaign", STARTED, STOPPED, FINISHED),
-    TEXT_BROADCAST("textCampaign", STARTED, STOPPED, FINISHED),
-    IVR_BROADCAST("ivrCampaign", STARTED, STOPPED, FINISHED),
-    CCC_CAMPAIGN("cccCampaign", STARTED, STOPPED, FINISHED),
+    CCC_CAMPAIGN("CccCampaign", STARTED, STOPPED, FINISHED),
+    CALL_BROADCAST("CallBroadcast", STARTED, STOPPED, FINISHED),
+    TEXT_BROADCAST("TextBroadcast", STARTED, STOPPED, FINISHED),
+    OUTBOUND_CALL("OutboundCall", FINISHED),
+    INBOUND_CALL("InboundCall", FINISHED),
+    OUTBOUND_TEXT("OutboundText", FINISHED),
+    INBOUND_TEXT("InboundText", FINISHED),
     UNKNOWN("unknown");
 
     private static final Map<String, ResourceType> RESOURCE_MAP = createResourceMap();
@@ -54,9 +57,9 @@ public enum ResourceType {
      * Event types
      */
     public enum ResourceEvent {
-        STARTED("start"),
-        STOPPED("stop"),
-        FINISHED("finish"),
+        STARTED("Started"),
+        STOPPED("Stopped"),
+        FINISHED("Finished"),
 
         UNKNOWN("unknown");
 

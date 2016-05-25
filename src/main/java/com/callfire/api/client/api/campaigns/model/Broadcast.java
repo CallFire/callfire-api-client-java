@@ -17,6 +17,7 @@ public abstract class Broadcast extends CallfireModel {
     private List<Schedule> schedules;
     private Integer maxActive;
     private List<String> labels = new ArrayList<>();
+    private Boolean resumeNextDay;
 
     public enum Status {
         TEST, SETUP, START_PENDING, RUNNING, STOPPED, FINISHED, ARCHIVED
@@ -86,6 +87,14 @@ public abstract class Broadcast extends CallfireModel {
         return schedules;
     }
 
+    public Boolean getResumeNextDay() {
+        return resumeNextDay;
+    }
+
+    public void setResumeNextDay(Boolean resumeNextDay) {
+        this.resumeNextDay = resumeNextDay;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -99,6 +108,7 @@ public abstract class Broadcast extends CallfireModel {
             .append("schedules", schedules)
             .append("maxActive", maxActive)
             .append("labels", labels)
+            .append("resumeNextDay", resumeNextDay)
             .toString();
     }
 }

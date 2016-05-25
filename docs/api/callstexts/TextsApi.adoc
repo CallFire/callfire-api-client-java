@@ -21,13 +21,28 @@ Example how to find all texts sent or received by the user. Use "campaignId=0" p
 Example how to use the /texts API to quickly send individual texts via existing campaign. A verified Caller ID and
  sufficient credits are required to send a text.
 [source,java]
+    CallfireClient client = new CallfireClient("api_login", "api_password");
     //Only "recipients" param required
     TextRecipient r1 = new TextRecipient();
     r1.setPhoneNumber("16502572135");
     r1.setMessage("Hello");
     List<TextRecipient> recipients = Arrays.asList(r1);
-    CallfireClient client = new CallfireClient("api_login", "api_password");
     List<Text> texts = client.textsApi().send(recipients, 7415225003L);
+
+In case you want to send text with default text which will be used in case when recipient doesn't have that info specified,
+ see example below:
+[source,java]
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    TextRecipient r1 = new TextRecipient();
+    r1.setPhoneNumber("16502572135");
+    List<TextRecipient> recipients = Arrays.asList(r1);
+    SendTextsRequest request = SendTextsRequest.create()
+        .recipients(recipients)
+        .campaignId(7415135003L)
+        .fields("items(id,fromNumber,state)")
+        .defaultMessage("defaultMessage")
+        .build();
+    List<Text> texts = client.textsApi().send(request);
 
 In case you want to send text via default campaign use *send(List<TextRecipient> recipients)* method.
 

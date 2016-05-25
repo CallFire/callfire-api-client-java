@@ -46,6 +46,15 @@ Use this API to create a sound via phone call. Supply the required phone number 
     ResourceId resourceId = callfireClient.campaignSoundsApi().recordViaPhone(callCreateSound);
     System.out.println(resourceId.getId());
 
+If you want to see created sound details please use code like:
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    CallCreateSound callCreateSound = new CallCreateSound();
+    callCreateSound.setName("CallInSound_1");
+    callCreateSound.setToNumber("12131234567");
+    CampaignSound sound = callfireClient.campaignSoundsApi().recordViaPhoneAndGetSoundDetails(callCreateSound);
+    System.out.println(resourceId.getId());
+
 === Add sound via text-to-speech
 Use this API to create a sound file via a supplied string of text. Send the required text in the
  TextToSpeech.message field, and pick a voice in the TextToSpeech.voice field. Available voices are:
@@ -57,3 +66,11 @@ Use this API to create a sound file via a supplied string of text. Send the requ
     tts.setMessage("this is TTS message from java client");
     ResourceId resourceId = callfireClient.campaignSoundsApi().createFromTts(tts);
     CampaignSound campaignSound = callfireClient.campaignSoundsApi().get(resourceId.getId());
+
+If you want to see created sound details please use code like:
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    TextToSpeech tts = new TextToSpeech();
+    tts.setVoice(Voice.FEMALE1);
+    tts.setMessage("this is TTS message from java client");
+    CampaignSound sound = callfireClient.campaignSoundsApi().createFromTtsAndGetSoundDetails(tts);

@@ -3,7 +3,9 @@ package com.callfire.api.client.api.webhooks;
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.webhooks.model.ResourceType;
 import com.callfire.api.client.api.webhooks.model.Webhook;
+import com.callfire.api.client.api.webhooks.model.WebhookResource;
 import com.callfire.api.client.api.webhooks.model.request.FindWebhooksRequest;
 import org.apache.commons.lang3.Validate;
 import org.apache.http.NameValuePair;
@@ -14,8 +16,7 @@ import java.util.Objects;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.of;
-import static com.callfire.api.client.ModelType.pageOf;
+import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents rest endpoint /webhooks
@@ -25,6 +26,8 @@ import static com.callfire.api.client.ModelType.pageOf;
 public class WebhooksApi {
     private static final String WEBHOOKS_PATH = "/webhooks";
     private static final String WEBHOOKS_ITEM_PATH = "/webhooks/{}";
+    private static final String WEBHOOKS_RESOURCES_PATH = "/webhooks/resources";
+    private static final String WEBHOOKS_RESOURCE_PATH = "/webhooks/resources/{}";
 
     private RestApiClient client;
 
@@ -141,5 +144,77 @@ public class WebhooksApi {
     public void delete(Long id) {
         Validate.notNull(id, "id cannot be null");
         client.delete(WEBHOOKS_ITEM_PATH.replaceFirst(PLACEHOLDER, Objects.toString(id)));
+    }
+
+    /**
+     * Find webhook resources
+     *
+     * @return list of {@link WebhookResource} objects
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public List<WebhookResource> findWebhookResources() {
+        return findWebhookResources(null);
+    }
+
+    /**
+     * Find webhook resources
+     *
+     * @param fields Limit text fields returned. Example fields=limit,offset,items(id,message)
+     * @return list of {@link WebhookResource} objects
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public List<WebhookResource> findWebhookResources(String fields) {
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("fields", fields, queryParams);
+        return client.get(WEBHOOKS_RESOURCES_PATH, listHolderOf(WebhookResource.class), queryParams).getItems();
+    }
+
+    /**
+     * Find specific webhook resource
+     *
+     * @param resource Webhook resource name
+     * @return {@link WebhookResource} object
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public WebhookResource findWebhookResource(ResourceType resource) {
+        return findWebhookResource(resource, null);
+    }
+
+    /**
+     * Find specific webhook resource
+     *
+     * @param resource Webhook resource name
+     * @param fields Limit text fields returned. Example fields=limit,offset,items(id,message)
+     * @return {@link WebhookResource} object
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public WebhookResource findWebhookResource(ResourceType resource, String fields) {
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("fields", fields, queryParams);
+        return client.get(WEBHOOKS_RESOURCE_PATH.replaceFirst(PLACEHOLDER, Objects.toString(resource)), of(WebhookResource.class), queryParams);
     }
 }

@@ -157,6 +157,47 @@ public class CampaignSoundsApi {
     }
 
     /**
+     * Use this API to create a sound via phone call. Supply the required phone number in
+     * the CallCreateSound object inside of the request, and the user will receive a call
+     * shortly after with instructions on how to record a sound over the phone.
+     *
+     * @param callCreateSound request object to create campaign sound
+     * @return CampaignSound object with sound id,name etc
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CampaignSound recordViaPhoneAndGetSoundDetails(CallCreateSound callCreateSound) {
+        return recordViaPhoneAndGetSoundDetails(callCreateSound, null);
+    }
+
+    /**
+     * Use this API to create a sound via phone call. Supply the required phone number in
+     * the CallCreateSound object inside of the request, and the user will receive a call
+     * shortly after with instructions on how to record a sound over the phone.
+     *
+     * @param callCreateSound request object to create campaign sound
+     * @param fields fields returned. E.g. fields=id,name or fields=items(id,name)
+     * @return CampaignSound object with sound id,name etc
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CampaignSound recordViaPhoneAndGetSoundDetails(CallCreateSound callCreateSound, String fields) {
+        List<NameValuePair> queryParams = new ArrayList<>(7);
+        addQueryParamIfSet("fields", fields, queryParams);
+        return client.post(SOUNDS_CALLS_PATH, of(CampaignSound.class), callCreateSound, queryParams);
+    }
+
+    /**
      * Upload a MP3 or WAV file to account
      *
      * @param file file to upload
@@ -195,6 +236,44 @@ public class CampaignSoundsApi {
     }
 
     /**
+     * Upload a MP3 or WAV file to account
+     *
+     * @param file file to upload
+     * @return CampaignSound object with sound id
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CampaignSound uploadAndGetSoundDetails(File file) {
+        return uploadAndGetSoundDetails(file, null);
+    }
+
+    /**
+     * Upload a MP3 or WAV file to account
+     *
+     * @param file file to upload
+     * @param name name for file uploaded
+     * @return CampaignSound object with sound data
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CampaignSound uploadAndGetSoundDetails(File file, String name) {
+        Map<String, Object> params = new HashMap<>(2);
+        params.put("file", file);
+        params.put("name", name);
+        return client.postFile(SOUNDS_FILES_PATH, of(CampaignSound.class), params);
+    }
+
+    /**
      * Use this API to create a sound file via a supplied string of text.
      *
      * @param textToSpeech TTS object to create
@@ -209,5 +288,42 @@ public class CampaignSoundsApi {
      */
     public ResourceId createFromTts(TextToSpeech textToSpeech) {
         return client.post(SOUNDS_TTS_PATH, of(ResourceId.class), textToSpeech);
+    }
+
+    /**
+     * Use this API to create a sound file via a supplied string of text.
+     *
+     * @param textToSpeech TTS object to create
+     * @return CampaignSound object with sound id,name etc
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CampaignSound createFromTtsAndGetSoundDetails(TextToSpeech textToSpeech) {
+        return createFromTtsAndGetSoundDetails(textToSpeech, null);
+    }
+
+    /**
+     * Use this API to create a sound file via a supplied string of text.
+     *
+     * @param textToSpeech TTS object to create
+     * @param fields fields returned. E.g. fields=id,name or fields=items(id,name)
+     * @return CampaignSound object with sound id,name etc
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CampaignSound createFromTtsAndGetSoundDetails(TextToSpeech textToSpeech, String fields) {
+        List<NameValuePair> queryParams = new ArrayList<>(7);
+        addQueryParamIfSet("fields", fields, queryParams);
+        return client.post(SOUNDS_TTS_PATH, of(CampaignSound.class), textToSpeech, queryParams);
     }
 }

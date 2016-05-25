@@ -3,6 +3,7 @@ package com.callfire.api.client.api.callstexts;
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.callstexts.model.request.FindTextsRequest;
+import com.callfire.api.client.api.callstexts.model.request.SendTextsRequest;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.common.model.Page;
 import org.apache.commons.lang3.Validate;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static com.callfire.api.client.ModelType.*;
 
 /**
@@ -133,5 +135,25 @@ public class TextsApi {
         addQueryParamIfSet("campaignId", campaignId, queryParams);
         addQueryParamIfSet("fields", fields, queryParams);
         return client.post(TEXTS_PATH, listHolderOf(Text.class), recipients, queryParams).getItems();
+    }
+
+    /**
+     * Send texts to recipients through existing campaign, if null default campaign will be used
+     * Use the /texts API to quickly send individual texts. A verified Caller ID and sufficient
+     * credits are required to make a call.
+     *
+     * @param request {@link SendTextsRequest} object with parameters (campaignId, defaultMessage, fields)
+     * @return list of {@link Text}
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public List<Text> send(SendTextsRequest request) {
+        List<NameValuePair> queryParams = buildQueryParams(request);
+        return client.post(TEXTS_PATH, listHolderOf(Text.class), request.getRecipients(), queryParams).getItems();
     }
 }

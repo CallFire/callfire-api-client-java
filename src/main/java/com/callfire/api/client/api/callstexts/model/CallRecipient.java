@@ -11,6 +11,10 @@ public class CallRecipient extends Recipient {
     private Long liveMessageSoundId;
     private String machineMessage;
     private Long machineMessageSoundId;
+    private String transferMessage;
+    private Long transferMessageSoundId;
+    private String transferDigit;
+    private String transferNumber;
     private Voice voice;
 
     public String getDialplanXml() {
@@ -53,6 +57,38 @@ public class CallRecipient extends Recipient {
         this.machineMessageSoundId = machineMessageSoundId;
     }
 
+    public String getTransferMessage() {
+        return transferMessage;
+    }
+
+    public void setTransferMessage(String transferMessage) {
+        this.transferMessage = transferMessage;
+    }
+
+    public Long getTransferMessageSoundId() {
+        return transferMessageSoundId;
+    }
+
+    public void setTransferMessageSoundId(Long transferMessageSoundId) {
+        this.transferMessageSoundId = transferMessageSoundId;
+    }
+
+    public String getTransferDigit() {
+        return transferDigit;
+    }
+
+    public void setTransferDigit(String transferDigit) {
+        this.transferDigit = transferDigit;
+    }
+
+    public String getTransferNumber() {
+        return transferNumber;
+    }
+
+    public void setTransferNumber(String transferNumber) {
+        this.transferNumber = transferNumber;
+    }
+
     public Voice getVoice() {
         return voice;
     }
@@ -70,6 +106,10 @@ public class CallRecipient extends Recipient {
             .append("liveMessageSoundId", liveMessageSoundId)
             .append("machineMessage", machineMessage)
             .append("machineMessageSoundId", machineMessageSoundId)
+            .append("transferMessage", transferMessage)
+            .append("transferMessageSoundId", transferMessageSoundId)
+            .append("transferDigit", transferDigit)
+            .append("transferNumber", transferNumber)
             .append("voice", voice)
             .toString();
     }

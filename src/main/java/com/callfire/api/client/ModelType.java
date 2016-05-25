@@ -18,6 +18,7 @@ import com.callfire.api.client.api.numbers.model.NumberLease;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.webhooks.model.Subscription;
 import com.callfire.api.client.api.webhooks.model.Webhook;
+import com.callfire.api.client.api.webhooks.model.WebhookResource;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.InputStream;
@@ -82,6 +83,8 @@ public final class ModelType {
         SIMPLE_TYPES.put(KeywordLease.class, new TypeReference<KeywordLease>() {});
         SIMPLE_TYPES.put(Subscription.class, new TypeReference<Subscription>() {});
         SIMPLE_TYPES.put(Webhook.class, new TypeReference<Webhook>() {});
+        SIMPLE_TYPES.put(WebhookResource.class, new TypeReference<WebhookResource>() {});
+        SIMPLE_TYPES.put(CallRecording.class, new TypeReference<CallRecording>() {});
         // @formatter:on
     }
 
@@ -130,6 +133,8 @@ public final class ModelType {
         LISTHOLDER_TYPES.put(UniversalDnc.class, new TypeReference<ListHolder<UniversalDnc>>() {});
         LISTHOLDER_TYPES.put(Keyword.class, new TypeReference<ListHolder<Keyword>>() {});
         LISTHOLDER_TYPES.put(Number.class, new TypeReference<ListHolder<Number>>() {});
+        LISTHOLDER_TYPES.put(WebhookResource.class, new TypeReference<ListHolder<WebhookResource>>() {});
+        LISTHOLDER_TYPES.put(CallRecording.class, new TypeReference<ListHolder<CallRecording>>() {});
         // @formatter:on
     }
 

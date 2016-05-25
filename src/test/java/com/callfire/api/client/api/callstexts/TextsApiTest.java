@@ -4,6 +4,7 @@ import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.callstexts.model.Action.State;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.callstexts.model.request.FindTextsRequest;
+import com.callfire.api.client.api.callstexts.model.request.SendTextsRequest;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
@@ -33,19 +34,46 @@ public class TextsApiTest extends AbstractApiTest {
         TextRecipient r2 = new TextRecipient();
         r2.setPhoneNumber("12135551101");
         r2.setMessage("Testing 1 2 3");
-        List<Text> texts = client.textsApi().send(asList(r1, r2));
+        List<Text>  texts = client.textsApi().send(asList(r1, r2), 100L, FIELDS);
         assertThat(jsonConverter.serialize(new ListHolder<>(texts)), equalToIgnoringWhiteSpace(responseJson));
 
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
-        assertThat(arg.getURI().toString(), not(containsString(ENCODED_FIELDS)));
-
-        texts = client.textsApi().send(asList(r1, r2), 100L, FIELDS);
-        arg = captor.getValue();
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
         assertThat(arg.getURI().toString(), containsString("campaignId=100"));
+    }
+
+    @Test
+    public void testSendTextsUsingRequest() throws Exception {
+        String requestJson = getJsonPayload("/callstexts/textsApi/request/sendTexts.json");
+        String responseJson = getJsonPayload("/callstexts/textsApi/response/sendTexts.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        TextRecipient r1 = new TextRecipient();
+        r1.setPhoneNumber("12135551100");
+        r1.setMessage("Hello World!");
+        TextRecipient r2 = new TextRecipient();
+        r2.setPhoneNumber("12135551101");
+        r2.setMessage("Testing 1 2 3");
+
+        SendTextsRequest request = SendTextsRequest.create()
+            .recipients(asList(r1, r2))
+            .campaignId(100L)
+            .defaultMessage("testMessage")
+            .fields(FIELDS)
+            .build();
+
+        List<Text> texts = client.textsApi().send(request);
+        assertThat(jsonConverter.serialize(new ListHolder<>(texts)), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
+        assertThat(arg.getURI().toString(), containsString("campaignId=100"));
+        assertThat(arg.getURI().toString(), containsString("defaultMessage=testMessage"));
     }
 
     @Test

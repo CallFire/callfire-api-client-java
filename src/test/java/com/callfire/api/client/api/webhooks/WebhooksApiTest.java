@@ -2,14 +2,18 @@ package com.callfire.api.client.api.webhooks;
 
 import com.callfire.api.client.ModelValidationException;
 import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.webhooks.model.ResourceType;
 import com.callfire.api.client.api.webhooks.model.Webhook;
+import com.callfire.api.client.api.webhooks.model.WebhookResource;
 import com.callfire.api.client.api.webhooks.model.request.FindWebhooksRequest;
 import org.apache.http.client.methods.*;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+
+import java.util.List;
 
 import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
 import static com.callfire.api.client.api.webhooks.model.ResourceType.TEXT_BROADCAST;
@@ -23,13 +27,13 @@ public class WebhooksApiTest extends AbstractApiTest {
     public void testWebhookValidate() throws Exception {
         Webhook webhook = new Webhook();
         webhook.setId(1L);
-        webhook.setResource(ResourceType.VOICE_BROADCAST);
+        webhook.setResource(ResourceType.CALL_BROADCAST);
         webhook.getEvents().add(ResourceEvent.STARTED);
         webhook.getEvents().add(ResourceEvent.FINISHED);
         webhook.getEvents().add(ResourceEvent.UNKNOWN);
         ex.expect(ModelValidationException.class);
-        ex.expectMessage("Event [unknown] is unsupported for voiceCampaign resource, " +
-            "supported events are: [");
+        ex.expectMessage("Event [unknown] is unsupported for CallBroadcast resource, " +
+                "supported events are: [");
         client.webhooksApi().update(webhook);
 
         webhook.getEvents().remove(ResourceEvent.UNKNOWN);
@@ -37,7 +41,7 @@ public class WebhooksApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testCreate() throws Exception {
+     public void testCreate() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/createWebhook.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/createWebhook.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
@@ -65,7 +69,7 @@ public class WebhooksApiTest extends AbstractApiTest {
             .limit(5L)
             .offset(0L)
             .enabled(false)
-            .resource(ResourceType.IVR_BROADCAST)
+            .resource(ResourceType.CALL_BROADCAST)
             .event(ResourceEvent.FINISHED)
             .build();
         Page<Webhook> webhooks = client.webhooksApi().find(request);
@@ -74,8 +78,8 @@ public class WebhooksApiTest extends AbstractApiTest {
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
-        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "resource=ivrCampaign", "enabled=false",
-            "event=finish");
+        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "resource=CallBroadcast", "enabled=false",
+                "event=Finished");
     }
 
     @Test
@@ -147,5 +151,59 @@ public class WebhooksApiTest extends AbstractApiTest {
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
         client.webhooksApi().delete(null);
+    }
+
+    @Test
+    public void testFindWebhookResources() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhookResources.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        List<WebhookResource> webhookResources = client.webhooksApi().findWebhookResources();
+        assertThat(jsonConverter.serialize(new ListHolder<>(webhookResources)), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+    }
+
+    @Test
+    public void testFindWebhookResourcesWithAdditionalParams() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findWebhookResources.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        List<WebhookResource> webhookResources = client.webhooksApi().findWebhookResources(FIELDS);
+        assertThat(jsonConverter.serialize(new ListHolder<>(webhookResources)), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
+    }
+
+    @Test
+    public void testFindSpecificWebhookResource() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findSpecificWebhookResource.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        WebhookResource webhookResources = client.webhooksApi().findWebhookResource(ResourceType.CALL_BROADCAST);
+        assertThat(jsonConverter.serialize(webhookResources), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+    }
+
+    @Test
+    public void testFindSpecificWebhookResourceWithAdditionalParams() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findSpecificWebhookResource.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        WebhookResource webhookResources = client.webhooksApi().findWebhookResource(ResourceType.CALL_BROADCAST, FIELDS);
+        assertThat(jsonConverter.serialize(webhookResources), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
     }
 }
