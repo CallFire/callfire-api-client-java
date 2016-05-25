@@ -30,6 +30,7 @@ Create a call broadcast campaign using the Call Broadcast API. Send a CallBroadc
     sounds.setMachineSoundText("This is an answering machine text to speech recording");
     sounds.setMachineSoundTextVoice(Voice.MALE1);
     broadcast.setSounds(sounds);
+    broadcast.setResumeNextDay(true);
     // set recipients
     Recipient recipient1 = new Recipient();
     recipient1.setPhoneNumber("12135551100");
@@ -89,6 +90,15 @@ Get calls associated with call broadcast ordered by date.
         .build();
     Page<Call> calls = callfireClient.callBroadcastsApi().getCalls(request);
     System.out.println(calls);
+
+If you want to get calls filtered by batch id please use code like:
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    FindBroadcastCallsRequest getCallsRequest = FindBroadcastCallsRequest.create()
+        .id(1234L)
+        .batchId(1233423L)
+        .build();
+    Page<Call> calls = callfireClient.callBroadcastsApi().findCalls(getCallsRequest);
 
 == Get broadcast stats
 Get broadcast statistics.
