@@ -3,6 +3,7 @@ package com.callfire.api.client.api.callstexts;
 import com.callfire.api.client.*;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.callstexts.model.request.FindTextsRequest;
+import com.callfire.api.client.api.callstexts.model.request.SendTextsRequest;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.common.model.Page;
 import org.apache.commons.lang3.Validate;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static com.callfire.api.client.ModelType.*;
 
 /**
@@ -108,7 +110,7 @@ public class TextsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Text> send(List<TextRecipient> recipients) {
-        return send(recipients, null, null, null);
+        return send(recipients, null, null);
     }
 
     /**
@@ -129,7 +131,10 @@ public class TextsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<Text> send(List<TextRecipient> recipients, Long campaignId, String fields) {
-        return send(recipients, campaignId, fields, null);
+        List<NameValuePair> queryParams = new ArrayList<>(2);
+        addQueryParamIfSet("campaignId", campaignId, queryParams);
+        addQueryParamIfSet("fields", fields, queryParams);
+        return client.post(TEXTS_PATH, listHolderOf(Text.class), recipients, queryParams).getItems();
     }
 
     /**
@@ -137,10 +142,7 @@ public class TextsApi {
      * Use the /texts API to quickly send individual texts. A verified Caller ID and sufficient
      * credits are required to make a call.
      *
-     * @param recipients text recipients
-     * @param campaignId id of outbound campaign
-     * @param fields     limit fields returned. Example items(id,name,fromNumber)
-     * @param defaultMessage default message to send to recipients
+     * @param request {@link SendTextsRequest} object with parameters (campaignId, defaultMessage, fields)
      * @return list of {@link Text}
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
      * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
@@ -150,11 +152,8 @@ public class TextsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public List<Text> send(List<TextRecipient> recipients, Long campaignId, String fields, String defaultMessage) {
-        List<NameValuePair> queryParams = new ArrayList<>(2);
-        addQueryParamIfSet("campaignId", campaignId, queryParams);
-        addQueryParamIfSet("fields", fields, queryParams);
-        addQueryParamIfSet("defaultMessage", defaultMessage, queryParams);
-        return client.post(TEXTS_PATH, listHolderOf(Text.class), recipients, queryParams).getItems();
+    public List<Text> send(SendTextsRequest request) {
+        List<NameValuePair> queryParams = buildQueryParams(request);
+        return client.post(TEXTS_PATH, listHolderOf(Text.class), request.getRecipients(), queryParams).getItems();
     }
 }
