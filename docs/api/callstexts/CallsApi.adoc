@@ -66,6 +66,14 @@ Also you can send call with some default parameters which will be used in case w
         .build();
     calls = client.callsApi().send(request);
 
+=== Get call
+'''
+Example how to return a single Call instance for a given call id.
+[source,java]
+    //Only "id" param required
+    CallfireClient client = new CallfireClient("api_login", "api_password");
+    Call call = client.callsApi().get(617067920003L);
+
 === Get call recordings
 '''
 Example how to return call recordings for a given call id.

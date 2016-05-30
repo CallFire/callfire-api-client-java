@@ -95,6 +95,19 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
     }
 
     @Test
+    @SuppressWarnings("ConstantConditions")
+    public void testUploadAndGetSoundDetails() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSoundExtended.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+        File file = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
+
+        CampaignSound sound = client.campaignSoundsApi().uploadAndGetSoundDetails(file, "fname");
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+    }
+
+    @Test
     public void testRecordViaPhone() throws Exception {
         String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSound.json");
         String requestJson = getJsonPayload(JSON_PATH + "/request/recordViaPhone.json");

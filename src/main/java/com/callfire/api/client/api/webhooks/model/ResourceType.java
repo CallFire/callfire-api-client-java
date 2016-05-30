@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.*;
 
-import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.FINISHED;
-import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.STARTED;
-import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.STOPPED;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.*;
 
 public enum ResourceType {
+    MONTHLY_RENEWAL("MonthlyRenewal", FINISHED, FAILED),
+    LOW_BALANCE("LowBalance", FINISHED, FAILED),
     CCC_CAMPAIGN("CccCampaign", STARTED, STOPPED, FINISHED),
     CALL_BROADCAST("CallBroadcast", STARTED, STOPPED, FINISHED),
     TEXT_BROADCAST("TextBroadcast", STARTED, STOPPED, FINISHED),
@@ -60,6 +60,7 @@ public enum ResourceType {
         STARTED("Started"),
         STOPPED("Stopped"),
         FINISHED("Finished"),
+        FAILED("Failed"),
 
         UNKNOWN("unknown");
 
