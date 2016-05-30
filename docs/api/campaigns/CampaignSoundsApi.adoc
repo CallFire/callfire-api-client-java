@@ -74,3 +74,10 @@ If you want to see created sound details please use code like:
     tts.setVoice(Voice.FEMALE1);
     tts.setMessage("this is TTS message from java client");
     CampaignSound sound = callfireClient.campaignSoundsApi().createFromTtsAndGetSoundDetails(tts);
+
+=== Upload sound file
+Upload mp3 or wav file.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
+    CampaignSound mp3Sound = campaignSoundsApi.uploadAndGetSoundDetails(mp3File, "testName");

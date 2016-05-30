@@ -1,6 +1,20 @@
 {
   "items": [
     {
+      "resource": "MonthlyRenewal",
+      "supportedEvents": [
+        "Finished",
+        "Failed"
+      ]
+    },
+    {
+      "resource": "LowBalance",
+      "supportedEvents": [
+        "Finished",
+        "Failed"
+      ]
+    },
+    {
       "resource": "CccCampaign",
       "supportedEvents": [
         "Started",

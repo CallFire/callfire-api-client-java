@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.7 - May 27 2016
+    - added support for new webhook resources (MonthlyRenewal, LowBalance)
+
 Version 1.7.6 - May 24 2016
     - defaultLiveMessage, defaultMachineMessage, defaultLiveMessageSoundId, defaultMachineMessageSoundId, defaultVoice params added to send calls api
     - added batch id filter parameter for get broadcast calls/texts

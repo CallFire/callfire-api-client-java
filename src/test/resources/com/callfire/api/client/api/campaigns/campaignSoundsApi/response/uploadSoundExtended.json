@@ -1,5 +1,6 @@
 {
   "id": 61,
   "name": "My sound file",
-  "status": "UPLOAD"
+  "status": "UPLOAD",
+  "duplicate": true
 }
