@@ -1,5 +1,6 @@
 package com.callfire.api.client;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -178,7 +179,7 @@ public class Logger implements Log {
 
     private String formatMessage(String message, Object[] params) {
         for (Object param : params) {
-            message = message.replaceFirst(PLACEHOLDER, Objects.toString(param));
+            message = StringUtils.replaceOnce(message, PLACEHOLDER, Objects.toString(param));
         }
         return message;
     }
