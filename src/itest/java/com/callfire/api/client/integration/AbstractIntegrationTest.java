@@ -4,7 +4,6 @@ import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.hamcrest.Matchers;
 import org.junit.rules.ExpectedException;
@@ -19,60 +18,35 @@ import static org.hamcrest.Matchers.hasProperty;
  * Base class for all integration tests
  */
 public class AbstractIntegrationTest {
+    private static String BASE_PATH = "https://api.callfire.com/v2";
+
     private String apiUserName;
     private String apiUserPassword;
     private String accountName;
     private String accountPassword;
     private String callerId;
-    private String basePath;
     private String did1;
     private String did2;
     private String did3;
 
     public AbstractIntegrationTest() {
-        System.out.println(System.getProperty("basePath"));
+        System.out.println(BASE_PATH);
 
         apiUserName = System.getProperty("testApiUsername");
         apiUserPassword = System.getProperty("testApiPassword");
         accountName = System.getProperty("testAccountName");
         accountPassword = System.getProperty("testAccountPassword");
         callerId = System.getProperty("testCallerId");
-        basePath = System.getProperty("basePath");
-
-        // localhost creds
-        if (StringUtils.isEmpty(basePath)) {
-            basePath = "http://localhost:8080/v2";
-        }
-
-        if (StringUtils.isEmpty(apiUserName)) {
-            apiUserName = "57b84c23c087";
-        }
-
-        if (StringUtils.isEmpty(apiUserPassword)) {
-            apiUserPassword = "fd10b131b0015175";
-        }
-
-        if (StringUtils.isEmpty(accountName)) {
-            accountName = "dev@callfire.com";
-        }
-
-        if (StringUtils.isEmpty(accountPassword)) {
-            accountPassword = "dialer";
-        }
-
-        if (StringUtils.isEmpty(callerId)) {
-            callerId = "12132212384";
-        }
-
-        this.did1 = "12132212289";
-        this.did2 = "14246525473";
-        this.did3 = "12132041238";
 
         Validate.notEmpty(apiUserName, "Username cannot be empty, set it with -DtestApiUsername option");
         Validate.notEmpty(apiUserPassword, "Password cannot be empty, set it with -DtestApiPassword option");
         Validate.notEmpty(callerId, "CallerID is not set, set it with -DtestCallerId option");
 
-        CallfireClient.getClientConfig().put(BASE_PATH_PROPERTY, basePath);
+        this.did1 = "12132212289";
+        this.did2 = "14246525473";
+        this.did3 = "12132041238";
+
+        CallfireClient.getClientConfig().put(BASE_PATH_PROPERTY, BASE_PATH);
     }
 
     public CallfireClient getCallfireClient() {

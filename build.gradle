@@ -122,13 +122,6 @@ dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.5'
     compile 'org.apache.commons:commons-lang3:3.4'
 
-    itestCompile('junit:junit:4.12') {
-        exclude module: 'hamcrest'
-        exclude module: 'hamcrest-core'
-    }
-    itestCompile 'org.hamcrest:hamcrest-all:1.3'
-    itestCompile 'commons-io:commons-io:2.4'
-
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile('junit:junit:4.12') {
         exclude module: 'hamcrest'
@@ -192,7 +185,5 @@ task itest(type: Test) {
     systemProperty "testApiPassword", System.getProperty("testApiPassword")
     systemProperty "testAccountName", System.getProperty("testAccountName")
     systemProperty "testAccountPassword", System.getProperty("testAccountPassword")
-    systemProperty "testApiUsername", System.getProperty("testApiUsername")
     systemProperty "testCallerId", System.getProperty("testCallerId")
-    systemProperty "basePath", System.getProperty("basePath")
 }
