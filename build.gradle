@@ -108,6 +108,11 @@ artifacts {
     archives javadocJar
 }
 
+configurations {
+    itestCompile.extendsFrom testCompile
+    itestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.1'
@@ -116,6 +121,13 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'org.apache.httpcomponents:httpmime:4.5'
     compile 'org.apache.commons:commons-lang3:3.4'
+
+    itestCompile('junit:junit:4.12') {
+        exclude module: 'hamcrest'
+        exclude module: 'hamcrest-core'
+    }
+    itestCompile 'org.hamcrest:hamcrest-all:1.3'
+    itestCompile 'commons-io:commons-io:2.4'
 
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile('junit:junit:4.12') {
@@ -127,6 +139,7 @@ dependencies {
         exclude module: 'hamcrest-core'
     }
     testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'commons-io:commons-io:2.4'
 }
 
 idea {
@@ -159,4 +172,27 @@ bintray {
 def buildNumber() {
     String buildNumber = System.properties[ 'BUILD_NUMBER' ] ?: "SNAPSHOT"
     "$buildNumber"
+}
+
+sourceSets {
+    itest {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+
+        java.srcDir file('src/itest/java')
+        resources.srcDir file('src/itest/resources')
+    }
+}
+
+task itest(type: Test) {
+    testClassesDir = sourceSets.itest.output.classesDir
+    classpath = sourceSets.itest.runtimeClasspath
+
+    systemProperty "testApiUsername", System.getProperty("testApiUsername")
+    systemProperty "testApiPassword", System.getProperty("testApiPassword")
+    systemProperty "testAccountName", System.getProperty("testAccountName")
+    systemProperty "testAccountPassword", System.getProperty("testAccountPassword")
+    systemProperty "testApiUsername", System.getProperty("testApiUsername")
+    systemProperty "testCallerId", System.getProperty("testCallerId")
+    systemProperty "basePath", System.getProperty("basePath")
 }
