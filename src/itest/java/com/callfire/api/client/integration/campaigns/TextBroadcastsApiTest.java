@@ -152,6 +152,7 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
         // get batches
         GetByIdRequest getBatchesRequest = GetByIdRequest.create()
             .id(id)
+            .limit(10000L)
             .build();
         Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
@@ -159,7 +160,7 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
         // add batch
         AddBatchRequest addBatchRequest = AddBatchRequest.create()
             .campaignId(id)
-            .name("new_batch")
+            .name("new_batch" + System.currentTimeMillis())
             .recipients(makeRecipients())
             .build();
         ResourceId resourceId = api.addBatch(addBatchRequest);

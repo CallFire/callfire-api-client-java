@@ -13,6 +13,7 @@ import org.junit.Test;
 import static com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType.TRACKING;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * integration tests for /numbers/leases api endpoint
@@ -27,6 +28,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
                 .build();
         Page<NumberLease> leases = callfireClient.numberLeasesApi().find(request);
         assertEquals(2, leases.getItems().size());
+        assertTrue(leases.getItems().get(0).getLabels().size() > 0);
 
         System.out.println(leases);
     }
@@ -39,6 +41,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         NumberLease lease = callfireClient.numberLeasesApi().get(number);
         assertNotNull(lease.getRegion());
         assertEquals(number, lease.getNumber());
+        assertEquals(2, lease.getLabels().size());
         assertThat(lease.getRegion().getCity(), containsString("LOS ANGELES"));
 
         System.out.println(lease);

@@ -4,6 +4,7 @@ import com.callfire.api.client.api.keywords.model.LeaseStatus;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
+import java.util.List;
 
 public class NumberLease extends Number {
     private Date leaseBegin;
@@ -11,6 +12,7 @@ public class NumberLease extends Number {
     private Boolean autoRenew;
     private LeaseStatus status;
     private FeatureStatus callFeatureStatus;
+    private List<String> labels;
 
     private FeatureStatus textFeatureStatus;
 
@@ -62,6 +64,14 @@ public class NumberLease extends Number {
         this.textFeatureStatus = textFeatureStatus;
     }
 
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -72,6 +82,7 @@ public class NumberLease extends Number {
             .append("status", status)
             .append("callFeatureStatus", callFeatureStatus)
             .append("textFeatureStatus", textFeatureStatus)
+            .append("labels", labels)
             .toString();
     }
 }
