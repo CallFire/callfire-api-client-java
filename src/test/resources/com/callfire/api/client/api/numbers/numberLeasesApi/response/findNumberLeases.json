@@ -20,6 +20,7 @@
       "autoRenew": true,
       "status": "ACTIVE",
       "callFeatureStatus": "ENABLED",
+      "labels": ["label","label2"],
       "textFeatureStatus": "ENABLED"
     },
     {
@@ -40,6 +41,7 @@
       "autoRenew": true,
       "status": "ACTIVE",
       "callFeatureStatus": "UNSUPPORTED",
+      "labels": ["label","label3"],
       "textFeatureStatus": "ENABLED"
     }
   ],

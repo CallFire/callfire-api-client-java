@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.9 - Jul 12 2016
+    - added loading labels parameter in Number Lease objects
+
 Version 1.7.8 - May 31 2016
     - fixed bug with logging in debug mode
 
