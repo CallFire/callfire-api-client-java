@@ -189,22 +189,37 @@ task itest(type: Test) {
     systemProperty "testCallerId", System.getProperty("testCallerId")
 }
 
-task configureCustomGitHubRelease () {
-    github {
-        owner = System.getProperty("gitHubOwner")
-		repo = "callfire-api-client-java"
-		token = System.getProperty("gitHubToken")
-		tagName = version
-		targetCommitish = "master"
-		name = version
-		body = file("CurrentReleaseChanges.txt").text
-		assets = [
-			"build/libs/callfire-api-client-" + project.version + "-all.jar",
-			"build/libs/callfire-api-client-" + project.version + "-javadoc.jar",
-			"build/libs/callfire-api-client-" + project.version + "-sources.jar",
-			"build/libs/callfire-api-client-" + project.version + ".jar"
-		]
-    }
+github {
+    owner = gitHubOwner()
+    repo = "callfire-api-client-java"
+    token = gitHubToken()
+    tagName = version
+    targetCommitish = "master"
+    name = version
+    body = releaseDescription()
+    assets = [
+        "build/libs/callfire-api-client-" + project.version + "-all.jar",
+        "build/libs/callfire-api-client-" + project.version + "-javadoc.jar",
+        "build/libs/callfire-api-client-" + project.version + "-sources.jar",
+        "build/libs/callfire-api-client-" + project.version + ".jar"
+    ]
 }
-githubRelease.dependsOn configureCustomGitHubRelease
+
+def gitHubOwner() {
+    String gitHubOwner = System.getProperty("gitHubOwner") ?: "empty"
+    "$gitHubOwner"
+}
+
+def gitHubToken() {
+    String gitHubToken = System.getProperty("gitHubToken") ?: "empty"
+    "$gitHubToken"
+}
+
+def releaseDescription() {
+    String releaseNotes = file("Changelog.txt").text
+    Integer start = releaseNotes.indexOf("Version") + 28;
+    Integer end = releaseNotes.indexOf("Version", start);
+    String currentReleaseChanges = releaseNotes.substring(start, end).trim()
+    "$currentReleaseChanges"
+}
 
