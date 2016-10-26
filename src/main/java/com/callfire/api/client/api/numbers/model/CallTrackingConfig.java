@@ -12,6 +12,11 @@ public class CallTrackingConfig extends CallfireModel {
     private Long introSoundId;
     private Long whisperSoundId;
     private List<String> transferNumbers = new ArrayList<>();
+    private Boolean voicemail;
+    private Long voicemailSoundId;
+    private Long failedTransferSoundId;
+    private WeeklySchedule weeklySchedule;
+    private GoogleAnalytics googleAnalytics;
 
     public Boolean getScreen() {
         return screen;
@@ -53,15 +58,59 @@ public class CallTrackingConfig extends CallfireModel {
         this.transferNumbers = transferNumbers;
     }
 
+    public Boolean getVoicemail() {
+        return voicemail;
+    }
+
+    public void setVoicemail(Boolean voicemail) {
+        this.voicemail = voicemail;
+    }
+
+    public Long getVoicemailSoundId() {
+        return voicemailSoundId;
+    }
+
+    public void setVoicemailSoundId(Long voicemailSoundId) {
+        this.voicemailSoundId = voicemailSoundId;
+    }
+
+    public Long getFailedTransferSoundId() {
+        return failedTransferSoundId;
+    }
+
+    public void setFailedTransferSoundId(Long failedTransferSoundId) {
+        this.failedTransferSoundId = failedTransferSoundId;
+    }
+
+    public WeeklySchedule getWeeklySchedule() {
+        return weeklySchedule;
+    }
+
+    public void setWeeklySchedule(WeeklySchedule weeklySchedule) {
+        this.weeklySchedule = weeklySchedule;
+    }
+
+    public GoogleAnalytics getGoogleAnalytics() {
+        return googleAnalytics;
+    }
+
+    public void setGoogleAnalytics(GoogleAnalytics googleAnalytics) {
+        this.googleAnalytics = googleAnalytics;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .appendSuper(super.toString())
             .append("screen", screen)
             .append("recorded", recorded)
             .append("introSoundId", introSoundId)
             .append("whisperSoundId", whisperSoundId)
             .append("transferNumbers", transferNumbers)
+            .append("voicemail", voicemail)
+            .append("failedTransferSoundId", failedTransferSoundId)
+            .append("voicemailSoundId", voicemailSoundId)
+            .append("weeklySchedule", weeklySchedule)
+            .append("googleAnalytics", googleAnalytics)
             .toString();
     }
 }

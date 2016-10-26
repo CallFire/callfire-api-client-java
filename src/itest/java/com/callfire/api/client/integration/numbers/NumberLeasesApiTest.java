@@ -3,14 +3,17 @@ package com.callfire.api.client.integration.numbers;
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
-import com.callfire.api.client.api.numbers.model.NumberConfig;
-import com.callfire.api.client.api.numbers.model.NumberLease;
+import com.callfire.api.client.api.numbers.model.*;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType.TRACKING;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -102,9 +105,35 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
 
         String number = getDid3();
         NumberLeasesApi api = callfireClient.numberLeasesApi();
-        NumberConfig config = api.getConfig(number);
+        NumberConfig config = api.getConfig(number, "number,configType,callTrackingConfig");
         assertNull(config.getIvrInboundConfig());
         assertEquals(TRACKING, config.getConfigType());
+
+        config.setConfigType(NumberConfig.ConfigType.TRACKING);
+        CallTrackingConfig callTrackingConfig = new CallTrackingConfig();
+        callTrackingConfig.setScreen(true);
+        callTrackingConfig.setRecorded(true);
+        callTrackingConfig.setTransferNumbers(asList("12132212384"));
+        callTrackingConfig.setVoicemail(true);
+        callTrackingConfig.setIntroSoundId(1L);
+        callTrackingConfig.setVoicemailSoundId(1L);
+        callTrackingConfig.setFailedTransferSoundId(1L);
+        callTrackingConfig.setWhisperSoundId(1L);
+
+        WeeklySchedule weeklySchedule = new WeeklySchedule();
+        weeklySchedule.setStartTimeOfDay(new LocalTime(1, 1, 1));
+        weeklySchedule.setStopTimeOfDay(new LocalTime(2, 2, 2));
+        weeklySchedule.setDaysOfWeek(new HashSet<>(Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY)));
+        weeklySchedule.setTimeZone("America/New_York");
+        callTrackingConfig.setWeeklySchedule(weeklySchedule);
+
+        GoogleAnalytics googleAnalytics = new GoogleAnalytics();
+        googleAnalytics.setCategory("Sales");
+        googleAnalytics.setGoogleAccountId("UA-12345-26");
+        googleAnalytics.setDomain("testDomain");
+        callTrackingConfig.setGoogleAnalytics(googleAnalytics);
+
+        config.setCallTrackingConfig(callTrackingConfig);
 
         api.updateConfig(config);
         config = api.getConfig(number, "callTrackingConfig,configType");
