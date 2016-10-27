@@ -1,24 +1,20 @@
-package com.callfire.api.client.api.campaigns.model;
+package com.callfire.api.client.api.common.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * Dto to represent date and time (year, month, day, hour, minute, second).
- * 1 based date, 0 based time
- * example (1964, 12, 25, 23, 0, 59)
+ * Dto to represent time (hour, minute, second)
+ * 0 based time, example (23, 0, 59)
  */
-public class LocalDateTime extends LocalDate {
+public class LocalTime extends CallfireModel {
     private Integer hour;
     private Integer minute;
     private Integer second;
 
-    public LocalDateTime() {
+    public LocalTime() {
     }
 
-    public LocalDateTime(Integer year, Integer month, Integer day, Integer hour, Integer minute, Integer second) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
+    public LocalTime(Integer hour, Integer minute, Integer second) {
         this.hour = hour;
         this.minute = minute;
         this.second = second;

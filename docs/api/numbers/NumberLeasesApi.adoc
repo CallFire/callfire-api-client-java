@@ -59,6 +59,22 @@ Example how to update a number lease config. Use this API endpoint to add an Inb
     callTrackingConfig.setScreen(true);
     callTrackingConfig.setRecorded(true);
     callTrackingConfig.setTransferNumbers(Arrays.asList("16502572136", "16502572137"));
+    callTrackingConfig.setVoicemail(true);
+    callTrackingConfig.setIntroSoundId(1234L);
+    callTrackingConfig.setVoicemailSoundId(1234L);
+    callTrackingConfig.setFailedTransferSoundId(1234L);
+    callTrackingConfig.setWhisperSoundId(1234L);
+    WeeklySchedule weeklySchedule = new WeeklySchedule();
+    weeklySchedule.setStartTimeOfDay(new LocalTime(1, 1, 1));
+    weeklySchedule.setStopTimeOfDay(new LocalTime(2, 2, 2));
+    weeklySchedule.setDaysOfWeek(new HashSet<>(Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.FRIDAY)));
+    weeklySchedule.setTimeZone("America/Los_Angeles");
+    callTrackingConfig.setWeeklySchedule(weeklySchedule);
+    GoogleAnalytics googleAnalytics = new GoogleAnalytics();
+    googleAnalytics.setCategory("Sales");
+    googleAnalytics.setGoogleAccountId("UA-12345-26");
+    googleAnalytics.setDomain("testDomain");
+    callTrackingConfig.setGoogleAnalytics(googleAnalytics);
     config.setCallTrackingConfig(callTrackingConfig);
     // update number lease
     client.numberLeasesApi().updateConfig(config);
