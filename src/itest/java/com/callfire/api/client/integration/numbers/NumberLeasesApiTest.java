@@ -1,7 +1,9 @@
 package com.callfire.api.client.integration.numbers;
 
 import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.common.model.LocalTime;
 import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.WeeklySchedule;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
 import com.callfire.api.client.api.numbers.model.*;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
@@ -9,6 +11,7 @@ import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest
 import com.callfire.api.client.integration.AbstractIntegrationTest;
 import org.junit.Test;
 
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -27,8 +30,8 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
-                .limit(2L)
-                .build();
+            .limit(2L)
+            .build();
         Page<NumberLease> leases = callfireClient.numberLeasesApi().find(request);
         assertEquals(2, leases.getItems().size());
         assertTrue(leases.getItems().get(0).getLabels().size() > 0);
@@ -80,8 +83,8 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
-                .limit(2L)
-                .build();
+            .limit(2L)
+            .build();
         Page<NumberConfig> configs = callfireClient.numberLeasesApi().findConfigs(request);
         assertEquals(2, configs.getItems().size());
 

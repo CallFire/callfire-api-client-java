@@ -1,4 +1,4 @@
-package com.callfire.api.client.api.campaigns.model;
+package com.callfire.api.client.api.common.model;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

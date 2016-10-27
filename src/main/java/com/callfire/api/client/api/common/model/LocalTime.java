@@ -1,14 +1,18 @@
-package com.callfire.api.client.api.numbers.model;
+package com.callfire.api.client.api.common.model;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * Dto to represent time (hour, minute, second)
+ * 0 based time, example (23, 0, 59)
+ */
 public class LocalTime extends CallfireModel {
     private Integer hour;
     private Integer minute;
     private Integer second;
 
-    public LocalTime() { }
+    public LocalTime() {
+    }
 
     public LocalTime(Integer hour, Integer minute, Integer second) {
         this.hour = hour;
@@ -43,6 +47,7 @@ public class LocalTime extends CallfireModel {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+            .appendSuper(super.toString())
             .append("hour", hour)
             .append("minute", minute)
             .append("second", second)

@@ -1,6 +1,7 @@
 package com.callfire.api.client.api.numbers.model;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.WeeklySchedule;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;

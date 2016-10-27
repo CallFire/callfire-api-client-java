@@ -101,6 +101,7 @@ public class CallsApiTest extends AbstractApiTest {
             .states(asList(State.CALLBACK, State.DISABLED))
             .id(asList(1L, 2L, 3L))
             .batchId(100L)
+            .label("12135551102")
             .build();
         Page<Call> calls = client.callsApi().find(request);
         assertThat(jsonConverter.serialize(calls), equalToIgnoringWhiteSpace(expectedJson));

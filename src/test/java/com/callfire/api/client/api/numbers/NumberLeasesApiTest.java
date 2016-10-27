@@ -1,7 +1,9 @@
 package com.callfire.api.client.api.numbers;
 
 import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.LocalTime;
 import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.WeeklySchedule;
 import com.callfire.api.client.api.numbers.model.*;
 import com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
@@ -12,6 +14,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.HashSet;
 

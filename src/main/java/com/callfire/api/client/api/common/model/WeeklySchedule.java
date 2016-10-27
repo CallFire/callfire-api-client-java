@@ -1,8 +1,8 @@
-package com.callfire.api.client.api.numbers.model;
+package com.callfire.api.client.api.common.model;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.time.DayOfWeek;
 import java.util.Set;
 
 public class WeeklySchedule extends CallfireModel {
