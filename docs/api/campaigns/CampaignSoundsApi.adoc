@@ -22,6 +22,13 @@ Returns a single CampaignSound instance for a given campaign sound id. This is t
     Long id = 12345L;
     CampaignSound campaignSound = callfireClient.campaignSoundsApi().get(id, "name,status,lengthInSeconds");
 
+=== Delete campaign sound
+Delete a single CampaignSound instance for a given campaign sound id.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    Long id = 12345L;
+    callfireClient.campaignSoundsApi().delete(id);
+
 === Download MP3 sound
 Download the MP3 version of the hosted file.
 [source,java]

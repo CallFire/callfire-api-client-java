@@ -16,6 +16,17 @@ Example how to find billing plan usage for the user. Returns billing plan usage 
     BillingPlanUsage billingPlanUsage = callfireClient.meApi().getBillingPlanUsage();
     System.out.println(billingPlanUsage);
 
+=== Get credits usage info
+Example how find credit usage for the user. Returns credits usage for time period specified or if unspecified then total for all time.
+[source,java]
+    CallfireClient callfireClient = new CallfireClient("api_login", "api_password");
+    DateIntervalRequest request = DateIntervalRequest.create()
+        .intervalBegin(DateUtils.addMonths(new Date(), -2))
+        .intervalEnd(new Date())
+        .build();
+    CreditsUsage creditUsage = callfireClient.meApi().getCreditUsage(request);
+    System.out.println(creditUsage);
+
 === Get account caller IDs
 Example how to get a list of verified caller ids. If the number is not shown in the list, then it is not verified,
  and will have to send for a verification code.
