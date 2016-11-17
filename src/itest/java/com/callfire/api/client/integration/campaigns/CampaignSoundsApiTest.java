@@ -10,6 +10,7 @@ import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -95,6 +96,23 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         try (FileOutputStream os = new FileOutputStream(tempFile)) {
             IOUtils.copy(is, os);
         }
+    }
+
+    @Test
+    public void testUploadSoundAndDeleteIt() throws Exception {
+        CallfireClient callfireClient = getCallfireClient();
+        CampaignSoundsApi campaignSoundsApi = callfireClient.campaignSoundsApi();
+        long timestamp = new Date().getTime();
+        String soundName = "mp3_test_" + timestamp;
+        File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train1.mp3").toURI());
+        ResourceId mp3ResourceId = campaignSoundsApi.upload(mp3File, soundName);
+        assertNotNull(mp3ResourceId.getId());
+
+        // delete sound
+        campaignSoundsApi.delete(mp3ResourceId.getId());
+
+        Page<CampaignSound> sounds = campaignSoundsApi.find(FindSoundsRequest.create().filter(soundName).build());
+        Assert.assertTrue(sounds.getItems().size() == 0);
     }
 
     @Test

@@ -100,6 +100,23 @@ public class CampaignSoundsApi {
     }
 
     /**
+     * Delete a single CampaignSound instance for a given campaign sound id.
+     *
+     * @param id id of campaign sound
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public void delete(Long id) {
+        Validate.notNull(id, "id cannot be null");
+        client.delete(SOUNDS_ITEM_PATH.replaceFirst(PLACEHOLDER, id.toString()));
+    }
+
+    /**
      * Download the MP3 version of the hosted file.
      *
      * @param id id of sound

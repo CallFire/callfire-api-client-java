@@ -1,14 +1,13 @@
 package com.callfire.api.client.api.account;
 
 import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.account.model.Account;
-import com.callfire.api.client.api.account.model.ApiCredentials;
-import com.callfire.api.client.api.account.model.BillingPlanUsage;
-import com.callfire.api.client.api.account.model.CallerId;
+import com.callfire.api.client.api.account.model.*;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -17,6 +16,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.apache.http.entity.ContentType.APPLICATION_JSON;
@@ -41,6 +41,25 @@ public class MeApiTest extends AbstractApiTest {
 
         BillingPlanUsage billingPlanUsage = client.meApi().getBillingPlanUsage();
         assertThat(jsonConverter.serialize(billingPlanUsage), equalToIgnoringWhiteSpace(expectedJson));
+    }
+
+    @Test
+    public void testGetCreditUsage() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + "/account/meApi/response/getCreditsUsage.json");
+
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        DateIntervalRequest request = DateIntervalRequest.create()
+            .intervalBegin(DateUtils.addMonths(new Date(), -2))
+            .intervalEnd(new Date())
+            .build();
+        CreditsUsage creditUsage = client.meApi().getCreditUsage(request);
+        assertThat(jsonConverter.serialize(creditUsage), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertThat(arg.getURI().toString(), containsString(String.valueOf(request.getIntervalBegin().getTime())));
+        assertThat(arg.getURI().toString(), containsString(String.valueOf(request.getIntervalEnd().getTime())));
     }
 
     @Test
