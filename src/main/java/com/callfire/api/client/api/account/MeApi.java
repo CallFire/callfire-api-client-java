@@ -75,6 +75,23 @@ public class MeApi {
      * Find credit usage for the user. Returns credits usage for time period specified or if unspecified then total for all time.
      * GET /me/billing/credit-usage
      *
+     * @return CreditsUsage object
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CreditsUsage getCreditUsage() {
+        return client.get(ME_BILLING_CREDIT_PATH, of(CreditsUsage.class));
+    }
+
+    /**
+     * Find credit usage for the user. Returns credits usage for time period specified or if unspecified then total for all time.
+     * GET /me/billing/credit-usage
+     *
      * @param request request for date range filtering
      * @return CreditsUsage object
      * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.

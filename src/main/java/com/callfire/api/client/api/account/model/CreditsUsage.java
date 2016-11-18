@@ -3,6 +3,7 @@ package com.callfire.api.client.api.account.model;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ public class CreditsUsage extends CallfireModel {
     private Date intervalEnd;
     private Integer callsDurationMinutes;
     private Integer textsSent;
-    private Integer creditsUsed;
+    private BigDecimal creditsUsed;
 
     /**
      * Gets beginning of usage period
@@ -56,7 +57,7 @@ public class CreditsUsage extends CallfireModel {
      *
      * @return total credits used by textsSent and callsDurationMinutes
      */
-    public Integer getCreditsUsed() {
+    public BigDecimal getCreditsUsed() {
         return creditsUsed;
     }
 

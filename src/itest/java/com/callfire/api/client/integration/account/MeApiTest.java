@@ -69,6 +69,23 @@ public class MeApiTest extends AbstractIntegrationTest {
         assertNotNull(creditUsage.getTextsSent());
         assertNotNull(creditUsage.getCreditsUsed());
         assertNotNull(creditUsage.getCallsDurationMinutes());
+
+        creditUsage = callfireClient.meApi().getCreditUsage();
+        assertNotNull(creditUsage.getIntervalBegin());
+        assertNotNull(creditUsage.getIntervalEnd());
+        assertNotNull(creditUsage.getTextsSent());
+        assertNotNull(creditUsage.getCreditsUsed());
+        assertNotNull(creditUsage.getCallsDurationMinutes());
+
+        request = DateIntervalRequest.create()
+            .intervalEnd(DateUtils.addMonths(new Date(), -2))
+            .build();
+        creditUsage = callfireClient.meApi().getCreditUsage(request);
+        assertNotNull(creditUsage.getIntervalBegin());
+        assertNotNull(creditUsage.getIntervalEnd());
+        assertNotNull(creditUsage.getTextsSent());
+        assertNotNull(creditUsage.getCreditsUsed());
+        assertNotNull(creditUsage.getCallsDurationMinutes());
     }
 
     @Test
