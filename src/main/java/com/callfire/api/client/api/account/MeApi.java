@@ -1,11 +1,9 @@
 package com.callfire.api.client.api.account;
 
 import com.callfire.api.client.*;
-import com.callfire.api.client.api.account.model.Account;
-import com.callfire.api.client.api.account.model.ApiCredentials;
-import com.callfire.api.client.api.account.model.BillingPlanUsage;
-import com.callfire.api.client.api.account.model.CallerId;
+import com.callfire.api.client.api.account.model.*;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import org.apache.commons.lang3.Validate;
@@ -26,6 +24,7 @@ import static com.callfire.api.client.ModelType.*;
 public class MeApi {
     private static final String ME_ACCOUNT_PATH = "/me/account";
     private static final String ME_BILLING_PATH = "/me/billing/plan-usage";
+    private static final String ME_BILLING_CREDIT_PATH = "/me/billing/credit-usage";
     private static final String ME_API_CREDS_PATH = "/me/api/credentials";
     private static final String ME_API_CREDS_ITEM_PATH = "/me/api/credentials/{}";
     private static final String ME_CALLERIDS_PATH = "/me/callerids";
@@ -70,6 +69,41 @@ public class MeApi {
      */
     public BillingPlanUsage getBillingPlanUsage() {
         return client.get(ME_BILLING_PATH, of(BillingPlanUsage.class));
+    }
+
+    /**
+     * Find credit usage for the user. Returns credits usage for time period specified or if unspecified then total for all time.
+     * GET /me/billing/credit-usage
+     *
+     * @return CreditsUsage object
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CreditsUsage getCreditUsage() {
+        return client.get(ME_BILLING_CREDIT_PATH, of(CreditsUsage.class));
+    }
+
+    /**
+     * Find credit usage for the user. Returns credits usage for time period specified or if unspecified then total for all time.
+     * GET /me/billing/credit-usage
+     *
+     * @param request request for date range filtering
+     * @return CreditsUsage object
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public CreditsUsage getCreditUsage(DateIntervalRequest request) {
+        return client.get(ME_BILLING_CREDIT_PATH, of(CreditsUsage.class), request);
     }
 
     /**

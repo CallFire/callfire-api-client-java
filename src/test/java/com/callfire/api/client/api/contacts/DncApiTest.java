@@ -29,7 +29,7 @@ public class DncApiTest extends AbstractApiTest {
 
     @Test
     public void testFind() throws Exception {
-        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "findDncList.json");
+        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "findDncs.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindDncContactsRequest request = FindDncContactsRequest.create()

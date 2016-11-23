@@ -2,7 +2,6 @@ package com.callfire.api.client;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.ErrorMessage;
-import com.callfire.api.client.api.common.model.request.FindRequest;
 import com.callfire.api.client.auth.Authentication;
 import com.callfire.api.client.auth.BasicAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -128,7 +127,7 @@ public class RestApiClient {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    public <T> T get(String path, TypeReference<T> type, FindRequest request) {
+    public <T> T get(String path, TypeReference<T> type, CallfireModel request) {
         List<NameValuePair> queryParams = buildQueryParams(request);
         return get(path, type, queryParams);
     }

@@ -56,6 +56,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(Account.class, new TypeReference<Account>() {});
         SIMPLE_TYPES.put(ApiCredentials.class, new TypeReference<ApiCredentials>() {});
         SIMPLE_TYPES.put(BillingPlanUsage.class, new TypeReference<BillingPlanUsage>() {});
+        SIMPLE_TYPES.put(CreditsUsage.class, new TypeReference<CreditsUsage>() {});
         SIMPLE_TYPES.put(NumberOrder.class, new TypeReference<NumberOrder>() {});
         SIMPLE_TYPES.put(AgentGroup.class, new TypeReference<AgentGroup>() {});
         SIMPLE_TYPES.put(Agent.class, new TypeReference<Agent>() {});
@@ -76,7 +77,6 @@ public final class ModelType {
         SIMPLE_TYPES.put(ContactList.class, new TypeReference<ContactList>() {});
         SIMPLE_TYPES.put(Contact.class, new TypeReference<Contact>() {});
         SIMPLE_TYPES.put(ContactHistory.class, new TypeReference<ContactHistory>() {});
-        SIMPLE_TYPES.put(DncList.class, new TypeReference<DncList>() {});
         SIMPLE_TYPES.put(ErrorMessage.class, new TypeReference<ErrorMessage>() {});
         SIMPLE_TYPES.put(NumberLease.class, new TypeReference<NumberLease>() {});
         SIMPLE_TYPES.put(NumberConfig.class, new TypeReference<NumberConfig>() {});
@@ -114,7 +114,6 @@ public final class ModelType {
         PAGEABLE_TYPES.put(ContactList.class, new TypeReference<Page<ContactList>>() {});
         PAGEABLE_TYPES.put(Contact.class, new TypeReference<Page<Contact>>() {});
         PAGEABLE_TYPES.put(DoNotContact.class, new TypeReference<Page<DoNotContact>>() {});
-        PAGEABLE_TYPES.put(DncList.class, new TypeReference<Page<DncList>>() {});
         PAGEABLE_TYPES.put(Region.class, new TypeReference<Page<Region>>() {});
         PAGEABLE_TYPES.put(KeywordLease.class, new TypeReference<Page<KeywordLease>>() {});
         PAGEABLE_TYPES.put(NumberLease.class, new TypeReference<Page<NumberLease>>() {});

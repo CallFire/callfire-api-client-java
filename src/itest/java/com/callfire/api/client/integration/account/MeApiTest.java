@@ -2,16 +2,15 @@ package com.callfire.api.client.integration.account;
 
 import com.callfire.api.client.CallfireApiException;
 import com.callfire.api.client.CallfireClient;
-import com.callfire.api.client.api.account.model.Account;
+import com.callfire.api.client.api.account.model.*;
 import com.callfire.api.client.api.account.model.Account.UserPermission;
-import com.callfire.api.client.api.account.model.ApiCredentials;
-import com.callfire.api.client.api.account.model.BillingPlanUsage;
-import com.callfire.api.client.api.account.model.CallerId;
 import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hamcrest.Matchers;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -19,6 +18,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
@@ -54,6 +54,38 @@ public class MeApiTest extends AbstractIntegrationTest {
         assertNotNull(billingPlanUsage.getRemainingPayAsYouGoCredits());
         assertNotNull(billingPlanUsage.getRemainingPlanCredits());
         assertNotNull(billingPlanUsage.getTotalRemainingCredits());
+    }
+
+    @Test
+    public void testGetCreditsUsage() throws Exception {
+        CallfireClient callfireClient = new CallfireClient(getApiUserName(), getApiUserPassword());
+        DateIntervalRequest request = DateIntervalRequest.create()
+            .intervalBegin(DateUtils.addMonths(new Date(), -2))
+            .intervalEnd(new Date())
+            .build();
+        CreditsUsage creditUsage = callfireClient.meApi().getCreditUsage(request);
+        assertNotNull(creditUsage.getIntervalBegin());
+        assertNotNull(creditUsage.getIntervalEnd());
+        assertNotNull(creditUsage.getTextsSent());
+        assertNotNull(creditUsage.getCreditsUsed());
+        assertNotNull(creditUsage.getCallsDurationMinutes());
+
+        creditUsage = callfireClient.meApi().getCreditUsage();
+        assertNotNull(creditUsage.getIntervalBegin());
+        assertNotNull(creditUsage.getIntervalEnd());
+        assertNotNull(creditUsage.getTextsSent());
+        assertNotNull(creditUsage.getCreditsUsed());
+        assertNotNull(creditUsage.getCallsDurationMinutes());
+
+        request = DateIntervalRequest.create()
+            .intervalEnd(DateUtils.addMonths(new Date(), -2))
+            .build();
+        creditUsage = callfireClient.meApi().getCreditUsage(request);
+        assertNotNull(creditUsage.getIntervalBegin());
+        assertNotNull(creditUsage.getIntervalEnd());
+        assertNotNull(creditUsage.getTextsSent());
+        assertNotNull(creditUsage.getCreditsUsed());
+        assertNotNull(creditUsage.getCallsDurationMinutes());
     }
 
     @Test

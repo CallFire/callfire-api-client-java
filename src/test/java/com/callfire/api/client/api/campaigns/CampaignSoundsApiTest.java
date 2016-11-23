@@ -8,6 +8,7 @@ import com.callfire.api.client.api.campaigns.model.Voice;
 import com.callfire.api.client.api.campaigns.model.request.FindSoundsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -58,6 +59,25 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         client.campaignSoundsApi().get(11L);
         assertEquals(2, captor.getAllValues().size());
         assertThat(captor.getAllValues().get(1).getURI().toString(), not(containsString("fields")));
+    }
+
+    @Test
+    public void testDeleteByNullId() throws Exception {
+        ex.expectMessage("id cannot be null");
+        ex.expect(NullPointerException.class);
+        client.campaignSoundsApi().delete(null);
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
+
+        client.campaignSoundsApi().delete(TEST_ID);
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpDelete.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("/" + TEST_ID));
     }
 
     @Test

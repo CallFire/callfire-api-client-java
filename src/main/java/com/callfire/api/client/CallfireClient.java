@@ -9,7 +9,6 @@ import com.callfire.api.client.api.campaigns.*;
 import com.callfire.api.client.api.contacts.ContactListsApi;
 import com.callfire.api.client.api.contacts.ContactsApi;
 import com.callfire.api.client.api.contacts.DncApi;
-import com.callfire.api.client.api.contacts.DncListsApi;
 import com.callfire.api.client.api.keywords.KeywordLeasesApi;
 import com.callfire.api.client.api.keywords.KeywordsApi;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
@@ -95,7 +94,6 @@ public class CallfireClient {
     private ContactsApi contactsApi;
     private ContactListsApi contactListsApi;
     private DncApi dncApi;
-    private DncListsApi dncListsApi;
     // webhooks
     private SubscriptionsApi subscriptionsApi;
     private WebhooksApi webhooksApi;
@@ -374,18 +372,6 @@ public class CallfireClient {
             campaignSoundsApi = new CampaignSoundsApi(restApiClient);
         }
         return campaignSoundsApi;
-    }
-
-    /**
-     * Get /contacts/dncs/lists api endpoint
-     *
-     * @return endpoint object
-     */
-    public DncListsApi dncListsApi() {
-        if (dncListsApi == null) {
-            dncListsApi = new DncListsApi(restApiClient);
-        }
-        return dncListsApi;
     }
 
     /**

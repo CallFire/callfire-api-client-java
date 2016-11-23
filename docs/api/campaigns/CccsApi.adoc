@@ -1,4 +1,0 @@
-= Cloud Call Center API
-
-TBD
-
