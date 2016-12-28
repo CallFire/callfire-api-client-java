@@ -8,6 +8,9 @@ import java.util.List;
 
 public class CallRecord extends ActionRecord {
     private CallResult result;
+    private Long originateTime;
+    private Long answerTime;
+    private Long duration;
     private List<Note> notes = new ArrayList<>();
     private List<CallRecording> recordings = new ArrayList<>();
     private List<QuestionResponse> questionResponses = new ArrayList<>();
@@ -37,11 +40,26 @@ public class CallRecord extends ActionRecord {
         return questionResponses;
     }
 
+    public Long getOriginateTime() {
+        return originateTime;
+    }
+
+    public Long getAnswerTime() {
+        return answerTime;
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("result", result)
+            .append("originateTime", originateTime)
+            .append("answerTime", answerTime)
+            .append("duration", duration)
             .append("notes", notes)
             .append("recordings", recordings)
             .append("questionResponses", questionResponses)

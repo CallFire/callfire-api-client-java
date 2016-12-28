@@ -36,6 +36,9 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         FindSoundsRequest request = FindSoundsRequest.create()
             .limit(3L)
             .filter("sample")
+            .includeArchived(true)
+            .includeScrubbed(true)
+            .includePending(true)
             .build();
         Page<CampaignSound> campaignSounds = callfireClient.campaignSoundsApi().find(request);
         assertEquals(Long.valueOf(4), campaignSounds.getTotalCount());
@@ -73,7 +76,11 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
         assertNotNull(mp3ResourceId.getId());
         assertNotNull(wavResourceId.getId());
 
-        CampaignSound mp3Sound = campaignSoundsApi.uploadAndGetSoundDetails(mp3File, soundName);
+        CampaignSound mp3Sound = campaignSoundsApi.uploadAndGetSoundDetails(mp3File, soundName, "id,name,created,lengthInSeconds,status,duplicate");
+        assertTrue(mp3Sound.getDuplicate());
+        mp3Sound = campaignSoundsApi.uploadAndGetSoundDetails(mp3File);
+        assertTrue(mp3Sound.getDuplicate());
+        mp3Sound = campaignSoundsApi.uploadAndGetSoundDetails(mp3File, soundName);
         assertTrue(mp3Sound.getDuplicate());
         // get sound metadata
         CampaignSound campaignSound = campaignSoundsApi.get(mp3ResourceId.getId(),

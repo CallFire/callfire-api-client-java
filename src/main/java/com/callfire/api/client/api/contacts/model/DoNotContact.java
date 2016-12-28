@@ -7,38 +7,29 @@ public class DoNotContact extends CallfireModel {
     private String number;
     private Boolean call;
     private Boolean text;
-    private Long listId;
+    //private String source;
+    //private Long campaignId;
+    //private Date created;
+
 
     public String getNumber() {
         return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 
     public Boolean getCall() {
         return call;
     }
 
-    public void setCall(Boolean call) {
-        this.call = call;
-    }
-
     public Boolean getText() {
         return text;
     }
 
+    public void setCall(Boolean call) {
+        this.call = call;
+    }
+
     public void setText(Boolean text) {
         this.text = text;
-    }
-
-    public Long getListId() {
-        return listId;
-    }
-
-    public void setListId(Long listId) {
-        this.listId = listId;
     }
 
     @Override
@@ -48,7 +39,6 @@ public class DoNotContact extends CallfireModel {
             .append("number", number)
             .append("call", call)
             .append("text", text)
-            .append("listId", listId)
             .toString();
     }
 }

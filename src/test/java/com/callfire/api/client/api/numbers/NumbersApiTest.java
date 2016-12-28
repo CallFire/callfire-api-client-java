@@ -8,6 +8,7 @@ import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
+import com.callfire.api.client.api.numbers.model.request.FindTollfreeNumbersRequest;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
@@ -78,4 +79,23 @@ public class NumbersApiTest extends AbstractApiTest {
         assertNull(extractHttpEntity(arg));
         assertUriContainsQueryParams(arg.getURI(), "limit=1", "offset=2");
     }
+
+    @Test
+    public void testFindNumbersTollfreeWithPattern() throws Exception {
+        String expectedJson = getJsonPayload(JSON_PATH + "/response/findNumbersTollfree.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        FindTollfreeNumbersRequest request = FindTollfreeNumbersRequest.create()
+            .limit(1L)
+            .pattern("86*")
+            .build();
+        List<Number> numbers = client.numbersApi().findNumbersTollfree(request);
+        assertThat(jsonConverter.serialize(new ListHolder<>(numbers)), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertUriContainsQueryParams(arg.getURI(), "pattern=86*", "limit=1");
+    }
+
 }

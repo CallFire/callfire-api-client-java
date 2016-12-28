@@ -12,6 +12,8 @@ public class ActionRecord extends CallfireModel {
     private Double billedAmount;
     private Date finishTime;
     private String toNumber;
+    private String callerName;
+    private String switchId;
     private Set<String> labels = new HashSet<>();
 
     public Long getId() {
@@ -38,6 +40,14 @@ public class ActionRecord extends CallfireModel {
         return labels;
     }
 
+    public String getSwitchId() {
+        return switchId;
+    }
+
+    public String getCallerName() {
+        return callerName;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -46,6 +56,8 @@ public class ActionRecord extends CallfireModel {
             .append("billedAmount", billedAmount)
             .append("finishTime", finishTime)
             .append("toNumber", toNumber)
+            .append("switchId", switchId)
+            .append("callerName", callerName)
             .append("labels", labels)
             .toString();
     }

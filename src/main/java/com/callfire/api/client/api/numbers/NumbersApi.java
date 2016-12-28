@@ -7,6 +7,7 @@ import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
+import com.callfire.api.client.api.numbers.model.request.FindTollfreeNumbersRequest;
 
 import java.util.List;
 
@@ -65,6 +66,8 @@ public class NumbersApi {
     }
 
     /**
+     * @deprecated this method doesn't work with offset parameter in request, please use findNumbersTollfree method with FindTollfreeNumbersRequest instead
+     *
      * Find numbers in the CallFire tollfree numbers catalog that are available for purchase.
      *
      * @param request request payload
@@ -77,7 +80,25 @@ public class NumbersApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
+    @Deprecated
     public List<Number> findNumbersTollfree(CommonFindRequest request) {
+        return client.get(NUMBERS_TOLLFREE_PATH, listHolderOf(Number.class), request).getItems();
+    }
+
+    /**
+     * Find numbers in the CallFire tollfree numbers catalog that are available for purchase.
+     *
+     * @param request request payload
+     * @return list of {@link Number}
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public List<Number> findNumbersTollfree(FindTollfreeNumbersRequest request) {
         return client.get(NUMBERS_TOLLFREE_PATH, listHolderOf(Number.class), request).getItems();
     }
 }
