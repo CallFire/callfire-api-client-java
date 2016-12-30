@@ -1,9 +1,12 @@
 Callfire API client Changelog
 =============================
+Version 1.7.13 - Dec 30 2016
+- minor fixes for get contacts history api
+
 Version 1.7.12 - Dec 28 2016
 - updated CallRecord dto to include originateTime, answerTime, duration, callerName and switchId fields
 - updated Webhook dto to include singleUse parameter
-- minor extension of requests objects for upload and find sounds api, get contacts history api and find tollfree numbers api
+- minor extension of requests objects for upload and find sounds api, find tollfree numbers api
 - temporary turning dnc api off due to full remake of callfire dnc apis
 
 Version 1.7.11 - Nov 17 2016

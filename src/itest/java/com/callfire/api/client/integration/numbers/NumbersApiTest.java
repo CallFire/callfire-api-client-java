@@ -7,6 +7,7 @@ import com.callfire.api.client.api.numbers.model.Number;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
+import com.callfire.api.client.api.numbers.model.request.FindTollfreeNumbersRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
 import org.junit.Test;
 
@@ -31,6 +32,24 @@ public class NumbersApiTest extends AbstractIntegrationTest {
         List<Number> numbers = callfireClient.numbersApi().findNumbersTollfree(request);
         assertEquals(2, numbers.size());
 
+        System.out.println(numbers);
+    }
+
+    @Test
+    public void testFindTollfreeNumbersWithPattern() throws Exception {
+        CallfireClient callfireClient = getCallfireClient();
+
+        FindTollfreeNumbersRequest request = FindTollfreeNumbersRequest.create()
+            .limit(2L)
+            .pattern("84*")
+            .fields("items(number)")
+            .build();
+        List<Number> numbers = callfireClient.numbersApi().findNumbersTollfree(request);
+        assertEquals(2, numbers.size());
+        assertTrue(numbers.get(0).getNumber().contains("84"));
+        assertTrue(numbers.get(1).getNumber().contains("84"));
+        assertNull(numbers.get(0).getNationalFormat());
+        assertNull(numbers.get(1).getRegion());
         System.out.println(numbers);
     }
 
