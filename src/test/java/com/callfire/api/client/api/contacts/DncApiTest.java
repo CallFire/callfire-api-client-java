@@ -26,6 +26,7 @@ public class DncApiTest extends AbstractApiTest {
             .prefix("1")
             .call(true)
             .text(true)
+            .numbers((Arrays.asList("12135551189")))
             .build();
         Page<DoNotContact> doNotContactList = client.dncApi().find(request);
         assertThat(jsonConverter.serialize(doNotContactList), equalToIgnoringWhiteSpace(expectedJson));
@@ -39,6 +40,7 @@ public class DncApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
         assertThat(arg.getURI().toString(), containsString("call=true"));
         assertThat(arg.getURI().toString(), containsString("text=true"));
+        assertThat(arg.getURI().toString(), containsString("numbers=12135551189"));
     }
 
     @Test
@@ -103,7 +105,7 @@ public class DncApiTest extends AbstractApiTest {
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpDelete.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
-        assertThat(arg.getURI().toString(), containsString("/" + "12135551188"));
+        assertThat(arg.getURI().toString(), containsString("/12135551188"));
     }
 
     @Test
@@ -122,7 +124,7 @@ public class DncApiTest extends AbstractApiTest {
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpDelete.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
-        assertThat(arg.getURI().toString(), containsString("/" + "testSource"));
+        assertThat(arg.getURI().toString(), containsString("/testSource"));
     }
 
     @Test

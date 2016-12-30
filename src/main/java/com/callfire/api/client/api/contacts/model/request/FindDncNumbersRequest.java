@@ -14,7 +14,7 @@ public class FindDncNumbersRequest extends FindRequest {
     private String source;
     private Boolean call;
     private Boolean text;
-    private List<Long> numbers;
+    private List<String> numbers;
 
 
     private FindDncNumbersRequest() {
@@ -70,7 +70,7 @@ public class FindDncNumbersRequest extends FindRequest {
      *
      * @return Numbers filter
      */
-    public List<Long> getNumbers() {
+    public List<String> getNumbers() {
         return numbers;
     }
 
@@ -152,7 +152,7 @@ public class FindDncNumbersRequest extends FindRequest {
          * @param numbers Numbers filter
          * @return builder self-reference
          */
-        public Builder numbers(List<Long> numbers) {
+        public Builder numbers(List<String> numbers) {
             request.numbers = numbers;
             return this;
         }

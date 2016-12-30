@@ -14,6 +14,7 @@ public class DncApiTest extends AbstractIntegrationTest {
         FindDncNumbersRequest request = FindDncNumbersRequest.create()
             .text(true)
             .limit(1L)
+            .numbers(Arrays.asList("12135551189"))
             .build();
 
         Page<DoNotContact> dncContacts = client.dncApi().find(request);
