@@ -144,8 +144,6 @@ public class ContactsApi {
     }
 
     /**
-     * @deprecated this method doesn't work with fields parameter in request, please use getHistory method with id, limit and offset parameters
-     *
      * Find all texts and calls attributed to a contact.
      *
      * @param request request to get particular contact's history
@@ -158,71 +156,10 @@ public class ContactsApi {
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
      */
-    @Deprecated
     public ContactHistory getHistory(GetByIdRequest request) {
         Validate.notNull(request.getId(), "request.id cannot be null");
         String path = CONTACTS_ITEM_HISTORY_PATH.replaceFirst(PLACEHOLDER, request.getId().toString());
         return client.get(path, of(ContactHistory.class), request);
     }
 
-    /**
-     * Find all texts and calls attributed to a contact.
-     *
-     * @param id contact id to get history for
-     * @return returns a list of calls and texts a contact has been involved with.
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
-     * @throws CallfireClientException      in case error has occurred in client.
-     */
-    public ContactHistory getHistory(Long id) {
-        return getHistory(id, null, null);
-    }
-
-    /**
-     * Find all texts and calls attributed to a contact.
-     *
-     * @param id contact id to get history for
-     * @param limit maximum number of calls/texts records to return in response
-     * @return returns a list of calls and texts a contact has been involved with.
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
-     * @throws CallfireClientException      in case error has occurred in client.
-     */
-    public ContactHistory getHistory(Long id, Long limit) {
-        return getHistory(id, limit, null);
-    }
-
-    /**
-     * Find all texts and calls attributed to a contact.
-     *
-     * @param id contact id to get history for
-     * @param limit maximum number of calls/texts records to return in response
-     * @param offset offset to the start of a given page
-     * @return returns a list of calls and texts a contact has been involved with.
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
-     * @throws CallfireClientException      in case error has occurred in client.
-     */
-    public ContactHistory getHistory(Long id, Long limit, Long offset) {
-        Validate.notNull(id, "id cannot be null");
-
-        List<NameValuePair> queryParams = new ArrayList<>(1);
-        addQueryParamIfSet("limit", limit, queryParams);
-        addQueryParamIfSet("offset", offset, queryParams);
-
-        String path = CONTACTS_ITEM_HISTORY_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.get(path, of(ContactHistory.class), queryParams);
-    }
 }

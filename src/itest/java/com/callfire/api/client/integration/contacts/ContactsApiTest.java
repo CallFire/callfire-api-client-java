@@ -83,7 +83,7 @@ public class ContactsApiTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testDeprecatedGetContactHistory() throws Exception {
+    public void testGetContactHistory() throws Exception {
         CallfireClient client = getCallfireClient();
         GetByIdRequest request = GetByIdRequest.create()
             .id(1L)
@@ -94,12 +94,4 @@ public class ContactsApiTest extends AbstractIntegrationTest {
         System.out.println(contactHistory);
     }
 
-    @Test
-    public void testGetContactHistory() throws Exception {
-        CallfireClient client = getCallfireClient();
-        ContactHistory contactHistory = client.contactsApi().getHistory(1L);
-        assertFalse(contactHistory.getCalls().isEmpty());
-
-        System.out.println(contactHistory);
-    }
 }
