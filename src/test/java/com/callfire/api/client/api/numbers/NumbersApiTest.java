@@ -78,4 +78,5 @@ public class NumbersApiTest extends AbstractApiTest {
         assertNull(extractHttpEntity(arg));
         assertUriContainsQueryParams(arg.getURI(), "limit=1", "offset=2");
     }
+
 }

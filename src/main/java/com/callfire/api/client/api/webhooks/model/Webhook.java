@@ -19,6 +19,7 @@ public class Webhook extends CallfireModel {
     private Date createdAt;
     private Date updatedAt;
     private SortedSet<ResourceEvent> events = new TreeSet<>();
+    private Boolean singleUse;
 
     public Long getId() {
         return id;
@@ -108,6 +109,14 @@ public class Webhook extends CallfireModel {
         this.events = events;
     }
 
+    public Boolean getSingleUse() {
+        return singleUse;
+    }
+
+    public void setSingleUse(Boolean singleUse) {
+        this.singleUse = singleUse;
+    }
+
     @Override
     public void validate() {
         if (resource != null) {
@@ -135,6 +144,7 @@ public class Webhook extends CallfireModel {
             .append("createdAt", createdAt)
             .append("updatedAt", updatedAt)
             .append("events", events)
+            .append("singleUse", singleUse)
             .toString();
     }
 }

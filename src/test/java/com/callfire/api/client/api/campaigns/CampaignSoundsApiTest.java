@@ -32,6 +32,9 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
             .limit(5L)
             .offset(0L)
             .filter("1234")
+            .includeArchived(true)
+            .includePending(true)
+            .includeScrubbed(true)
             .build();
         Page<CampaignSound> sounds = client.campaignSoundsApi().find(request);
         assertThat(jsonConverter.serialize(sounds), equalToIgnoringWhiteSpace(expectedJson));
@@ -40,7 +43,7 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
         assertNull(extractHttpEntity(arg));
 
-        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "filter=1234");
+        assertUriContainsQueryParams(arg.getURI(), "limit=5", "offset=0", "filter=1234", "includeArchived=true", "includePending=true", "includeScrubbed=true");
     }
 
     @Test
@@ -121,9 +124,36 @@ public class CampaignSoundsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
         File file = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
 
+        CampaignSound sound = client.campaignSoundsApi().uploadAndGetSoundDetails(file);
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    public void testUploadAndGetSoundDetailsWithFileName() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSoundExtended.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+        File file = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
+
         CampaignSound sound = client.campaignSoundsApi().uploadAndGetSoundDetails(file, "fname");
         assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
         HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+    }
+
+    @Test
+    @SuppressWarnings("ConstantConditions")
+    public void testUploadAndGetSoundDetailsWithFileNameAndFields() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/uploadSoundExtended.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+        File file = new File(getClass().getClassLoader().getResource("file-examples/train.mp3").toURI());
+
+        CampaignSound sound = client.campaignSoundsApi().uploadAndGetSoundDetails(file, "fname", "id,name,created,lengthInSeconds,status,duplicate");
+        assertThat(jsonConverter.serialize(sound), equalToIgnoringWhiteSpace(responseJson));
+        HttpUriRequest arg = captor.getValue();
+        assertUriContainsQueryParams(arg.getURI(), "fields=id%2Cname%2Ccreated%2ClengthInSeconds%2Cstatus%2Cduplicate");
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
     }
 

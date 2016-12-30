@@ -9,6 +9,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 public class FindSoundsRequest extends FindRequest {
     private String filter;
+    private Boolean includeArchived;
+    private Boolean includePending;
+    private Boolean includeScrubbed;
+
 
     private FindSoundsRequest() {
     }
@@ -31,11 +35,41 @@ public class FindSoundsRequest extends FindRequest {
         return filter;
     }
 
+    /**
+     * Get include archived sounds filter
+     *
+     * @return include archived sounds filter
+     */
+    public Boolean getIncludeArchived() {
+        return includeArchived;
+    }
+
+    /**
+     * Get include archived sounds filter
+     *
+     * @return include pending sounds filter
+     */
+    public Boolean getIncludePending() {
+        return includePending;
+    }
+
+    /**
+     * Get include scrubbed sounds filter
+     *
+     * @return include scrubbed sounds filter
+     */
+    public Boolean getIncludeScrubbed() {
+        return includeScrubbed;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("filter", filter)
+            .append("includeArchived", filter)
+            .append("includePending", filter)
+            .append("includeScrubbed", filter)
             .toString();
     }
 
@@ -49,6 +83,21 @@ public class FindSoundsRequest extends FindRequest {
 
         public Builder filter(String filter) {
             request.filter = filter;
+            return this;
+        }
+
+        public Builder includeScrubbed(Boolean includeScrubbed) {
+            request.includeScrubbed = includeScrubbed;
+            return this;
+        }
+
+        public Builder includePending(Boolean includePending) {
+            request.includePending = includePending;
+            return this;
+        }
+
+        public Builder includeArchived(Boolean includeArchived) {
+            request.includeArchived = includeArchived;
             return this;
         }
     }

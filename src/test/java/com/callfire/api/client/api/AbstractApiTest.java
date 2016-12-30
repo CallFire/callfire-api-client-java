@@ -42,6 +42,7 @@ public class AbstractApiTest {
     protected static final Long TEST_ID = 100500L;
     protected static final String EMPTY_ID_MSG = "id cannot be null";
     protected static final String EMPTY_REQUEST_ID_MSG = "request.id cannot be null";
+    protected static final String EMPTY_REQUEST_NUMBER_MSG = "number cannot be null";
 
     @Rule
     public ExpectedException ex = ExpectedException.none();

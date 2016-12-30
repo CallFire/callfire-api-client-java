@@ -137,14 +137,14 @@ public class ContactsApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetContactHistoryByNullId() throws Exception {
+    public void testDeprecatedGetContactHistoryByNullId() throws Exception {
         ex.expectMessage(EMPTY_REQUEST_ID_MSG);
         ex.expect(NullPointerException.class);
         client.contactsApi().getHistory(GetByIdRequest.create().build());
     }
 
     @Test
-    public void testGetContactHistory() throws Exception {
+    public void testDeprecatedGetContactHistory() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactHistory.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
@@ -163,4 +163,45 @@ public class ContactsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("offset=5"));
     }
 
+    @Test
+    public void testGetContactHistoryById() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactHistory.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        ContactHistory contactHistory = client.contactsApi().getHistory(100500L);
+        assertThat(jsonConverter.serialize(contactHistory), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+    }
+
+    @Test
+    public void testGetContactHistoryByIdAndLimit() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactHistory.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        ContactHistory contactHistory = client.contactsApi().getHistory(100500L, 1L);
+        assertThat(jsonConverter.serialize(contactHistory), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("limit=1"));
+    }
+
+    @Test
+    public void testGetContactHistoryByIdAndAllFilters() throws Exception {
+        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "getContactHistory.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
+
+        ContactHistory contactHistory = client.contactsApi().getHistory(100500L, 1L, 5L);
+        assertThat(jsonConverter.serialize(contactHistory), equalToIgnoringWhiteSpace(expectedJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpGet.METHOD_NAME, arg.getMethod());
+        assertNull(extractHttpEntity(arg));
+        assertThat(arg.getURI().toString(), containsString("limit=1"));
+        assertThat(arg.getURI().toString(), containsString("offset=5"));
+    }
 }

@@ -52,6 +52,7 @@ public class WebhooksApiTest extends AbstractApiTest {
         webhook.getEvents().add(ResourceEvent.STOPPED);
         webhook.getEvents().add(ResourceEvent.STARTED);
         webhook.setCallback("http://cool.site.xyz/webhook");
+        webhook.setSingleUse(true);
         ResourceId id = client.webhooksApi().create(webhook);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
@@ -118,6 +119,7 @@ public class WebhooksApiTest extends AbstractApiTest {
         webhook.setResource(TEXT_BROADCAST);
         webhook.getEvents().add(ResourceEvent.STOPPED);
         webhook.setCallback("https://callfire.com/stopTextsOnly");
+        webhook.setSingleUse(true);
         client.webhooksApi().update(webhook);
 
         HttpUriRequest arg = captor.getValue();

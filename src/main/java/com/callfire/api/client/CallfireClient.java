@@ -93,7 +93,10 @@ public class CallfireClient {
     // contacts
     private ContactsApi contactsApi;
     private ContactListsApi contactListsApi;
+
+    // TODO vmalinovskiy: uncomment when dnc apis will be tested and available on docs site
     private DncApi dncApi;
+
     // webhooks
     private SubscriptionsApi subscriptionsApi;
     private WebhooksApi webhooksApi;
@@ -398,17 +401,18 @@ public class CallfireClient {
         return batchesApi;
     }
 
+    // TODO vmalinovskiy: uncomment when dnc apis will be tested and available on docs site
     /**
      * Get /contacts/do-not-calls api endpoint
      *
      * @return endpoint object
-     */
+     *//*
     public DncApi dncApi() {
         if (dncApi == null) {
             dncApi = new DncApi(restApiClient);
         }
         return dncApi;
-    }
+    }*/
 
     /**
      * Get /contacts/lists api endpoint

@@ -37,6 +37,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         ResourceType.ResourceEvent[] ev = {ResourceType.ResourceEvent.STARTED};
         webhook.setEvents(new TreeSet<>(Arrays.asList(ev)));
         webhook.setName("test_name1");
+        webhook.setSingleUse(true);
         ResourceId resourceId1 = api.create(webhook);
         assertNotNull(resourceId1.getId());
         webhook.setName("test_name2");
@@ -45,7 +46,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         FindWebhooksRequest findRequest = FindWebhooksRequest.create()
             .limit(30L)
             .name("test_name1")
-            .fields("items(id,callback,name,resource,events)")
+            .fields("items(id,callback,name,resource,events,singleUse)")
             .build();
         Page<Webhook> page = api.find(findRequest);
         assertTrue(page.getItems().size() > 0);
@@ -54,6 +55,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         assertNotNull(page.getItems().get(0).getId());
         assertEquals(ResourceType.TEXT_BROADCAST, page.getItems().get(0).getResource());
         assertEquals(1, page.getItems().get(0).getEvents().size());
+        assertTrue(page.getItems().get(0).getSingleUse());
 
         findRequest = FindWebhooksRequest.create()
             .limit(30L)
@@ -63,9 +65,11 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
 
         webhook = page.getItems().get(0);
         webhook.setName("test_name2");
+        webhook.setSingleUse(false);
         api.update(webhook);
         Webhook updated = api.get(webhook.getId());
         assertEquals(webhook.getResource(), updated.getResource());
+        assertFalse(page.getItems().get(0).getSingleUse());
 
         api.delete(resourceId1.getId());
         api.delete(resourceId2.getId());

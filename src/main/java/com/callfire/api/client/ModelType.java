@@ -85,6 +85,8 @@ public final class ModelType {
         SIMPLE_TYPES.put(Webhook.class, new TypeReference<Webhook>() {});
         SIMPLE_TYPES.put(WebhookResource.class, new TypeReference<WebhookResource>() {});
         SIMPLE_TYPES.put(CallRecording.class, new TypeReference<CallRecording>() {});
+        SIMPLE_TYPES.put(UniversalDnc.class, new TypeReference<UniversalDnc>() {});
+        SIMPLE_TYPES.put(DoNotContact.class, new TypeReference<DoNotContact>() {});
         // @formatter:on
     }
 
