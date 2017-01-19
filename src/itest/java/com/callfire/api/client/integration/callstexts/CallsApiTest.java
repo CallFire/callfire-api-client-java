@@ -17,7 +17,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,15 +44,14 @@ public class CallsApiTest extends AbstractIntegrationTest {
     public void testFindCalls() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
         FindCallsRequest request = FindCallsRequest.create()
-            .states(Arrays.asList(Call.State.FINISHED, Call.State.READY))
-            .intervalBegin(DateUtils.addMonths(new Date(), -2))
+            .intervalBegin(DateUtils.addMonths(new Date(), -10))
             .intervalEnd(new Date())
-            .limit(3L)
+            .limit(1L)
             .build();
         Page<Call> calls = callfireClient.callsApi().find(request);
         System.out.println(calls);
 
-        assertEquals(3, calls.getItems().size());
+        assertEquals(1, calls.getItems().size());
     }
 
     @Test

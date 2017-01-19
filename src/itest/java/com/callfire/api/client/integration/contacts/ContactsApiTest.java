@@ -35,9 +35,15 @@ public class ContactsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
         Page<Contact> contacts = client.contactsApi().find(request);
         System.out.println(contacts);
-
         assertEquals(1, contacts.getItems().size());
         assertEquals("18088395900", contacts.getItems().get(0).getWorkPhone());
+
+        request = FindContactsRequest.create()
+            .number(asList("18088395900", "18778973473"))
+            .build();
+        contacts = client.contactsApi().find(request);
+        assertEquals("18088395900", contacts.getItems().get(0).getWorkPhone());
+        assertEquals(1, contacts.getItems().size());
     }
 
     @Test

@@ -22,6 +22,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * integration tests for /campaigns/voice-broadcasts api endpoint
@@ -131,14 +132,6 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         System.out.println(calls);
         assertEquals(2, calls.size());
 
-        // get batches
-        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
-            .id(id)
-            .limit(10000L)
-            .build();
-        Page<Batch> batches = api.getBatches(getBatchesRequest);
-        System.out.println(batches);
-
         // add batch
         AddBatchRequest addBatchRequest = AddBatchRequest.create()
             .campaignId(id)
@@ -146,9 +139,15 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
             .recipients(makeRecipients())
             .build();
         ResourceId newBatchId = api.addBatch(addBatchRequest);
+        assertNotNull(newBatchId.getId());
 
-        Page<Batch> updatedBatches = api.getBatches(getBatchesRequest);
+        // get batches
+        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
+            .id(id)
+            .limit(100L)
+            .build();
+        Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
-        assertEquals(batches.getItems().size() + 1, updatedBatches.getItems().size());
+        assertTrue(batches.getItems().size() == 100);
     }
 }

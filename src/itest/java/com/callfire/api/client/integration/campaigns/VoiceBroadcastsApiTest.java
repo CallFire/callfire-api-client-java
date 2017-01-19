@@ -121,24 +121,22 @@ public class VoiceBroadcastsApiTest extends AbstractIntegrationTest {
         System.out.println(calls);
         assertEquals(2, calls.size());
 
-        // get batches
-        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
-            .id(id)
-            .limit(10000L)
-            .build();
-        Page<Batch> batches = api.getBatches(getBatchesRequest);
-        System.out.println(batches);
-
         // add batch
         AddBatchRequest addBatchRequest = AddBatchRequest.create()
             .campaignId(id)
             .name("new_batch" + System.currentTimeMillis())
             .recipients(makeRecipients())
             .build();
-        api.addBatch(addBatchRequest);
+        ResourceId batch = api.addBatch(addBatchRequest);
+        assertNotNull(batch.getId());
 
-        Page<Batch> updatedBatches = api.getBatches(getBatchesRequest);
+        // get batches
+        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
+            .id(id)
+            .limit(100L)
+            .build();
+        Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
-        assertEquals(batches.getItems().size() + 1, updatedBatches.getItems().size());
+        assertEquals(batches.getItems().size(), 100);
     }
 }

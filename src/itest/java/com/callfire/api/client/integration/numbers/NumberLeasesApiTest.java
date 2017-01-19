@@ -47,7 +47,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         NumberLease lease = callfireClient.numberLeasesApi().get(number);
         assertNotNull(lease.getRegion());
         assertEquals(number, lease.getNumber());
-        assertEquals(2, lease.getLabels().size());
+        assertTrue(lease.getLabels().size() > 0);
         assertThat(lease.getRegion().getCity(), containsString("LOS ANGELES"));
 
         System.out.println(lease);
