@@ -29,15 +29,32 @@ public class ContactsApiTest extends AbstractIntegrationTest {
     @Test
     public void testFindContacts() throws Exception {
         FindContactsRequest request = FindContactsRequest.create()
-            .number(asList("16506190257", "18778973473"))
-            .id(asList(1L, 2L))
             .build();
         CallfireClient client = getCallfireClient();
         Page<Contact> contacts = client.contactsApi().find(request);
         System.out.println(contacts);
+        assertEquals(100, contacts.getItems().size());
 
-        assertEquals(1, contacts.getItems().size());
-        assertEquals("18088395900", contacts.getItems().get(0).getWorkPhone());
+        Contact cnt = contacts.getItems().get(0);
+        String numberForSearching = null;
+
+        if (cnt.getHomePhone() != null)
+            numberForSearching = cnt.getHomePhone();
+        else if (cnt.getMobilePhone() != null)
+            numberForSearching = cnt.getMobilePhone();
+        else if (cnt.getWorkPhone() != null)
+            numberForSearching = cnt.getMobilePhone();
+
+        if (numberForSearching != null) {
+            request = FindContactsRequest.create()
+                    .number(asList(numberForSearching))
+                    .build();
+            contacts = client.contactsApi().find(request);
+            assertTrue(numberForSearching.equals(contacts.getItems().get(0).getWorkPhone()) ||
+                       numberForSearching.equals(contacts.getItems().get(0).getHomePhone()) ||
+                       numberForSearching.equals(contacts.getItems().get(0).getMobilePhone()));
+            assertEquals(1, contacts.getItems().size());
+        }
     }
 
     @Test

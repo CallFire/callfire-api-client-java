@@ -20,6 +20,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * integration tests for /campaigns/ivrs api endpoint
@@ -115,23 +116,21 @@ public class IvrBroadcastsApiTest extends AbstractIntegrationTest {
         System.out.println(calls);
         assertEquals(2, calls.size());
 
-        // get batches
-        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
-            .id(id)
-            .build();
-        Page<Batch> batches = api.getBatches(getBatchesRequest);
-        System.out.println(batches);
-
         // add batch
         AddBatchRequest addBatchRequest = AddBatchRequest.create()
             .campaignId(id)
             .name("new_batch")
             .recipients(makeRecipients())
             .build();
-        api.addBatch(addBatchRequest);
+        ResourceId addedBatchId = api.addBatch(addBatchRequest);
+        assertNotNull(addedBatchId.getId());
 
-        Page<Batch> updatedBatches = api.getBatches(getBatchesRequest);
+        // get batches
+        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
+            .id(id)
+            .build();
+        Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
-        assertEquals(batches.getItems().size() + 1, updatedBatches.getItems().size());
+        assertTrue(batches.getItems().size() == 100);
     }
 }

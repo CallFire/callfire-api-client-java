@@ -1,14 +1,26 @@
 package com.callfire.api.client.integration.contacts;
 
+import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.contacts.model.DoNotContact;
+import com.callfire.api.client.api.contacts.model.UniversalDnc;
+import com.callfire.api.client.api.contacts.model.request.CreateDncsRequest;
+import com.callfire.api.client.api.contacts.model.request.FindDncNumbersRequest;
+import com.callfire.api.client.api.contacts.model.request.FindUniversalDncsRequest;
+import com.callfire.api.client.api.contacts.model.request.UpdateDncRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * integration tests for /contacts/dncs api endpoint
  */
 public class DncApiTest extends AbstractIntegrationTest {
 
-    // TODO vmalinovskiy: uncomment when dnc apis will be tested and available on docs site
-    /*@Test
+    @Test
     public void testFind() throws Exception {
         CallfireClient client = getCallfireClient();
         FindDncNumbersRequest request = FindDncNumbersRequest.create()
@@ -98,6 +110,6 @@ public class DncApiTest extends AbstractIntegrationTest {
         Assert.assertNotNull(uDncs.get(0).isOutboundCall());
         Assert.assertNotNull(uDncs.get(0).isInboundText());
         Assert.assertNotNull(uDncs.get(0).isOutboundText());
-    }*/
+    }
 
 }

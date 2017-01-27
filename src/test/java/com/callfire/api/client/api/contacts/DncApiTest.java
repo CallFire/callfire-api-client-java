@@ -1,11 +1,30 @@
 package com.callfire.api.client.api.contacts;
 
 import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.contacts.model.DoNotContact;
+import com.callfire.api.client.api.contacts.model.UniversalDnc;
+import com.callfire.api.client.api.contacts.model.request.CreateDncsRequest;
+import com.callfire.api.client.api.contacts.model.request.FindDncNumbersRequest;
+import com.callfire.api.client.api.contacts.model.request.FindUniversalDncsRequest;
+import com.callfire.api.client.api.contacts.model.request.UpdateDncRequest;
+import org.apache.http.client.methods.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.*;
 
 public class DncApiTest extends AbstractApiTest {
 
-    // TODO vmalinovskiy: uncomment when dnc apis will be tested and available on docs site
-    /* protected static final String RESPONSES_PATH = "/contacts/dncApi/response/";
+    protected static final String RESPONSES_PATH = "/contacts/dncApi/response/";
     protected static final String REQUESTS_PATH = "/contacts/dncApi/request/";
 
     @Before
@@ -146,5 +165,5 @@ public class DncApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("toNumber=12135551188"));
         assertThat(arg.getURI().toString(), containsString("fromNumber=18442800143"));
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
-    }*/
+    }
 }

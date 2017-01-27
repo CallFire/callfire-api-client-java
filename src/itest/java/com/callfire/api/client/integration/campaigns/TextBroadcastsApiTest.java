@@ -149,14 +149,6 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
         assertEquals(2, texts.size());
         assertThat(texts.get(0).getMessage(), startsWith("msg"));
 
-        // get batches
-        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
-            .id(id)
-            .limit(10000L)
-            .build();
-        Page<Batch> batches = api.getBatches(getBatchesRequest);
-        System.out.println(batches);
-
         // add batch
         AddBatchRequest addBatchRequest = AddBatchRequest.create()
             .campaignId(id)
@@ -164,10 +156,15 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
             .recipients(makeRecipients())
             .build();
         ResourceId resourceId = api.addBatch(addBatchRequest);
-
-        Page<Batch> updatedBatches = api.getBatches(getBatchesRequest);
+        assertNotNull(resourceId.getId());
+        // get batches
+        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
+            .id(id)
+            .limit(100L)
+            .build();
+        Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
-        assertEquals(batches.getItems().size() + 1, updatedBatches.getItems().size());
+        assertEquals(batches.getItems().size(), 100);
 
         Batch savedBatch = getCallfireClient().batchesApi().get(resourceId.getId());
         assertTrue(savedBatch.getEnabled());
