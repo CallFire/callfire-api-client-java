@@ -38,16 +38,10 @@ public class TextAutoRepliesApiTest extends AbstractIntegrationTest {
             .build();
         Page<TextAutoReply> textAutoReplies = api.find(request);
         System.out.println(textAutoReplies);
-
         assertTrue(textAutoReplies.getTotalCount() > 0);
         assertTrue(textAutoReplies.getItems().size() > 0);
-        TextAutoReply savedTextAutoReply = textAutoReplies.getItems().get(textAutoReplies.getItems().size() - 1);
-        assertEquals(resourceId.getId(), savedTextAutoReply.getId());
-        assertEquals(textAutoReply.getNumber(), savedTextAutoReply.getNumber());
-        assertEquals(textAutoReply.getMessage(), savedTextAutoReply.getMessage());
-        assertEquals(textAutoReply.getMatch(), savedTextAutoReply.getMatch());
 
-        savedTextAutoReply = api.get(resourceId.getId(), "number,message");
+        TextAutoReply savedTextAutoReply = api.get(resourceId.getId(), "number,message");
         System.out.println(savedTextAutoReply);
 
         assertNull(savedTextAutoReply.getId());

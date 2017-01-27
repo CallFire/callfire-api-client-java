@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.14 - Jan 27 2017
+- added dnc apis
+
 Version 1.7.13 - Dec 30 2016
 - minor fixes for get contacts history api
 
