@@ -11,8 +11,6 @@ import org.apache.commons.lang3.Validate;
 public class UpdateDncRequest extends CallsTextsRequest {
     @JsonIgnore
     private String number;
-    private Boolean call;
-    private Boolean text;
 
     private UpdateDncRequest() {
     }
