@@ -1,16 +1,13 @@
 package com.callfire.api.client.api.contacts;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
+import com.callfire.api.client.api.contacts.model.Contact;
+import com.callfire.api.client.api.contacts.model.ContactHistory;
+import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
@@ -20,14 +17,12 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.MockitoAnnotations;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.common.model.ListHolder;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.callfire.api.client.api.contacts.model.Contact;
-import com.callfire.api.client.api.contacts.model.ContactHistory;
-import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.*;
 
 public class ContactsApiTest extends AbstractApiTest {
 
@@ -62,14 +57,12 @@ public class ContactsApiTest extends AbstractApiTest {
     @Test
     public void testCreate() throws Exception {
         String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "createContact.json");
-        ArgumentCaptor<HttpUriRequest> argumentCaptor = mockHttpResponse(expectedJson);
+        mockHttpResponse(expectedJson);
 
         Contact contact = new Contact();
         contact.setHomePhone("231554254");
         List<Contact> inputContacts = Arrays.asList(contact);
         List<ResourceId> resultResourceIds = client.contactsApi().create(inputContacts);
-
-        verify(mockHttpClient, times(2)).execute(argumentCaptor.capture());
         assertThat(jsonConverter.serialize(new ListHolder<>(resultResourceIds)),
             equalToIgnoringWhiteSpace(expectedJson));
     }
