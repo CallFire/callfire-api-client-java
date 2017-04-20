@@ -1,21 +1,33 @@
 package com.callfire.api.client.api.contacts;
 
-import com.callfire.api.client.*;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 import com.callfire.api.client.api.contacts.model.Contact;
 import com.callfire.api.client.api.contacts.model.ContactHistory;
+import com.callfire.api.client.api.contacts.model.DoNotContact;
 import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.*;
+import com.callfire.api.client.api.contacts.model.request.FindDncNumbersRequest;
 
 /**
  * Represents rest endpoint /contacts
@@ -51,7 +63,8 @@ public class ContactsApi {
     }
 
     /**
-     * Create contacts in the CallFire system. These contacts are not validated on creation.
+     * Create contacts in the CallFire system.
+     * These contacts are not validated on creation, but filtered by presence in DNC list.
      * They will be validated upon being added to a campaign.
      *
      * @param contacts contacts to create
@@ -65,7 +78,27 @@ public class ContactsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public List<ResourceId> create(List<Contact> contacts) {
-        return client.post(CONTACTS_PATH, listHolderOf(ResourceId.class), contacts).getItems();
+        List<Contact> filteredContacts = filterOutDnc(contacts);
+        return client.post(CONTACTS_PATH, listHolderOf(ResourceId.class), filteredContacts).getItems();
+    }
+
+    private List<Contact> filterOutDnc(List<Contact> contacts) {
+        Page<DoNotContact> page = new DncApi(client).find(FindDncNumbersRequest.create().build());
+
+        List<String> dncList = new ArrayList<>();
+        for (DoNotContact dnc : page.getItems()){
+            dncList.add(dnc.getNumber());
+        }
+
+        List<Contact> output = new ArrayList<>();
+        for (Contact contact : contacts) {
+            if (dncList.contains(contact.getHomePhone()) || dncList.contains(contact.getWorkPhone())
+                    || dncList.contains(contact.getMobilePhone())) {
+                continue;
+            }
+            output.add(contact);
+        }
+        return output;
     }
 
     /**
