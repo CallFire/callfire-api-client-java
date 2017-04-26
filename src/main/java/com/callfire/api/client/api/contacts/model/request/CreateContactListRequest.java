@@ -32,7 +32,7 @@ public class CreateContactListRequest<T> extends AddContactsRequest<T> {
     /**
      * Builder class for find method
      */
-    public static class Builder<T> extends AddContactsBuilder<T, CreateContactListRequest<T>> {
+    public static class Builder<T> extends AddContactsBuilder<Builder<T>, CreateContactListRequest<T>> {
         private Builder() {
             super(new CreateContactListRequest<T>());
         }

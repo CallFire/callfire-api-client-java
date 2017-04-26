@@ -22,6 +22,8 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
     @JsonIgnore
     protected List<T> contacts = new ArrayList<>();
 
+    protected String contactNumbersField;
+
     protected AddContactsRequest() {
     }
 
@@ -60,9 +62,18 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
     }
 
     /**
+     * Get type of phone number (homePhone, workPhone, mobilePhone)
+     *
+     * @return type of phone number (homePhone, workPhone, mobilePhone)
+     */
+    public String getContactNumbersField() {
+        return contactNumbersField;
+    }
+
+    /**
      * Builder class for find method
      */
-    public static abstract class AddContactsBuilder<T, R extends AddContactsRequest> extends AbstractBuilder<R> {
+    public static abstract class AddContactsBuilder<B extends AddContactsBuilder, R extends AddContactsRequest> extends AbstractBuilder<R> {
         protected AddContactsBuilder(R request) {
             super(request);
         }
@@ -74,9 +85,20 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
          * @param contacts contacts to add
          * @return builder self-reference
          */
-        public AddContactsBuilder<T, R> contacts(List<T> contacts) {
+        public B contacts(List<?> contacts) {
             request.contacts = contacts;
-            return this;
+            return (B) this;
+        }
+
+        /**
+         * Set type of phone number (homePhone, workPhone, mobilePhone)
+         *
+         * @param contactNumbersField type of phone number (homePhone, workPhone, mobilePhone)
+         * @return builder self reference
+         */
+        public B contactNumbersField(String contactNumbersField) {
+            request.contactNumbersField = contactNumbersField;
+            return (B) this;
         }
     }
 }

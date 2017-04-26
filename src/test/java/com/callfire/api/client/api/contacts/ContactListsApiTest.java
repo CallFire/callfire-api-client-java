@@ -44,8 +44,8 @@ public class ContactListsApiTest extends AbstractApiTest {
     public void testDynamicPropertiesSerializationStringNumbers() throws Exception {
         // contactNumbers
         CreateContactListRequest requestString = CreateContactListRequest.<String>create()
-            .name("listFromNumbers")
             .contacts(asList("12345678881", "12345678882"))
+            .name("listFromNumbers")
             .build();
         JsonConverter jsonConverter = new JsonConverter();
         String serialized = jsonConverter.serialize(requestString);
@@ -58,8 +58,8 @@ public class ContactListsApiTest extends AbstractApiTest {
         JsonConverter jsonConverter = new JsonConverter();
         // contactIds
         CreateContactListRequest requestLong = CreateContactListRequest.<Long>create()
-            .name("listFromIds")
             .contacts(asList(1L, 2L))
+            .name("listFromIds")
             .build();
 
         String serialized = jsonConverter.serialize(requestLong);

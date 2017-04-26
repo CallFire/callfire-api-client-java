@@ -35,19 +35,16 @@ public class SubscriptionsApiTest extends AbstractIntegrationTest {
         subscription.setTriggerEvent(CAMPAIGN_FINISHED);
         subscription.setNotificationFormat(JSON);
         subscription.setEndpoint(endpoint);
-        ResourceId resourceId1 = api.create(subscription);
-        assertNotNull(resourceId1.getId());
-        subscription.setNotificationFormat(SOAP);
-        ResourceId resourceId2 = api.create(subscription);
+        ResourceId resourceId = api.create(subscription);
 
         FindSubscriptionsRequest findRequest = FindSubscriptionsRequest.create()
             .limit(30L)
-            .format(SOAP)
+            .format(JSON)
             .fields("items(id,notificationFormat)")
             .build();
         Page<Subscription> page = api.find(findRequest);
         assertThat(page.getItems(), hasSize(greaterThan(0)));
-        assertEquals(SOAP, page.getItems().get(0).getNotificationFormat());
+        assertEquals(JSON, page.getItems().get(0).getNotificationFormat());
         assertNotNull(page.getItems().get(0).getId());
         assertNull(page.getItems().get(0).getTriggerEvent());
         assertNull(page.getItems().get(0).getEndpoint());
@@ -58,12 +55,9 @@ public class SubscriptionsApiTest extends AbstractIntegrationTest {
         Subscription updated = api.get(subscription.getId());
         assertEquals(subscription.getEndpoint(), updated.getEndpoint());
 
-        api.delete(resourceId1.getId());
-        api.delete(resourceId2.getId());
+        api.delete(resourceId.getId());
 
         expect404NotFoundCallfireApiException(ex);
-        api.get(resourceId1.getId());
-        expect404NotFoundCallfireApiException(ex);
-        api.get(resourceId2.getId());
+        api.get(resourceId.getId());
     }
 }

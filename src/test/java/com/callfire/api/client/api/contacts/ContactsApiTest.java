@@ -46,9 +46,9 @@ public class ContactsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindContactsRequest request = FindContactsRequest.create()
-                .limit(1L)
-                .offset(5L)
-                .build();
+            .limit(1L)
+            .offset(5L)
+            .build();
         Page<Contact> contacts = client.contactsApi().find(request);
         assertThat(jsonConverter.serialize(contacts), equalToIgnoringWhiteSpace(expectedJson));
 
@@ -156,10 +156,10 @@ public class ContactsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
-                .id(TEST_ID)
-                .limit(1L)
-                .offset(5L)
-                .build();
+            .id(TEST_ID)
+            .limit(1L)
+            .offset(5L)
+            .build();
         ContactHistory contactHistory = client.contactsApi().getHistory(request);
         assertThat(jsonConverter.serialize(contactHistory), equalToIgnoringWhiteSpace(expectedJson));
 

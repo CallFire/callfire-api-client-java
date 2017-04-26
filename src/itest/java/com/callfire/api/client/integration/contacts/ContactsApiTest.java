@@ -47,8 +47,8 @@ public class ContactsApiTest extends AbstractIntegrationTest {
 
         if (numberForSearching != null) {
             request = FindContactsRequest.create()
-                    .number(asList(numberForSearching))
-                    .build();
+                .number(asList(numberForSearching))
+                .build();
             contacts = client.contactsApi().find(request);
             assertTrue(numberForSearching.equals(contacts.getItems().get(0).getWorkPhone()) ||
                        numberForSearching.equals(contacts.getItems().get(0).getHomePhone()) ||
