@@ -13,7 +13,6 @@ import com.callfire.api.client.api.keywords.KeywordLeasesApi;
 import com.callfire.api.client.api.keywords.KeywordsApi;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
 import com.callfire.api.client.api.numbers.NumbersApi;
-import com.callfire.api.client.api.webhooks.SubscriptionsApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
 
@@ -95,7 +94,6 @@ public class CallfireClient {
     private ContactListsApi contactListsApi;
     private DncApi dncApi;
     // webhooks
-    private SubscriptionsApi subscriptionsApi;
     private WebhooksApi webhooksApi;
 
     /**
@@ -226,18 +224,6 @@ public class CallfireClient {
             contactsApi = new ContactsApi(restApiClient);
         }
         return contactsApi;
-    }
-
-    /**
-     * Get /subscriptions api endpoint
-     *
-     * @return endpoint object
-     */
-    public SubscriptionsApi subscriptionsApi() {
-        if (subscriptionsApi == null) {
-            subscriptionsApi = new SubscriptionsApi(restApiClient);
-        }
-        return subscriptionsApi;
     }
 
     /**

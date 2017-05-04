@@ -96,7 +96,7 @@ public class VoiceBroadcastsApiTest extends AbstractIntegrationTest {
         ResourceId id = api.create(broadcast, false);
 
         GetByIdRequest getCallsRequest = GetByIdRequest.create()
-            .id(getVoiceBroadcastId())
+            .id(id.getId())
             .build();
         Page<Call> calls = api.getCalls(getCallsRequest);
         System.out.println(calls);
