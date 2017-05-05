@@ -23,6 +23,14 @@ public class DncApiTest extends AbstractIntegrationTest {
     @Test
     public void testFind() throws Exception {
         CallfireClient client = getCallfireClient();
+
+        CreateDncsRequest crRequest = CreateDncsRequest.create()
+            .call(true)
+            .text(true)
+            .numbers(Arrays.asList("12135551189"))
+            .build();
+        client.dncApi().create(crRequest);
+
         FindDncNumbersRequest request = FindDncNumbersRequest.create()
             .text(true)
             .limit(1L)

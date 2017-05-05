@@ -95,8 +95,17 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
     public void testGetBroadcastCalls() throws Exception {
         CallBroadcastsApi api = getCallfireClient().callBroadcastsApi();
 
+        CallBroadcast broadcast = new CallBroadcast();
+        broadcast.setName("call_broadcast");
+        broadcast.setRecipients(makeRecipients());
+        CallBroadcastSounds sounds = new CallBroadcastSounds();
+        sounds.setLiveSoundId(getLiveSoundId());
+        sounds.setMachineSoundId(getLiveSoundId());
+        broadcast.setSounds(sounds);
+        ResourceId id = api.create(broadcast, false);
+
         GetByIdRequest getCallsRequest = GetByIdRequest.create()
-            .id(getVoiceBroadcastId())
+            .id(id.getId())
             .build();
         Page<Call> calls = api.getCalls(getCallsRequest);
         System.out.println(calls);
@@ -105,7 +114,7 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         Long testBatchId = calls.getItems().get(0).getBatchId();
 
         FindBroadcastCallsRequest getCallsRequest2 = FindBroadcastCallsRequest.create()
-            .id(getVoiceBroadcastId())
+            .id(id.getId())
             .batchId(testBatchId)
             .build();
         calls = api.findCalls(getCallsRequest2);

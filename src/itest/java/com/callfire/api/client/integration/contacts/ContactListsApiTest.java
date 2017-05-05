@@ -119,6 +119,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         ResourceId id = api.create(request);
 
         AddContactListItemsRequest addItemsRequest = AddContactListItemsRequest.<String>create()
+            .contactNumbersField("homePhone")
             .contactListId(id.getId())
             .contacts(asList("12345543211"))
             .build();
