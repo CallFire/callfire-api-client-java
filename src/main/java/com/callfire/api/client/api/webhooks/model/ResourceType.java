@@ -17,6 +17,7 @@ public enum ResourceType {
     INBOUND_CALL("InboundCall", FINISHED),
     OUTBOUND_TEXT("OutboundText", FINISHED),
     INBOUND_TEXT("InboundText", FINISHED),
+    CONTACT_LIST("ContactList", VALIDATION_FINISHED, VALIDATION_FAILED),
     UNKNOWN("unknown");
 
     private static final Map<String, ResourceType> RESOURCE_MAP = createResourceMap();
@@ -61,6 +62,8 @@ public enum ResourceType {
         STOPPED("Stopped"),
         FINISHED("Finished"),
         FAILED("Failed"),
+        VALIDATION_FINISHED("ValidationFinished"),
+        VALIDATION_FAILED("ValidationFailed"),
 
         UNKNOWN("unknown");
 

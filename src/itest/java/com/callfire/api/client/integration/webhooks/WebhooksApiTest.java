@@ -42,6 +42,11 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         assertNotNull(resourceId1.getId());
         webhook.setName("test_name2");
         ResourceId resourceId2 = api.create(webhook);
+        webhook.setResource(ResourceType.CONTACT_LIST);
+        ResourceType.ResourceEvent[] ev2 = {ResourceType.ResourceEvent.VALIDATION_FINISHED};
+        webhook.setEvents(new TreeSet<>(Arrays.asList(ev2)));
+        ResourceId resourceId3 = api.create(webhook);
+        assertNotNull(resourceId3.getId());
 
         FindWebhooksRequest findRequest = FindWebhooksRequest.create()
             .limit(30L)
@@ -73,6 +78,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
 
         api.delete(resourceId1.getId());
         api.delete(resourceId2.getId());
+        api.delete(resourceId3.getId());
 
         expect404NotFoundCallfireApiException(ex);
         api.get(resourceId1.getId());

@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.16 - Jun 6 2017
+- added contact list validation webhook support
+
 Version 1.7.15 - May 4 2017
 - removed subscriptions api (not supported from v2 api client)
 - fixed trivial bug with requests creation
