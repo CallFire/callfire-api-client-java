@@ -24,6 +24,8 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
 
     protected String contactNumbersField;
 
+    protected Boolean useCustomFields;
+
     protected AddContactsRequest() {
     }
 
@@ -71,6 +73,15 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
     }
 
     /**
+     * Get use custom fields flag
+     *
+     * @return use custom fields flag
+     */
+    public Boolean getUseCustomFields() {
+        return useCustomFields;
+    }
+
+    /**
      * Builder class for find method
      */
     public static abstract class AddContactsBuilder<B extends AddContactsBuilder, R extends AddContactsRequest> extends AbstractBuilder<R> {
@@ -98,6 +109,18 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
          */
         public B contactNumbersField(String contactNumbersField) {
             request.contactNumbersField = contactNumbersField;
+            return (B) this;
+        }
+
+        /**
+         * Set flag to indicate how to define property names for contacts. If true, uses the field and property names exactly as defined.
+         * If false will assign custom properties and fields to A, B, C, etc.
+         *
+         * @param useCustomFields flag to indicate how to define property names for contacts
+         * @return builder self reference
+         */
+        public B useCustomFields(Boolean useCustomFields) {
+            request.useCustomFields = useCustomFields;
             return (B) this;
         }
     }

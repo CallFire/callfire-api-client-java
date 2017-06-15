@@ -41,6 +41,7 @@ public class CallsApiTest extends AbstractApiTest {
         CallRecipient r2 = new CallRecipient();
         r2.setPhoneNumber("12135551101");
         r2.setLiveMessage("And hello to you too.");
+        r2.setFromNumber("12135551102");
         List<Call> calls = client.callsApi().send(asList(r1, r2));
         assertThat(jsonConverter.serialize(new ListHolder<>(calls)), equalToIgnoringWhiteSpace(responseJson));
 
@@ -65,6 +66,7 @@ public class CallsApiTest extends AbstractApiTest {
         CallRecipient r2 = new CallRecipient();
         r2.setPhoneNumber("12135551101");
         r2.setLiveMessage("And hello to you too.");
+        r2.setFromNumber("12135551102");
         SendCallsRequest request = SendCallsRequest.create()
             .recipients(asList(r1, r2))
             .campaignId(100L)
@@ -74,6 +76,7 @@ public class CallsApiTest extends AbstractApiTest {
             .defaultMachineMessageSoundId(321L)
             .defaultVoice(Voice.FEMALE1)
             .fields(FIELDS)
+            .strictValidation(true)
             .build();
         List<Call> calls = client.callsApi().send(request);
         assertThat(jsonConverter.serialize(new ListHolder<>(calls)), equalToIgnoringWhiteSpace(responseJson));
@@ -88,6 +91,7 @@ public class CallsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("defaultLiveMessageSoundId=123"));
         assertThat(arg.getURI().toString(), containsString("defaultMachineMessageSoundId=321"));
         assertThat(arg.getURI().toString(), containsString("defaultVoice=FEMALE1"));
+        assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
     }
 
     @Test

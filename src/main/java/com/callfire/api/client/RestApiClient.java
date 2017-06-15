@@ -197,23 +197,7 @@ public class RestApiClient {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T postFile(String path, TypeReference<T> type, Map<String, ?> fileDataParams) {
-        try {
-            String uri = getApiBasePath() + path;
-            MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
-            entityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-            File file = (File) fileDataParams.get("file");
-            String mimeType = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file.getName());
-            entityBuilder.addBinaryBody("file", file, ContentType.create(mimeType), file.getName());
-            if (fileDataParams.get("name") != null) {
-                entityBuilder.addTextBody("name", (String) fileDataParams.get("name"));
-            }
-            RequestBuilder requestBuilder = RequestBuilder.post(uri).setEntity(entityBuilder.build());
-            LOGGER.debug("POST file upload request to {} with params {}", uri, fileDataParams);
-
-            return doRequest(requestBuilder, type);
-        } catch (IOException e) {
-            throw new CallfireClientException(e);
-        }
+        return postFile(path, type, fileDataParams, null);
     }
 
     /**
@@ -241,12 +225,17 @@ public class RestApiClient {
             File file = (File) fileDataParams.get("file");
             String mimeType = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(file.getName());
             entityBuilder.addBinaryBody("file", file, ContentType.create(mimeType), file.getName());
-            if (fileDataParams.get("name") != null) {
-                entityBuilder.addTextBody("name", (String) fileDataParams.get("name"));
+            fileDataParams.remove("file");
+
+            for (Map.Entry<String, ?> entry : fileDataParams.entrySet()) {
+                if ((entry.getValue() != null && entry.getKey() != null)) {
+                    entityBuilder.addTextBody(entry.getKey(), entry.getValue().toString());
+                }
             }
+
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
                                                           .setEntity(entityBuilder.build())
-                                                          .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));;
+                                                          .addParameters(queryParams != null ? queryParams.toArray(new NameValuePair[queryParams.size()]) : new NameValuePair[]{});
             LOGGER.debug("POST file upload request to {} with params {}", uri, fileDataParams);
 
             return doRequest(requestBuilder, type);
@@ -273,6 +262,28 @@ public class RestApiClient {
      */
     public <T> T post(String path, TypeReference<T> type, Object payload) {
         return post(path, type, payload, Collections.<NameValuePair>emptyList());
+    }
+
+    /**
+     * Performs POST request with body to specified path
+     *
+     * @param path    request path
+     * @param type    response entity type
+     * @param payload request payload
+     * @param request finder request with query parameters
+     * @param <T>     response entity type
+     * @return pojo mapped from json
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public <T> T post(String path, TypeReference<T> type, Object payload, CallfireModel request) {
+        List<NameValuePair> queryParams = buildQueryParams(request);
+        return post(path, type, payload, queryParams);
     }
 
     /**

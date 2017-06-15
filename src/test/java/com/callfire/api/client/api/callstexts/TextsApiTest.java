@@ -34,6 +34,7 @@ public class TextsApiTest extends AbstractApiTest {
         TextRecipient r2 = new TextRecipient();
         r2.setPhoneNumber("12135551101");
         r2.setMessage("Testing 1 2 3");
+        r2.setFromNumber("12135551102");
         List<Text>  texts = client.textsApi().send(asList(r1, r2), 100L, FIELDS);
         assertThat(jsonConverter.serialize(new ListHolder<>(texts)), equalToIgnoringWhiteSpace(responseJson));
 
@@ -57,12 +58,14 @@ public class TextsApiTest extends AbstractApiTest {
         TextRecipient r2 = new TextRecipient();
         r2.setPhoneNumber("12135551101");
         r2.setMessage("Testing 1 2 3");
+        r2.setFromNumber("12135551102");
 
         SendTextsRequest request = SendTextsRequest.create()
             .recipients(asList(r1, r2))
             .campaignId(100L)
             .defaultMessage("testMessage")
             .fields(FIELDS)
+            .strictValidation(true)
             .build();
 
         List<Text> texts = client.textsApi().send(request);
@@ -74,6 +77,7 @@ public class TextsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString(ENCODED_FIELDS));
         assertThat(arg.getURI().toString(), containsString("campaignId=100"));
         assertThat(arg.getURI().toString(), containsString("defaultMessage=testMessage"));
+        assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
     }
 
     @Test

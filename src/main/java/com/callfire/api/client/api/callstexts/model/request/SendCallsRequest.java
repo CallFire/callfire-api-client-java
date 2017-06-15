@@ -2,24 +2,20 @@ package com.callfire.api.client.api.callstexts.model.request;
 
 import com.callfire.api.client.api.callstexts.model.CallRecipient;
 import com.callfire.api.client.api.campaigns.model.Voice;
-import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.request.AbstractBuilder;
 import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
 
-public class SendCallsRequest extends CallfireModel {
+public class SendCallsRequest extends SendCallsTextsRequest {
     @QueryParamIgnore
     protected List<CallRecipient> recipients;
 
-    protected Long campaignId;
     protected String defaultLiveMessage;
     protected String defaultMachineMessage;
     protected Long defaultLiveMessageSoundId;
     protected Long defaultMachineMessageSoundId;
     protected Voice defaultVoice;
-    protected String fields;
 
     public static Builder create() {
         return new Builder();
@@ -27,10 +23,6 @@ public class SendCallsRequest extends CallfireModel {
 
     public List<CallRecipient> getRecipients() {
         return recipients;
-    }
-
-    public Long getCampaignId() {
-        return campaignId;
     }
 
     public String getDefaultLiveMessage() {
@@ -53,26 +45,19 @@ public class SendCallsRequest extends CallfireModel {
         return defaultVoice;
     }
 
-    public String getFields() {
-        return fields;
-    }
-
-
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .append("campaignId", campaignId)
             .append("defaultLiveMessage", defaultLiveMessage)
             .append("defaultMachineMessage", defaultMachineMessage)
             .append("defaultLiveMessageSoundId", defaultLiveMessageSoundId)
             .append("defaultMachineMessageSoundId", defaultMachineMessageSoundId)
             .append("defaultVoice", defaultVoice)
-            .append("fields", fields)
             .toString();
     }
 
     @SuppressWarnings("unchecked")
-    public static class Builder extends AbstractBuilder<SendCallsRequest> {
+    public static class Builder extends SendCallsTextsBuilder<Builder, SendCallsRequest> {
 
         private Builder() {
             super(new SendCallsRequest());
@@ -80,11 +65,6 @@ public class SendCallsRequest extends CallfireModel {
 
         public Builder recipients(List<CallRecipient> recipients) {
             request.recipients = recipients;
-            return this;
-        }
-
-        public Builder campaignId(Long campaignId) {
-            request.campaignId = campaignId;
             return this;
         }
 
@@ -110,11 +90,6 @@ public class SendCallsRequest extends CallfireModel {
 
         public Builder defaultVoice(Voice defaultVoice) {
             request.defaultVoice = defaultVoice;
-            return this;
-        }
-
-        public Builder fields(String fields) {
-            request.fields = fields;
             return this;
         }
     }

@@ -68,8 +68,9 @@ public class CallsApiTest extends AbstractIntegrationTest {
         recipient2.setLiveMessageSoundId(1L);
         recipient2.setPhoneNumber(getCallerId());
         recipient2.setTransferMessage("transferTestMessage");
-        recipient1.setTransferDigit("2");
+        recipient2.setTransferDigit("2");
         recipient2.setTransferMessageSoundId(1L);
+        recipient2.setFromNumber(getCallerId());
 
         List<Call> calls = client.callsApi()
             .send(asList(recipient1, recipient2), 7373471003L, "items(id,fromNumber,state)");
@@ -86,6 +87,7 @@ public class CallsApiTest extends AbstractIntegrationTest {
             .defaultLiveMessage("defaultLive")
             .defaultMachineMessage("defaultMachine")
             .defaultVoice(Voice.FRENCHCANADIAN1)
+            .strictValidation(true)
             .build();
 
         calls = client.callsApi().send(request);

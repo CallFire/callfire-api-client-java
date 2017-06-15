@@ -2,13 +2,8 @@ package com.callfire.api.client.integration.campaigns;
 
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.TextBroadcastsApi;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.Broadcast;
-import com.callfire.api.client.api.campaigns.model.TextBroadcast;
-import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
-import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.request.*;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -50,6 +45,40 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
 
         savedBroadcast.setName("updated_name");
         api.update(savedBroadcast);
+
+        TextBroadcast updatedBroadcast = api.get(id.getId(), "id,name");
+        assertNull(updatedBroadcast.getStatus());
+        assertNotNull(updatedBroadcast.getId());
+        assertEquals(savedBroadcast.getName(), updatedBroadcast.getName());
+    }
+
+    @Test
+    public void testCrudOperationsWithRequest() throws Exception {
+        TextBroadcastsApi api = getCallfireClient().textBroadcastsApi();
+        TextBroadcast broadcast = new TextBroadcast();
+        broadcast.setName("text_broadcast");
+        broadcast.setRecipients(makeTextRecipients());
+        broadcast.setMessage("test_msg");
+        broadcast.setResumeNextDay(true);
+
+        CreateBroadcastRequest<TextBroadcast> request = CreateBroadcastRequest.create()
+            .broadcast(broadcast)
+            .start(true)
+            .strictValidation(true)
+            .build();
+
+        ResourceId id = api.create(request);
+
+        TextBroadcast savedBroadcast = api.get(id.getId());
+        assertEquals(broadcast.getName(), savedBroadcast.getName());
+        assertEquals(broadcast.getResumeNextDay(), true);
+        // TODO vmikhailov there is no back mapping for recipients
+        //        assertEquals(2, savedBroadcast.getRecipients().size());
+        //        assertThat(savedBroadcast.getRecipients(),
+        //            hasItem(Matchers.<Recipient>hasProperty("phoneNumber", startsWith("1213123456"))));
+
+        savedBroadcast.setName("updated_name");
+        api.update(savedBroadcast, true);
 
         TextBroadcast updatedBroadcast = api.get(id.getId(), "id,name");
         assertNull(updatedBroadcast.getStatus());
@@ -154,6 +183,59 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
             .campaignId(id)
             .name("new_batch" + System.currentTimeMillis())
             .recipients(makeRecipients())
+            .build();
+        ResourceId resourceId = api.addBatch(addBatchRequest);
+        assertNotNull(resourceId.getId());
+        // get batches
+        GetByIdRequest getBatchesRequest = GetByIdRequest.create()
+            .id(id)
+            .limit(100L)
+            .build();
+        Page<Batch> batches = api.getBatches(getBatchesRequest);
+        System.out.println(batches);
+        assertEquals(batches.getItems().size(), 100);
+
+        Batch savedBatch = getCallfireClient().batchesApi().get(resourceId.getId());
+        assertTrue(savedBatch.getEnabled());
+        assertEquals(addBatchRequest.getName(), savedBatch.getName());
+
+        savedBatch.setEnabled(false);
+        getCallfireClient().batchesApi().update(savedBatch);
+        Batch updatedBatch = getCallfireClient().batchesApi().get(resourceId.getId());
+        assertFalse(updatedBatch.getEnabled());
+    }
+
+    @Test
+    public void testAddRecipientsAndAddRemoveBatchesWithRequest() throws Exception {
+        TextBroadcastsApi api = getCallfireClient().textBroadcastsApi();
+
+        FindTextBroadcastsRequest findRequest = FindTextBroadcastsRequest.create()
+            .name("updated_name")
+            .limit(1L)
+            .build();
+        Page<TextBroadcast> broadcasts = api.find(findRequest);
+        System.out.println(broadcasts);
+        assertThat(broadcasts.getItems(), not(empty()));
+        Long id = broadcasts.getItems().get(0).getId();
+
+        // add recipients
+        AddRecipientsRequest<TextRecipient> request = AddRecipientsRequest.create()
+            .campaignId(id)
+            .recipients(makeTextRecipients())
+            .strictValidation(true)
+            .build();
+
+        List<Text> texts = api.addRecipients(request);
+        System.out.println(texts);
+        assertEquals(2, texts.size());
+        assertThat(texts.get(0).getMessage(), startsWith("msg"));
+
+        // add batch
+        AddBatchRequest addBatchRequest = AddBatchRequest.create()
+            .campaignId(id)
+            .name("new_batch" + System.currentTimeMillis())
+            .recipients(makeRecipients())
+            .strictValidation(true)
             .build();
         ResourceId resourceId = api.addBatch(addBatchRequest);
         assertNotNull(resourceId.getId());

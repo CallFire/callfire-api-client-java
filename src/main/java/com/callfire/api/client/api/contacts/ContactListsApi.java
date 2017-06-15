@@ -124,9 +124,30 @@ public class ContactListsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public ResourceId createFromCsv(String name, File file) {
-        Map<String, Object> params = new HashMap<>(2);
+        return createFromCsv(name, file, null);
+    }
+
+    /**
+     * Upload contact lists from CSV file
+     * Create contact list which includes list of contacts by file.
+     *
+     * @param name contact list name
+     * @param file CSV file with contacts to upload
+     * @param useCustomFields A flag to indicate how to define property names for contacts. If true, uses the field and property names exactly as defined. If false will assign custom properties and fields to A, B, C, etc
+     * @return {@link ResourceId} with id of created contact list
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public ResourceId createFromCsv(String name, File file, Boolean useCustomFields) {
+        Map<String, Object> params = new HashMap<>(3);
         params.put("file", file);
         params.put("name", name);
+        params.put("useCustomFields", useCustomFields);
         return client.postFile(LISTS_UPLOAD_PATH, of(ResourceId.class), params);
     }
 

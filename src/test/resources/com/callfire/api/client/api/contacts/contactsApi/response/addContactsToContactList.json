@@ -1,7 +1,0 @@
-{
-    "contactNumbersField":"homePhone",
-    "contacts":[
-        {"homePhone":"123456"},
-        {"homePhone":"123457"}
-    ]
-}

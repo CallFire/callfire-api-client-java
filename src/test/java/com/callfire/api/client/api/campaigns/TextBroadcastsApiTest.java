@@ -2,14 +2,8 @@ package com.callfire.api.client.api.campaigns;
 
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.Recipient;
-import com.callfire.api.client.api.campaigns.model.TextBroadcast;
-import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
-import com.callfire.api.client.api.campaigns.model.TextRecipient;
-import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.request.*;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
@@ -82,6 +76,39 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
     }
 
     @Test
+    public void testCreateWithRequest() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/createTextBroadcast.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/createTextBroadcast.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        TextBroadcast textBroadcast = new TextBroadcast();
+        textBroadcast.setName("Example API SMS");
+        textBroadcast.setFromNumber("19206596476");
+        textBroadcast.setMessage("Hello World!");
+        TextRecipient r1 = new TextRecipient();
+        r1.setPhoneNumber("13233832214");
+        TextRecipient r2 = new TextRecipient();
+        r2.setPhoneNumber("13233832215");
+        textBroadcast.setRecipients(asList(r1, r2));
+        textBroadcast.setResumeNextDay(false);
+
+        CreateBroadcastRequest<TextBroadcast> request = CreateBroadcastRequest.create()
+            .broadcast(textBroadcast)
+            .start(true)
+            .strictValidation(true)
+            .build();
+
+        ResourceId id = client.textBroadcastsApi().create(request);
+        assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        assertThat(arg.getURI().toString(), containsString("start=true"));
+        assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
+    }
+
+    @Test
     public void testGet() throws Exception {
         String expectedJson = getJsonPayload(JSON_PATH + "/response/getTextBroadcast.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
@@ -122,6 +149,13 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         assertEquals(HttpPut.METHOD_NAME, arg.getMethod());
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(expectedJson));
         assertThat(arg.getURI().toString(), containsString("/11"));
+
+        client.textBroadcastsApi().update(textBroadcast, true);
+        arg = captor.getValue();
+        assertEquals(HttpPut.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(arg.getURI().toString(), containsString("/11"));
+        assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
     }
 
     @Test
@@ -167,6 +201,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
             .name("contact batch for text")
             .recipients(asList(r1, r2))
             .scrubDuplicates(true)
+            .strictValidation(true)
             .build();
         ResourceId id = client.textBroadcastsApi().addBatch(request);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
@@ -175,6 +210,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
         assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
         assertThat(arg.getURI().toString(), containsString("/15"));
+        assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
     }
 
     @Test
@@ -291,5 +327,34 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
 
         client.textBroadcastsApi().addRecipients(15L, asList(r1, r2), FIELDS);
         assertUriContainsQueryParams(captor.getAllValues().get(1).getURI(), ENCODED_FIELDS);
+    }
+
+    @Test
+    public void testAddRecipientsWithRequest() throws Exception {
+        String responseJson = getJsonPayload(JSON_PATH + "/response/addRecipients.json");
+        String requestJson = getJsonPayload(JSON_PATH + "/request/addRecipients.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
+
+        TextRecipient r1 = new TextRecipient();
+        r1.setPhoneNumber("12135551100");
+        TextRecipient r2 = new TextRecipient();
+        r2.setPhoneNumber("12135551101");
+
+        AddRecipientsRequest request = AddRecipientsRequest.create()
+            .recipients(asList(r1, r2))
+            .campaignId(15L)
+            .strictValidation(true)
+            .fields(FIELDS)
+            .build();
+
+        List<Text> texts = client.textBroadcastsApi().addRecipients(request);
+        assertThat(jsonConverter.serialize(new ListHolder<>(texts)), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        assertThat(arg.getURI().toString(), containsString("/15"));
+        assertUriContainsQueryParams(captor.getAllValues().get(0).getURI(), ENCODED_FIELDS);
+        assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
     }
 }

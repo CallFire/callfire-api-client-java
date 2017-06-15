@@ -51,6 +51,8 @@ public class TextsApiTest extends AbstractIntegrationTest {
         recipient1.setPhoneNumber(getCallerId());
         TextRecipient recipient2 = new TextRecipient();
         recipient2.setPhoneNumber(getCallerId());
+        recipient2.setFromNumber(getCallerId());
+
         List<Text> texts = client.textsApi()
             .send(asList(recipient1, recipient2), 7415135003L, "items(id,fromNumber,state)");
 
@@ -67,6 +69,7 @@ public class TextsApiTest extends AbstractIntegrationTest {
             .campaignId(7415135003L)
             .fields("items(id,fromNumber,state)")
             .defaultMessage("defaultMessage")
+            .strictValidation(true)
             .build();
 
         texts = client.textsApi().send(request);

@@ -126,8 +126,9 @@ public class ContactListsApiTest extends AbstractApiTest {
 
     @Test
     public void testCreate() throws Exception {
-        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "createContactList.json");
-        mockHttpResponse(expectedJson);
+        String responseJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "createContactList.json");
+        String requestJson = getJsonPayload(BASE_PATH + REQUESTS_PATH + "createContactList.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(responseJson);
 
         Contact c1 = new Contact();
         c1.setHomePhone("123456");
@@ -136,9 +137,14 @@ public class ContactListsApiTest extends AbstractApiTest {
         CreateContactListRequest request = CreateContactListRequest.<Contact>create()
             .name("listFromContacts")
             .contacts(asList(c1, c2))
+            .useCustomFields(true)
             .build();
         ResourceId resourceId = client.contactListsApi().create(request);
-        assertThat(jsonConverter.serialize(resourceId), equalToIgnoringWhiteSpace(expectedJson));
+        assertThat(jsonConverter.serialize(resourceId), equalToIgnoringWhiteSpace(responseJson));
+
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
     }
 
     @Test
@@ -148,7 +154,7 @@ public class ContactListsApiTest extends AbstractApiTest {
 
         File file = new File(REQUESTS_PATH + "createContactsList.csv");
 
-        ResourceId resourceId = client.contactListsApi().createFromCsv("testFile", file);
+        ResourceId resourceId = client.contactListsApi().createFromCsv("testFile", file, true);
         assertThat(jsonConverter.serialize(resourceId), equalToIgnoringWhiteSpace(expectedJson));
     }
 
@@ -250,7 +256,7 @@ public class ContactListsApiTest extends AbstractApiTest {
 
     @Test
     public void testAddContactsToContactListById() throws Exception {
-        String expectedJson = getJsonPayload(BASE_PATH + RESPONSES_PATH + "addContactsToContactList.json");
+        String requestJson = getJsonPayload(BASE_PATH + REQUESTS_PATH + "addContactsToContactList.json");
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
 
         Contact c1 = new Contact();
@@ -261,13 +267,12 @@ public class ContactListsApiTest extends AbstractApiTest {
             .contactNumbersField("homePhone")
             .contactListId(TEST_ID)
             .contacts(asList(c1, c2))
+            .useCustomFields(true)
             .build();
         client.contactListsApi().addListItems(request);
         HttpUriRequest arg = captor.getValue();
         assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
-
-        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(expectedJson));
-        assertThat(arg.getURI().toString(), containsString("/" + TEST_ID));
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
     }
 
     @Test

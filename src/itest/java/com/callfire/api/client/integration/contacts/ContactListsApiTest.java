@@ -41,7 +41,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         CallfireClient client = getCallfireClient();
         File file = new File(getClass().getClassLoader().getResource("file-examples/contacts1.csv").toURI());
         ContactListsApi api = client.contactListsApi();
-        ResourceId id = api.createFromCsv("fileList", file);
+        ResourceId id = api.createFromCsv("fileList", file, true);
 
         ContactList contactList = api.get(id.getId());
         System.out.println(contactList);
@@ -58,6 +58,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
         CreateContactListRequest request = CreateContactListRequest.<String>create()
             .name("listFromNumbers")
             .contacts(asList(getDid2(), getDid3()))
+            .useCustomFields(true)
             .build();
         ResourceId numbersListId = api.create(request);
         ContactList contactList = api.get(numbersListId.getId());
@@ -122,6 +123,7 @@ public class ContactListsApiTest extends AbstractIntegrationTest {
             .contactNumbersField("homePhone")
             .contactListId(id.getId())
             .contacts(asList("12345543211"))
+            .useCustomFields(true)
             .build();
         api.addListItems(addItemsRequest);
 
