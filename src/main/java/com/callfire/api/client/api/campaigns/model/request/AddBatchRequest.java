@@ -13,6 +13,8 @@ import java.util.List;
 public class AddBatchRequest extends CallfireModel {
     @JsonIgnore
     private Long campaignId;
+    @JsonIgnore
+    Boolean strictValidation;
     private String name;
     private Long contactListId;
     private Boolean scrubDuplicates;
@@ -55,11 +57,16 @@ public class AddBatchRequest extends CallfireModel {
         return recipients;
     }
 
+    public Boolean getStrictValidation() {
+        return strictValidation;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("campaignId", campaignId)
+            .append("strictValidation", strictValidation)
             .append("name", name)
             .append("contactListId", contactListId)
             .append("scrubDuplicates", scrubDuplicates)
@@ -100,6 +107,11 @@ public class AddBatchRequest extends CallfireModel {
 
         public Builder campaignId(Long campaignId) {
             request.campaignId = campaignId;
+            return this;
+        }
+
+        public Builder strictValidation(Boolean strictValidation) {
+            request.strictValidation = strictValidation;
             return this;
         }
 

@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class Recipient extends CallfireModel {
     private String phoneNumber;
+    private String fromNumber;
     private Long contactId;
     private Map<String, String> attributes = new HashMap<>();
 
@@ -17,6 +18,14 @@ public class Recipient extends CallfireModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getFromNumber() {
+        return fromNumber;
+    }
+
+    public void setFromNumber(String fromNumber) {
+        this.fromNumber = fromNumber;
     }
 
     public Long getContactId() {
@@ -40,6 +49,7 @@ public class Recipient extends CallfireModel {
         return new ToStringBuilder(this)
             .appendSuper(super.toString())
             .append("phoneNumber", phoneNumber)
+            .append("fromNumber", fromNumber)
             .append("contactId", contactId)
             .append("attributes", attributes)
             .toString();

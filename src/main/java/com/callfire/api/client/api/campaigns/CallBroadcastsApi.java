@@ -13,9 +13,7 @@ import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.api.campaigns.model.CallBroadcast;
 import com.callfire.api.client.api.campaigns.model.CallBroadcastStats;
 import com.callfire.api.client.api.campaigns.model.Recipient;
-import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindBroadcastCallsRequest;
-import com.callfire.api.client.api.campaigns.model.request.FindCallBroadcastsRequest;
+import com.callfire.api.client.api.campaigns.model.request.*;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -113,6 +111,25 @@ public class CallBroadcastsApi {
     }
 
     /**
+     * Create a call broadcast campaign using the Call Broadcast API. A campaign can be created with
+     * no contacts and bare minimum configuration, but contacts will have to be added further on to use the campaign.
+     * If start argument true campaign starts immediately.
+     *
+     * @param request request to create call broadcast
+     * @return {@link ResourceId} object with id of created broadcast
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public ResourceId create(CreateBroadcastRequest<CallBroadcast> request) {
+        return client.post(CB_PATH, of(ResourceId.class), request.getBroadcast(), request);
+    }
+
+    /**
      * Get call broadcast by id
      *
      * @param id id of broadcast
@@ -163,8 +180,27 @@ public class CallBroadcastsApi {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public void update(CallBroadcast broadcast) {
+        update(broadcast, null);
+    }
+
+    /**
+     * Update call broadcast
+     *
+     * @param broadcast broadcast to update
+     * @param strictValidation strict validation flag for broadcast
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public void update(CallBroadcast broadcast, Boolean strictValidation) {
         Validate.notNull(broadcast.getId(), "broadcast.id cannot be null");
-        client.put(CB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), null, broadcast);
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("strictValidation", strictValidation, queryParams);
+        client.put(CB_ITEM_PATH.replaceFirst(PLACEHOLDER, broadcast.getId().toString()), null, broadcast, queryParams);
     }
 
     /**
@@ -204,7 +240,9 @@ public class CallBroadcastsApi {
      */
     public ResourceId addBatch(AddBatchRequest request) {
         String path = CB_ITEM_BATCHES_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
-        return client.post(path, of(ResourceId.class), request);
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("strictValidation", request.getStrictValidation(), queryParams);
+        return client.post(path, of(ResourceId.class), request, queryParams);
     }
 
     /**
@@ -386,5 +424,26 @@ public class CallBroadcastsApi {
         addQueryParamIfSet("fields", fields, queryParams);
         String path = CB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
         return client.post(path, listHolderOf(Call.class), recipients, queryParams).getItems();
+    }
+
+    /**
+     * Use this API to add recipients to an already created call broadcast. Post a list of Recipient
+     * objects for them to be immediately added to the call broadcast campaign. These contacts do not
+     * go through validation process, and will be acted upon as they are added. Recipients may be added
+     * as a list of contact ids, or list of numbers.
+     *
+     * @param request request with properties for adding recipients
+     * @return list of {@link Call} to recipients
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public List<Call> addRecipients(AddRecipientsRequest request) {
+        String path = CB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
+        return client.post(path, listHolderOf(Call.class), request.getRecipients(), request).getItems();
     }
 }

@@ -1,0 +1,8 @@
+{
+  "useCustomFields":true,
+  "name":"listFromContacts",
+  "contacts":[
+    {"homePhone":"123456"},
+    {"homePhone":"123457"}
+  ]
+}
