@@ -1,5 +1,9 @@
 Callfire API client Changelog
 =============================
+
+Version 1.7.17 - Nov 14 2017
+- set json content encoding to UTF-8
+
 Version 1.7.16 - Jun 15 2017
 - added fromNumber to Recipient object for sending calls/texts
 - added strictValidation flag for adding contacts to broadcast
