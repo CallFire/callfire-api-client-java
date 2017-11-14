@@ -7,18 +7,15 @@ import com.callfire.api.client.auth.BasicAuth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -311,8 +308,7 @@ public class RestApiClient {
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]));
             if (payload != null) {
                 validatePayload(payload);
-                String stringPayload = jsonConverter.serialize(payload);
-                requestBuilder.setEntity(EntityBuilder.create().setText(stringPayload).build());
+                requestBuilder.setEntity(new StringEntity(jsonConverter.serialize(payload), Consts.UTF_8));
                 logDebugPrettyJson("POST request to {} entity \n{}", uri, payload);
             } else {
                 LOGGER.debug("POST request to {}", uri);
@@ -365,11 +361,10 @@ public class RestApiClient {
         try {
             String uri = getApiBasePath() + path;
             validatePayload(payload);
-            HttpEntity httpEntity = EntityBuilder.create().setText(jsonConverter.serialize(payload)).build();
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
                 .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
                 .addParameters(queryParams.toArray(new NameValuePair[queryParams.size()]))
-                .setEntity(httpEntity);
+                .setEntity(new StringEntity(jsonConverter.serialize(payload), Consts.UTF_8));
             logDebugPrettyJson("PUT request to {} entity \n{}", uri, payload);
 
             return doRequest(requestBuilder, type);
@@ -471,7 +466,7 @@ public class RestApiClient {
     private void verifyResponse(int statusCode, HttpEntity httpEntity) throws IOException {
         if (statusCode >= 400) {
             ErrorMessage message;
-            String stringResponse = EntityUtils.toString(httpEntity, "UTF-8");
+            String stringResponse = EntityUtils.toString(httpEntity, Consts.UTF_8);
             try {
                 message = jsonConverter.deserialize(stringResponse, of(ErrorMessage.class));
             } catch (CallfireClientException e) {
