@@ -49,7 +49,6 @@ public class TextBroadcastsApi {
     private static final String TB_ITEM_ARCHIVE_PATH = "/texts/broadcasts/{}/archive";
     private static final String TB_ITEM_STATS_PATH = "/texts/broadcasts/{}/stats";
     private static final String TB_ITEM_RECIPIENTS_PATH = "/texts/broadcasts/{}/recipients";
-    private static final String TB_ITEM_RECIPIENTS_FILE_PATH = "/texts/broadcasts/{}/recipients-file";
 
     private RestApiClient client;
 
