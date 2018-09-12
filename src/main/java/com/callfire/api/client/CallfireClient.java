@@ -66,13 +66,8 @@ public class CallfireClient {
     private RestApiClient restApiClient;
 
     // campaigns
-    private AgentsApi agentsApi;
-    private AgentGroupsApi agentGroupsApi;
     private BatchesApi batchesApi;
     private CampaignSoundsApi campaignSoundsApi;
-    private CccsApi cccsApi;
-    private IvrBroadcastsApi ivrBroadcastsApi;
-    private VoiceBroadcastsApi voiceBroadcastsApi;
     private CallBroadcastsApi callBroadcastsApi;
     private TextBroadcastsApi textBroadcastsApi;
     private TextAutoRepliesApi textAutoRepliesApi;
@@ -125,46 +120,6 @@ public class CallfireClient {
     }
 
     /**
-     * Get /campaigns/cccs/agents api endpoint
-     *
-     * @return endpoint object
-     */
-    public AgentsApi agentsApi() {
-        if (agentsApi == null) {
-            agentsApi = new AgentsApi(restApiClient);
-        }
-        return agentsApi;
-    }
-
-    // TODO vmikhailov temporary disabled
-
-    /**
-     * Get /campaigns/cccs api endpoint
-     *
-     * @return endpoint object
-     */
-    private CccsApi cccsApi() {
-        if (cccsApi == null) {
-            cccsApi = new CccsApi(restApiClient);
-        }
-        return cccsApi;
-    }
-
-    /**
-     * Get /campaigns/ivrs api endpoint
-     *
-     * @return endpoint object
-     * @deprecated use callBroadcastsApi() instead
-     */
-    @Deprecated
-    public IvrBroadcastsApi ivrBroadcastsApi() {
-        if (ivrBroadcastsApi == null) {
-            ivrBroadcastsApi = new IvrBroadcastsApi(restApiClient);
-        }
-        return ivrBroadcastsApi;
-    }
-
-    /**
      * Get /texts/text-broadcasts api endpoint
      *
      * @return endpoint object
@@ -186,20 +141,6 @@ public class CallfireClient {
             callBroadcastsApi = new CallBroadcastsApi(restApiClient);
         }
         return callBroadcastsApi;
-    }
-
-    /**
-     * Get /campaigns/voice-broadcasts api endpoint
-     *
-     * @deprecated use callBroadcastsApi()
-     * @return endpoint object
-     */
-    @Deprecated
-    public VoiceBroadcastsApi voiceBroadcastsApi() {
-        if (voiceBroadcastsApi == null) {
-            voiceBroadcastsApi = new VoiceBroadcastsApi(restApiClient);
-        }
-        return voiceBroadcastsApi;
     }
 
     /**
@@ -334,18 +275,6 @@ public class CallfireClient {
             webhooksApi = new WebhooksApi(restApiClient);
         }
         return webhooksApi;
-    }
-
-    /**
-     * Get /campaigns/cccs/agent-groups endpoint
-     *
-     * @return endpoint object
-     */
-    public AgentGroupsApi agentGroupsApi() {
-        if (agentGroupsApi == null) {
-            agentGroupsApi = new AgentGroupsApi(restApiClient);
-        }
-        return agentGroupsApi;
     }
 
     /**
