@@ -64,7 +64,6 @@ public class CallfireClient {
     }
 
     private RestApiClient restApiClient;
-
     // campaigns
     private BatchesApi batchesApi;
     private CampaignSoundsApi campaignSoundsApi;

@@ -1,7 +1,7 @@
 Callfire API client Changelog
 =============================
 Version 1.7.18 - Sept 12 2018
-- removed deprecated endpoints
+- removed deprecated endpoints (old call/text broadcasts endpoints)
 
 Version 1.7.17 - Nov 14 2017
 - set json content encoding to UTF-8
