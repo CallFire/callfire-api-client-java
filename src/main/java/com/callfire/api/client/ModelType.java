@@ -1,15 +1,42 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.api.account.model.*;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import com.callfire.api.client.api.account.model.Account;
+import com.callfire.api.client.api.account.model.ApiCredentials;
+import com.callfire.api.client.api.account.model.BillingPlanUsage;
+import com.callfire.api.client.api.account.model.CallerId;
+import com.callfire.api.client.api.account.model.CreditsUsage;
+import com.callfire.api.client.api.account.model.NumberOrder;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Media;
 import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.*;
+import com.callfire.api.client.api.campaigns.model.Agent;
+import com.callfire.api.client.api.campaigns.model.AgentGroup;
+import com.callfire.api.client.api.campaigns.model.AgentSession;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.CallBroadcast;
+import com.callfire.api.client.api.campaigns.model.CallBroadcastStats;
+import com.callfire.api.client.api.campaigns.model.CallRecording;
+import com.callfire.api.client.api.campaigns.model.CampaignSound;
+import com.callfire.api.client.api.campaigns.model.CccCampaign;
+import com.callfire.api.client.api.campaigns.model.TextAutoReply;
+import com.callfire.api.client.api.campaigns.model.TextBroadcast;
+import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
 import com.callfire.api.client.api.common.model.ErrorMessage;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.contacts.model.*;
+import com.callfire.api.client.api.contacts.model.Contact;
+import com.callfire.api.client.api.contacts.model.ContactHistory;
+import com.callfire.api.client.api.contacts.model.ContactList;
+import com.callfire.api.client.api.contacts.model.DoNotContact;
+import com.callfire.api.client.api.contacts.model.UniversalDnc;
 import com.callfire.api.client.api.keywords.model.Keyword;
 import com.callfire.api.client.api.keywords.model.KeywordLease;
 import com.callfire.api.client.api.numbers.model.Number;
@@ -18,12 +45,6 @@ import com.callfire.api.client.api.numbers.model.NumberLease;
 import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.webhooks.model.Webhook;
 import com.callfire.api.client.api.webhooks.model.WebhookResource;
-import com.fasterxml.jackson.core.type.TypeReference;
-
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Class contains TypeReferences for all model objects
@@ -68,9 +89,7 @@ public final class ModelType {
         SIMPLE_TYPES.put(CampaignSound.class, new TypeReference<CampaignSound>() {});
         SIMPLE_TYPES.put(TextAutoReply.class, new TypeReference<TextAutoReply>() {});
         SIMPLE_TYPES.put(CccCampaign.class, new TypeReference<CccCampaign>() {});
-        SIMPLE_TYPES.put(IvrBroadcast.class, new TypeReference<IvrBroadcast>() {});
         SIMPLE_TYPES.put(TextBroadcast.class, new TypeReference<TextBroadcast>() {});
-        SIMPLE_TYPES.put(VoiceBroadcast.class, new TypeReference<VoiceBroadcast>() {});
         SIMPLE_TYPES.put(Call.class, new TypeReference<Call>() {});
         SIMPLE_TYPES.put(Text.class, new TypeReference<Text>() {});
         SIMPLE_TYPES.put(ContactList.class, new TypeReference<ContactList>() {});
@@ -104,10 +123,8 @@ public final class ModelType {
         PAGEABLE_TYPES.put(CampaignSound.class, new TypeReference<Page<CampaignSound>>() {});
         PAGEABLE_TYPES.put(TextAutoReply.class, new TypeReference<Page<TextAutoReply>>() {});
         PAGEABLE_TYPES.put(CccCampaign.class, new TypeReference<Page<CccCampaign>>() {});
-        PAGEABLE_TYPES.put(IvrBroadcast.class, new TypeReference<Page<IvrBroadcast>>() {});
         PAGEABLE_TYPES.put(CallBroadcast.class, new TypeReference<Page<CallBroadcast>>() {});
         PAGEABLE_TYPES.put(TextBroadcast.class, new TypeReference<Page<TextBroadcast>>() {});
-        PAGEABLE_TYPES.put(VoiceBroadcast.class, new TypeReference<Page<VoiceBroadcast>>() {});
         PAGEABLE_TYPES.put(Batch.class, new TypeReference<Page<Batch>>() {});
         PAGEABLE_TYPES.put(Call.class, new TypeReference<Page<Call>>() {});
         PAGEABLE_TYPES.put(Text.class, new TypeReference<Page<Text>>() {});
@@ -119,6 +136,8 @@ public final class ModelType {
         PAGEABLE_TYPES.put(NumberLease.class, new TypeReference<Page<NumberLease>>() {});
         PAGEABLE_TYPES.put(NumberConfig.class, new TypeReference<Page<NumberConfig>>() {});
         PAGEABLE_TYPES.put(Webhook.class, new TypeReference<Page<Webhook>>() {});
+        PAGEABLE_TYPES.put(Media.class, new TypeReference<Page<Media>>() {});
+
         // @formatter:on
     }
 
