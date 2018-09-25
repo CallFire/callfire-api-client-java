@@ -1,29 +1,49 @@
 package com.callfire.api.client.integration.callstexts;
 
-import com.callfire.api.client.BadRequestException;
-import com.callfire.api.client.CallfireApiException;
-import com.callfire.api.client.CallfireClient;
-import com.callfire.api.client.api.callstexts.model.Media;
-import com.callfire.api.client.api.callstexts.model.MediaType;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
+
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.callstexts.model.Media;
+import com.callfire.api.client.api.callstexts.model.MediaType;
+import com.callfire.api.client.api.callstexts.model.request.FindMediaRequest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.integration.AbstractIntegrationTest;
 
 /**
  * integration tests for /media api endpoint
  */
 public class MediaApiTest extends AbstractIntegrationTest {
+    @Test
+    public void testFind()  throws Exception {
+        CallfireClient callfireClient = getCallfireClient();
+        File cfLogoFile = new File(getClass().getClassLoader().getResource("file-examples/cf.png").toURI());
+        File ezLogoFile = new File(getClass().getClassLoader().getResource("file-examples/ez.png").toURI());
+
+        ResourceId cfResourceId = callfireClient.mediaApi().upload(ezLogoFile);
+        ResourceId ezResourceId = callfireClient.mediaApi().upload(cfLogoFile);
+
+        assertNotNull(cfResourceId.getId());
+        assertNotNull(ezResourceId.getId());
+
+        Page<Media> mediaPage = callfireClient.mediaApi().find(FindMediaRequest.create().filter("cf.png").build());
+        assertEquals(1, mediaPage.getItems().size());
+    }
 
     @Test
-
     public void testUpload() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
         File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train1.mp3").toURI());

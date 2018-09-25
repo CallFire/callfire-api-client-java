@@ -1,11 +1,9 @@
 package com.callfire.api.client.api.callstexts;
 
-import com.callfire.api.client.*;
-import com.callfire.api.client.api.callstexts.model.Media;
-import com.callfire.api.client.api.callstexts.model.MediaType;
-import com.callfire.api.client.api.common.model.ResourceId;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 import java.io.File;
 import java.io.InputStream;
@@ -14,9 +12,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.of;
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
+import com.callfire.api.client.api.callstexts.model.Media;
+import com.callfire.api.client.api.callstexts.model.MediaType;
+import com.callfire.api.client.api.callstexts.model.request.FindMediaRequest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
 
 /**
  * Represents rest endpoint /media
@@ -36,6 +47,24 @@ public class MediaApi {
 
     public MediaApi(RestApiClient client) {
         this.client = client;
+    }
+
+    /**
+     * Finds all media files which was uploaded by the user, filtered by file name.
+     *
+     * @param request request object with different fields to filter
+     * @return Page with @{Media} objects
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
+     */
+    public Page<Media> find(FindMediaRequest request) {
+        return client.get(MEDIA_PATH, pageOf(Media.class), request);
     }
 
     /**

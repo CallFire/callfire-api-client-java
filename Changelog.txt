@@ -1,5 +1,8 @@
 Callfire API client Changelog
 =============================
+Version 1.7.19 - Sept 25 2018
+- added findMedia API operation to sdk
+
 Version 1.7.18 - Sept 12 2018
 - removed deprecated endpoints (old call/text broadcasts endpoints)
 
