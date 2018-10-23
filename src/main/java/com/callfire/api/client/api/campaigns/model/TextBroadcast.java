@@ -1,10 +1,11 @@
 package com.callfire.api.client.api.campaigns.model;
 
-import com.callfire.api.client.api.callstexts.model.Media;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.callfire.api.client.api.callstexts.model.Media;
 
 public class TextBroadcast extends Broadcast {
     private String message;
@@ -13,7 +14,7 @@ public class TextBroadcast extends Broadcast {
     private List<Media> media = new ArrayList<>();
 
     public enum BigMessageStrategy {
-        SEND_MULTIPLE, DO_NOT_SEND, TRIM
+        SEND_MULTIPLE, DO_NOT_SEND, TRIM, MMS
     }
 
     public String getMessage() {
