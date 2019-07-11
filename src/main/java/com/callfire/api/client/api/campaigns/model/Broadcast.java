@@ -20,7 +20,20 @@ public abstract class Broadcast extends CallfireModel {
     private Boolean resumeNextDay;
 
     public enum Status {
-        TEST, SETUP, START_PENDING, RUNNING, STOPPED, FINISHED, ARCHIVED
+        TEST,
+        SETUP,
+        START_PENDING, // waiting for call batch population
+        RUNNING,
+        SCHEDULED, // scheduled
+        STOPPED,
+        SUSPENDED,
+        FINISHED,
+        ARCHIVED,
+        VALIDATING_EMAIL,
+        VALIDATING_START,
+        BLOCKED_SUSPICIOUS, // campaign with suspicious word is waiting for approve or decline
+        DECLINED,
+        APPROVED,
     }
 
     public Long getId() {
