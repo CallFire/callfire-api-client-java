@@ -1,119 +1,61 @@
 package com.callfire.api.client.api.campaigns.model;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Represents text auto-reply object
  */
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TextAutoReply extends CallfireModel {
-    private Long id;
-    private String number;
-    private String keyword;
-    private String match;
-    private String message;
 
     /**
-     * Get unique ID of text auto reply
-     *
-     * @return unique ID of text auto reply
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Set unique ID of text auto reply
+     * Unique ID of text auto reply
      *
      * @param id unique ID of text auto reply
+     * @return unique ID of text auto reply
      */
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Long id;
 
     /**
-     * Get phone number to configure an auto reply message
-     *
-     * @return phone number to configure an auto reply message
-     */
-    public String getNumber() {
-        return number;
-    }
-
-    /**
-     * Set phone number to configure an auto reply message
+     * Phone number to configure an auto reply message
      *
      * @param number phone number to configure an auto reply message
+     * @return phone number to configure an auto reply message
      */
-    public void setNumber(String number) {
-        this.number = number;
-    }
+    private String number;
 
     /**
-     * Get keyword associated with account
-     *
-     * @return keyword associated with account
-     */
-    public String getKeyword() {
-        return keyword;
-    }
-
-    /**
-     * Set keyword associated with account
+     * Keyword associated with account
      *
      * @param keyword keyword associated with account
+     * @return keyword associated with account
      */
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
+    private String keyword;
 
     /**
-     * Get matching text is either null or empty which represents all matches.
-     * All other text, for example 'rocks', will be matched as case insensitive whole words.
-     *
-     * @return matching text is either null or empty which represents all matches.
-     */
-    public String getMatch() {
-        return match;
-    }
-
-    /**
-     * Set matching text, null or empty represents all matches.
+     * Matching text is either null or empty which represents all matches.
      * All other text, for example 'rocks', will be matched as case insensitive whole words.
      *
      * @param match text to match
+     * @return matching text is either null or empty which represents all matches.
      */
-    public void setMatch(String match) {
-        this.match = match;
-    }
+    private String match;
 
     /**
-     * Get templated message to return as auto reply (ex: 'Here is an echo - ${text.message}')
-     *
-     * @return templated message
-     */
-    public String getMessage() {
-        return message;
-    }
-
-    /**
-     * Set templated message to return as auto reply (ex: 'Here is an echo - ${text.message}')
+     * Templated message to return as auto reply (ex: 'Here is an echo - ${text.message}')
      *
      * @param message templated message to set
+     * @return templated message
      */
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("id", id)
-            .append("number", number)
-            .append("keyword", keyword)
-            .append("match", match)
-            .append("message", message)
-            .toString();
-    }
+    private String message;
 }

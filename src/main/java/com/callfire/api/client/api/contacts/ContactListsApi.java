@@ -1,6 +1,27 @@
 package com.callfire.api.client.api.contacts;
 
-import com.callfire.api.client.*;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
@@ -10,19 +31,6 @@ import com.callfire.api.client.api.contacts.model.request.AddContactListItemsReq
 import com.callfire.api.client.api.contacts.model.request.CreateContactListRequest;
 import com.callfire.api.client.api.contacts.model.request.FindContactListsRequest;
 import com.callfire.api.client.api.contacts.model.request.UpdateContactListRequest;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.of;
-import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /contacts/lists

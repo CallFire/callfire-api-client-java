@@ -1,11 +1,20 @@
 package com.callfire.api.client.api.webhooks.model;
 
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.FAILED;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.FINISHED;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.STARTED;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.STOPPED;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.VALIDATION_FAILED;
+import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.VALIDATION_FINISHED;
+import static java.util.Arrays.asList;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.*;
-
-import static com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent.*;
 
 public enum ResourceType {
     MONTHLY_RENEWAL("MonthlyRenewal", FINISHED, FAILED),
@@ -27,7 +36,7 @@ public enum ResourceType {
 
     ResourceType(String resourceName, ResourceEvent... supportedEvents) {
         this.resourceName = resourceName;
-        this.supportedEvents = new HashSet<>(Arrays.asList(supportedEvents));
+        this.supportedEvents = new HashSet<>(asList(supportedEvents));
     }
 
     @JsonValue

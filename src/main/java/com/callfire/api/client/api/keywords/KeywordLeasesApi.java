@@ -1,19 +1,27 @@
 package com.callfire.api.client.api.keywords;
 
-import com.callfire.api.client.*;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonFindRequest;
-import com.callfire.api.client.api.keywords.model.KeywordLease;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
 import static com.callfire.api.client.ModelType.of;
 import static com.callfire.api.client.ModelType.pageOf;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
+import com.callfire.api.client.api.keywords.model.KeywordLease;
 
 /**
  * Represents rest endpoint /keywords/leases

@@ -1,20 +1,21 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.api.callstexts.model.Call;
-import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
-import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.junit.Test;
+
+import com.callfire.api.client.api.callstexts.model.Call;
+import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
+import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
 
 public class ClientUtilsTest {
 

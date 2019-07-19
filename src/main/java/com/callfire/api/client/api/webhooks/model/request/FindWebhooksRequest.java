@@ -1,9 +1,13 @@
 package com.callfire.api.client.api.webhooks.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
 import com.callfire.api.client.api.webhooks.model.ResourceType;
 import com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /webhooks which incapsulates
@@ -11,15 +15,44 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * @since 1.0
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindWebhooksRequest extends FindRequest {
-    private String name;
-    private ResourceType resource;
-    private ResourceEvent event;
-    private String callback;
-    private Boolean enabled;
 
-    private FindWebhooksRequest() {
-    }
+    /**
+     * Get name of webhook
+     *
+     * @return name of webhook
+     */
+    private String name;
+
+    /**
+     * Get name of resource
+     *
+     * @return name of resource
+     */
+    private ResourceType resource;
+
+    /**
+     * Get name of event
+     *
+     * @return name of event
+     */
+    private ResourceEvent event;
+
+    /**
+     * Get callback URL
+     *
+     * @return callback URL
+     */
+    private String callback;
+
+    /**
+     * Is webhook enabled
+     *
+     * @return true if webhook enabled
+     */
+    private Boolean enabled;
 
     /**
      * Create request builder
@@ -28,63 +61,6 @@ public class FindWebhooksRequest extends FindRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get name of webhook
-     *
-     * @return name of webhook
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Get name of resource
-     *
-     * @return name of resource
-     */
-    public ResourceType getResource() {
-        return resource;
-    }
-
-    /**
-     * Get name of event
-     *
-     * @return name of event
-     */
-    public ResourceEvent getEvent() {
-        return event;
-    }
-
-    /**
-     * Get callback URL
-     *
-     * @return callback URL
-     */
-    public String getCallback() {
-        return callback;
-    }
-
-    /**
-     * Is webhook enabled
-     *
-     * @return true if webhook enabled
-     */
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("name", name)
-            .append("resource", resource)
-            .append("event", event)
-            .append("callback", callback)
-            .append("enabled", enabled)
-            .toString();
     }
 
     /**

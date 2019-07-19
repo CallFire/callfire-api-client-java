@@ -1,7 +1,8 @@
 package com.callfire.api.client.auth;
 
-import com.callfire.api.client.CallfireClientException;
 import org.apache.http.client.methods.HttpUriRequest;
+
+import com.callfire.api.client.CallfireClientException;
 
 /**
  * Provides authentication interface to client for different auth types

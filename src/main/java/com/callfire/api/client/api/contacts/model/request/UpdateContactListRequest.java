@@ -1,39 +1,36 @@
 package com.callfire.api.client.api.contacts.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for
- *
+ * <p>
  * PUT /contacts/lists/{id}
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class UpdateContactListRequest extends CallfireModel {
-    private String name;
-    @JsonIgnore
-    private Long id;
-
-    private UpdateContactListRequest() {
-    }
-
     /**
-     * Get id of contact list
-     *
-     * @return id of contact list
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Get contact list's name
+     * Contact list's name
      *
      * @return contact list's name
      */
-    public String getName() {
-        return name;
-    }
+    private String name;
+
+    /**
+     * ID of contact list
+     *
+     * @return id of contact list
+     */
+    @JsonIgnore private Long id;
 
     public static Builder create() {
         return new Builder();

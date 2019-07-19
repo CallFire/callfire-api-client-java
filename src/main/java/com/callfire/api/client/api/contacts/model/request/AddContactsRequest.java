@@ -1,33 +1,53 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.callfire.api.client.api.contacts.model.Contact;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import static lombok.AccessLevel.PROTECTED;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
+import com.callfire.api.client.api.contacts.model.Contact;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * Request object for for creation contact lists or adding contacts to existing one
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class AddContactsRequest<T> extends CallfireModel {
     public static final String FIELD_CONTACT_IDS = "contactIds";
     public static final String FIELD_CONTACT_NUMBERS = "contactNumbers";
     public static final String FIELD_CONTACTS = "contacts";
 
-    @JsonIgnore
-    protected List<T> contacts = new ArrayList<>();
+    /**
+     * Associated contacts with request, possible types are list of Contact objects, contact ids,
+     * contact numbers
+     *
+     * @return name or partial name of contact list
+     */
+    @JsonIgnore protected List<T> contacts = new ArrayList<>();
 
+    /**
+     * Type of phone number (homePhone, workPhone, mobilePhone)
+     *
+     * @return type of phone number (homePhone, workPhone, mobilePhone)
+     */
     protected String contactNumbersField;
 
+    /**
+     * Use custom fields flag
+     *
+     * @return use custom fields flag
+     */
     protected Boolean useCustomFields;
-
-    protected AddContactsRequest() {
-    }
 
     /**
      * Used for internal dynamic property name mapping in Jackson
@@ -41,44 +61,19 @@ public abstract class AddContactsRequest<T> extends CallfireModel {
             Object item = contacts.get(0);
             if (item instanceof Long) {
                 fields.put(FIELD_CONTACT_IDS, contacts);
-            } else if (item instanceof String) {
+            }
+            else if (item instanceof String) {
                 fields.put(FIELD_CONTACT_NUMBERS, contacts);
-            } else if (item instanceof Contact) {
+            }
+            else if (item instanceof Contact) {
                 fields.put(FIELD_CONTACTS, contacts);
-            } else {
+            }
+            else {
                 throw new IllegalStateException("Type " + item.getClass().getName() +
-                    " isn't supported to create contacts. Use Long, String or Contact types instead.");
+                        " isn't supported to create contacts. Use Long, String or Contact types instead.");
             }
         }
         return fields;
-    }
-
-    /**
-     * Get associated contacts with request, possible types are list of Contact objects, contact ids,
-     * contact numbers
-     *
-     * @return name or partial name of contact list
-     */
-    public List<T> getContacts() {
-        return contacts;
-    }
-
-    /**
-     * Get type of phone number (homePhone, workPhone, mobilePhone)
-     *
-     * @return type of phone number (homePhone, workPhone, mobilePhone)
-     */
-    public String getContactNumbersField() {
-        return contactNumbersField;
-    }
-
-    /**
-     * Get use custom fields flag
-     *
-     * @return use custom fields flag
-     */
-    public Boolean getUseCustomFields() {
-        return useCustomFields;
     }
 
     /**

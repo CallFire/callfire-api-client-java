@@ -1,21 +1,23 @@
 package com.callfire.api.client.api.campaigns;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import org.apache.http.client.methods.HttpGet;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.campaigns.model.Batch;
 
 public class BatchesApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/campaigns/batchesApi";
 
     @Test
-    public void testGetNullId() throws Exception {
+    public void testGetNullId() {
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
         client.batchesApi().get(null);
@@ -38,7 +40,7 @@ public class BatchesApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testUpdateNullId() throws Exception {
+    public void testUpdateNullId() {
         ex.expectMessage("id cannot be null");
         ex.expect(NullPointerException.class);
         Batch batch = new Batch();

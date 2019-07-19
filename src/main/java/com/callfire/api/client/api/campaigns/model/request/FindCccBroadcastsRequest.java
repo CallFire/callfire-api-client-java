@@ -1,12 +1,15 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
+import lombok.NoArgsConstructor;
+
 /**
  * Request object for searching ccc broadcasts
  */
+@Deprecated
+@NoArgsConstructor(access = PRIVATE)
 public class FindCccBroadcastsRequest extends FindBroadcastsRequest {
-
-    private FindCccBroadcastsRequest() {
-    }
 
     /**
      * Create request builder

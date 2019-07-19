@@ -1,12 +1,24 @@
 package com.callfire.api.client.api.webhooks.model;
 
+import java.util.Date;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import com.callfire.api.client.ModelValidationException;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.webhooks.model.ResourceType.ResourceEvent;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Webhook extends CallfireModel {
     private Long id;
     private Boolean enabled;
@@ -18,104 +30,8 @@ public class Webhook extends CallfireModel {
     private String secret;
     private Date createdAt;
     private Date updatedAt;
-    private SortedSet<ResourceEvent> events = new TreeSet<>();
+    @Builder.Default private SortedSet<ResourceEvent> events = new TreeSet<>();
     private Boolean singleUse;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ResourceType getResource() {
-        return resource;
-    }
-
-    public void setResource(ResourceType resource) {
-        this.resource = resource;
-    }
-
-    public Boolean getNonStrictSsl() {
-        return nonStrictSsl;
-    }
-
-    public void setNonStrictSsl(Boolean nonStrictSsl) {
-        this.nonStrictSsl = nonStrictSsl;
-    }
-
-    public String getFields() {
-        return fields;
-    }
-
-    public void setFields(String fields) {
-        this.fields = fields;
-    }
-
-    public String getCallback() {
-        return callback;
-    }
-
-    public void setCallback(String callback) {
-        this.callback = callback;
-    }
-
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public SortedSet<ResourceEvent> getEvents() {
-        return events;
-    }
-
-    public void setEvents(SortedSet<ResourceEvent> events) {
-        this.events = events;
-    }
-
-    public Boolean getSingleUse() {
-        return singleUse;
-    }
-
-    public void setSingleUse(Boolean singleUse) {
-        this.singleUse = singleUse;
-    }
 
     @Override
     public void validate() {
@@ -123,28 +39,9 @@ public class Webhook extends CallfireModel {
             for (ResourceEvent event : events) {
                 if (!resource.getSupportedEvents().contains(event)) {
                     throw new ModelValidationException("Event [" + event + "] is unsupported for " +
-                        resource + " resource, supported events are: " + resource.getSupportedEvents());
+                            resource + " resource, supported events are: " + resource.getSupportedEvents());
                 }
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("id", id)
-            .append("enabled", enabled)
-            .append("name", name)
-            .append("resource", resource)
-            .append("nonStrictSsl", nonStrictSsl)
-            .append("fields", fields)
-            .append("callback", callback)
-            .append("secret", secret)
-            .append("createdAt", createdAt)
-            .append("updatedAt", updatedAt)
-            .append("events", events)
-            .append("singleUse", singleUse)
-            .toString();
     }
 }

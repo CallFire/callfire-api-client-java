@@ -1,18 +1,23 @@
 package com.callfire.api.client.api.callstexts;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.callstexts.model.Media;
-import com.callfire.api.client.api.common.model.ResourceId;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.io.File;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.callstexts.model.Media;
+import com.callfire.api.client.api.common.model.ResourceId;
 
 public class MediaApiTest extends AbstractApiTest {
 

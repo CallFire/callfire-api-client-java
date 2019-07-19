@@ -1,50 +1,46 @@
 package com.callfire.api.client.api.contacts.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
+import org.apache.commons.lang3.Validate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.Validate;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for
- *
+ * <p>
  * POST /contacts/dncs/
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindUniversalDncsRequest extends CallfireModel {
-    @JsonIgnore
-    private String toNumber;
-    private String fromNumber;
-    private String fields;
-
-    private FindUniversalDncsRequest() {
-    }
 
     /**
-     * Get toNumber filter
+     * toNumber filter
      *
      * @return toNumber string
      */
-    public String getToNumber() {
-        return toNumber;
-    }
+    @JsonIgnore private String toNumber;
 
     /**
-     * Get fromNumber filter
+     * fromNumber filter
      *
      * @return fromNumber string
      */
-    public String getFromNumber() {
-        return fromNumber;
-    }
+    private String fromNumber;
 
     /**
-     * Get limit fields returned. Example fields=id,items(name,agents(id))
+     * Limit fields returned. Example fields=id,items(name,agents(id))
      *
      * @return field to return
      */
-    public String getFields() {
-        return fields;
-    }
+    private String fields;
 
     public static Builder create() {
         return new Builder();

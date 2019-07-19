@@ -17,5 +17,5 @@ public @interface ConvertToString {
      *
      * @return values separator
      */
-    public String separator() default ",";
+    String separator() default ",";
 }

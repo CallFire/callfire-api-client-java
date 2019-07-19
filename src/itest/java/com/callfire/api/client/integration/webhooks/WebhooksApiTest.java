@@ -1,5 +1,18 @@
 package com.callfire.api.client.integration.webhooks;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
@@ -9,15 +22,6 @@ import com.callfire.api.client.api.webhooks.model.Webhook;
 import com.callfire.api.client.api.webhooks.model.WebhookResource;
 import com.callfire.api.client.api.webhooks.model.request.FindWebhooksRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeSet;
-
-import static org.junit.Assert.*;
 
 /**
  * integration tests for /webhooks api endpoint

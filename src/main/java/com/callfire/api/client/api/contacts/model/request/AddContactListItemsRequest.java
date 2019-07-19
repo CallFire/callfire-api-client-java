@@ -1,21 +1,20 @@
 package com.callfire.api.client.api.contacts.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for POST /contacts/lists/{id}/items which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class AddContactListItemsRequest<T> extends AddContactsRequest<T> {
-    @JsonIgnore
-    private Long contactListId;
-
-    private AddContactListItemsRequest() {
-    }
-
-    public Long getContactListId() {
-        return contactListId;
-    }
+    @JsonIgnore private Long contactListId;
 
     /**
      * Create request builder

@@ -1,26 +1,34 @@
 package com.callfire.api.client.api.numbers;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.common.model.LocalTime;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.WeeklySchedule;
-import com.callfire.api.client.api.numbers.model.*;
-import com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType;
-import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
-import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.HashSet;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.time.DayOfWeek;
-import java.util.Arrays;
-import java.util.HashSet;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.DayOfWeek;
+import com.callfire.api.client.api.common.model.LocalTime;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.WeeklySchedule;
+import com.callfire.api.client.api.numbers.model.CallTrackingConfig;
+import com.callfire.api.client.api.numbers.model.GoogleAnalytics;
+import com.callfire.api.client.api.numbers.model.NumberConfig;
+import com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType;
+import com.callfire.api.client.api.numbers.model.NumberLease;
+import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
+import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest;
 
 public class NumberLeasesApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/numbers/numberLeasesApi";
@@ -31,11 +39,11 @@ public class NumberLeasesApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
-            .limit(5L)
-            .offset(0L)
-            .state("LA")
-            .labelName("label")
-            .build();
+                .limit(5L)
+                .offset(0L)
+                .state("LA")
+                .labelName("label")
+                .build();
         Page<NumberLease> leases = client.numberLeasesApi().find(request);
         assertThat(jsonConverter.serialize(leases), equalToIgnoringWhiteSpace(expectedJson));
 
@@ -64,7 +72,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetNullNumber() throws Exception {
+    public void testGetNullNumber() {
         ex.expectMessage("number cannot be blank");
         ex.expect(NullPointerException.class);
         client.numberLeasesApi().get(null);
@@ -87,7 +95,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testUpdateNullNumber() throws Exception {
+    public void testUpdateNullNumber() {
         ex.expectMessage("number cannot be blank");
         ex.expect(NullPointerException.class);
         client.numberLeasesApi().update(new NumberLease());
@@ -99,11 +107,11 @@ public class NumberLeasesApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
-            .limit(5L)
-            .offset(0L)
-            .state("LA")
-            .labelName("label")
-            .build();
+                .limit(5L)
+                .offset(0L)
+                .state("LA")
+                .labelName("label")
+                .build();
         Page<NumberConfig> configs = client.numberLeasesApi().findConfigs(request);
         assertThat(jsonConverter.serialize(configs), equalToIgnoringWhiteSpace(expectedJson));
 
@@ -132,7 +140,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testGetConfigNullNumber() throws Exception {
+    public void testGetConfigNullNumber() {
         ex.expectMessage("number cannot be blank");
         ex.expect(NullPointerException.class);
         client.numberLeasesApi().getConfig(null);
@@ -160,12 +168,12 @@ public class NumberLeasesApiTest extends AbstractApiTest {
         callTrackingConfig.setFailedTransferSoundId(1234L);
         callTrackingConfig.setWhisperSoundId(1234L);
 
-        WeeklySchedule weeklySchedule = new WeeklySchedule();
-        weeklySchedule.setStartTimeOfDay(new LocalTime(1, 1, 1));
-        weeklySchedule.setStopTimeOfDay(new LocalTime(2, 2, 2));
-        weeklySchedule.setDaysOfWeek(new HashSet<>(Arrays.asList(DayOfWeek.FRIDAY)));
-        weeklySchedule.setTimeZone("America/Los_Angeles");
-        callTrackingConfig.setWeeklySchedule(weeklySchedule);
+        callTrackingConfig.setWeeklySchedule(new WeeklySchedule(
+                new LocalTime(1, 1, 1),
+                new LocalTime(2, 2, 2),
+                new HashSet<>(singletonList(DayOfWeek.FRIDAY)),
+                "America/Los_Angeles"
+        ));
 
         GoogleAnalytics googleAnalytics = new GoogleAnalytics();
         googleAnalytics.setCategory("Sales");
@@ -183,7 +191,7 @@ public class NumberLeasesApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testUpdateConfigNullNumber() throws Exception {
+    public void testUpdateConfigNullNumber() {
         ex.expectMessage("number cannot be blank");
         ex.expect(NullPointerException.class);
         client.numberLeasesApi().updateConfig(new NumberConfig());

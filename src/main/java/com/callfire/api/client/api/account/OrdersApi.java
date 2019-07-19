@@ -1,27 +1,39 @@
 package com.callfire.api.client.api.account;
 
-import com.callfire.api.client.*;
-import com.callfire.api.client.api.account.model.NumberOrder;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.keywords.model.request.KeywordPurchaseRequest;
-import com.callfire.api.client.api.numbers.model.request.NumberPurchaseRequest;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.of;
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
+import com.callfire.api.client.api.account.model.NumberOrder;
+import com.callfire.api.client.api.account.model.request.FindOrdersRequest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.keywords.model.request.KeywordPurchaseRequest;
+import com.callfire.api.client.api.numbers.model.request.NumberPurchaseRequest;
 
 /**
  * Represents rest endpoint /orders
  */
 public class OrdersApi {
-    private static final String ORDERS_KEYWORDS = "/orders/keywords";
-    private static final String ORDERS_NUMBERS = "/orders/numbers";
-    private static final String ORDERS_GET_ORDER = "/orders/{}";
+    private static final String ORDERS = "/orders";
+    private static final String ORDERS_KEYWORDS = ORDERS + "/keywords";
+    private static final String ORDERS_NUMBERS = ORDERS + "/numbers";
+    private static final String ORDERS_GET_ORDER = ORDERS + "/{}";
 
     private RestApiClient client;
 
@@ -65,6 +77,24 @@ public class OrdersApi {
      */
     public ResourceId orderNumbers(NumberPurchaseRequest request) {
         return client.post(ORDERS_NUMBERS, of(ResourceId.class), request);
+    }
+
+    /**
+     * Find number leases by prefix, zipcode, etc...
+     * This API is useful for finding all numbers currently owned by an account.
+     *
+     * @param request request payload
+     * @return page of number orders
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public Page<NumberOrder> findOrders(FindOrdersRequest request) {
+        return client.get(ORDERS, pageOf(NumberOrder.class), request);
     }
 
     /**

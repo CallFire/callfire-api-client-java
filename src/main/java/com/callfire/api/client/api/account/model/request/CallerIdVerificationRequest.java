@@ -1,28 +1,25 @@
 package com.callfire.api.client.api.account.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for
  * POST /admin/callerids/{callerid}/verification-code
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class CallerIdVerificationRequest extends CallfireModel {
     private String verificationCode;
     @JsonIgnore
     private String callerId;
-
-    private CallerIdVerificationRequest() {
-    }
-
-    public String getCallerId() {
-        return callerId;
-    }
-
-    public String getVerificationCode() {
-        return verificationCode;
-    }
 
     public static Builder create() {
         return new Builder();

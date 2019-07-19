@@ -1,6 +1,18 @@
 package com.callfire.api.client.api.numbers;
 
-import com.callfire.api.client.*;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.pageOf;
+
+import java.util.List;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 import com.callfire.api.client.api.numbers.model.Number;
@@ -8,11 +20,6 @@ import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
 import com.callfire.api.client.api.numbers.model.request.FindTollfreeNumbersRequest;
-
-import java.util.List;
-
-import static com.callfire.api.client.ModelType.listHolderOf;
-import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /numbers
@@ -66,8 +73,6 @@ public class NumbersApi {
     }
 
     /**
-     * @deprecated this method doesn't work with offset parameter in request, please use findNumbersTollfree method with FindTollfreeNumbersRequest instead
-     *
      * Find numbers in the CallFire tollfree numbers catalog that are available for purchase.
      *
      * @param request request payload
@@ -79,6 +84,7 @@ public class NumbersApi {
      * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
      * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
      * @throws CallfireClientException      in case error has occurred in client.
+     * @deprecated this method doesn't work with offset parameter in request, please use findNumbersTollfree method with FindTollfreeNumbersRequest instead
      */
     @Deprecated
     public List<Number> findNumbersTollfree(CommonFindRequest request) {

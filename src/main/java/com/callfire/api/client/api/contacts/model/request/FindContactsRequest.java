@@ -1,69 +1,58 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.callfire.api.client.api.common.model.request.FindRequest;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.List;
+
+import com.callfire.api.client.api.common.model.request.FindRequest;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /contacts which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindContactsRequest extends FindRequest {
-    private Long contactListId;
-    private String propertyName;
-    private String propertyValue;
-    private List<String> number;
-    private List<Long> id;
-
-    private FindContactsRequest() {
-    }
 
     /**
-     * Get  particular contact list to search by
+     * Particular contact list id to search by
      *
      * @return particular contact list id to search by
      */
-    public Long getContactListId() {
-        return contactListId;
-    }
+    private Long contactListId;
 
     /**
-     * Get name of contact property to search by
+     * Name of contact property to search by
      *
      * @return name of contact property to search by
      */
-    public String getPropertyName() {
-        return propertyName;
-    }
+    private String propertyName;
 
     /**
-     * Get value of contact property to search by
+     * Value of contact property to search by
      *
      * @return value of contact property to search by
      */
-    public String getPropertyValue() {
-        return propertyValue;
-    }
+    private String propertyValue;
 
     /**
-     * Get multiple contact numbers can be specified. If the number parameter is included,
+     * Multiple contact numbers can be specified. If the number parameter is included,
      * the other query parameters are ignored.
      *
      * @return contact numbers
      */
-    public List<String> getNumber() {
-        return number;
-    }
+    private List<String> number;
 
     /**
-     * Get multiple contact ids can be specified. If the id parameter is included,
+     * Multiple contact ids can be specified. If the id parameter is included,
      * the other query parameters are ignored.
      *
      * @return contact ids
      */
-    public List<Long> getId() {
-        return id;
-    }
+    private List<Long> id;
 
     /**
      * Create request builder
