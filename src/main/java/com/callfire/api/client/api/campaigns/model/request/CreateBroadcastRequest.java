@@ -1,11 +1,13 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.callfire.api.client.api.campaigns.model.Broadcast;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
     @JsonIgnore
@@ -16,10 +18,11 @@ public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
     /**
      * Create request builder
      *
-     * @return request build
+     * @param <T> type of broadcast
+     * @return request builder
      */
     public static <T extends Broadcast> Builder<T> create() {
-        return new Builder();
+        return new Builder<>();
     }
 
     public T getBroadcast() {
@@ -37,11 +40,11 @@ public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("broadcast", broadcast)
-            .append("strictValidation", strictValidation)
-            .append("start", start)
-            .toString();
+                .appendSuper(super.toString())
+                .append("broadcast", broadcast)
+                .append("strictValidation", strictValidation)
+                .append("start", start)
+                .toString();
     }
 
     public static class Builder<T extends Broadcast> extends AbstractBuilder<CreateBroadcastRequest<T>> {
@@ -65,6 +68,7 @@ public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public CreateBroadcastRequest build() {
             Validate.notNull(request.broadcast, "request.broadcast cannot be null");
             return super.build();

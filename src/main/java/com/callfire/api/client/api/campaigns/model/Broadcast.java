@@ -1,11 +1,12 @@
 package com.callfire.api.client.api.campaigns.model;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.callfire.api.client.api.common.model.CallfireModel;
 
 public abstract class Broadcast extends CallfireModel {
     private Long id;
@@ -34,6 +35,7 @@ public abstract class Broadcast extends CallfireModel {
         BLOCKED_SUSPICIOUS, // campaign with suspicious word is waiting for approve or decline
         DECLINED,
         APPROVED,
+        UNKNOWN
     }
 
     public Long getId() {

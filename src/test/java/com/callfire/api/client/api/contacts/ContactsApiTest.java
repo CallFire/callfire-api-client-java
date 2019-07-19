@@ -1,13 +1,14 @@
 package com.callfire.api.client.api.contacts;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.common.model.ListHolder;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.callfire.api.client.api.contacts.model.Contact;
-import com.callfire.api.client.api.contacts.model.ContactHistory;
-import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
@@ -17,12 +18,14 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
+import com.callfire.api.client.api.contacts.model.Contact;
+import com.callfire.api.client.api.contacts.model.ContactHistory;
+import com.callfire.api.client.api.contacts.model.request.FindContactsRequest;
 
 public class ContactsApiTest extends AbstractApiTest {
 
@@ -30,7 +33,7 @@ public class ContactsApiTest extends AbstractApiTest {
     protected static final String EMPTY_CONTACT_ID_MSG = "contact.id cannot be null";
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         client.getRestApiClient().setHttpClient(mockHttpClient);
     }
@@ -98,7 +101,7 @@ public class ContactsApiTest extends AbstractApiTest {
     }
 
     @Test
-    public void testUpdateByNullId() throws Exception {
+    public void testUpdateByNullId() {
         ex.expectMessage(EMPTY_CONTACT_ID_MSG);
         ex.expect(NullPointerException.class);
         client.contactsApi().update(new Contact());

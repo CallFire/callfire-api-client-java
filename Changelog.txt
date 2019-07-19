@@ -1,6 +1,10 @@
 Callfire API client Changelog
 =============================
 
+Version 1.7.21 - Jul 19 2019
+- added new statuses to Broadcast.Status enum
+- updated dependencies versions to the latest available
+
 Version 1.7.20 - Oct 23 2018
 - added BigMessageStrategy.MMS option for TextBroadcast
 
