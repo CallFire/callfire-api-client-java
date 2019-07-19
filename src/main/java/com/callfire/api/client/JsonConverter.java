@@ -2,26 +2,32 @@ package com.callfire.api.client;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * JSON serializer/deserializer
  *
  * @since 1.0
  */
+@Getter
+@Setter
 public class JsonConverter {
     private ObjectMapper mapper;
 
     public JsonConverter() {
-        mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapper.disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
-        mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            // there currently no alternative to this deprecated feature
+            .disable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS)
+            .enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .setSerializationInclusion(Include.NON_NULL);
     }
 
     /**
@@ -56,23 +62,5 @@ public class JsonConverter {
         catch (IOException e) {
             throw new CallfireClientException(e);
         }
-    }
-
-    /**
-     * Get Jackson's {@link ObjectMapper}
-     *
-     * @return object mapper
-     */
-    public ObjectMapper getMapper() {
-        return mapper;
-    }
-
-    /**
-     * Set Jackson's {@link ObjectMapper}
-     *
-     * @param mapper object mapper
-     */
-    public void setMapper(ObjectMapper mapper) {
-        this.mapper = mapper;
     }
 }

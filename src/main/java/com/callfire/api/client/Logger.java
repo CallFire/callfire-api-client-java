@@ -1,12 +1,12 @@
 package com.callfire.api.client;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
 
 import java.util.Objects;
 
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Wrapper around commons-logging with slf4j message format

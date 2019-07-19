@@ -1,6 +1,22 @@
 package com.callfire.api.client.api.contacts;
 
-import com.callfire.api.client.*;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
+
+import java.util.List;
+
+import org.apache.commons.lang3.Validate;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.contacts.model.DoNotContact;
 import com.callfire.api.client.api.contacts.model.UniversalDnc;
@@ -8,12 +24,6 @@ import com.callfire.api.client.api.contacts.model.request.CreateDncsRequest;
 import com.callfire.api.client.api.contacts.model.request.FindDncNumbersRequest;
 import com.callfire.api.client.api.contacts.model.request.FindUniversalDncsRequest;
 import com.callfire.api.client.api.contacts.model.request.UpdateDncRequest;
-import org.apache.commons.lang3.Validate;
-
-import java.util.List;
-
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ModelType.*;
 
 /**
  * Represents /contacts/dncs endpoint

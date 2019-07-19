@@ -1,20 +1,49 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /agent-groups which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindAgentGroupsRequest extends FindRequest {
-    private Long campaignId;
-    private String name;
-    private Long agentId;
-    private String agentEmail;
 
-    private FindAgentGroupsRequest() {
-    }
+    /**
+     * ID of campaign
+     *
+     * @return Id of campaign
+     */
+    private Long campaignId;
+
+    /**
+     * Agent group name
+     *
+     * @return group name
+     */
+    private String name;
+
+    /**
+     * Agent id
+     * <p>
+     * Id of agent (agentId and agentEmail are mutually exclusive, please only provide one)
+     *
+     * @return id
+     */
+    private Long agentId;
+
+    /**
+     * Email of agent (agentId and agentEmail are mutually exclusive, please only provide one)
+     *
+     * @return email
+     */
+    private String agentEmail;
 
     /**
      * Create request builder
@@ -23,55 +52,6 @@ public class FindAgentGroupsRequest extends FindRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get id of campaign
-     *
-     * @return Id of campaign
-     */
-    public Long getCampaignId() {
-        return campaignId;
-    }
-
-    /**
-     * Get agent group name
-     *
-     * @return group name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Get agent id
-     * Id of agent (agentId and agentEmail are mutually exclusive, please only provide one)
-     *
-     * @return id
-     */
-    public Long getAgentId() {
-        return agentId;
-    }
-
-    /**
-     * Get agent email
-     * Email of agent (agentId and agentEmail are mutually exclusive, please only provide one)
-     *
-     * @return email
-     */
-    public String getAgentEmail() {
-        return agentEmail;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("campaignId", campaignId)
-            .append("name", name)
-            .append("agentId", agentId)
-            .append("agentEmail", agentEmail)
-            .toString();
     }
 
     /**

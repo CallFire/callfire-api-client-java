@@ -1,35 +1,29 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import com.callfire.api.client.api.common.model.request.FindByIdRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Common request object for GET /calls/broadcasts/{id}/calls or /texts/broadcasts/{id}/texts
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class FindBroadcastCallsTextsRequest extends FindByIdRequest {
-    protected Long batchId;
 
     /**
      * Filter by batchId
      *
      * @return batchId
      */
-    public Long getBatchId() {
-        return batchId;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("batchId", batchId)
-            .toString();
-    }
+    protected Long batchId;
 
     @SuppressWarnings("unchecked")
     public static abstract class FindBroadcastCallsTextsBuilder
-        <B extends FindBroadcastCallsTextsBuilder, R extends FindBroadcastCallsTextsRequest>
-        extends FindByIdBuilder<B, R> {
+            <B extends FindBroadcastCallsTextsBuilder, R extends FindBroadcastCallsTextsRequest> extends FindByIdBuilder<B, R> {
 
         public FindBroadcastCallsTextsBuilder(R request) {
             super(request);

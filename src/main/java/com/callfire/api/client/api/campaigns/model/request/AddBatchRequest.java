@@ -1,27 +1,31 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.campaigns.model.Recipient;
-import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.callfire.api.client.api.campaigns.model.Recipient;
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class AddBatchRequest extends CallfireModel {
-    @JsonIgnore
-    private Long campaignId;
-    @JsonIgnore
-    Boolean strictValidation;
+    @JsonIgnore private Long campaignId;
+    @JsonIgnore private Boolean strictValidation;
     private String name;
     private Long contactListId;
     private Boolean scrubDuplicates;
     private List<Recipient> recipients = new ArrayList<>();
-
-    private AddBatchRequest() {
-    }
 
     /**
      * Create request builder

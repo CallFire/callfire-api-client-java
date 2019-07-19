@@ -1,32 +1,44 @@
 package com.callfire.api.client.integration.numbers;
 
+import static com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType.TRACKING;
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+import org.junit.Test;
+
 import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.common.model.DayOfWeek;
 import com.callfire.api.client.api.common.model.LocalTime;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.WeeklySchedule;
 import com.callfire.api.client.api.numbers.NumberLeasesApi;
-import com.callfire.api.client.api.numbers.model.*;
+import com.callfire.api.client.api.numbers.model.CallTrackingConfig;
+import com.callfire.api.client.api.numbers.model.GoogleAnalytics;
+import com.callfire.api.client.api.numbers.model.NumberConfig;
+import com.callfire.api.client.api.numbers.model.NumberLease;
+import com.callfire.api.client.api.numbers.model.NumberLease.FeatureStatus;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeaseConfigsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumberLeasesRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Test;
 
-import java.time.DayOfWeek;
-import java.util.Arrays;
-import java.util.HashSet;
-
-import static com.callfire.api.client.api.numbers.model.NumberConfig.ConfigType.TRACKING;
-import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * integration tests for /numbers/leases api endpoint
  */
+@Slf4j
 public class NumberLeasesApiTest extends AbstractIntegrationTest {
+
     @Test
-    public void testFindNumberLeases() throws Exception {
+    public void testFindNumberLeases() {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberLeasesRequest request = FindNumberLeasesRequest.create()
@@ -34,27 +46,27 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
             .build();
         Page<NumberLease> leases = callfireClient.numberLeasesApi().find(request);
         assertEquals(2, leases.getItems().size());
-        assertTrue(leases.getItems().get(0).getLabels().size() > 0);
+        assertFalse(leases.getItems().get(0).getLabels().isEmpty());
 
-        System.out.println(leases);
+        log.info("{}", leases);
     }
 
     @Test
-    public void testGetNumberLease() throws Exception {
+    public void testGetNumberLease() {
         CallfireClient callfireClient = getCallfireClient();
 
         String number = getDid3();
         NumberLease lease = callfireClient.numberLeasesApi().get(number);
         assertNotNull(lease.getRegion());
         assertEquals(number, lease.getNumber());
-        assertTrue(lease.getLabels().size() > 0);
+        assertFalse(lease.getLabels().isEmpty());
         assertThat(lease.getRegion().getCity(), containsString("LOS ANGELES"));
 
-        System.out.println(lease);
+        log.info("{}", lease);
     }
 
     @Test
-    public void testUpdateNumberLease() throws Exception {
+    public void testUpdateNumberLease() {
         CallfireClient callfireClient = getCallfireClient();
 
         String number = getDid3();
@@ -62,24 +74,24 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         NumberLease lease = api.get(number);
         assertNotNull(lease.getRegion());
         lease.setNumber(number);
-        lease.setTextFeatureStatus(NumberLease.FeatureStatus.DISABLED);
-        lease.setCallFeatureStatus(NumberLease.FeatureStatus.DISABLED);
+        lease.setTextFeatureStatus(FeatureStatus.DISABLED);
+        lease.setCallFeatureStatus(FeatureStatus.DISABLED);
 
         api.update(lease);
         lease = api.get(number, "number,callFeatureStatus,textFeatureStatus");
         assertNotNull(lease.getNumber());
-        assertEquals(NumberLease.FeatureStatus.DISABLED, lease.getCallFeatureStatus());
-        assertEquals(NumberLease.FeatureStatus.DISABLED, lease.getTextFeatureStatus());
+        assertEquals(FeatureStatus.DISABLED, lease.getCallFeatureStatus());
+        assertEquals(FeatureStatus.DISABLED, lease.getTextFeatureStatus());
 
-        lease.setTextFeatureStatus(NumberLease.FeatureStatus.ENABLED);
-        lease.setCallFeatureStatus(NumberLease.FeatureStatus.ENABLED);
+        lease.setTextFeatureStatus(FeatureStatus.ENABLED);
+        lease.setCallFeatureStatus(FeatureStatus.ENABLED);
         api.update(lease);
 
-        System.out.println(lease);
+        log.info("{}", lease);
     }
 
     @Test
-    public void testFindNumberLeaseConfigs() throws Exception {
+    public void testFindNumberLeaseConfigs() {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberLeaseConfigsRequest request = FindNumberLeaseConfigsRequest.create()
@@ -88,22 +100,22 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         Page<NumberConfig> configs = callfireClient.numberLeasesApi().findConfigs(request);
         assertEquals(2, configs.getItems().size());
 
-        System.out.println(configs);
+        log.info("{}", configs);
     }
 
     @Test
-    public void testGetNumberLeaseConfig() throws Exception {
+    public void testGetNumberLeaseConfig() {
         CallfireClient callfireClient = getCallfireClient();
 
         NumberConfig config = callfireClient.numberLeasesApi().getConfig(getDid3());
         assertEquals(TRACKING, config.getConfigType());
         assertNotNull(config.getCallTrackingConfig());
 
-        System.out.println(config);
+        log.info("{}", config);
     }
 
     @Test
-    public void testUpdateNumberLeaseConfig() throws Exception {
+    public void testUpdateNumberLeaseConfig() {
         CallfireClient callfireClient = getCallfireClient();
 
         String number = getDid3();
@@ -144,7 +156,7 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         assertNull(config.getNumber());
         assertEquals(TRACKING, config.getConfigType());
 
-        System.out.println(config);
+        log.info("{}", config);
     }
 
 }

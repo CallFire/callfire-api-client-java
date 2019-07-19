@@ -1,5 +1,24 @@
 package com.callfire.api.client.api.contacts;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.MockitoAnnotations;
+
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
@@ -9,18 +28,6 @@ import com.callfire.api.client.api.contacts.model.request.CreateDncsRequest;
 import com.callfire.api.client.api.contacts.model.request.FindDncNumbersRequest;
 import com.callfire.api.client.api.contacts.model.request.FindUniversalDncsRequest;
 import com.callfire.api.client.api.contacts.model.request.UpdateDncRequest;
-import org.apache.http.client.methods.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.*;
 
 public class DncApiTest extends AbstractApiTest {
 

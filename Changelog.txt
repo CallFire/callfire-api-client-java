@@ -1,6 +1,12 @@
 Callfire API client Changelog
 =============================
 
+Version 1.8.0 - Jul 26 2019
+- added findOrders API
+- added
+- now SDK requires minimum Java 8 version
+- added lombok to DTO classes
+
 Version 1.7.21 - Jul 19 2019
 - added new statuses to Broadcast.Status enum
 - updated dependencies versions to the latest available

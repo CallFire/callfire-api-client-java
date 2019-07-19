@@ -1,26 +1,28 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.request.ConvertToString;
-import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.ConvertToString;
+import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
+
+import lombok.experimental.UtilityClass;
+
 /**
  * Utility class
  *
  * @since 1.0
  */
-public final class ClientUtils {
-    private ClientUtils() {
-    }
+@UtilityClass
+public class ClientUtils {
 
     /**
      * Add query param to name-value query list if it's value not null
@@ -34,7 +36,8 @@ public final class ClientUtils {
             if (value instanceof Date) {
                 Date date = (Date) value;
                 queryParams.add(new BasicNameValuePair(name, String.valueOf(date.getTime())));
-            } else {
+            }
+            else {
                 queryParams.add(new BasicNameValuePair(name, Objects.toString(value)));
             }
         }
@@ -79,7 +82,8 @@ public final class ClientUtils {
         for (Field field : clazz.getDeclaredFields()) {
             try {
                 readField(request, params, field);
-            } catch (IllegalAccessException e) {
+            }
+            catch (IllegalAccessException e) {
                 throw new CallfireClientException(e);
             }
         }

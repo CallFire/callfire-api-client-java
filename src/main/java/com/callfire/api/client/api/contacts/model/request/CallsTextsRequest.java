@@ -2,47 +2,35 @@ package com.callfire.api.client.api.contacts.model.request;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
 
 /**
  * Abstract request object for controlling calls/texts flags availability
  */
+@Getter
 public abstract class CallsTextsRequest extends CallfireModel {
-    protected Boolean call;
-    protected Boolean text;
 
     /**
-     * Get call flag
+     * Call flag
      *
      * @return Dnc call flag
      */
-    public Boolean getCall() {
-        return call;
-    }
+    protected Boolean call;
 
     /**
-     * Get text flag
+     * Text flag
      *
      * @return Dnc text flag
      */
-    public Boolean getText() {
-        return text;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("call", call)
-            .append("text", text)
-            .toString();
-    }
+    protected Boolean text;
 
     /**
      * Builder class
      */
     @SuppressWarnings("unchecked")
     public static abstract class CallsTextsBuilder<B extends CallsTextsBuilder, R extends CallsTextsRequest>
-        extends AbstractBuilder<R> {
+            extends AbstractBuilder<R> {
 
         public CallsTextsBuilder(R request) {
             super(request);

@@ -1,38 +1,36 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import org.apache.commons.lang3.Validate;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.List;
 
+import org.apache.commons.lang3.Validate;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * Request object for
- *
+ * <p>
  * POST /contacts/dncs/
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class CreateDncsRequest extends CallsTextsRequest {
-    private String source;
-    private List<String> numbers;
-
-    private CreateDncsRequest() {
-    }
 
     /**
-     * Get source property
+     * Source property
      *
      * @return Dnc Source
      */
-    public String getSource() {
-        return source;
-    }
+    private String source;
 
     /**
-     * Get numbers list property
+     * Numbers list property
      *
      * @return Dnc numbers list
      */
-    public List<String> getNumbers() {
-        return numbers;
-    }
+    private List<String> numbers;
 
     public static Builder create() {
         return new Builder();

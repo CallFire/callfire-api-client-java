@@ -1,91 +1,68 @@
 package com.callfire.api.client.api.numbers.model.request;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for searching numbers, region data, etc. which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class FindByRegionDataRequest extends FindRequest {
-    protected String prefix;
-    protected String city;
-    protected String state;
-    protected String zipcode;
-    protected String lata;
-    protected String rateCenter;
-
-    protected FindByRegionDataRequest() {
-    }
 
     /**
-     * Get 4-7 digit prefix
+     * 4-7 digit prefix
      *
      * @return 4-7 digit prefix
      */
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getCity() {
-        return city;
-    }
+    protected String prefix;
 
     /**
-     * Get 2 letter state code
+     * City name
+     *
+     * @return city name
+     */
+    protected String city;
+
+    /**
+     * 2 letter state code
      *
      * @return 2 letter state code
      */
-    public String getState() {
-        return state;
-    }
+    protected String state;
 
     /**
-     * Get 5 digit zipcode
+     * 5 digit zipcode
      *
      * @return 5 digit zipcode
      */
-    public String getZipcode() {
-        return zipcode;
-    }
+    protected String zipcode;
 
     /**
-     * Get Local access and transport area (LATA) code
+     * Local access and transport area (LATA) code
      *
      * @return LATA code
      */
-    public String getLata() {
-        return lata;
-    }
+    protected String lata;
 
     /**
-     * Get rate center code
+     * rate center code
      *
      * @return rate center code
      */
-    public String getRateCenter() {
-        return rateCenter;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("prefix", prefix)
-            .append("city", city)
-            .append("state", state)
-            .append("zipcode", zipcode)
-            .append("lata", lata)
-            .append("rateCenter", rateCenter)
-            .toString();
-    }
+    protected String rateCenter;
 
     /**
      * Builder class
      */
     @SuppressWarnings("unchecked")
     public static abstract class RegionDataBuilder<B extends RegionDataBuilder, R extends FindByRegionDataRequest>
-        extends FindRequestBuilder<B, R> {
+            extends FindRequestBuilder<B, R> {
 
         protected RegionDataBuilder(R request) {
             super(request);
@@ -135,6 +112,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
          * @param lata LATA code
          * @return builder self reference
          */
+        @Deprecated
         public B lata(String lata) {
             request.lata = lata;
             return (B) this;
@@ -146,6 +124,7 @@ public abstract class FindByRegionDataRequest extends FindRequest {
          * @param rateCenter RateCenter code
          * @return builder self reference
          */
+        @Deprecated
         public B rateCenter(String rateCenter) {
             request.rateCenter = rateCenter;
             return (B) this;

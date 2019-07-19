@@ -1,13 +1,16 @@
 package com.callfire.api.client.api.campaigns;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.model.*;
-import com.callfire.api.client.api.campaigns.model.request.*;
-import com.callfire.api.client.api.common.model.ListHolder;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.request.GetByIdRequest;
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Date;
+import java.util.List;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -16,16 +19,22 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.skyscreamer.jsonassert.JSONAssert;
 
-import java.util.Date;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.callstexts.model.Text;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.Recipient;
+import com.callfire.api.client.api.campaigns.model.TextBroadcast;
+import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.AddRecipientsRequest;
+import com.callfire.api.client.api.campaigns.model.request.CreateBroadcastRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
 
 public class TextBroadcastsApiTest extends AbstractApiTest {
     private static final String JSON_PATH = "/campaigns/textBroadcastsApi";
@@ -92,7 +101,7 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         textBroadcast.setRecipients(asList(r1, r2));
         textBroadcast.setResumeNextDay(false);
 
-        CreateBroadcastRequest<TextBroadcast> request = CreateBroadcastRequest.create()
+        CreateBroadcastRequest<TextBroadcast> request = CreateBroadcastRequest.<TextBroadcast>create()
             .broadcast(textBroadcast)
             .start(true)
             .strictValidation(true)

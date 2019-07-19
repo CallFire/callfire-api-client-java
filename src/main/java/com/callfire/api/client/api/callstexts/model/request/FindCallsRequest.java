@@ -1,11 +1,15 @@
 package com.callfire.api.client.api.callstexts.model.request;
 
-import com.callfire.api.client.api.common.model.request.ConvertToString;
-import com.callfire.api.client.api.callstexts.model.Call;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.callfire.api.client.api.callstexts.model.Call;
+import com.callfire.api.client.api.common.model.request.ConvertToString;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -15,14 +19,25 @@ import java.util.List;
  *
  * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindCallsRequest extends FindCallsTextsRequest {
-    @ConvertToString
-    private List<Call.State> states = new ArrayList<>();
-    @ConvertToString
-    private List<Call.CallResult> results = new ArrayList<>();
 
-    private FindCallsRequest() {
-    }
+    /**
+     * Call statuses
+     *
+     * @return call statuses
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
+     */
+    @ConvertToString private List<Call.State> states = new ArrayList<>();
+
+    /**
+     * Get call results.
+     *
+     * @return list of call results
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
+     */
+    @ConvertToString private List<Call.CallResult> results = new ArrayList<>();
 
     /**
      * Create request builder
@@ -31,35 +46,6 @@ public class FindCallsRequest extends FindCallsTextsRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get call statuses
-     *
-     * @return call statuses
-     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
-     */
-    public List<Call.State> getStates() {
-        return states;
-    }
-
-    /**
-     * Get call results.
-     *
-     * @return list of call results
-     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
-     */
-    public List<Call.CallResult> getResults() {
-        return results;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("states", states)
-            .append("results", results)
-            .toString();
     }
 
     /**

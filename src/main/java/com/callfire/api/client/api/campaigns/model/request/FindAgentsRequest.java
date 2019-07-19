@@ -1,20 +1,47 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /campaigns/cccs/agents which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindAgentsRequest extends FindRequest {
-    private Long campaignId;
-    private String agentGroupName;
-    private String agentEmail;
-    private Boolean enabled;
 
-    private FindAgentsRequest() {
-    }
+    /**
+     * ID of campaign
+     *
+     * @return Id of campaign
+     */
+    private Long campaignId;
+
+    /**
+     * Agent group name
+     *
+     * @return group name
+     */
+    private String agentGroupName;
+
+    /**
+     * Email of agent
+     *
+     * @return email
+     */
+    private String agentEmail;
+
+    /**
+     * Is agent enabled
+     *
+     * @return true if agent enabled
+     */
+    private Boolean enabled;
 
     /**
      * Create request builder
@@ -23,54 +50,6 @@ public class FindAgentsRequest extends FindRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get id of campaign
-     *
-     * @return Id of campaign
-     */
-    public Long getCampaignId() {
-        return campaignId;
-    }
-
-    /**
-     * Get agent group name
-     *
-     * @return group name
-     */
-    public String getAgentGroupName() {
-        return agentGroupName;
-    }
-
-    /**
-     * Is agent enabled
-     *
-     * @return true if agent enabled
-     */
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    /**
-     * Get agent email
-     * Email of agent
-     *
-     * @return email
-     */
-    public String getAgentEmail() {
-        return agentEmail;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("campaignId", campaignId)
-            .append("enabled", enabled)
-            .append("agentGroupName", agentGroupName)
-            .append("agentEmail", agentEmail)
-            .toString();
     }
 
     /**

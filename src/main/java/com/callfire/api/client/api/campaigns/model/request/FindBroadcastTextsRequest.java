@@ -1,11 +1,14 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
+import lombok.NoArgsConstructor;
+
 /**
  * Find broadcast's texts request
  */
+@NoArgsConstructor(access = PRIVATE)
 public class FindBroadcastTextsRequest extends FindBroadcastCallsTextsRequest {
-    private FindBroadcastTextsRequest() {
-    }
 
     /**
      * Create request builder

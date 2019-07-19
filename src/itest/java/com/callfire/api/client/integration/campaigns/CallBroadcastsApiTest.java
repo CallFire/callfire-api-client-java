@@ -1,27 +1,35 @@
 package com.callfire.api.client.integration.campaigns;
 
-import com.callfire.api.client.api.callstexts.model.Call;
-import com.callfire.api.client.api.callstexts.model.CallRecipient;
-import com.callfire.api.client.api.campaigns.CallBroadcastsApi;
-import com.callfire.api.client.api.campaigns.model.Batch;
-import com.callfire.api.client.api.campaigns.model.Broadcast;
-import com.callfire.api.client.api.campaigns.model.CallBroadcast;
-import com.callfire.api.client.api.campaigns.model.CallBroadcastSounds;
-import com.callfire.api.client.api.campaigns.model.request.*;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.callfire.api.client.integration.AbstractIntegrationTest;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.List;
-
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import com.callfire.api.client.api.callstexts.model.Call;
+import com.callfire.api.client.api.callstexts.model.CallRecipient;
+import com.callfire.api.client.api.campaigns.CallBroadcastsApi;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.Broadcast.Status;
+import com.callfire.api.client.api.campaigns.model.CallBroadcast;
+import com.callfire.api.client.api.campaigns.model.CallBroadcastSounds;
+import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.AddRecipientsRequest;
+import com.callfire.api.client.api.campaigns.model.request.CreateBroadcastRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastCallsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindCallBroadcastsRequest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
+import com.callfire.api.client.integration.AbstractIntegrationTest;
 
 /**
  * integration tests for /campaigns/voice-broadcasts api endpoint
@@ -72,7 +80,7 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         broadcast.setSounds(sounds);
         broadcast.setResumeNextDay(true);
 
-        CreateBroadcastRequest<CallBroadcast> request = CreateBroadcastRequest.create()
+        CreateBroadcastRequest<CallBroadcast> request = CreateBroadcastRequest.<CallBroadcast>create()
             .broadcast(broadcast)
             .start(true)
             .strictValidation(true)
@@ -99,7 +107,7 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testStartStopArchiveCampaign() throws Exception {
+    public void testStartStopArchiveCampaign() {
         CallBroadcastsApi api = getCallfireClient().callBroadcastsApi();
 
         CallBroadcast broadcast = new CallBroadcast();
@@ -117,15 +125,15 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         // start
         api.start(campaign.getId());
         campaign = api.get(campaign.getId(), "id,status");
-        assertEquals(Broadcast.Status.RUNNING, campaign.getStatus());
+        assertEquals(Status.RUNNING, campaign.getStatus());
         // stop
         api.stop(campaign.getId());
         campaign = api.get(campaign.getId(), "id,status");
-        assertEquals(Broadcast.Status.STOPPED, campaign.getStatus());
+        assertEquals(Status.STOPPED, campaign.getStatus());
         // archive
         api.archive(campaign.getId());
         campaign = api.get(campaign.getId(), "id,status");
-        assertEquals(Broadcast.Status.ARCHIVED, campaign.getStatus());
+        assertEquals(Status.ARCHIVED, campaign.getStatus());
     }
 
     @Test

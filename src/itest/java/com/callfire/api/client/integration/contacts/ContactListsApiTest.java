@@ -1,5 +1,15 @@
 package com.callfire.api.client.integration.contacts;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
@@ -12,15 +22,6 @@ import com.callfire.api.client.api.contacts.model.request.CreateContactListReque
 import com.callfire.api.client.api.contacts.model.request.FindContactListsRequest;
 import com.callfire.api.client.api.contacts.model.request.UpdateContactListRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Test;
-
-import java.io.File;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 /**
  * integration tests for /contacts/lists api endpoint

@@ -1,32 +1,22 @@
 package com.callfire.api.client.api.common.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Common get request with id
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class GetByIdRequest extends FindRequest {
-    @QueryParamIgnore
-    private Long id;
-
-    private GetByIdRequest() {
-    }
-
-    public Long getId() {
-        return id;
-    }
+    @QueryParamIgnore private Long id;
 
     public static Builder create() {
         return new Builder();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("id", id)
-            .toString();
     }
 
     /**

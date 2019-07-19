@@ -1,53 +1,36 @@
 package com.callfire.api.client.api.common.model.request;
 
 import com.callfire.api.client.api.common.model.CallfireModel;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
 
 /**
  * Contains common fields for finder endpoints
  */
+@Getter
 public abstract class FindRequest extends CallfireModel {
-    protected Long limit;
-    protected Long offset;
-    protected String fields;
 
     /**
-     * Get max number of records per page to return. If items.size() less than limit assume no more items.
+     * Max number of records per page to return. If items.size() less than limit assume no more items.
      * If value not set, default is 100
      *
      * @return limit number
      */
-    public Long getLimit() {
-        return limit;
-    }
+    protected Long limit;
 
     /**
-     * Get offset to start of page
-     * If value not set, default is 0
+     * Offset to start of page, if value not set, default is 0
      *
      * @return offset
      */
-    public Long getOffset() {
-        return offset;
-    }
+    protected Long offset;
 
     /**
-     * Get limit fields returned. Example fields=id,items(name,agents(id))
+     * Limit fields returned. Example fields=id,items(name,agents(id))
      *
      * @return field to return
      */
-    public String getFields() {
-        return fields;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("limit", limit)
-            .append("offset", offset)
-            .append("fields", fields)
-            .toString();
-    }
+    protected String fields;
 
     /**
      * Abstract builder for find requests
@@ -55,8 +38,7 @@ public abstract class FindRequest extends CallfireModel {
      * @param <B> type of builder
      */
     @SuppressWarnings("unchecked")
-    public static abstract class FindRequestBuilder<B extends FindRequestBuilder, R extends FindRequest>
-        extends AbstractBuilder<R> {
+    public static abstract class FindRequestBuilder<B extends FindRequestBuilder, R extends FindRequest> extends AbstractBuilder<R> {
 
         protected FindRequestBuilder(R request) {
             super(request);

@@ -1,8 +1,11 @@
 package com.callfire.api.client.api.callstexts.model.request;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import com.callfire.api.client.api.common.model.request.FindRequest;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -11,12 +14,17 @@ import com.callfire.api.client.api.common.model.request.FindRequest;
  *
  * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindMediaRequest extends FindRequest {
+
+    /**
+     * Media file filter
+     *
+     * @return media file filter
+     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
+     */
     private String filter;
-
-    private FindMediaRequest() {
-
-    }
 
     /**
      * Create request builder
@@ -25,24 +33,6 @@ public class FindMediaRequest extends FindRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get media file filter
-     *
-     * @return media file filter
-     * @see <a href="https://developers.callfire.com/results-responses-errors.html">call states and results</a>
-     */
-    public String getFilter(){
-        return filter;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .appendSuper(super.toString())
-                .append("filter", filter)
-                .toString();
     }
 
     /**

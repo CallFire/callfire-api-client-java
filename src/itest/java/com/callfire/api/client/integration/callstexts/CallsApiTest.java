@@ -1,7 +1,23 @@
 package com.callfire.api.client.integration.callstexts;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.time.DateUtils;
+import org.junit.Test;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.callstexts.CallsApi;
+import com.callfire.api.client.api.callstexts.model.Action.State;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.CallRecipient;
 import com.callfire.api.client.api.callstexts.model.request.FindCallsRequest;
@@ -10,38 +26,29 @@ import com.callfire.api.client.api.campaigns.model.CallRecording;
 import com.callfire.api.client.api.campaigns.model.Voice;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.time.DateUtils;
-import org.junit.Test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * integration tests for /calls api endpoint
  */
+@Slf4j
 public class CallsApiTest extends AbstractIntegrationTest {
 
     @Test
-    public void testGetCall() throws Exception {
+    public void testGetCall() {
         CallfireClient callfireClient = getCallfireClient();
         Call call = callfireClient.callsApi().get(1L, "id,toNumber,state");
 
         assertEquals(Long.valueOf(1L), call.getId());
         assertEquals("18088395900", call.getToNumber());
-        assertEquals(Call.State.FINISHED, call.getState());
+        assertEquals(State.FINISHED, call.getState());
 
-        System.out.println(call);
+        log.info("Call response: {}", call);
     }
 
     @Test
-    public void testFindCalls() throws Exception {
+    public void testFindCalls() {
         CallfireClient callfireClient = getCallfireClient();
         FindCallsRequest request = FindCallsRequest.create()
             .intervalBegin(DateUtils.addMonths(new Date(), -10))
@@ -49,13 +56,13 @@ public class CallsApiTest extends AbstractIntegrationTest {
             .limit(1L)
             .build();
         Page<Call> calls = callfireClient.callsApi().find(request);
-        System.out.println(calls);
+        log.info("Calls response: {}", calls);
 
         assertEquals(1, calls.getItems().size());
     }
 
     @Test
-    public void testSendCall() throws Exception {
+    public void testSendCall() {
         CallfireClient client = getCallfireClient();
 
         CallRecipient recipient1 = new CallRecipient();
@@ -75,12 +82,12 @@ public class CallsApiTest extends AbstractIntegrationTest {
         List<Call> calls = client.callsApi()
             .send(asList(recipient1, recipient2), 7373471003L, "items(id,fromNumber,state)");
 
-        System.out.println(calls);
+        log.info("Calls response: {}", calls);
 
         assertEquals(2, calls.size());
         assertNotNull(calls.get(0).getId());
         assertNull(calls.get(0).getCampaignId());
-        assertEquals(Call.State.READY, calls.get(0).getState());
+        assertEquals(State.READY, calls.get(0).getState());
 
         SendCallsRequest request = SendCallsRequest.create()
             .recipients(asList(recipient1, recipient2))
@@ -105,12 +112,11 @@ public class CallsApiTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testGetCallRecording() throws Exception {
+    public void testGetCallRecording() {
         CallsApi api = getCallfireClient().callsApi();
-
         CallRecording rec = api.getCallRecording(1L);
 
-        System.out.print(rec.toString());
+        log.info("Recording response: {}", rec);
         assertNotNull(rec);
         assertNotNull(rec.getId());
         assertNotNull(rec.getMp3Url());
@@ -122,17 +128,12 @@ public class CallsApiTest extends AbstractIntegrationTest {
     @Test
     public void getCallRecordingInMp3Format() throws Exception {
         CallsApi api = getCallfireClient().callsApi();
-
         InputStream is = api.getCallRecordingMp3(1L);
-        File tempFile = File.createTempFile("test_call_recording", "mp3");
-        try (FileOutputStream os = new FileOutputStream(tempFile))
-        {
-            IOUtils.copy(is, os);
-        }
+        Files.copy(is, File.createTempFile("test_call_recording", "mp3").toPath(), REPLACE_EXISTING);
     }
 
     @Test
-    public void testGetCallRecordings() throws Exception {
+    public void testGetCallRecordings() {
         CallsApi api = getCallfireClient().callsApi();
 
         CallRecording rec = api.getCallRecording(1L);
@@ -146,7 +147,7 @@ public class CallsApiTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testGetCallRecordingByName() throws Exception {
+    public void testGetCallRecordingByName() {
         CallsApi api = getCallfireClient().callsApi();
 
         CallRecording rec = api.getCallRecording(18666772003L);
@@ -165,13 +166,8 @@ public class CallsApiTest extends AbstractIntegrationTest {
     @Test
     public void getCallRecordingMp3ByName() throws Exception {
         CallsApi api = getCallfireClient().callsApi();
-
         CallRecording rec = api.getCallRecording(18666772003L);
         InputStream is = api.getCallRecordingMp3ByName(rec.getCallId(), rec.getName());
-        File tempFile = File.createTempFile("test_call_recording", "mp3");
-        try (FileOutputStream os = new FileOutputStream(tempFile))
-        {
-            IOUtils.copy(is, os);
-        }
+        Files.copy(is, File.createTempFile("test_call_recording", "mp3").toPath(), REPLACE_EXISTING);
     }
 }

@@ -1,17 +1,20 @@
 package com.callfire.api.client.integration.keywords;
 
-import com.callfire.api.client.CallfireClient;
-import com.callfire.api.client.api.keywords.model.Keyword;
-import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.hamcrest.Matchers;
-import org.junit.Test;
-
-import java.util.List;
-
 import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.hamcrest.Matchers;
+import org.junit.Test;
+
+import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.keywords.model.Keyword;
+import com.callfire.api.client.integration.AbstractIntegrationTest;
 
 /**
  * integration tests for /keywords api endpoint

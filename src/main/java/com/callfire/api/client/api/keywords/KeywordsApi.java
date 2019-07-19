@@ -1,17 +1,25 @@
 package com.callfire.api.client.api.keywords;
 
-import com.callfire.api.client.*;
-import com.callfire.api.client.api.keywords.model.Keyword;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.of;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ModelType.listHolderOf;
-import static com.callfire.api.client.ModelType.of;
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import com.callfire.api.client.AccessForbiddenException;
+import com.callfire.api.client.BadRequestException;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClientException;
+import com.callfire.api.client.InternalServerErrorException;
+import com.callfire.api.client.ResourceNotFoundException;
+import com.callfire.api.client.RestApiClient;
+import com.callfire.api.client.UnauthorizedException;
+import com.callfire.api.client.api.keywords.model.Keyword;
 
 /**
  * Represents rest endpoint /keywords

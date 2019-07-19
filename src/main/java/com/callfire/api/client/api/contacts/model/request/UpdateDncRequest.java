@@ -1,28 +1,29 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import static lombok.AccessLevel.PRIVATE;
+
 import org.apache.commons.lang3.Validate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for
- *
+ * <p>
  * PUT /contacts/dncs/{number}
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class UpdateDncRequest extends CallsTextsRequest {
-    @JsonIgnore
-    private String number;
-
-    private UpdateDncRequest() {
-    }
 
     /**
-     * Get number of Dnc
+     * Number of Dnc
      *
      * @return Number of Dnc
      */
-    public String getNumber() {
-        return number;
-    }
+    @JsonIgnore private String number;
 
     public static Builder create() {
         return new Builder();

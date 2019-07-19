@@ -17,11 +17,11 @@
       },
       "leaseBegin": 1305097200000,
       "leaseEnd": 1448606871000,
-      "autoRenew": true,
       "status": "ACTIVE",
+      "autoRenew": true,
       "callFeatureStatus": "ENABLED",
-      "labels": ["label","label2"],
-      "textFeatureStatus": "ENABLED"
+      "textFeatureStatus": "ENABLED",
+      "labels": ["label","label2"]
     },
     {
       "number": "13025178999",
@@ -38,11 +38,11 @@
         "longitude": -75.6984,
         "timeZone": "America/New_York"
       },
-      "autoRenew": true,
       "status": "ACTIVE",
+      "autoRenew": true,
       "callFeatureStatus": "UNSUPPORTED",
-      "labels": ["label","label3"],
-      "textFeatureStatus": "ENABLED"
+      "textFeatureStatus": "ENABLED",
+      "labels": ["label","label3"]
     }
   ],
   "limit": 100,

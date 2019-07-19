@@ -1,129 +1,91 @@
 package com.callfire.api.client.api.callstexts.model.request;
 
-import com.callfire.api.client.api.common.model.request.FindRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PROTECTED;
 
 import java.util.Date;
 import java.util.List;
 
+import com.callfire.api.client.api.common.model.request.FindRequest;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 /**
  * Request object for GET /calls or /texts
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class FindCallsTextsRequest extends FindRequest {
-    protected Long campaignId;
-    protected Long batchId;
-    protected String fromNumber;
-    protected String toNumber;
-    protected String label;
-    protected Boolean inbound;
-
-    protected Date intervalBegin;
-    protected Date intervalEnd;
-    protected List<Long> id;
 
     /**
-     * Get id of broadcast
+     * Filter id of broadcast
      *
      * @return id of broadcast
      */
-    public Long getCampaignId() {
-        return campaignId;
-    }
+    protected Long campaignId;
 
     /**
-     * Get id of contact batch
+     * Filter id of contact batch
      *
      * @return id of contact batch
      */
-    public Long getBatchId() {
-        return batchId;
-    }
+    protected Long batchId;
 
     /**
-     * Get phone number call/text was sent from
-     *
-     * @return phone number call/text was sent from
-     */
-    public String getFromNumber() {
-        return fromNumber;
-    }
-
-    /**
-     * Get phone number call/text was sent to
+     * Filter phone number call/text was sent to
      *
      * @return phone number call/text was sent to
      */
-    public String getToNumber() {
-        return toNumber;
-    }
+    protected String fromNumber;
 
     /**
-     * Get label assigned with call/text
+     * Filter phone number call/text was sent from
+     *
+     * @return phone number call/text was sent from
+     */
+    protected String toNumber;
+
+    /**
+     * Filter label assigned with call/text
      *
      * @return label assigned with call/text
      */
-    public String getLabel() {
-        return label;
-    }
+    protected String label;
 
     /**
-     * Is inbound call/text
+     * Filter inbound call/text
      *
      * @return true if call/text inbound, otherwise false
      */
-    public Boolean getInbound() {
-        return inbound;
-    }
+    protected Boolean inbound;
 
     /**
-     * Get beginning of time interval
+     * Filter beginning of time interval
      *
      * @return beginning of time interval
      */
-    public Date getIntervalBegin() {
-        return intervalBegin;
-    }
+    protected Date intervalBegin;
 
     /**
-     * Get end of time interval
+     * Filter end of time interval
      *
      * @return end of time interval
      */
-    public Date getIntervalEnd() {
-        return intervalEnd;
-    }
+    protected Date intervalEnd;
 
     /**
-     * Get particular text ids
+     * Filter particular text ids
      *
      * @return list of text ids
      */
-    public List<Long> getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("campaignId", campaignId)
-            .append("batchId", batchId)
-            .append("fromNumber", fromNumber)
-            .append("toNumber", toNumber)
-            .append("label", label)
-            .append("inbound", inbound)
-            .append("intervalBegin", intervalBegin)
-            .append("intervalEnd", intervalEnd)
-            .append("id", id)
-            .toString();
-    }
+    protected List<Long> id;
 
     /**
      * Builder class
      */
     @SuppressWarnings("unchecked")
     public static abstract class CallsTextsBuilder<B extends CallsTextsBuilder, R extends FindCallsTextsRequest>
-        extends FindRequestBuilder<B, R> {
+            extends FindRequestBuilder<B, R> {
 
         public CallsTextsBuilder(R request) {
             super(request);

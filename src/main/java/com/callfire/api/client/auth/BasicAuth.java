@@ -1,10 +1,11 @@
 package com.callfire.api.client.auth;
 
-import com.callfire.api.client.CallfireClientException;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.auth.BasicScheme;
+
+import com.callfire.api.client.CallfireClientException;
 
 /**
  * Implementation of basic auth scheme

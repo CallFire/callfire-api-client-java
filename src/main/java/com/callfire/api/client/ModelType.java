@@ -18,7 +18,6 @@ import com.callfire.api.client.api.callstexts.model.Media;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.model.Agent;
 import com.callfire.api.client.api.campaigns.model.AgentGroup;
-import com.callfire.api.client.api.campaigns.model.AgentSession;
 import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.api.campaigns.model.CallBroadcast;
 import com.callfire.api.client.api.campaigns.model.CallBroadcastStats;
@@ -46,10 +45,13 @@ import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.webhooks.model.Webhook;
 import com.callfire.api.client.api.webhooks.model.WebhookResource;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * Class contains TypeReferences for all model objects
  */
-public final class ModelType {
+@UtilityClass
+public class ModelType {
     // @formatter:off
     public static final TypeReference<Map<String, String>> MAP_OF_STRINGS_TYPE = new TypeReference<Map<String, String>>() {};
     // @formatter:on
@@ -80,7 +82,6 @@ public final class ModelType {
         SIMPLE_TYPES.put(NumberOrder.class, new TypeReference<NumberOrder>() {});
         SIMPLE_TYPES.put(AgentGroup.class, new TypeReference<AgentGroup>() {});
         SIMPLE_TYPES.put(Agent.class, new TypeReference<Agent>() {});
-        SIMPLE_TYPES.put(AgentSession.class, new TypeReference<AgentSession>() {});
         SIMPLE_TYPES.put(Batch.class, new TypeReference<Batch>() {});
         SIMPLE_TYPES.put(Media.class, new TypeReference<Media>() {});
         SIMPLE_TYPES.put(CallBroadcast.class, new TypeReference<CallBroadcast>() {});
@@ -119,7 +120,6 @@ public final class ModelType {
         PAGEABLE_TYPES.put(ApiCredentials.class, new TypeReference<Page<ApiCredentials>>() {});
         PAGEABLE_TYPES.put(AgentGroup.class, new TypeReference<Page<AgentGroup>>() {});
         PAGEABLE_TYPES.put(Agent.class, new TypeReference<Page<Agent>>() {});
-        PAGEABLE_TYPES.put(AgentSession.class, new TypeReference<Page<AgentSession>>() {});
         PAGEABLE_TYPES.put(CampaignSound.class, new TypeReference<Page<CampaignSound>>() {});
         PAGEABLE_TYPES.put(TextAutoReply.class, new TypeReference<Page<TextAutoReply>>() {});
         PAGEABLE_TYPES.put(CccCampaign.class, new TypeReference<Page<CccCampaign>>() {});
@@ -135,6 +135,7 @@ public final class ModelType {
         PAGEABLE_TYPES.put(KeywordLease.class, new TypeReference<Page<KeywordLease>>() {});
         PAGEABLE_TYPES.put(NumberLease.class, new TypeReference<Page<NumberLease>>() {});
         PAGEABLE_TYPES.put(NumberConfig.class, new TypeReference<Page<NumberConfig>>() {});
+        PAGEABLE_TYPES.put(NumberOrder.class, new TypeReference<Page<NumberOrder>>() {});
         PAGEABLE_TYPES.put(Webhook.class, new TypeReference<Page<Webhook>>() {});
         PAGEABLE_TYPES.put(Media.class, new TypeReference<Page<Media>>() {});
 
@@ -153,9 +154,6 @@ public final class ModelType {
         LISTHOLDER_TYPES.put(WebhookResource.class, new TypeReference<ListHolder<WebhookResource>>() {});
         LISTHOLDER_TYPES.put(CallRecording.class, new TypeReference<ListHolder<CallRecording>>() {});
         // @formatter:on
-    }
-
-    private ModelType() {
     }
 
     @SuppressWarnings("unchecked")

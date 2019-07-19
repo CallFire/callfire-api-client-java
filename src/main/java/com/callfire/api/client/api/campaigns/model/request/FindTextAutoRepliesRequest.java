@@ -1,17 +1,26 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /campaigns/text-auto-replys which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindTextAutoRepliesRequest extends FindRequest {
-    private String number;
 
-    private FindTextAutoRepliesRequest() {
-    }
+    /**
+     * E.164 11 digit number
+     *
+     * @return phone number to filter
+     */
+    private String number;
 
     /**
      * Create request builder
@@ -20,23 +29,6 @@ public class FindTextAutoRepliesRequest extends FindRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get E.164 11 digit number
-     *
-     * @return phone number to filter
-     */
-    public String getNumber() {
-        return number;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("number", number)
-            .toString();
     }
 
     /**

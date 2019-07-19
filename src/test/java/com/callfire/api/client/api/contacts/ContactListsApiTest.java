@@ -1,5 +1,27 @@
 package com.callfire.api.client.api.contacts;
 
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.MockitoAnnotations;
+
 import com.callfire.api.client.JsonConverter;
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.common.model.Page;
@@ -11,19 +33,6 @@ import com.callfire.api.client.api.contacts.model.request.AddContactListItemsReq
 import com.callfire.api.client.api.contacts.model.request.CreateContactListRequest;
 import com.callfire.api.client.api.contacts.model.request.FindContactListsRequest;
 import com.callfire.api.client.api.contacts.model.request.UpdateContactListRequest;
-import org.apache.http.client.methods.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.MockitoAnnotations;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 public class ContactListsApiTest extends AbstractApiTest {
 

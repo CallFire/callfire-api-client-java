@@ -1,53 +1,40 @@
 package com.callfire.api.client.api.callstexts.model.request;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for POST /calls or /texts
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class SendCallsTextsRequest extends CallfireModel {
-    protected Long campaignId;
-    protected String fields;
-    protected Boolean strictValidation;
 
     /**
-     * Get id of broadcast
+     * Id of broadcast
      *
      * @return id of broadcast
      */
-    public Long getCampaignId() {
-        return campaignId;
-    }
+    protected Long campaignId;
 
     /**
-     * Get strict validation flag
+     * Strict validation flag
      *
      * @return strict validation turned on Boolean
      */
-    public Boolean getStrictValidation() {
-        return strictValidation;
-    }
+    protected String fields;
 
     /**
      * Get limit fields returned. Example fields=id,items(name,agents(id))
      *
      * @return field to return
      */
-    public String getFields() {
-        return fields;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("campaignId", campaignId)
-            .append("strictValidation", strictValidation)
-            .append("fields", fields)
-            .toString();
-    }
+    protected Boolean strictValidation;
 
     /**
      * Builder class

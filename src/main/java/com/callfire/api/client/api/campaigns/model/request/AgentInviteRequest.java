@@ -1,21 +1,24 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class AgentInviteRequest extends CallfireModel {
     private List<Long> agentsIds;
     private List<String> agentEmails;
     private Boolean sendEmail;
-    @JsonIgnore
-    private Long campaignId;
-
-    private AgentInviteRequest() {
-    }
+    @JsonIgnore private Long campaignId;
 
     /**
      * Create request builder
@@ -24,33 +27,6 @@ public class AgentInviteRequest extends CallfireModel {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    public Long getCampaignId() {
-        return campaignId;
-    }
-
-    public List<Long> getAgentsIds() {
-        return agentsIds;
-    }
-
-    public List<String> getAgentEmails() {
-        return agentEmails;
-    }
-
-    public Boolean getSendEmail() {
-        return sendEmail;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("agentsIds", agentsIds)
-            .append("agentEmails", agentEmails)
-            .append("sendEmail", sendEmail)
-            .append("campaignId", campaignId)
-            .toString();
     }
 
     public static class Builder extends AbstractBuilder<AgentInviteRequest> {
