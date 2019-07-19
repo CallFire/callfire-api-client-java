@@ -1,21 +1,20 @@
 package com.callfire.api.client;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.auth.BasicAuth;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
-import javax.activation.MimetypesFileTypeMap;
-
-import static org.junit.Assert.assertEquals;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.auth.BasicAuth;
 
 public class RestApiClientTest extends AbstractApiTest {
     private RestApiClient client = new RestApiClient(new BasicAuth("1", "2"));
     private String expectedJson = getJsonPayload("/common/sampleErrorMessage.json");
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         client.setHttpClient(mockHttpClient);
     }
@@ -57,14 +56,15 @@ public class RestApiClientTest extends AbstractApiTest {
     }
 
     @Test
-    public void testMimeTypes() throws Exception {
-        assertEquals("image/jpeg", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/1.jpeg"));
-        assertEquals("image/png", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/2.png"));
-        assertEquals("image/bmp", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/3.bmp"));
-        assertEquals("image/gif", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/4.gif"));
-        assertEquals("video/mp4", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/5.mp4"));
-        assertEquals("audio/m4a", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/6.m4a"));
-        assertEquals("audio/mp3", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/7.mp3"));
-        assertEquals("audio/x-wav", MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType("/tmp/8.wav"));
+    public void testMimeTypes() {
+        assertEquals("image/jpeg", RestApiClient.getContentType("/tmp/1.jpeg").getMimeType());
+        assertEquals("image/png", RestApiClient.getContentType("/tmp/2.png").getMimeType());
+        assertEquals("image/bmp", RestApiClient.getContentType("/tmp/3.bmp").getMimeType());
+        assertEquals("image/gif", RestApiClient.getContentType("/tmp/4.gif").getMimeType());
+        assertEquals("video/mp4", RestApiClient.getContentType("/tmp/5.mp4").getMimeType());
+        assertEquals("audio/m4a", RestApiClient.getContentType("/tmp/6.m4a").getMimeType());
+        assertEquals("audio/mp3", RestApiClient.getContentType("/tmp/7.mp3").getMimeType());
+        assertEquals("audio/x-wav", RestApiClient.getContentType("/tmp/8.wav").getMimeType());
+        assertEquals("application/octet-stream", RestApiClient.getContentType("/tmp/run.sh").getMimeType());
     }
 }

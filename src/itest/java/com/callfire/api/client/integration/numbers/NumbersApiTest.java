@@ -1,5 +1,16 @@
 package com.callfire.api.client.integration.numbers;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.junit.Test;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.request.CommonFindRequest;
@@ -9,13 +20,6 @@ import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsReques
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
 import com.callfire.api.client.api.numbers.model.request.FindTollfreeNumbersRequest;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Test;
-
-import java.util.List;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.*;
 
 /**
  * integration tests for /numbers api endpoint
@@ -69,7 +73,7 @@ public class NumbersApiTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void testFindNumberRegions() throws Exception {
+    public void testFindNumberRegions() {
         CallfireClient callfireClient = getCallfireClient();
 
         FindNumberRegionsRequest request = FindNumberRegionsRequest.create()
