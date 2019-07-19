@@ -1,22 +1,39 @@
 package com.callfire.api.client.integration.campaigns;
 
-import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.campaigns.TextBroadcastsApi;
-import com.callfire.api.client.api.campaigns.model.*;
-import com.callfire.api.client.api.campaigns.model.request.*;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.ResourceId;
-import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import com.callfire.api.client.api.callstexts.model.Text;
+import com.callfire.api.client.api.campaigns.TextBroadcastsApi;
+import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.Broadcast;
+import com.callfire.api.client.api.campaigns.model.TextBroadcast;
+import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.AddRecipientsRequest;
+import com.callfire.api.client.api.campaigns.model.request.CreateBroadcastRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.ResourceId;
+import com.callfire.api.client.api.common.model.request.GetByIdRequest;
+import com.callfire.api.client.integration.AbstractIntegrationTest;
+
 
 /**
  * integration tests for /campaigns/text-broadcasts api endpoint
@@ -61,7 +78,7 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
         broadcast.setMessage("test_msg");
         broadcast.setResumeNextDay(true);
 
-        CreateBroadcastRequest<TextBroadcast> request = CreateBroadcastRequest.create()
+        CreateBroadcastRequest<TextBroadcast> request = CreateBroadcastRequest.<TextBroadcast>create()
             .broadcast(broadcast)
             .start(true)
             .strictValidation(true)

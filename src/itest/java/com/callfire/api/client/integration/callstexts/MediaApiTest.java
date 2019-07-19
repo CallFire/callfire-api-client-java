@@ -1,16 +1,16 @@
 package com.callfire.api.client.integration.callstexts;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Date;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import com.callfire.api.client.BadRequestException;
@@ -27,6 +27,9 @@ import com.callfire.api.client.integration.AbstractIntegrationTest;
  * integration tests for /media api endpoint
  */
 public class MediaApiTest extends AbstractIntegrationTest {
+    public static final String TRAIN_MP3 = "file-examples/train1.mp3";
+    public static final String TRAIN_WAV = "file-examples/train1.wav";
+
     @Test
     public void testFind()  throws Exception {
         CallfireClient callfireClient = getCallfireClient();
@@ -46,8 +49,8 @@ public class MediaApiTest extends AbstractIntegrationTest {
     @Test
     public void testUpload() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train1.mp3").toURI());
-        File wavFile = new File(getClass().getClassLoader().getResource("file-examples/train1.wav").toURI());
+        File mp3File = new File(getClass().getClassLoader().getResource(TRAIN_MP3).toURI());
+        File wavFile = new File(getClass().getClassLoader().getResource(TRAIN_WAV).toURI());
 
         ResourceId wavResourceId = callfireClient.mediaApi().upload(wavFile);
         ResourceId mp3ResourceId = callfireClient.mediaApi().upload(mp3File, createMp3FileName());
@@ -59,7 +62,7 @@ public class MediaApiTest extends AbstractIntegrationTest {
     @Test
     public void testGet() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train1.mp3").toURI());
+        File mp3File = new File(getClass().getClassLoader().getResource(TRAIN_MP3).toURI());
 
         ResourceId mp3ResourceId;
         try
@@ -92,7 +95,7 @@ public class MediaApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetDataById() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train1.mp3").toURI());
+        File mp3File = new File(getClass().getClassLoader().getResource(TRAIN_MP3).toURI());
 
         ResourceId mp3ResourceId;
         try
@@ -104,15 +107,11 @@ public class MediaApiTest extends AbstractIntegrationTest {
             mp3ResourceId = new ResourceId();
             mp3ResourceId.setId(selectIdFromBadRequestErrorString(e.getApiErrorMessage().getMessage()));
         }
-        InputStream is;
         try
         {
-            is = callfireClient.mediaApi().getData(mp3ResourceId.getId(), MediaType.MP3);
+            InputStream is = callfireClient.mediaApi().getData(mp3ResourceId.getId(), MediaType.MP3);
             File tempFile = File.createTempFile("mp3_sound", "mp3");
-            try (FileOutputStream os = new FileOutputStream(tempFile))
-            {
-                IOUtils.copy(is, os);
-            }
+            Files.copy(is, tempFile.toPath(), REPLACE_EXISTING);
         }
         catch (CallfireApiException e)
         {
@@ -124,7 +123,7 @@ public class MediaApiTest extends AbstractIntegrationTest {
     @Test
     public void testGetDataByKey() throws Exception {
         CallfireClient callfireClient = getCallfireClient();
-        File mp3File = new File(getClass().getClassLoader().getResource("file-examples/train1.mp3").toURI());
+        File mp3File = new File(getClass().getClassLoader().getResource(TRAIN_MP3).toURI());
 
         ResourceId mp3ResourceId;
         try
@@ -138,15 +137,11 @@ public class MediaApiTest extends AbstractIntegrationTest {
         }
 
         Media media = callfireClient.mediaApi().get(mp3ResourceId.getId());
-        InputStream is;
         try
         {
-            is = callfireClient.mediaApi().getData(selectHashPartFromUrlString(media.getPublicUrl()), MediaType.MP3);
+            InputStream is = callfireClient.mediaApi().getData(selectHashPartFromUrlString(media.getPublicUrl()), MediaType.MP3);
             File tempFile = File.createTempFile("mp3_sound", "mp3");
-            try (FileOutputStream os = new FileOutputStream(tempFile))
-            {
-                IOUtils.copy(is, os);
-            }
+            Files.copy(is, tempFile.toPath(), REPLACE_EXISTING);
         }
         catch (CallfireApiException e)
         {
@@ -160,15 +155,12 @@ public class MediaApiTest extends AbstractIntegrationTest {
     }
 
     private static long selectIdFromBadRequestErrorString(String message){
-        int mediaIdTextStartedAt = message.indexOf("mediaId:");
-        int from = mediaIdTextStartedAt + 9;
-        return Long.parseLong(message.substring(from, message.length()));
+        return Long.parseLong(message.substring(message.indexOf("mediaId:") + 9));
     }
 
     private static String selectHashPartFromUrlString(String message){
         int hashStartedAt = message.indexOf("public/") + 7;
-        int hashFinishedAt = message.lastIndexOf(".");
-        String res = message.substring(hashStartedAt, hashFinishedAt);
-        return res;
+        int hashFinishedAt = message.lastIndexOf('.');
+        return message.substring(hashStartedAt, hashFinishedAt);
     }
 }

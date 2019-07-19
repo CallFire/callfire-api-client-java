@@ -1,36 +1,25 @@
 package com.callfire.api.client.api.common.model.request;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Abstract find request with id
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class FindByIdRequest extends FindRequest {
-    @QueryParamIgnore
-    protected Long id;
-
-    protected FindByIdRequest() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("id", id)
-            .toString();
-    }
+    @QueryParamIgnore protected Long id;
 
     /**
      * Request builder
      */
     @SuppressWarnings("unchecked")
-    public static class FindByIdBuilder<B extends FindByIdBuilder, R extends FindByIdRequest>
-        extends FindRequestBuilder<B, R> {
+    public static class FindByIdBuilder<B extends FindByIdBuilder, R extends FindByIdRequest> extends FindRequestBuilder<B, R> {
 
         protected FindByIdBuilder(R request) {
             super(request);

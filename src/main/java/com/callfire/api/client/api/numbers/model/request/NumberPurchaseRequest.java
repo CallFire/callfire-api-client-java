@@ -1,12 +1,18 @@
 package com.callfire.api.client.api.numbers.model.request;
 
-import com.callfire.api.client.api.common.model.CallfireModel;
-import com.callfire.api.client.api.common.model.request.AbstractBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.callfire.api.client.api.common.model.CallfireModel;
+import com.callfire.api.client.api.common.model.request.AbstractBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class NumberPurchaseRequest extends CallfireModel {
     private Integer tollFreeCount;
     private Integer localCount;
@@ -18,63 +24,8 @@ public class NumberPurchaseRequest extends CallfireModel {
     private String rateCenter;
     private List<String> numbers = new ArrayList<>();
 
-    private NumberPurchaseRequest() {
-    }
-
     public static Builder create() {
         return new Builder();
-    }
-
-    public Integer getTollFreeCount() {
-        return tollFreeCount;
-    }
-
-    public Integer getLocalCount() {
-        return localCount;
-    }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public String getLata() {
-        return lata;
-    }
-
-    public String getRateCenter() {
-        return rateCenter;
-    }
-
-    public List<String> getNumbers() {
-        return numbers;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("tollFreeCount", tollFreeCount)
-            .append("localCount", localCount)
-            .append("prefix", prefix)
-            .append("city", city)
-            .append("state", state)
-            .append("zipcode", zipcode)
-            .append("lata", lata)
-            .append("rateCenter", rateCenter)
-            .append("numbers", numbers)
-            .toString();
     }
 
     public static class Builder extends AbstractBuilder<NumberPurchaseRequest> {

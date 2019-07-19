@@ -1,22 +1,140 @@
 plugins {
-    id "com.jfrog.bintray" version "1.8.4"
-    id "co.riiid.gradle" version "0.4.2"
-    id "io.freefair.lombok" version "3.8.0"
+    id 'com.jfrog.bintray' version '1.8.4'
+    id 'co.riiid.gradle' version '0.4.2'
+    id 'io.freefair.lombok' version '4.1.5'
     id 'idea'
     id 'java'
     id 'maven'
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+ext {
+    versions = [:]
+
+    versions.jackson = '2.10.0'
+    versions.httpclient = '4.5.10'
+    versions.commonsLang = '3.9'
+
+    versions.junit = '4.12'
+    versions.hamcrest = '1.3'
+    versions.mockito = '3.1.0'
+    versions.jsonassert = '1.5.0'
+    versions.slf4j = '1.7.29'
+}
 
 repositories {
     jcenter()
     mavenCentral()
 }
 
+sourceSets {
+    itest {
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+
+        java.srcDir file('src/itest/java')
+    }
+}
+
+generateLombokConfig.enabled = false
+
+configurations {
+    itestCompileOnly.extendsFrom compileOnly
+    itestAnnotationProcessor.extendsFrom annotationProcessor
+    itestImplementation.extendsFrom implementation
+    itestImplementation.extendsFrom testImplementation
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+        testSourceDirs = testSourceDirs + sourceSets.itest.allJava.srcDirs
+        testResourceDirs = testResourceDirs + sourceSets.itest.resources.srcDirs
+    }
+}
+
+build {
+    dependsOn javadoc
+}
+
 processResources {
     expand(project.properties)
+}
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-core:${versions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${versions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
+    implementation "org.apache.httpcomponents:httpclient:${versions.httpclient}"
+    implementation "org.apache.httpcomponents:httpmime:${versions.httpclient}"
+    implementation "org.apache.commons:commons-lang3:${versions.commonsLang}"
+
+    testImplementation("junit:junit:${versions.junit}") {
+        exclude module: 'hamcrest'
+        exclude module: 'hamcrest-core'
+    }
+    testImplementation "org.hamcrest:hamcrest-all:${versions.hamcrest}"
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "org.skyscreamer:jsonassert:${versions.jsonassert}"
+    testImplementation "org.slf4j:slf4j-api:${versions.slf4j}"
+    testImplementation "org.slf4j:slf4j-simple:${versions.slf4j}"
+}
+
+task itest(type: Test) {
+    testClassesDirs = sourceSets.itest.output.classesDirs
+    classpath = sourceSets.itest.runtimeClasspath
+
+    systemProperty "testApiUsername", sysProp("testApiUsername")
+    systemProperty "testApiPassword", sysProp("testApiPassword")
+    systemProperty "testAccountName", sysProp("testAccountName")
+    systemProperty "testAccountPassword", sysProp("testAccountPassword")
+    systemProperty "testCallerId", sysProp("testCallerId")
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+task clientFatJar(type: Jar, dependsOn: jar) {
+    archiveClassifier.set('all')
+    from {
+        [
+            sourceSets.main.output,
+            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        ]
+    }
+}
+
+tasks.withType(Jar) {
+    manifest.attributes(
+        'Manifest-Version': '1.0',
+        'Implementation-Title': archiveBaseName,
+        'Implementation-Version': archiveVersion,
+        'Implementation-Build-Number': sysProp('BUILD_NUMBER'),
+        'Implementation-Vendor': project.orgName,
+        'Implementation-Build-Date': new Date().format('yyyy-MM-dd'),
+        'Implementation-Build-JDK': sysProp('java.version'),
+        'Implementation-Build-Gradle': gradle.gradleVersion,
+        'Implementation-Target-JDK': project.targetCompatibility,
+        'Description': project.description,
+        'Documentation': project.docsUrl,
+        'Repository': project.vcsUrl)
+
+    into('META-INF') { from 'LICENSE.txt' }
+}
+
+javadoc {
+    failOnError = false
+    source = delombok
 }
 
 task generatePom {
@@ -39,7 +157,13 @@ task generatePom {
                     }
                 }
             }
-        }.writeTo("build/META-INF/maven/${project.group}/${project.name}/pom.xml")
+        }
+            .withXml {
+                asNode().dependencies.'*'
+                    .findAll { it.scope.text() == 'test' }
+                    .each { it.parent().remove(it) }
+            }
+            .writeTo("build/META-INF/maven/${project.group}/${project.name}/pom.xml")
     }
 }
 
@@ -50,86 +174,27 @@ jar {
     dependsOn generatePom
 }
 
-// artifacts build config
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set('sources')
-    from sourceSets.main.allSource
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    archiveClassifier.set('javadoc')
-    from javadoc.destinationDir
-}
-
-task clientFatJar(type: Jar, dependsOn: jar) {
-    archiveClassifier.set('all')
-    from {
-        [
-                sourceSets.main.output,
-                configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-        ]
-    }
-}
-
-tasks.withType(Jar) {
-    manifest {
-        attributes(
-                'Manifest-Version': '1.0',
-                'Implementation-Title': "${archiveBaseName.get()}",
-                'Implementation-Version': "${archiveVersion.get()}",
-                'Implementation-Build-Number': sysProp('BUILD_NUMBER'),
-                'Implementation-Vendor': 'Callfire, Inc.',
-                'Implementation-Build-Date': new Date().format('yyyy-MM-dd'),
-                'Implementation-Build-JDK': sysProp('java.version'),
-                'Implementation-Build-Gradle': "${gradle.gradleVersion}",
-                'Implementation-Target-JDK': "${project.targetCompatibility}",
-                'Documentation': 'https://developers.callfire.com',
-                'Repository': 'https://github.com/CallFire/callfire-api-client-java'
-        )
-    }
-    into('META-INF') {
-        from 'LICENSE'
-    }
-}
-
-build.dependsOn javadoc
-
 artifacts {
     archives sourcesJar
     archives javadocJar
 }
 
-configurations {
-    itestImplementation.extendsFrom testImplementation
-    itestRuntime.extendsFrom testRuntime
-}
+github {
+    def assetPath = "build/libs/${project.name}-${project.version}"
 
-dependencies {
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.9'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.9'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.9.1'
-
-    implementation 'org.apache.httpcomponents:httpclient:4.5.9'
-    implementation 'org.apache.httpcomponents:httpmime:4.5.9'
-    implementation 'org.apache.commons:commons-lang3:3.9'
-
-    testImplementation 'org.skyscreamer:jsonassert:1.5.0'
-    testImplementation('junit:junit:4.12') {
-        exclude module: 'hamcrest'
-        exclude module: 'hamcrest-core'
-    }
-    testImplementation("org.mockito:mockito-core:2.28.2") {
-        exclude module: 'hamcrest'
-        exclude module: 'hamcrest-core'
-    }
-    testImplementation 'org.hamcrest:hamcrest-all:1.3'
-    testImplementation 'commons-io:commons-io:2.6'
-}
-
-idea {
-    module {
-        downloadJavadoc = true
-    }
+    repo = project.repoName
+    owner = sysProp('gitHubOwner')
+    token = sysProp('gitHubToken')
+    tagName = project.version
+    targetCommitish = 'master'
+    name = project.version
+    body = releaseNotes()
+    assets = [
+        "${assetPath}-all.jar",
+        "${assetPath}-javadoc.jar",
+        "${assetPath}-sources.jar",
+        "${assetPath}.jar"
+    ]
 }
 
 bintray {
@@ -141,67 +206,20 @@ bintray {
 
     pkg {
         repo = 'maven'
-        // userOrg = 'Callfire'
-        name = 'callfire-api-client-java'
-        desc = 'Callfire API java client'
-        websiteUrl = 'https://developers.callfire.com'
-        issueTrackerUrl = 'https://github.com/CallFire/callfire-api-client-java/issues'
-        vcsUrl = 'https://github.com/CallFire/callfire-api-client-java.git'
+        name = project.repoName
+        desc = project.description
+        websiteUrl = project.orgUrl
+        issueTrackerUrl = project.issueTrackerUrl
+        vcsUrl = project.vcsUrl
         licenses = ['MIT']
         labels = ['callfire', 'api', 'client']
         publicDownloadNumbers = true
     }
 }
 
-sourceSets {
-    itest {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-
-        java.srcDir file('src/itest/java')
-        resources.srcDir file('src/itest/resources')
-    }
-}
-
-task itest(type: Test) {
-    testClassesDirs = sourceSets.itest.output.classesDirs
-    classpath = sourceSets.itest.runtimeClasspath
-
-    systemProperty "testApiUsername", sysProp("testApiUsername")
-    systemProperty "testApiPassword", sysProp("testApiPassword")
-    systemProperty "testAccountName", sysProp("testAccountName")
-    systemProperty "testAccountPassword", sysProp("testAccountPassword")
-    systemProperty "testCallerId", sysProp("testCallerId")
-}
-
-github {
-    repo = "callfire-api-client-java"
-    owner = sysProp("gitHubOwner")
-    token = sysProp("gitHubToken")
-    tagName = version
-    targetCommitish = "master"
-    name = version
-    body = releaseDescription()
-    assets = [
-            "build/libs/callfire-api-client-" + project.version + "-all.jar",
-            "build/libs/callfire-api-client-" + project.version + "-javadoc.jar",
-            "build/libs/callfire-api-client-" + project.version + "-sources.jar",
-            "build/libs/callfire-api-client-" + project.version + ".jar"
-    ]
-}
-
-wrapper {
-    gradleVersion = '5.5.1'
-}
-
-def releaseDescription() {
-    String releaseNotes = file("Changelog.txt").text
-    String firstVersionEntry = releaseNotes.find(~/Version.*/)
-    Integer start = releaseNotes.indexOf(firstVersionEntry) + firstVersionEntry.size()
-    releaseNotes = releaseNotes.substring(start, releaseNotes.size())
-    String secondVersionEntry = releaseNotes.find(~/Version.*/)
-    String currentReleaseChanges = releaseNotes.substring(0, (secondVersionEntry == null ? releaseNotes.size() - 1 : releaseNotes.indexOf(secondVersionEntry))).trim()
-    "$currentReleaseChanges"
+def releaseNotes() {
+    def matches = file('Changelog.txt').text =~ /(?s)Version .+?\n(.+?)(?=Version)/
+    matches.count > 0 ? matches[0][1] : 'N/A'
 }
 
 static def sysProp(String name) {

@@ -1,5 +1,21 @@
 package com.callfire.api.client.api.campaigns;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.io.File;
+
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.campaigns.model.CallCreateSound;
 import com.callfire.api.client.api.campaigns.model.CampaignSound;
@@ -8,17 +24,6 @@ import com.callfire.api.client.api.campaigns.model.Voice;
 import com.callfire.api.client.api.campaigns.model.request.FindSoundsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-
-import java.io.File;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 public class CampaignSoundsApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/campaigns/campaignSoundsApi";

@@ -1,15 +1,20 @@
 package com.callfire.api.client.api.callstexts.model.request;
 
-import com.callfire.api.client.api.callstexts.model.CallRecipient;
-import com.callfire.api.client.api.campaigns.model.Voice;
-import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.List;
 
+import com.callfire.api.client.api.callstexts.model.CallRecipient;
+import com.callfire.api.client.api.campaigns.model.Voice;
+import com.callfire.api.client.api.common.model.request.QueryParamIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class SendCallsRequest extends SendCallsTextsRequest {
-    @QueryParamIgnore
-    protected List<CallRecipient> recipients;
+    @QueryParamIgnore protected List<CallRecipient> recipients;
 
     protected String defaultLiveMessage;
     protected String defaultMachineMessage;
@@ -21,42 +26,6 @@ public class SendCallsRequest extends SendCallsTextsRequest {
         return new Builder();
     }
 
-    public List<CallRecipient> getRecipients() {
-        return recipients;
-    }
-
-    public String getDefaultLiveMessage() {
-        return defaultLiveMessage;
-    }
-
-    public String getDefaultMachineMessage() {
-        return defaultMachineMessage;
-    }
-
-    public Long getDefaultLiveMessageSoundId() {
-        return defaultLiveMessageSoundId;
-    }
-
-    public Long getDefaultMachineMessageSoundId() {
-        return defaultMachineMessageSoundId;
-    }
-
-    public Voice getDefaultVoice() {
-        return defaultVoice;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .append("defaultLiveMessage", defaultLiveMessage)
-            .append("defaultMachineMessage", defaultMachineMessage)
-            .append("defaultLiveMessageSoundId", defaultLiveMessageSoundId)
-            .append("defaultMachineMessageSoundId", defaultMachineMessageSoundId)
-            .append("defaultVoice", defaultVoice)
-            .toString();
-    }
-
-    @SuppressWarnings("unchecked")
     public static class Builder extends SendCallsTextsBuilder<Builder, SendCallsRequest> {
 
         private Builder() {

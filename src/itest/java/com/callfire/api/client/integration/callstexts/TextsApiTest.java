@@ -1,5 +1,18 @@
 package com.callfire.api.client.integration.callstexts;
 
+import static com.callfire.api.client.api.callstexts.model.Text.State;
+import static com.callfire.api.client.api.callstexts.model.TextRecord.TextResult;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.junit.Test;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.callstexts.model.request.FindTextsRequest;
@@ -7,14 +20,6 @@ import com.callfire.api.client.api.callstexts.model.request.SendTextsRequest;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Test;
-
-import java.util.List;
-
-import static com.callfire.api.client.api.callstexts.model.Text.State;
-import static com.callfire.api.client.api.callstexts.model.TextRecord.TextResult;
-import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
 
 /**
  * integration tests for /texts api endpoint

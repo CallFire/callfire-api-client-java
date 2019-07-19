@@ -1,17 +1,22 @@
 package com.callfire.api.client.api.keywords;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonFindRequest;
-import com.callfire.api.client.api.keywords.model.KeywordLease;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
+import com.callfire.api.client.api.keywords.model.KeywordLease;
 
 public class KeywordLeasesApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/keywords/keywordLeasesApi";

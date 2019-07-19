@@ -1,11 +1,20 @@
 package com.callfire.api.client;
 
+import static com.callfire.api.client.ClientConstants.CLIENT_CONFIG_FILE;
+
+import java.io.IOException;
+import java.util.Properties;
+
 import com.callfire.api.client.api.account.MeApi;
 import com.callfire.api.client.api.account.OrdersApi;
 import com.callfire.api.client.api.callstexts.CallsApi;
 import com.callfire.api.client.api.callstexts.MediaApi;
 import com.callfire.api.client.api.callstexts.TextsApi;
-import com.callfire.api.client.api.campaigns.*;
+import com.callfire.api.client.api.campaigns.BatchesApi;
+import com.callfire.api.client.api.campaigns.CallBroadcastsApi;
+import com.callfire.api.client.api.campaigns.CampaignSoundsApi;
+import com.callfire.api.client.api.campaigns.TextAutoRepliesApi;
+import com.callfire.api.client.api.campaigns.TextBroadcastsApi;
 import com.callfire.api.client.api.contacts.ContactListsApi;
 import com.callfire.api.client.api.contacts.ContactsApi;
 import com.callfire.api.client.api.contacts.DncApi;
@@ -15,11 +24,6 @@ import com.callfire.api.client.api.numbers.NumberLeasesApi;
 import com.callfire.api.client.api.numbers.NumbersApi;
 import com.callfire.api.client.api.webhooks.WebhooksApi;
 import com.callfire.api.client.auth.BasicAuth;
-
-import java.io.IOException;
-import java.util.Properties;
-
-import static com.callfire.api.client.ClientConstants.CLIENT_CONFIG_FILE;
 
 /**
  * Callfire API v2 client

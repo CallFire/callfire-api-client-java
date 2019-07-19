@@ -1,14 +1,21 @@
 package com.callfire.api.client.integration.account;
 
-import com.callfire.api.client.CallfireApiException;
-import com.callfire.api.client.CallfireClient;
-import com.callfire.api.client.api.account.model.*;
-import com.callfire.api.client.api.account.model.Account.UserPermission;
-import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
-import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonFindRequest;
-import com.callfire.api.client.integration.AbstractIntegrationTest;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.stringContainsInOrder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.hamcrest.Matchers;
@@ -17,12 +24,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.account.model.Account;
+import com.callfire.api.client.api.account.model.Account.UserPermission;
+import com.callfire.api.client.api.account.model.ApiCredentials;
+import com.callfire.api.client.api.account.model.BillingPlanUsage;
+import com.callfire.api.client.api.account.model.CallerId;
+import com.callfire.api.client.api.account.model.CreditsUsage;
+import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
+import com.callfire.api.client.integration.AbstractIntegrationTest;
 
 /**
  * integration tests for /me api endpoint

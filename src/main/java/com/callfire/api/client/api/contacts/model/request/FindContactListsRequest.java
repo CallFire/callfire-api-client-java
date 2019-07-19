@@ -1,25 +1,26 @@
 package com.callfire.api.client.api.contacts.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /contacts/lists which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindContactListsRequest extends FindRequest {
-    private String name;
-
-    private FindContactListsRequest() {
-    }
 
     /**
-     * Get name or partial name of contact list
+     * Name or partial name of contact list
      *
      * @return name or partial name of contact list
      */
-    public String getName() {
-        return name;
-    }
+    private String name;
 
     /**
      * Create request builder

@@ -1,18 +1,22 @@
 package com.callfire.api.client.api.keywords;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.common.model.ListHolder;
-import com.callfire.api.client.api.keywords.model.Keyword;
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.List;
-
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.keywords.model.Keyword;
 
 public class KeywordsApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/keywords/keywordsApi";

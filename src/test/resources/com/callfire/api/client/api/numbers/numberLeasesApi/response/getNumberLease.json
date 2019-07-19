@@ -15,9 +15,9 @@
   },
   "leaseBegin": 1305097200000,
   "leaseEnd": 1448606871000,
-  "autoRenew": true,
   "status": "ACTIVE",
+  "autoRenew": true,
   "callFeatureStatus": "ENABLED",
-  "labels": ["label","label2"],
-  "textFeatureStatus": "ENABLED"
+  "textFeatureStatus": "ENABLED",
+  "labels": ["label","label2"]
 }

@@ -1,15 +1,18 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for searching ivr broadcasts
  */
+@Deprecated
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindIvrBroadcastsRequest extends FindBroadcastsRequest {
     private Boolean inbound;
-
-    private FindIvrBroadcastsRequest() {
-    }
 
     /**
      * Create request builder
@@ -18,18 +21,6 @@ public class FindIvrBroadcastsRequest extends FindBroadcastsRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    public Boolean getInbound() {
-        return inbound;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("inbound", inbound)
-            .toString();
     }
 
     /**

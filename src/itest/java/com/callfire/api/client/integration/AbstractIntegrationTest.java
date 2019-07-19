@@ -1,18 +1,19 @@
 package com.callfire.api.client.integration;
 
-import com.callfire.api.client.CallfireApiException;
-import com.callfire.api.client.CallfireClient;
-import com.callfire.api.client.api.campaigns.model.Recipient;
-import com.callfire.api.client.api.campaigns.model.TextRecipient;
+import static com.callfire.api.client.ClientConstants.BASE_PATH_PROPERTY;
+import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.hasProperty;
+
+import java.util.List;
+
 import org.apache.commons.lang3.Validate;
 import org.hamcrest.Matchers;
 import org.junit.rules.ExpectedException;
 
-import java.util.List;
-
-import static com.callfire.api.client.ClientConstants.BASE_PATH_PROPERTY;
-import static java.util.Arrays.asList;
-import static org.hamcrest.Matchers.hasProperty;
+import com.callfire.api.client.CallfireApiException;
+import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.api.campaigns.model.Recipient;
+import com.callfire.api.client.api.campaigns.model.TextRecipient;
 
 /**
  * Base class for all integration tests

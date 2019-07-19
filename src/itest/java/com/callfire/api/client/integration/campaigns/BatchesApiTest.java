@@ -1,12 +1,13 @@
 package com.callfire.api.client.integration.campaigns;
 
+import static org.junit.Assert.assertNotEquals;
+
+import org.junit.Test;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.campaigns.BatchesApi;
 import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Test;
-
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * integration tests for /campaigns/batches api endpoint

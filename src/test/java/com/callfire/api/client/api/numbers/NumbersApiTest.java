@@ -1,5 +1,17 @@
 package com.callfire.api.client.api.numbers;
 
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.List;
+
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+
 import com.callfire.api.client.api.AbstractApiTest;
 import com.callfire.api.client.api.common.model.ListHolder;
 import com.callfire.api.client.api.common.model.Page;
@@ -9,15 +21,6 @@ import com.callfire.api.client.api.numbers.model.Region;
 import com.callfire.api.client.api.numbers.model.request.FindNumberRegionsRequest;
 import com.callfire.api.client.api.numbers.model.request.FindNumbersLocalRequest;
 import com.callfire.api.client.api.numbers.model.request.FindTollfreeNumbersRequest;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-
-import java.util.List;
-
-import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
-import static org.junit.Assert.*;
 
 public class NumbersApiTest extends AbstractApiTest {
     private static final String JSON_PATH = BASE_PATH + "/numbers/numbersApi";

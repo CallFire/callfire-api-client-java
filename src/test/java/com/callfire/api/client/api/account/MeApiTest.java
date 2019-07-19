@@ -1,12 +1,17 @@
 package com.callfire.api.client.api.account;
 
-import com.callfire.api.client.api.AbstractApiTest;
-import com.callfire.api.client.api.account.model.*;
-import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
-import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
-import com.callfire.api.client.api.common.model.ListHolder;
-import com.callfire.api.client.api.common.model.Page;
-import com.callfire.api.client.api.common.model.request.CommonFindRequest;
+import static org.apache.http.entity.ContentType.APPLICATION_JSON;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalToIgnoringWhiteSpace;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpDelete;
@@ -16,12 +21,17 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import java.util.Date;
-import java.util.List;
-
-import static org.apache.http.entity.ContentType.APPLICATION_JSON;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import com.callfire.api.client.api.AbstractApiTest;
+import com.callfire.api.client.api.account.model.Account;
+import com.callfire.api.client.api.account.model.ApiCredentials;
+import com.callfire.api.client.api.account.model.BillingPlanUsage;
+import com.callfire.api.client.api.account.model.CallerId;
+import com.callfire.api.client.api.account.model.CreditsUsage;
+import com.callfire.api.client.api.account.model.request.CallerIdVerificationRequest;
+import com.callfire.api.client.api.account.model.request.DateIntervalRequest;
+import com.callfire.api.client.api.common.model.ListHolder;
+import com.callfire.api.client.api.common.model.Page;
+import com.callfire.api.client.api.common.model.request.CommonFindRequest;
 
 public class MeApiTest extends AbstractApiTest {
 

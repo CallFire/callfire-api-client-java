@@ -1,5 +1,18 @@
 package com.callfire.api.client.api.campaigns;
 
+import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
+import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
+import static com.callfire.api.client.ModelType.listHolderOf;
+import static com.callfire.api.client.ModelType.of;
+import static com.callfire.api.client.ModelType.pageOf;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.Validate;
+import org.apache.http.NameValuePair;
+
 import com.callfire.api.client.AccessForbiddenException;
 import com.callfire.api.client.BadRequestException;
 import com.callfire.api.client.CallfireApiException;
@@ -14,25 +27,14 @@ import com.callfire.api.client.api.campaigns.model.Batch;
 import com.callfire.api.client.api.campaigns.model.TextBroadcast;
 import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
-import com.callfire.api.client.api.campaigns.model.request.*;
+import com.callfire.api.client.api.campaigns.model.request.AddBatchRequest;
+import com.callfire.api.client.api.campaigns.model.request.AddRecipientsRequest;
+import com.callfire.api.client.api.campaigns.model.request.CreateBroadcastRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindBroadcastTextsRequest;
+import com.callfire.api.client.api.campaigns.model.request.FindTextBroadcastsRequest;
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.api.common.model.request.GetByIdRequest;
-import org.apache.commons.lang3.Validate;
-import org.apache.http.NameValuePair;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.callfire.api.client.ClientConstants.PLACEHOLDER;
-import static com.callfire.api.client.ClientUtils.addQueryParamIfSet;
-import static com.callfire.api.client.ModelType.listHolderOf;
-import static com.callfire.api.client.ModelType.of;
-import static com.callfire.api.client.ModelType.pageOf;
 
 /**
  * Represents rest endpoint /texts/broadcasts
@@ -448,29 +450,5 @@ public class TextBroadcastsApi {
     public List<Text> addRecipients(AddRecipientsRequest request) {
         String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
         return client.post(path, listHolderOf(Text.class), request.getRecipients(), request).getItems();
-    }
-
-    /**
-     * Add recipients to text broadcast from file
-     *
-     * @param id   id of text broadcast
-     * @param file csv file with recipients
-     * @return list of {@link ResourceId} with recipient ids
-     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
-     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
-     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
-     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
-     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
-     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
-     * @throws CallfireClientException      in case error has occurred in client.
-     */
-    // TODO vmikhailov backend isn't ready yet
-    private List<ResourceId> addRecipients(Long id, File file) {
-        Validate.notNull(id, "id cannot be null");
-        Validate.notNull(file, "file cannot be null");
-        Map<String, Object> params = new HashMap<>(1);
-        params.put("file", file);
-        String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, id.toString());
-        return client.postFile(path, listHolderOf(ResourceId.class), params).getItems();
     }
 }

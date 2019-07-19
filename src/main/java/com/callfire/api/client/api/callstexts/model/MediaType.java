@@ -1,9 +1,9 @@
 package com.callfire.api.client.api.callstexts.model;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.util.Objects;
 
 public enum MediaType {
     JPEG("jpeg", "image/jpeg"),

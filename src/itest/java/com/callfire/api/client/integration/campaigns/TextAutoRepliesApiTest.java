@@ -1,5 +1,14 @@
 package com.callfire.api.client.integration.campaigns;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import com.callfire.api.client.CallfireClient;
 import com.callfire.api.client.api.campaigns.TextAutoRepliesApi;
 import com.callfire.api.client.api.campaigns.model.TextAutoReply;
@@ -7,11 +16,7 @@ import com.callfire.api.client.api.campaigns.model.request.FindTextAutoRepliesRe
 import com.callfire.api.client.api.common.model.Page;
 import com.callfire.api.client.api.common.model.ResourceId;
 import com.callfire.api.client.integration.AbstractIntegrationTest;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
 
 /**
  * integration tests for /campaings/text-auto-replys api endpoint
@@ -22,7 +27,7 @@ public class TextAutoRepliesApiTest extends AbstractIntegrationTest {
     public ExpectedException ex = ExpectedException.none();
 
     @Test
-    public void testCrudOperations() throws Exception {
+    public void testCrudOperations() {
         CallfireClient callfireClient = new CallfireClient(getApiUserName(), getApiUserPassword());
         TextAutoRepliesApi api = callfireClient.textAutoRepliesApi();
 

@@ -1,25 +1,38 @@
 package com.callfire.api.client.api.callstexts.model.request;
 
-import com.callfire.api.client.api.callstexts.model.Text;
-import com.callfire.api.client.api.callstexts.model.TextRecord;
-import com.callfire.api.client.api.common.model.request.ConvertToString;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.callfire.api.client.api.callstexts.model.Text;
+import com.callfire.api.client.api.callstexts.model.TextRecord;
+import com.callfire.api.client.api.common.model.request.ConvertToString;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /texts which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindTextsRequest extends FindCallsTextsRequest {
-    @ConvertToString
-    private List<Text.State> states = new ArrayList<>();
-    @ConvertToString
-    private List<TextRecord.TextResult> results = new ArrayList<>();
 
-    private FindTextsRequest() {
-    }
+    /**
+     * Filter text statuses
+     *
+     * @return text statuses
+     */
+    @ConvertToString private List<Text.State> states = new ArrayList<>();
+
+    /**
+     * Filter text results
+     *
+     * @return list of text results
+     */
+    @ConvertToString private List<TextRecord.TextResult> results = new ArrayList<>();
 
     /**
      * Create request builder
@@ -28,33 +41,6 @@ public class FindTextsRequest extends FindCallsTextsRequest {
      */
     public static Builder create() {
         return new Builder();
-    }
-
-    /**
-     * Get text statuses
-     *
-     * @return text statuses
-     */
-    public List<Text.State> getStates() {
-        return states;
-    }
-
-    /**
-     * Get text results
-     *
-     * @return list of text results
-     */
-    public List<TextRecord.TextResult> getResults() {
-        return results;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("states", states)
-            .append("results", results)
-            .toString();
     }
 
     /**

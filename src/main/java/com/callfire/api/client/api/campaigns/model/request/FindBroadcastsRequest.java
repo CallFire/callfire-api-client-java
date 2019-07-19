@@ -1,57 +1,46 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PROTECTED;
+
 import com.callfire.api.client.api.common.model.request.FindRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for searching voice, text, ivr broadcasts
  */
+@Getter
+@NoArgsConstructor(access = PROTECTED)
 public abstract class FindBroadcastsRequest extends FindRequest {
-    protected String label;
-    protected String name;
-    protected Boolean running;
-
-    protected FindBroadcastsRequest() {
-    }
 
     /**
-     * Get label of voice broadcast
+     * Label of voice broadcast
      *
      * @return label of voice broadcast
      */
-    public String getLabel() {
-        return label;
-    }
+    protected String label;
 
     /**
-     * Get name of voice broadcast
+     * Name of voice broadcast
      *
      * @return name of voice broadcast
      */
-    public String getName() {
-        return name;
-    }
+    protected String name;
 
-    public Boolean getRunning() {
-        return running;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-            .appendSuper(super.toString())
-            .append("label", label)
-            .append("name", name)
-            .append("running", running)
-            .toString();
-    }
+    /**
+     * State of the broadcast
+     *
+     * @return if broadcast is in Running state
+     */
+    protected Boolean running;
 
     /**
      * Builder class for request
      */
     @SuppressWarnings("unchecked")
     public abstract static class FindBroadcastsBuilder<B extends FindBroadcastsBuilder, R extends FindBroadcastsRequest>
-        extends FindRequestBuilder<B, R> {
+            extends FindRequestBuilder<B, R> {
 
         protected FindBroadcastsBuilder(R request) {
             super(request);
@@ -83,6 +72,5 @@ public abstract class FindBroadcastsRequest extends FindRequest {
             request.running = running;
             return (B) this;
         }
-
     }
 }

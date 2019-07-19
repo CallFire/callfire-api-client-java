@@ -8,6 +8,7 @@ import static com.callfire.api.client.ClientConstants.PROXY_CREDENTIALS_PROPERTY
 import static com.callfire.api.client.ClientConstants.USER_AGENT_PROPERTY;
 import static com.callfire.api.client.ClientUtils.buildQueryParams;
 import static com.callfire.api.client.ModelType.of;
+import static java.util.Collections.emptyList;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -19,7 +20,6 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,24 +70,24 @@ public class RestApiClient {
     private SortedSet<RequestFilter> filters = new TreeSet<>();
 
     static Map<String, String> initMimeTypes() {
-        Map<String, String> MIME_TYPES = new HashMap<>();
-        MIME_TYPES.put("jpeg", "image/jpeg");
-        MIME_TYPES.put("jpg", "image/jpeg");
-        MIME_TYPES.put("jpe", "image/jpeg");
-        MIME_TYPES.put("jfif", "image/jpeg");
-        MIME_TYPES.put("pjpeg", "image/jpeg");
-        MIME_TYPES.put("pjp", "image/jpeg");
-        MIME_TYPES.put("png", "image/png");
-        MIME_TYPES.put("bmp", "image/bmp");
-        MIME_TYPES.put("gif", "image/gif");
+        Map<String, String> types = new HashMap<>();
+        types.put("jpeg", "image/jpeg");
+        types.put("jpg", "image/jpeg");
+        types.put("jpe", "image/jpeg");
+        types.put("jfif", "image/jpeg");
+        types.put("pjpeg", "image/jpeg");
+        types.put("pjp", "image/jpeg");
+        types.put("png", "image/png");
+        types.put("bmp", "image/bmp");
+        types.put("gif", "image/gif");
 
-        MIME_TYPES.put("wav", "audio/x-wav");
-        MIME_TYPES.put("mp3", "audio/mp3");
-        MIME_TYPES.put("m4a", "audio/m4a");
-        MIME_TYPES.put("mp4a", "audio/m4a");
+        types.put("wav", "audio/x-wav");
+        types.put("mp3", "audio/mp3");
+        types.put("m4a", "audio/m4a");
+        types.put("mp4a", "audio/m4a");
 
-        MIME_TYPES.put("mp4", "video/mp4");
-        return MIME_TYPES;
+        types.put("mp4", "video/mp4");
+        return types;
     }
 
     static ContentType getContentType(String fileName) {
@@ -148,7 +148,7 @@ public class RestApiClient {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T get(String path, TypeReference<T> type) {
-        return get(path, type, Collections.<NameValuePair>emptyList());
+        return get(path, type, emptyList());
     }
 
     /**
@@ -272,9 +272,8 @@ public class RestApiClient {
             }
 
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
-                    .setEntity(entityBuilder.build())
-                    .addParameters(
-                            queryParams != null ? queryParams.toArray(new NameValuePair[0]) : new NameValuePair[]{});
+                .setEntity(entityBuilder.build())
+                .addParameters(queryParams != null ? queryParams.toArray(new NameValuePair[0]) : new NameValuePair[]{});
             log.debug("POST file upload request to {} with params {}", uri, fileDataParams);
 
             return doRequest(requestBuilder, type);
@@ -301,7 +300,7 @@ public class RestApiClient {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T post(String path, TypeReference<T> type, Object payload) {
-        return post(path, type, payload, Collections.<NameValuePair>emptyList());
+        return post(path, type, payload, emptyList());
     }
 
     /**
@@ -347,8 +346,8 @@ public class RestApiClient {
         try {
             String uri = getApiBasePath() + path;
             RequestBuilder requestBuilder = RequestBuilder.post(uri)
-                    .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
-                    .addParameters(queryParams.toArray(new NameValuePair[0]));
+                .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
+                .addParameters(queryParams.toArray(new NameValuePair[0]));
             if (payload != null) {
                 validatePayload(payload);
                 requestBuilder.setEntity(new StringEntity(jsonConverter.serialize(payload), Consts.UTF_8));
@@ -382,7 +381,7 @@ public class RestApiClient {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public <T> T put(String path, TypeReference<T> type, Object payload) {
-        return put(path, type, payload, Collections.<NameValuePair>emptyList());
+        return put(path, type, payload, emptyList());
     }
 
     /**
@@ -407,9 +406,9 @@ public class RestApiClient {
             String uri = getApiBasePath() + path;
             validatePayload(payload);
             RequestBuilder requestBuilder = RequestBuilder.put(uri)
-                    .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
-                    .addParameters(queryParams.toArray(new NameValuePair[0]))
-                    .setEntity(new StringEntity(jsonConverter.serialize(payload), Consts.UTF_8));
+                .setHeader(CONTENT_TYPE, APPLICATION_JSON.getMimeType())
+                .addParameters(queryParams.toArray(new NameValuePair[0]))
+                .setEntity(new StringEntity(jsonConverter.serialize(payload), Consts.UTF_8));
             logDebugPrettyJson("PUT request to {} entity \n{}", uri, payload);
 
             return doRequest(requestBuilder, type);
@@ -432,7 +431,7 @@ public class RestApiClient {
      * @throws CallfireClientException      in case error has occurred in client.
      */
     public void delete(String path) {
-        delete(path, Collections.<NameValuePair>emptyList());
+        delete(path, emptyList());
     }
 
     /**
@@ -498,7 +497,7 @@ public class RestApiClient {
 
         if (type == null) {
             log.debug("received response with code: {} and payload: {}, but expected type is null, returning null",
-                    statusCode, EntityUtils.toString(httpEntity, "UTF-8"));
+                statusCode, EntityUtils.toString(httpEntity, "UTF-8"));
             return null;
         }
         if (type.getType() == InputStream.class) {
@@ -539,7 +538,7 @@ public class RestApiClient {
     }
 
     private void validatePayload(Object payload) {
-        if (payload != null && payload instanceof CallfireModel) {
+        if (payload instanceof CallfireModel) {
             ((CallfireModel) payload).validate();
         }
     }
@@ -550,7 +549,7 @@ public class RestApiClient {
             for (int i = 0; i < params.length; i++) {
                 if (params[i] instanceof CallfireModel) {
                     String prettyJson = jsonConverter.getMapper().writerWithDefaultPrettyPrinter()
-                            .writeValueAsString(params[i]);
+                        .writeValueAsString(params[i]);
                     params[i] = prettyJson;
                 }
             }
@@ -569,13 +568,13 @@ public class RestApiClient {
             String[] parsedAddress = proxyAddress.split(":");
             String[] parsedCredentials = StringUtils.split(defaultString(proxyCredentials), ":");
             HttpHost proxy = new HttpHost(parsedAddress[0],
-                    parsedAddress.length > 1 ? toInt(parsedAddress[1], DEFAULT_PROXY_PORT) : DEFAULT_PROXY_PORT);
+                parsedAddress.length > 1 ? toInt(parsedAddress[1], DEFAULT_PROXY_PORT) : DEFAULT_PROXY_PORT);
             if (isNotBlank(proxyCredentials)) {
                 if (parsedCredentials.length > 1) {
                     CredentialsProvider provider = new BasicCredentialsProvider();
                     provider.setCredentials(
-                            new AuthScope(proxy),
-                            new UsernamePasswordCredentials(parsedCredentials[0], parsedCredentials[1])
+                        new AuthScope(proxy),
+                        new UsernamePasswordCredentials(parsedCredentials[0], parsedCredentials[1])
                     );
                     builder.setDefaultCredentialsProvider(provider);
                 }

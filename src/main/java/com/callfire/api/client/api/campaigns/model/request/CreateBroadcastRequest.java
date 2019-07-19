@@ -1,7 +1,8 @@
 package com.callfire.api.client.api.campaigns.model.request;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import org.apache.commons.lang3.Validate;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -9,9 +10,13 @@ import com.callfire.api.client.api.campaigns.model.Broadcast;
 import com.callfire.api.client.api.common.model.CallfireModel;
 import com.callfire.api.client.api.common.model.request.AbstractBuilder;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
-    @JsonIgnore
-    private T broadcast;
+    @JsonIgnore private T broadcast;
     private Boolean strictValidation;
     private Boolean start;
 
@@ -25,31 +30,9 @@ public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
         return new Builder<>();
     }
 
-    public T getBroadcast() {
-        return broadcast;
-    }
-
-    public Boolean getStrictValidation() {
-        return strictValidation;
-    }
-
-    public Boolean getStart() {
-        return start;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .appendSuper(super.toString())
-                .append("broadcast", broadcast)
-                .append("strictValidation", strictValidation)
-                .append("start", start)
-                .toString();
-    }
-
     public static class Builder<T extends Broadcast> extends AbstractBuilder<CreateBroadcastRequest<T>> {
         private Builder() {
-            super(new CreateBroadcastRequest<T>());
+            super(new CreateBroadcastRequest<>());
         }
 
         public Builder<T> broadcast(T broadcast) {
@@ -68,8 +51,7 @@ public class CreateBroadcastRequest<T extends Broadcast> extends CallfireModel {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public CreateBroadcastRequest build() {
+        public CreateBroadcastRequest<T> build() {
             Validate.notNull(request.broadcast, "request.broadcast cannot be null");
             return super.build();
         }

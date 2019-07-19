@@ -1,7 +1,17 @@
 package com.callfire.api.client.api;
 
-import com.callfire.api.client.CallfireClient;
-import com.callfire.api.client.JsonConverter;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.ProtocolVersion;
@@ -20,17 +30,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
+import com.callfire.api.client.CallfireClient;
+import com.callfire.api.client.JsonConverter;
 
 /**
  * Base api test class
@@ -44,16 +45,13 @@ public class AbstractApiTest {
     protected static final String EMPTY_REQUEST_ID_MSG = "request.id cannot be null";
     protected static final String EMPTY_REQUEST_NUMBER_MSG = "number cannot be null";
 
-    @Rule
-    public ExpectedException ex = ExpectedException.none();
+    @Rule public ExpectedException ex = ExpectedException.none();
 
     protected CallfireClient client;
     protected JsonConverter jsonConverter;
 
-    @Spy
-    protected HttpClient mockHttpClient;
-    @Mock
-    protected CloseableHttpResponse mockHttpResponse;
+    @Spy protected HttpClient mockHttpClient;
+    @Mock protected CloseableHttpResponse mockHttpResponse;
 
     public AbstractApiTest() {
         client = new CallfireClient("login", "password");

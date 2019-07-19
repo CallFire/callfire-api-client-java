@@ -1,78 +1,63 @@
 package com.callfire.api.client.api.contacts.model.request;
 
-import com.callfire.api.client.api.common.model.request.FindRequest;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.List;
+
+import com.callfire.api.client.api.common.model.request.FindRequest;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * Request object for GET /contacts/dncs which incapsulates
  * different query pairs
  */
+@Getter
+@NoArgsConstructor(access = PRIVATE)
 public class FindDncNumbersRequest extends FindRequest {
-    private String prefix;
-    private Long campaignId;
-    private String source;
-    private Boolean call;
-    private Boolean text;
-    private List<String> numbers;
-
-
-    private FindDncNumbersRequest() {
-    }
 
     /**
-     * Get prefix (1-10 digits) of numbers
+     * Prefix (1-10 digits) of numbers
      *
      * @return prefix (1-10 digits) of numbers
      */
-    public String getPrefix() {
-        return prefix;
-    }
+    private String prefix;
 
     /**
-     * Get filter by campaignId property
+     * Filter by campaignId property
      *
      * @return Campaign Id filter
      */
-    public Long getCampaignId() {
-        return campaignId;
-    }
+    private Long campaignId;
 
     /**
-     * Get filter by source property
+     * Filter by source property
      *
      * @return Source filter
      */
-    public String getSource() {
-        return source;
-    }
+    private String source;
 
     /**
-     * Get filter by call property
+     * Filter by call property
      *
      * @return true if filter by call set
      */
-    public Boolean getCall() {
-        return call;
-    }
+    private Boolean call;
 
     /**
-     * Get filter by text property
+     * Filter by text property
      *
      * @return true if filter by text set
      */
-    public Boolean getText() {
-        return text;
-    }
+    private Boolean text;
 
     /**
-     * Get filter by numbers list property
+     * Filter by numbers list property
      *
      * @return Numbers filter
      */
-    public List<String> getNumbers() {
-        return numbers;
-    }
+    private List<String> numbers;
 
     /**
      * Create request builder
