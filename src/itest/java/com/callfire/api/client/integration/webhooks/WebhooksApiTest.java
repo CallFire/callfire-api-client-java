@@ -60,7 +60,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         Page<Webhook> page = api.find(findRequest);
         Webhook found = page.getItems().get(0);
         assertTrue(page.getItems().size() > 0);
-        assertEquals("https://testCallback",found.getCallback());
+        assertEquals("https://test_callback",found.getCallback());
         assertEquals("test_name1", found.getName());
         assertNotNull(found.getId());
         assertEquals(ResourceType.TEXT_BROADCAST,found.getResource());
