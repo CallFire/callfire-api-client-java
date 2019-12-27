@@ -48,11 +48,11 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindCallBroadcastsRequest request = FindCallBroadcastsRequest.create()
-                .limit(5L)
-                .name("name")
-                .label("label")
-                .running(true)
-                .build();
+            .limit(5L)
+            .name("name")
+            .label("label")
+            .running(true)
+            .build();
         Page<CallBroadcast> broadcasts = client.callBroadcastsApi().find(request);
         JSONAssert.assertEquals(expectedJson, jsonConverter.serialize(broadcasts), true);
 
@@ -109,10 +109,10 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         callBroadcast.setRecipients(Collections.singletonList(r1));
 
         CreateBroadcastRequest<CallBroadcast> request = CreateBroadcastRequest.<CallBroadcast>create()
-                .broadcast(callBroadcast)
-                .start(true)
-                .strictValidation(true)
-                .build();
+            .broadcast(callBroadcast)
+            .start(true)
+            .strictValidation(true)
+            .build();
 
         ResourceId id = client.callBroadcastsApi().create(request);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
@@ -191,10 +191,10 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         GetByIdRequest request = GetByIdRequest.create()
-                .offset(0L)
-                .fields(FIELDS)
-                .id(11L)
-                .build();
+            .offset(0L)
+            .fields(FIELDS)
+            .id(11L)
+            .build();
         Page<Batch> batches = client.callBroadcastsApi().getBatches(request);
         assertThat(jsonConverter.serialize(batches), equalToIgnoringWhiteSpace(expectedJson));
 
@@ -247,11 +247,11 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         Recipient r2 = new Recipient();
         r2.setPhoneNumber("12135551101");
         AddBatchRequest request = AddBatchRequest.create()
-                .campaignId(15L)
-                .name("batch name")
-                .recipients(asList(r1, r2))
-                .strictValidation(true)
-                .build();
+            .campaignId(15L)
+            .name("batch name")
+            .recipients(asList(r1, r2))
+            .strictValidation(true)
+            .build();
         ResourceId id = client.callBroadcastsApi().addBatch(request);
         assertThat(jsonConverter.serialize(id), equalToIgnoringWhiteSpace(responseJson));
 
@@ -268,11 +268,11 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse(expectedJson);
 
         FindBroadcastCallsRequest request = FindBroadcastCallsRequest.create()
-                .offset(0L)
-                .fields(FIELDS)
-                .batchId(10L)
-                .id(11L)
-                .build();
+            .offset(0L)
+            .fields(FIELDS)
+            .batchId(10L)
+            .id(11L)
+            .build();
         Page<Call> calls = client.callBroadcastsApi().findCalls(request);
         assertThat(jsonConverter.serialize(calls), equalToIgnoringWhiteSpace(expectedJson));
 
@@ -361,11 +361,11 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         r2.setPhoneNumber("12135551101");
 
         AddRecipientsRequest request = AddRecipientsRequest.create()
-                .recipients(asList(r1, r2))
-                .campaignId(15L)
-                .strictValidation(true)
-                .fields(FIELDS)
-                .build();
+            .recipients(asList(r1, r2))
+            .campaignId(15L)
+            .strictValidation(true)
+            .fields(FIELDS)
+            .build();
 
         List<Call> calls = client.callBroadcastsApi().addRecipients(request);
         assertThat(jsonConverter.serialize(new ListHolder<>(calls)), equalToIgnoringWhiteSpace(responseJson));
@@ -376,5 +376,25 @@ public class CallBroadcastsApiTest extends AbstractApiTest {
         assertThat(arg.getURI().toString(), containsString("/15"));
         assertUriContainsQueryParams(captor.getAllValues().get(0).getURI(), ENCODED_FIELDS);
         assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
+    }
+
+    @Test
+    public void testToggleRecipientsStatus() throws Exception {
+        String requestJson = getJsonPayload(JSON_PATH + "/request/addRecipients.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
+
+        Recipient r1 = new Recipient();
+        r1.setPhoneNumber("12135551100");
+        Recipient r2 = new Recipient();
+        r2.setPhoneNumber("12135551101");
+        client.callBroadcastsApi().toggleRecipientsStatus(15L, asList(r1, r2), true);
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        assertThat(arg.getURI().toString(), containsString("/15"));
+        assertThat(arg.getURI().toString(), containsString("?enable=true"));
+
+        client.callBroadcastsApi().toggleRecipientsStatus(15L, asList(r1, r2), false);
+        assertUriContainsQueryParams(captor.getAllValues().get(1).getURI(), "?enable=false");
     }
 }

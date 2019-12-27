@@ -1,7 +1,6 @@
 package com.callfire.api.client.integration.numbers;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -67,8 +66,6 @@ public class NumbersApiTest extends AbstractIntegrationTest {
             .build();
         List<Number> numbers = callfireClient.numbersApi().findNumbersLocal(request);
         assertEquals(2, numbers.size());
-        assertThat(numbers.get(0).getNationalFormat(), startsWith("(225)"));
-
         System.out.println(numbers);
     }
 

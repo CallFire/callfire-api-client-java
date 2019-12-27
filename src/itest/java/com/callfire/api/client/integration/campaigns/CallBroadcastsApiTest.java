@@ -1,5 +1,8 @@
 package com.callfire.api.client.integration.campaigns;
 
+import static com.callfire.api.client.api.callstexts.model.Action.State.DISABLED;
+import static com.callfire.api.client.api.callstexts.model.Action.State.READY;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
@@ -45,8 +48,8 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         broadcast.setName("call_broadcast");
         broadcast.setRecipients(makeRecipients());
         CallBroadcastSounds sounds = new CallBroadcastSounds();
-        sounds.setLiveSoundId(getLiveSoundId());
-        sounds.setMachineSoundId(getLiveSoundId());
+        sounds.setLiveSoundText(getSoundText());
+        sounds.setMachineSoundText(getSoundText());
         broadcast.setSounds(sounds);
         broadcast.setResumeNextDay(true);
         ResourceId id = api.create(broadcast, true);
@@ -60,6 +63,7 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         //            hasItem(Matchers.<Recipient>hasProperty("phoneNumber", startsWith("1213123456"))));
 
         savedBroadcast.setName("updated_name");
+        savedBroadcast.setSounds(null);
         api.update(savedBroadcast);
 
         CallBroadcast updatedBroadcast = api.get(id.getId(), "id,name");
@@ -75,8 +79,8 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         broadcast.setName("call_broadcast");
         broadcast.setRecipients(makeRecipients());
         CallBroadcastSounds sounds = new CallBroadcastSounds();
-        sounds.setLiveSoundId(getLiveSoundId());
-        sounds.setMachineSoundId(getLiveSoundId());
+        sounds.setLiveSoundText(getSoundText());
+        sounds.setMachineSoundText(getSoundText());
         broadcast.setSounds(sounds);
         broadcast.setResumeNextDay(true);
 
@@ -98,6 +102,7 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         //            hasItem(Matchers.<Recipient>hasProperty("phoneNumber", startsWith("1213123456"))));
 
         savedBroadcast.setName("updated_name");
+        savedBroadcast.setSounds(null);
         api.update(savedBroadcast, true);
 
         CallBroadcast updatedBroadcast = api.get(id.getId(), "id,name");
@@ -114,8 +119,8 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         broadcast.setName("call_broadcast");
         broadcast.setRecipients(makeRecipients());
         CallBroadcastSounds sounds = new CallBroadcastSounds();
-        sounds.setLiveSoundId(getLiveSoundId());
-        sounds.setMachineSoundId(getLiveSoundId());
+        sounds.setLiveSoundText(getSoundText());
+        sounds.setMachineSoundText(getSoundText());
         broadcast.setSounds(sounds);
         ResourceId id = api.create(broadcast, false);
 
@@ -144,8 +149,8 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         broadcast.setName("call_broadcast");
         broadcast.setRecipients(makeRecipients());
         CallBroadcastSounds sounds = new CallBroadcastSounds();
-        sounds.setLiveSoundId(getLiveSoundId());
-        sounds.setMachineSoundId(getLiveSoundId());
+        sounds.setLiveSoundText(getSoundText());
+        sounds.setMachineSoundText(getSoundText());
         broadcast.setSounds(sounds);
         ResourceId id = api.create(broadcast, false);
 
@@ -172,8 +177,16 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
     public void testAddRecipientsAndAddRemoveBatches() throws Exception {
         CallBroadcastsApi api = getCallfireClient().callBroadcastsApi();
 
+        CallBroadcast broadcast = new CallBroadcast();
+        broadcast.setName("testing add recipients");
+        CallBroadcastSounds sounds = new CallBroadcastSounds();
+        sounds.setLiveSoundText(getSoundText());
+        sounds.setMachineSoundText(getSoundText());
+        broadcast.setSounds(sounds);
+        api.create(broadcast, false);
+
         FindCallBroadcastsRequest findRequest = FindCallBroadcastsRequest.create()
-            .name("updated_name")
+            .name("testing add recipients")
             .limit(1L)
             .build();
         Page<CallBroadcast> broadcasts = api.find(findRequest);
@@ -198,11 +211,11 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         // get batches
         GetByIdRequest getBatchesRequest = GetByIdRequest.create()
             .id(id)
-            .limit(100L)
+            .limit(1L)
             .build();
         Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
-        assertTrue(batches.getItems().size() == 100);
+        assertTrue(batches.getItems().size() == 1);
     }
 
     @Test
@@ -246,5 +259,40 @@ public class CallBroadcastsApiTest extends AbstractIntegrationTest {
         Page<Batch> batches = api.getBatches(getBatchesRequest);
         System.out.println(batches);
         assertTrue(batches.getItems().size() == 100);
+    }
+
+    @Test
+    public void testToggleRecipientsStatus() throws Exception {
+        CallBroadcastsApi api = getCallfireClient().callBroadcastsApi();
+        CallBroadcast broadcast = new CallBroadcast();
+        broadcast.setName("call_broadcast");
+        broadcast.setRecipients(makeRecipients());
+        CallBroadcastSounds sounds = new CallBroadcastSounds();
+        sounds.setLiveSoundText(getSoundText());
+        sounds.setMachineSoundText(getSoundText());
+        broadcast.setSounds(sounds);
+        CreateBroadcastRequest<CallBroadcast> brRequest = CreateBroadcastRequest.<CallBroadcast>create()
+            .broadcast(broadcast)
+            .build();
+        ResourceId campaign = api.create(brRequest);
+        assertNotNull(campaign.getId());
+
+        FindBroadcastCallsRequest getCallsRequest = FindBroadcastCallsRequest.create()
+                .id(campaign.getId())
+                .build();
+        Page<Call> callPage = api.findCalls(getCallsRequest);
+        callPage.getItems().forEach(c -> assertThat(c.getState().name(), is(READY.name())));
+
+        api.toggleRecipientsStatus(campaign.getId(), makeRecipients(), false);
+
+        callPage = api.findCalls(getCallsRequest);
+        assertThat(callPage.getTotalCount(), is(2L));
+        callPage.getItems().forEach(c -> assertThat(c.getState().name(), is(DISABLED.name())));
+
+        api.toggleRecipientsStatus(campaign.getId(), makeRecipients(), true);
+
+        callPage = api.findCalls(getCallsRequest);
+        assertThat(callPage.getTotalCount(), is(2L));
+        callPage.getItems().forEach(c -> assertThat(c.getState().name(), is(READY.name())));
     }
 }

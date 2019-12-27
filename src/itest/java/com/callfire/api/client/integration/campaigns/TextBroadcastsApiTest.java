@@ -1,5 +1,8 @@
 package com.callfire.api.client.integration.campaigns;
 
+import static com.callfire.api.client.api.callstexts.model.Action.State.DISABLED;
+import static com.callfire.api.client.api.callstexts.model.Action.State.READY;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
@@ -273,5 +276,33 @@ public class TextBroadcastsApiTest extends AbstractIntegrationTest {
         getCallfireClient().batchesApi().update(savedBatch);
         Batch updatedBatch = getCallfireClient().batchesApi().get(resourceId.getId());
         assertFalse(updatedBatch.getEnabled());
+    }
+
+    @Test
+    public void testToggleRecipientsStatus() throws Exception {
+        TextBroadcastsApi api = getCallfireClient().textBroadcastsApi();
+        TextBroadcast broadcast = new TextBroadcast();
+        broadcast.setName("text_broadcast_1");
+        broadcast.setMessage("test_msg");
+        broadcast.setRecipients(makeTextRecipients());
+        ResourceId campaign = api.create(broadcast, false);
+        assertNotNull(campaign.getId());
+
+        FindBroadcastTextsRequest getTextsRequest = FindBroadcastTextsRequest.create()
+                .id(campaign.getId())
+                .build();
+        Page<Text> textsPage = api.findTexts(getTextsRequest);
+        textsPage.getItems().forEach(c -> assertThat(c.getState().name(), is(READY.name())));
+
+        api.toggleRecipientsStatus(campaign.getId(), makeRecipients(), false);
+
+        textsPage = api.findTexts(getTextsRequest);
+        assertThat(textsPage.getTotalCount(), is(2L));
+        textsPage.getItems().forEach(c -> assertThat(c.getState().name(), is(DISABLED.name())));
+
+        api.toggleRecipientsStatus(campaign.getId(), makeRecipients(), true);
+        textsPage = api.findTexts(getTextsRequest);
+        assertThat(textsPage.getTotalCount(), is(2L));
+        textsPage.getItems().forEach(c -> assertThat(c.getState().name(), is(READY.name())));
     }
 }

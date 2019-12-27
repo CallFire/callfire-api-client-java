@@ -24,6 +24,7 @@ import com.callfire.api.client.UnauthorizedException;
 import com.callfire.api.client.api.callstexts.model.Call;
 import com.callfire.api.client.api.callstexts.model.Text;
 import com.callfire.api.client.api.campaigns.model.Batch;
+import com.callfire.api.client.api.campaigns.model.Recipient;
 import com.callfire.api.client.api.campaigns.model.TextBroadcast;
 import com.callfire.api.client.api.campaigns.model.TextBroadcastStats;
 import com.callfire.api.client.api.campaigns.model.TextRecipient;
@@ -51,6 +52,7 @@ public class TextBroadcastsApi {
     private static final String TB_ITEM_ARCHIVE_PATH = "/texts/broadcasts/{}/archive";
     private static final String TB_ITEM_STATS_PATH = "/texts/broadcasts/{}/stats";
     private static final String TB_ITEM_RECIPIENTS_PATH = "/texts/broadcasts/{}/recipients";
+    private static final String TB_ITEM_TOGGLE_RECIPIENTS_STATUS_PATH = "/texts/broadcasts/{}/toggleRecipientsStatus";
 
     private RestApiClient client;
 
@@ -450,5 +452,29 @@ public class TextBroadcastsApi {
     public List<Text> addRecipients(AddRecipientsRequest request) {
         String path = TB_ITEM_RECIPIENTS_PATH.replaceFirst(PLACEHOLDER, request.getCampaignId().toString());
         return client.post(path, listHolderOf(Text.class), request.getRecipients(), request).getItems();
+    }
+
+    /**
+     * Use this API to toggle not dialed recipients in created text broadcast. Post a list of Recipient
+     * objects which will be immediately disabled/enabled if still not sent. Recipients may be added
+     * as a list of contact ids, or list of numbers. If recipients array contains already dialed contact - it would be ignored.
+     *
+     * @param id         id of call broadcast
+     * @param recipients recipients to add
+     * @param enable     flag to indicate action (true is enabling and vice versa)
+     * @throws BadRequestException          in case HTTP response code is 400 - Bad request, the request was formatted improperly.
+     * @throws UnauthorizedException        in case HTTP response code is 401 - Unauthorized, API Key missing or invalid.
+     * @throws AccessForbiddenException     in case HTTP response code is 403 - Forbidden, insufficient permissions.
+     * @throws ResourceNotFoundException    in case HTTP response code is 404 - NOT FOUND, the resource requested does not exist.
+     * @throws InternalServerErrorException in case HTTP response code is 500 - Internal Server Error.
+     * @throws CallfireApiException         in case HTTP response code is something different from codes listed above.
+     * @throws CallfireClientException      in case error has occurred in client.
+     */
+    public void toggleRecipientsStatus(Long id, List<Recipient> recipients, Boolean enable) {
+        Validate.notNull(id, "id cannot be null");
+        List<NameValuePair> queryParams = new ArrayList<>(1);
+        addQueryParamIfSet("enable", enable, queryParams);
+        String path = TB_ITEM_TOGGLE_RECIPIENTS_STATUS_PATH.replaceFirst(PLACEHOLDER, id.toString());
+        client.post(path, null, recipients, queryParams);
     }
 }

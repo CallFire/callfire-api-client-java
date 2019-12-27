@@ -1,6 +1,7 @@
 package com.callfire.api.client.integration.campaigns;
 
 import static com.callfire.api.client.api.campaigns.model.CampaignSound.Status.ACTIVE;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
@@ -96,13 +97,13 @@ public class CampaignSoundsApiTest extends AbstractIntegrationTest {
 
         // get mp3
         InputStream is = campaignSoundsApi.getMp3(mp3ResourceId.getId());
-        File tempFile = File.createTempFile("mp3_sound", "mp3");
-        Files.copy(is, tempFile.toPath());
+        File tempFile = File.createTempFile("mp3_sound" + new Date().getTime(), ".mp3");
+        Files.copy(is, tempFile.toPath(), REPLACE_EXISTING);
 
         // get wav
         is = campaignSoundsApi.getWav(mp3ResourceId.getId());
-        tempFile = File.createTempFile("wav_sound", "wav");
-        Files.copy(is, tempFile.toPath());
+        tempFile = File.createTempFile("wav_sound" + new Date().getTime(), ".wav");
+        Files.copy(is, tempFile.toPath(), REPLACE_EXISTING);
     }
 
     @Test

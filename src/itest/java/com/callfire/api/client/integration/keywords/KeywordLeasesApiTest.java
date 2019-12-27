@@ -58,9 +58,7 @@ public class KeywordLeasesApiTest extends AbstractIntegrationTest {
         assertEquals(false, lease.getAutoRenew());
         assertEquals(LeaseStatus.PENDING, lease.getStatus());
 
-        lease.setAutoRenew(true);
         api.update(lease);
-
         System.out.println(lease);
     }
 }

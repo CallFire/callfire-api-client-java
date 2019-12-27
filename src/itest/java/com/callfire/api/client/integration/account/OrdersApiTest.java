@@ -55,7 +55,7 @@ public class OrdersApiTest extends AbstractIntegrationTest {
 
         ex.expect(CallfireApiException.class);
         ex.expect(hasProperty("apiErrorMessage", hasProperty("httpStatusCode", is(400))));
-        ex.expect(hasProperty("apiErrorMessage", hasProperty("message", equalTo("no valid credit card on file"))));
+        ex.expect(hasProperty("apiErrorMessage", hasProperty("message", equalTo("unavailable numbers: 12132212289"))));
         ResourceId resourceId = callfireClient.ordersApi().orderNumbers(request);
         assertNotNull(resourceId.getId());
 
