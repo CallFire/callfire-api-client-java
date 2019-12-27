@@ -366,4 +366,24 @@ public class TextBroadcastsApiTest extends AbstractApiTest {
         assertUriContainsQueryParams(captor.getAllValues().get(0).getURI(), ENCODED_FIELDS);
         assertThat(arg.getURI().toString(), containsString("strictValidation=true"));
     }
+
+    @Test
+    public void testToggleRecipientsStatus() throws Exception {
+        String requestJson = getJsonPayload(JSON_PATH + "/request/addRecipients.json");
+        ArgumentCaptor<HttpUriRequest> captor = mockHttpResponse();
+
+        Recipient r1 = new Recipient();
+        r1.setPhoneNumber("12135551100");
+        Recipient r2 = new Recipient();
+        r2.setPhoneNumber("12135551101");
+        client.textBroadcastsApi().toggleRecipientsStatus(15L, asList(r1, r2), true);
+        HttpUriRequest arg = captor.getValue();
+        assertEquals(HttpPost.METHOD_NAME, arg.getMethod());
+        assertThat(extractHttpEntity(arg), equalToIgnoringWhiteSpace(requestJson));
+        assertThat(arg.getURI().toString(), containsString("/15"));
+        assertThat(arg.getURI().toString(), containsString("?enable=true"));
+
+        client.textBroadcastsApi().toggleRecipientsStatus(15L, asList(r1, r2), false);
+        assertUriContainsQueryParams(captor.getAllValues().get(1).getURI(), "?enable=false");
+    }
 }

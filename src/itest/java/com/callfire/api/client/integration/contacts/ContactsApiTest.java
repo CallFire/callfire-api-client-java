@@ -107,12 +107,11 @@ public class ContactsApiTest extends AbstractIntegrationTest {
     public void testGetContactHistory() throws Exception {
         CallfireClient client = getCallfireClient();
         GetByIdRequest request = GetByIdRequest.create()
-            .id(1L)
+            .id(466225637003L)
             .build();
         ContactHistory contactHistory = client.contactsApi().getHistory(request);
         assertFalse(contactHistory.getCalls().isEmpty());
 
         System.out.println(contactHistory);
     }
-
 }

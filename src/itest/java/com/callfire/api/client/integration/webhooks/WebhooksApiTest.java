@@ -36,7 +36,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         WebhooksApi api = callfireClient.webhooksApi();
 
         Webhook webhook = new Webhook();
-        webhook.setCallback("test_callback");
+        webhook.setCallback("https://test_callback");
         webhook.setResource(ResourceType.TEXT_BROADCAST);
         ResourceType.ResourceEvent[] ev = {ResourceType.ResourceEvent.STARTED};
         webhook.setEvents(new TreeSet<>(Arrays.asList(ev)));
@@ -58,13 +58,14 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
             .fields("items(id,callback,name,resource,events,singleUse)")
             .build();
         Page<Webhook> page = api.find(findRequest);
+        Webhook found = page.getItems().get(0);
         assertTrue(page.getItems().size() > 0);
-        assertEquals("test_callback", page.getItems().get(0).getCallback());
-        assertEquals("test_name1", page.getItems().get(0).getName());
-        assertNotNull(page.getItems().get(0).getId());
-        assertEquals(ResourceType.TEXT_BROADCAST, page.getItems().get(0).getResource());
-        assertEquals(1, page.getItems().get(0).getEvents().size());
-        assertTrue(page.getItems().get(0).getSingleUse());
+        assertEquals("https://testCallback",found.getCallback());
+        assertEquals("test_name1", found.getName());
+        assertNotNull(found.getId());
+        assertEquals(ResourceType.TEXT_BROADCAST,found.getResource());
+        assertEquals(1, found.getEvents().size());
+        assertTrue(found.getSingleUse());
 
         findRequest = FindWebhooksRequest.create()
             .limit(30L)
@@ -96,7 +97,7 @@ public class WebhooksApiTest extends AbstractIntegrationTest {
         WebhooksApi api = callfireClient.webhooksApi();
         List<WebhookResource> resources = api.findWebhookResources();
         assertNotNull(resources);
-        assertEquals(resources.size(), 9);
+        assertEquals(resources.size(), 11);
         resources = api.findWebhookResources("items(resource)");
         assertNotNull(resources.get(0).getResource());
         assertEquals(resources.get(0).getSupportedEvents().size(), 0);

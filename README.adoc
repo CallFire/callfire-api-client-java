@@ -4,7 +4,7 @@ Java client for Callfire platform API version 2. See link:https://developers.cal
  page for setup instructions.
 
 .*Requirements:*
-* Java 7+
+* Java 8+
 
 .*Dependencies:*
 * Fasterxml Jackson 2.6.1

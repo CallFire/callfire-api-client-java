@@ -130,10 +130,10 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         callTrackingConfig.setRecorded(true);
         callTrackingConfig.setTransferNumbers(asList("12132212384"));
         callTrackingConfig.setVoicemail(true);
-        callTrackingConfig.setIntroSoundId(1L);
-        callTrackingConfig.setVoicemailSoundId(1L);
-        callTrackingConfig.setFailedTransferSoundId(1L);
-        callTrackingConfig.setWhisperSoundId(1L);
+        callTrackingConfig.setIntroSoundId(9643523003L);
+        callTrackingConfig.setVoicemailSoundId(9643523003L);
+        callTrackingConfig.setFailedTransferSoundId(9643523003L);
+        callTrackingConfig.setWhisperSoundId(9643523003L);
 
         WeeklySchedule weeklySchedule = new WeeklySchedule();
         weeklySchedule.setStartTimeOfDay(new LocalTime(1, 1, 1));
@@ -155,8 +155,6 @@ public class NumberLeasesApiTest extends AbstractIntegrationTest {
         assertNotNull(config.getCallTrackingConfig());
         assertNull(config.getNumber());
         assertEquals(TRACKING, config.getConfigType());
-
         log.info("{}", config);
     }
-
 }
