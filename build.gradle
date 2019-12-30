@@ -85,7 +85,7 @@ dependencies {
 
 task itest(type: Test) {
     testClassesDirs = sourceSets.itest.output.classesDirs
-    classpath = sourceSets.itest.runtimeClasspath
+    classpath = sourceSets.itest.runtimeClasspath + sourceSets.test.runtimeClasspath
 
     systemProperty "testApiUsername", sysProp("testApiUsername")
     systemProperty "testApiPassword", sysProp("testApiPassword")
